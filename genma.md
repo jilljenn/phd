@@ -1,5 +1,7 @@
 % Un nouveau modèle
 
+# Motivations
+
 @Cheng2009 essaie une version multidimensionnelle de test adaptatif avec un modèle cognitif basé sur une q-matrice. Elle compare divers critères de sélection de l'item suivant.
 
 Ayant déjà montré dans un chapitre ultérieur que selon le type de test, le meilleur modèle n'est pas le même, il serait naturel de chercher un modèle hybride. Un tel modèle incorporerait des notions de difficulté et de composantes de connaissance. Ainsi à la fin du test, le retour serait une valeur de maîtrise selon chaque composante de connaissance.

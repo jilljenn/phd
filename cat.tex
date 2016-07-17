@@ -1,8 +1,9 @@
-\documentclass[a4paper,12pt]{book}
+\documentclass[a4paper,12pt,draft]{book}
 \usepackage{geometry}
 \usepackage[french]{babel}
 \usepackage{xltxtra}
 \usepackage{graphicx,array}
+\usepackage{hyperref}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 %\setsecnumdepth{subsection}
 \setcounter{tocdepth}{2}
@@ -11,13 +12,22 @@
   
 \begin{document}
 \tableofcontents
+
 \chapter{État de l'art}
 \input{adaptive-full}
 \input{recommenders}
+
+\chapter{Formulation théorique du problème}
+\input{comparison}
+
 \chapter{Modèle hybride de diagnostic de connaissances : choisir la question suivante}
 \input{factorization}
+\input{genma}
+
 \chapter{Démarrage à froid : choisir les $k$ premières questions}
 \input{dpp}
-\chapter{Évaluation sur des données réelles}
-% Soon.
+
+\chapter{Méthologie : mise en œuvre dans un MOOC de Coursera}
+\input{mooc}
+
 \end{document}

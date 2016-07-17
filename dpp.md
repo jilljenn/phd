@@ -2,6 +2,18 @@
 % JJV
 % 13 juillet
 
+# Test à étapes multiples
+
+Une variante des tests adaptatifs consiste à poser un groupe de questions avant de choisir le suivant, et ainsi de suite, plutôt que de choisir la question suivante. Cela permet en effet d'éviter d'adapter le processus tout de suite après une information peu fiable. De plus, cela permet d'éviter de sauter d'une question à une autre qui n'a rien à voir, et permet à l'apprenant de vérifier ses réponses avant de déclencher le jeu de questions suivant.
+
+Ainsi, le problème devient : comment choisir les $k$ premières questions à présenter à un nouveau venu ? Elles doivent porter sur des sujets diversifiés afin de varier le plus possible l'information obtenue.
+
+# Visualisation d'un test adaptatif
+
+Courbes.
+
+Ainsi, un jeu de questions sera informatif s'il réalise un maillage de l'espace des questions.
+
 # Information de Fisher
 
 L'information de Fisher désigne la variance du score, c'est-à-dire du gradient de la log-vraisemblance.
@@ -16,7 +28,7 @@ Toutefois, deux problèmes se présentent :
 
 Existence de l'estimateur du maximum de vraisemblance
 
-:   L'estimateur du maximum de vraisemblance n'est pas sûr d'exister, notamment si toutes les réponses jusque-là ont été vraies ou si elles ont été toutes fausses.
+:   L'estimateur du maximum de vraisemblance n'est pas sûr d'exister, notamment si toutes les réponses jusque-là ont été vraies ou si elles ont été toutes fausses. Ce problème avait déjà été mis en évidence par @Lan2014.
 
 # Processus à point déterminantal
 
