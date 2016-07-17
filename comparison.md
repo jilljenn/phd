@@ -7,6 +7,12 @@
 - Choix de la question suivante
 - Estimation de la probabilité de répondre correctement à chaque question
 
+# Apprentissage statistique
+
+Lorsqu'on cherche à utiliser un modèle statistique afin d'accomplir une tâche, par exemple reconnaître un chiffre sur une image, il faut d'abord calibrer ses paramètres sur un jeu de données d'entraînement. Ensuite, on peut tester ce modèle sur un jeu de données de test afin de vérifier qu'il a correctement appris.
+
+Dans des variantes plus interactives, le modèle statistique peut choisir les éléments à étiqueter afin d'améliorer son apprentissage. Cette approche s'appelle apprentissage actif (*active learning*).
+
 # Double validation croisée
 
 - On entraîne sur un jeu de données
