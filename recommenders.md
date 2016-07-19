@@ -1,11 +1,3 @@
-% Recommender systems
-% JJV
-% 11 juillet 2016
----
-lang: french
-babel-lang: french
----
-
 # Systèmes de recommandation
 
 La plupart des sites marchands peuvent recommander des œuvres étant donné les œuvres précédentes notées par un utilisateur. Ils s'attaquent au problème : étant donné un immense catalogue, comment faire le tri entre ce qui est susceptible de m'intéresser et ce qui risque de ne pas l'être ? On distingue deux types de systèmes de recommandation.

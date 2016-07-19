@@ -1,20 +1,15 @@
 all:
-	make chapters
-	make cat
+	make comparison.tex dpp.tex factorization.tex genma.tex intro.tex mooc.tex recommenders.tex
+	make cat && open cat.pdf
 
 cat:
 	xelatex cat
 	# biber cat
 	# xelatex cat
 
-chapters:
-	pandoc -N adaptive-full.md -o adaptive-full.tex
-	pandoc -N recommenders.md -o recommenders.tex
-	pandoc -N dpp.md -o dpp.tex
-	pandoc -N factorization.md -o factorization.tex
-	pandoc -N comparison.md -o comparison.tex
-	pandoc -N mooc.md -o mooc.tex
-	pandoc -N genma.md -o genma.tex
+%.tex: %.md
+	pandoc -N $< -o $@
 
 clean:
 	rm cat.aux
+	rm comparison.tex dpp.tex factorization.tex genma.tex intro.tex mooc.tex recommenders.tex

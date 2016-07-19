@@ -63,16 +63,19 @@ where $X_j$ is the binary outcome of the learner $i$ over the item $j$ and $f(X_
 
 Therefore, an adaptive assessment can be designed the following way: given the learner's current ability estimate, pick the question that brings the most information over the ability, update the estimate according to the outcome (right or wrong), and so on. At the end of the test, one can visualize the whole process like in Figure \ref{irt}. As we can see, the confidence interval over the ability estimate is refined after each outcome.
 
+<!--
 \begin{figure}
 \includegraphics[width=\linewidth]{irt.pdf}
 \caption{Evolution of the ability estimate throughout an adaptive test based on the Rasch model.}
 \label{irt}
 \end{figure}
+-->
 
 Being a unidimensional model, the Rasch model is not suitable for cognitive diagnosis. Still, it is really popular because of its simplicity, its stability and its sound mathematical framework [@Desmarais2012; @Bergner2012]. Also, @Verhelst2012 has showed that if the items are splitted into categories, it is possible to provide to the examinee a useful deviation profile, specifying which category subscores were lower or higher than expected. More precisely, if we consider that in each category, an answer gives one point if correct, no point otherwise, we can compute the number of points obtained by the learner in each category (the subscores), which sum up to his total score. Given the Rasch model only, it is possible to compute the expected subscore of each category, given the total score. Finally, the deviation profile, defined as the difference between the observed and expected subscores, provides a nice visualization of the categories that need further work, see Figure \ref{deviation}. Such deviation profiles can be aggregated in order to highlight the strong and weak points of the students at the level of a country, witnessing a possible deficiency in the national curriculum. Studies of international assessments, such as the Trends in International Mathematics and Science Study (TIMSS), allow for worldwide comparisons. An example is given over the TIMSS 2011 dataset of proficiency in mathematics, see Figure \ref{deviation}, highlighting the fact that Romania is stronger in Algebra than expected, while Norway is weaker in Algebra than expected. This belongs to the information visualization class of learning analytics methods, and shows what can be done using the most simple psychometric model and the student data only.
 
 In adaptive testing though, we do not observe all student responses but only the answers to the subset of questions we asked, which may differ from a student to another. It is still possible to compute the deviation profile within this subset, but it can't be aggregated to a higher level, because of the bias induced by the adaptive process.
 
+<!--
 \begin{figure}
 \centering
 \includegraphics[width=0.5\linewidth]{profil.png}\\
@@ -80,6 +83,7 @@ In adaptive testing though, we do not observe all student responses but only the
 \caption{Above, the deviation profile of a single learner. Below, the deviation profile of different countries on the TIMSS 2011 math dataset, from the presentation of N.D. Verhelst. at the Psychoco 2016 conference.}
 \label{deviation}
 \end{figure}
+-->
 
 \label{mirt}
 
@@ -171,12 +175,14 @@ $$ Pr(\textnormal{``learner $i$ answers item $j$''}) = \Phi\left(\beta_i + \sum_
 where $K$ is the number of KCs involved in the test, $\beta_i$ is the main ability of learner $i$, $\theta_{ik}$ its ability for KC $k$, $q_{jk}$ is the $(j,k)$ entry of the q-matrix which is 1 if KC $k$ is involved in the resolution of item $j$, 0 otherwise, $d_{jk}$ the difficulty of item $j$ over KC $k$. Please note that this model is similar to the MIRT model specified above, but the dot product is computed only on part of the components. The intuition is to consider a MIRT model where the number of dimensions is the number of KCs of the q-matrix ($d = K$). When we calibrate the feature vector of dimension $d$ of an item, only the components that correspond to KCs involved in the resolution of this item are taken into account, see Figure \ref{fig-genma}. Hence, the fact that few components are required to solve each item allows the MIRT parameter estimation to converge. @Vie2016 used it in adaptive assessment under the name GenMA. Another advantage is that the ability estimate at some point in the test represents degrees of proficiency for each knowledge component. The GenMA model is therefore a hybrid model that combines the Rasch model and a cognitive model.
 \label{genma}
 
+<!--
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{genma.pdf}
 \caption{The GenMA hybrid model, combining item response theory and a q-matrix.}
 \label{fig-genma}
 \end{figure}
+-->
 
 ## Competence-based Knowledge Space Theory and Applications
 \label{knowledge-space}
@@ -185,6 +191,7 @@ where $K$ is the number of KCs involved in the test, $\beta_i$ is the main abili
 
 @Falmagne2006 provide an adaptive test in order to guess effectively the knowledge space using entropy minimization, which is however not robust to careless errors. This model has been implemented in practice in the ALEKS system, which is said to be used by millions of users today [@Kickmeier2015; @Desmarais2012].
 
+<!--
 \begin{figure}
 \centering
 \includegraphics{knowledge-space.pdf}
@@ -193,6 +200,7 @@ where $K$ is the number of KCs involved in the test, $\beta_i$ is the main abili
 \caption{On the left, the precedence diagram for algebra problems. On the right, the corresponding learning paths.}
 \label{dependency}
 \end{figure}
+-->
 
 @Lynch2014 have implemented a similar adaptive pretest at the beginning of a MOOC in order to guess what the learner already masters and help them jump directly to useful materials in the course. To address slip and guess parameters, they combine models from knowledge space theory and item response theory.
 
@@ -232,12 +240,14 @@ So far, we only considered questions asked one after another. But the first abil
 
 @Wang2016 suggests to ask a group of questions at the beginning of the test, when little information about learner ability is available, and progressively reduce the number of questions of each stage in order to increase opportunities to adapt. Also, asking pools of questions allow to do content balancing at each stage instead of jumping from one knowledge component to the other after every question.
 
+<!--
 \begin{figure}
 \centering
 \includegraphics{mst.pdf}
 \caption{In multistage testing, questions are asked in a group sequential design.}
 \label{mst}
 \end{figure}
+-->
 
 # Comparison of adaptive testing models
 
@@ -270,8 +280,8 @@ These sets will stay the same for all considered models.\bigskip
 
 We make a cross validation of each model over 10 subsamples of students and 4 subsamples of questions (these constant values are parameters that may be changed). Thus, if we number student subsamples $I_i$ for $i = 1, \ldots, 10$ and questions subsamples $Q_j$ for $j = 1, \ldots, 4$, experiment $(i, j)$ consists in:
 
-1. train the evaluated model over all student subsamples except the $i$-th ($I_{train} = I \setminus I_i$);
-2. simulate adaptive tests on the $i$-th student subsample ($I_{test} = I_i$) using all questions subsamples except the $j$-th ($Q_j$), and evaluate after each question the error of the model over the $j$-th question subsample ($Q_{val} = Q_j$).
+- train the evaluated model over all student subsamples except the $i$-th ($I_{train} = I \setminus I_i$);
+- simulate adaptive tests on the $i$-th student subsample ($I_{test} = I_i$) using all questions subsamples except the $j$-th ($Q_j$), and evaluate after each question the error of the model over the $j$-th question subsample ($Q_{val} = Q_j$).
 
 The error is given by the following formula, called score or log-loss:
 
@@ -281,12 +291,14 @@ where $p$ is the predicted outcome over all $|Q|$ questions and $t$ is the true 
 
 In order to visualize the results, errors computed during experiment $(i, j)$ are stored in a matrix of size $10 \times 4$. Thus, computing the mean error for each column, we can see how models performed on a certain subset of questions, see Figure \ref{crossval}.
 
+<!--
 \begin{figure}
 \centering
 \includegraphics{crossval.pdf}
 \caption{Cross validation over 10 student subsamples and 4 question subsamples. Each case $(i, j)$ contains the results of the experiment $(i, j)$ for student test set ($I_{test} = I_i$) and question validation set ($Q_{val} = Q_j$).}
 \label{crossval}
 \end{figure}
+-->
 
 # Results
 
@@ -300,12 +312,14 @@ For our experiments, we used two real datasets.
 
 Models considered are the Rasch model, the DINA model with an expert-specified q-matrix and the GenMA model with the same q-matrix. For the fraction matrix, we compared two occurrences of the GenMA model, one with the original expert q-matrix, the other one with another one which was computed using sparse PCA. The results are given in Figure \ref{curves}.
 
+<!--
 \begin{figure}
 \includegraphics[width=\textwidth]{plot-ecpe.png}\\
 \includegraphics[width=\textwidth]{plot-fraction.png}
 \caption{Mean error (negative log-likelihood) after a certain number of questions have been asked.}
 \label{curves}
 \end{figure}
+-->
 
 \begin{table}
 $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
