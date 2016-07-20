@@ -1,5 +1,5 @@
 all:
-	make comparison.tex dpp.tex factorization.tex genma.tex intro.tex mooc.tex recommenders.tex
+	make adaptive-full.tex comparison.tex dpp.tex factorization.tex genma.tex intro.tex intro-dpp.tex intro-framework.tex intro-genma.tex mooc.tex recommenders.tex
 	make cat && open cat.pdf
 
 cat:
@@ -12,4 +12,4 @@ cat:
 
 clean:
 	rm cat.aux
-	rm comparison.tex dpp.tex factorization.tex genma.tex intro.tex mooc.tex recommenders.tex
+	rm adaptive-full.tex comparison.tex dpp.tex factorization.tex genma.tex intro.tex intro-dpp.tex intro-framework.tex intro-genma.tex mooc.tex recommenders.tex
