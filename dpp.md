@@ -14,8 +14,6 @@ Courbes.
 
 Ainsi, un jeu de questions sera informatif s'il réalise un maillage de l'espace des questions.
 
-# Information de Fisher
-
 L'information de Fisher désigne la variance du score, c'est-à-dire du gradient de la log-vraisemblance.
 
 Une des méthodes en machine learning consiste à faire un échantillon selon l'incertitude, c'est-à-dire choisir l'entrée sur laquelle le système est le moins sûr. Ainsi, étant donné l'estimateur du maximum de vraisemblance, on va choisir un élément de probabilité prédite la plus proche de 0,5.
@@ -45,3 +43,7 @@ Une intuition est que le déterminant d'une matrice est le volume du parallélot
 Il existe des algorithmes efficaces pour échantillonner selon une DPP @Kulesza2012, y compris lorsqu'on fixe à l'avance le nombre d'éléments qu'on souhaite sélectionner ($k$-DPP). En revanche, le problème de déterminer le mode de cette distribution (c'est-à-dire l'ensemble $X$ de plus grande probabilité a posteriori) est un problème NP-difficile, néanmoins des algorithmes d'approximation ont été développés.
 
 Un autre avantage de cette méthode est qu'on garantit que le choix de $k$ questions est randomisé, donc on ne pose pas les mêmes premières questions à tout le monde, ce qui permet d'éviter de griller trop d'items. Cela s'appelle le taux d'exposition des questions.
+
+# InitialD
+
+# Validation

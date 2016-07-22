@@ -18,7 +18,7 @@ Dans des variantes plus interactives, le modèle statistique peut choisir les é
 - On entraîne sur un jeu de données
 - On teste sur un autre jeu de données : en posant des questions sauf sur un sous-ensemble de validation
 
-# Bornes théoriques de problèmes similaires
+<!-- # Bornes théoriques de problèmes similaires
 
 ## Recherche binaire généralisée
 
@@ -26,15 +26,9 @@ Le problème d'identification d'une cible en posant la question qui minimise l'e
 
 ## Sous-modularité
 
-Toutefois, on a une borne théorique dans le cas où les apprenants répondent sans erreur.
+Toutefois, on a une borne théorique dans le cas où les apprenants répondent sans erreur. -->
 
-# Comparaison de modèles sur un jeu de données réel
-
-Selon le type de test, le meilleur modèle n'est pas le même.
-
-# Comparison of adaptive testing models
-
-Adaptive assessment models need to be validated on real data, in order to guarantee that the model accurately assesses the constructs that it is thought to assess [@Desmarais2012]. A common validation relies in the assessment's ability to predict future performance within the learning system.
+# Framework de comparaison de modèles sur un jeu de données réel
 
 In order to compare the models described above on real data, they can be embedded in a unified framework: all of them can be seen as decision trees [@Ueno2010; @Yan2014], where nodes are possible states of the test and edges are followed according to the answers provided by the learner, like a flowchart. Thus, within a node, we have access to an incomplete response pattern and want to infer the behavior of the learner over the remaining questions using our student model. The best model is the one that classifies remaining outcomes with minimal error.
 
@@ -83,9 +77,7 @@ In order to visualize the results, errors computed during experiment $(i, j)$ ar
 \end{figure}
 -->
 
-# Results
-
-## Datasets and models
+## Jeux de données et modèles
 
 For our experiments, we used two real datasets.
 
@@ -141,6 +133,8 @@ $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
 \label{guess}
 \end{table}
 
+# Résultats
+
 ## Discussion
 
 In all experiments, the hybrid model GenMA with the expert q-matrix performs the best. For example, in the Fraction dataset, 4 questions over 15 are enough to provide a feedback that predicts correctly 4 questions over 5 in average in the validation set. As an example, after 4 questions, the predicted performance over the validation question set of one of the test students is $[0.617, 0.123, 0.418, 0.127, 0.120]$ while his true performance is $[1, 0, 1, 0, 0]$, thereby yielding a mean error of 0.350.
@@ -154,25 +148,6 @@ In the Fraction dataset, we want to identify the latent state of the learner ove
 \paragraph{Adaptive test at the middle of a course} Learners are interested in having a look at the tasks they are expected to be able to solve in the final test, in the form of a self-assessment that "does not count". There are several scenarios to consider. If learners have access to the course while taking this low-stake test, an adaptive assessment should take into account the fact that the level of the learner may change while he is taking the test, for example because he is checking the course lessons of the course during the test. Therefore, models measuring the progress of the learner (such as @Clement2015 mentioned in Section \ref{bandits}) are of interest. As a recall, they require either a dependency graph or a q-matrix. If learners do not check the course content while taking the test, for example because they have limited time, the GenMA model can ask them few questions and provide feedback, under the condition that a q-matrix is available.
 
 \paragraph{Adaptive test at the end of a course} A high-stake at the end of the course might rely on the usual adaptive assessment strategies in item response theory, in order to measure examinees effectively and give them a mark. On this last examination, we assume that feedback is not so useful.
-
-# The future of assessment
-
-We described several models that could be used for adaptive assessment. A promising application is low-stakes adaptive formative assessments: before high-stakes assessments, learners like to train themselves in order to know what they are expected to know in order to complete the course. Such adaptive tests would be able to quickly identify the components that need further work and help the learner prepare for the final high-stake test. It would be interesting to couple this work with automatic item generation. Thus, learners could keep asking variants of the same problem until they master the skills involved. The results of these adaptive tests may be recorded anonymously in order to let the student "erase the blackboard" without any tracking. Indeed, no learner would like their mistakes to be recorded for their entire lives [@Obama2014].
-
-<!-- PhD : débattre là-dessus avec un paragraphe parce que ça va un peu à l'encontre des learning analytics -->
-
-With the help of learning analytics, explicit testing may be progressively replaced with embedded assessment, using multiple sources of data to predict student performance and tailor education accordingly [@Shute2015; @Redecker2013]. Indeed, if the learner is continuously monitored by the platform and if a digital tutor can answer their questions and recommend activities, they can be full actors of their continually-changing progress and there is no need for an explicit test at the end of the course.
-
-But we will still need adaptive pretests for a specific usage such as international certifications (GMAT, GRE) or for newcomers at the beginning of a course, in order to identify effectively the latent knowledge they acquired in their past experience [@Baker2014; @Lynch2014].
-
-<!-- multistage testing ; can specify the number of questions per stage -->
-
-Our adaptativity rules only take as input the answers given so far by the learner, not their previous performances, allowing a learner to start from scratch. Using profile information such as the country to select the questions may lead to more accurate performance predictions (for example, from one country to another, the way to compute divisions is not the same). But allowing such sensible information to influence the assessment might result in disparate impact and other inadvertent discrimination.
-
-<!-- ask python questions no need; éviter de reposer des questions -->
-<!-- allowing -->
-
-In the future, an online platform could first ask the learner about their presumed knowledge. Then, verify if the self-assessment holds and provide arguments for any possible disagreement. The learner could then possibly rectify this by proving it actually masters the knowledge components required, and possibly learn more material.
 
 # Conclusion
 

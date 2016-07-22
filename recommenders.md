@@ -1,4 +1,4 @@
-# Systèmes de recommandation
+# Démarrage à froid dans le filtrage collaboratif
 
 La plupart des sites marchands peuvent recommander des œuvres étant donné les œuvres précédentes notées par un utilisateur. Ils s'attaquent au problème : étant donné un immense catalogue, comment faire le tri entre ce qui est susceptible de m'intéresser et ce qui risque de ne pas l'être ? On distingue deux types de systèmes de recommandation.
 
@@ -10,15 +10,13 @@ Filtrage collaboratif
 
 :   Cela consiste à utiliser uniquement des informations de notation des œuvres, sous la forme « l'user $i$ a attribué à l'œuvre $j$ la note $r_{ij}$ ». Ces notes peuvent être catégoriques (aimé, pas aimé) ou continues (une note entre 1 et 5 par exemple). On obtient alors une matrice creuse (1 % des valeurs sont renseignées) dont on cherche à deviner les entrées manquantes : ainsi, un motif de réponse d'un utilisateur partiellement rempli pourra être complété afin de déterminer des œuvres susceptibles de lui plaire à partir des autres notes de la communauté. On distingue ici des approches de filtrage collaboratif basées sur les utilisateurs (qui reposent sur des calculs de similarité entre utilisateurs) ou basées sur les œuvres (qui reposent sur des calculs de similarité entre œuvres à partir des notations de la communauté et non de leur contenu).
 
-## Calcul de pertinence des recommandations
+Calcul de pertinence des recommandations
 
-Lorsque les notes sont catégoriques (aimé, pas aimé), habituellement la prédiction revêt la forme d'une probabilité que l'utilisateur aime l'œuvre, et le score est la log-perte. D'autres approches [@Karypis] utilisent une fonction d'erreur qui pénalise davantage les faux positifs que les faux négatifs. Lorsque les notes sont continues, on utilise habituellement la RMSE (*root mean square error*).
-
-## Démarrage à froid et élicitation des préférences
+:	Lorsque les notes sont catégoriques (aimé, pas aimé), habituellement la prédiction revêt la forme d'une probabilité que l'utilisateur aime l'œuvre, et le score est la log-perte. D'autres approches [@Karypis] utilisent une fonction d'erreur qui pénalise davantage les faux positifs que les faux négatifs. Lorsque les notes sont continues, on utilise habituellement la RMSE (*root mean square error*).
 
 Lorsqu'un nouvel utilisateur se rend sur un site de recommandation, celui-ci n'a aucune information et doit donc solliciter l'utilisateur afin d'obtenir ces informations. Afin que le processus soit efficace, il est préférable de poser un minimum de questions, donc tout l'enjeu est de déterminer des œuvres discriminantes permettant au système d'avoir une idée précise des goûts de l'utilisateur. @Golbandi2011 fait ainsi un arbre de décision qui vise à répartir les utilisateurs dans des groupes au sein desquels la RMSE est faible.
 
-## Compromis exploration-exploitation
+Compromis exploration-exploitation
 
 ## Applications à un contexte éducatif
 
