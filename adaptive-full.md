@@ -4,6 +4,8 @@
 
 <!-- \keywords{Latent knowledge extraction; item response theory; q-matrix; cognitive diagnosis models; adaptive testing; knowledge space theory} -->
 
+\label{state of the art}
+
 # Introduction
 
 Today, assessments are often automatized, making it possible to store and analyze student data in order to provide more accurate and shorter assessments for future learners. The learning analytics process consists in collecting data about learners, discovering hidden patterns that can help provide a more effective learning experience, and constantly refining models using new data [@Chatti2012]. In terms of adaptive testing, learning analytics have certain, well-defined objectives: improve the efficiency and effectiveness of the learning process, and tell learners what to do next by adaptively organizing instructional activities [@Chatti2012]. Reducing the length of tests is even more needed as students are today overtested [@Zernike2015], thus leaving fewer time for instruction.

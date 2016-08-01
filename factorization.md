@@ -2,6 +2,20 @@
 % JJV
 % 13 juillet
 
+# Extraction de facteurs latents
+
+Comme vu au chapitre \ref{state-of-the-art}, MIRT cherche à estimer des vecteurs pour les apprenants et les questions de sorte que :
+
+$$ Pr(\textnormal{``l'apprenant $i$ répond à la question $j$''}) = \Phi(\vec{\theta_i} \cdot \vec{d_j}). $$
+
+Ainsi, MIRT peut être vu comme un problème de factorisation de matrice :
+
+$$ M \simeq \Phi(\Theta D^T) $$
+
+Le principe est de représenter apprenants et questions de façon que pour un apprenant fixé, des questions ayant des vecteurs proches induisent des motifs de réponse proches, tandis que des utilisateurs proches induisent des motifs de réponse proches. On parle de représentation distribuée.
+
+On cherche ainsi à extraire $d$ variables cachées expliquant les motifs de réponse. 
+
 # Modèles descriptifs non interprétables
 
 Lorsqu'on dispose d'une matrice, on peut se demander si un faible nombre de variables peut expliquer sa structure. Cela revient à écrire $M = UV$ où si $M$ est de taille $m \times n$, $U$ est de taille $m \times r$ ($r$ étant le rang) et $V$ de taille $r \times n$. Les lignes de $U$ sont appelés poids tandis que les lignes de $V$ sont appelées composantes. Ainsi si $M_i$ est la $i$-ième ligne de $M$ et $(V_1, \ldots, V_r)$ sont les lignes de $V$, alors $M_i = u_{i1} V_1 + \ldots + u_{ir} V_r$, ce qui exprime bien la ligne $M_i$ comme une combinaison linéaire des composantes. On peut donc résumer chaque ligne $M$ par $r$ coefficients selon la famille $(V_1, \ldots, V_r)$, qui n'est pas nécessairement une base ; donc l'écriture n'est pas nécessairement unique. Cette approche est parfois appelée réduction de dimension.

@@ -8,7 +8,7 @@ cat:
 	# xelatex cat
 
 %.tex: %.md
-	pandoc -N $< -o $@
+	pandoc --biblatex --bibliography biblio.bib -N $< -o $@
 
 clean:
 	rm cat.aux
