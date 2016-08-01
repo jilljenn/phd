@@ -7,11 +7,19 @@
 - Choix de la question suivante
 - Estimation de la probabilité de répondre correctement à chaque question
 
-# Apprentissage statistique
+## Spécifications
 
-Lorsqu'on cherche à utiliser un modèle statistique afin d'accomplir une tâche, par exemple reconnaître un chiffre sur une image, il faut d'abord calibrer ses paramètres sur un jeu de données d'entraînement. Ensuite, on peut tester ce modèle sur un jeu de données de test afin de vérifier qu'il a correctement appris.
+Un test adaptatif a besoin d'un historique de $U$ réponses d'une population face à $I$ questions, sous la forme d'une matrice $U \times I$ dont l'élément $m_{ui}$ vaut 1 si l'apprenant $u$ a répondu correctement à la question $i$, 0 sinon. Il essaie ensuite de positionner un nouvel apprenant par rapport à la population donnée en historique.
 
-Dans des variantes plus interactives, le modèle statistique peut choisir les éléments à étiqueter afin d'améliorer son apprentissage. Cette approche s'appelle apprentissage actif (*active learning*).
+Au début d'un test adaptatif, le système n'a aucune information sur l'apprenant. Il suppose donc que l'apprenant est de niveau moyen au sein de l'historique et doit donc choisir la première question à lui poser. À un certain moment, le système doit donc, à partir des questions déjà posées et de leurs résultats, choisir la question suivante. Ainsi la fonction qui choisit la question suivante prend en paramètre une liste de couples $\{(i_k, r_k)\}_k$ où $r_k$ désigne 1 si l'apprenant a répondu correctement à la question $i_k$, 0 sinon.
+
+## Apprentissage automatique à partir d'exemples
+
+Lorsqu'on cherche à modéliser un phénomène naturel, on peut utiliser un modèle statistique, dont on estime les paramètres en fonction des occurrences observées. Par exemple, si on suppose qu'une pièce suit une loi de Bernoulli et tombe sur Face avec probabilité $p$ et Pile avec probabilité $1 - p$, on peut estimer $p$ à partir de l'historique des occurrences des lancers de la pièce. On appelle estimateur du maximum de vraisemblance la valeur des paramètres qui maximise la vraisemblance, c'est-à-dire qui maximise la probabilité d'obtenir les résultats observés.
+
+On distingue l'apprentissage supervisé, où l'on a accès aux étiquettes que l'on cherche à prédire, de l'apprentissage supervisé, où il faut chercher une représentation des données dont on dispose afin de faire de l'apprentissage. Ainsi, reconnaître un chat sur une image est un problème supervisé si l'on dispose de plusieurs photos étiquetées « chat » ou « non chat ». En revanche, répartir en groupes un ensemble de photos d'animaux dépourvus d'étiquette est un problème non supervisé, car un système s'y attaquant doit identifier par lui-même des motifs récurrents au sein d'un groupe de photos, afin de comprendre ce qui fait qu'un chat est un chat.
+
+En ce qui nous concerne, notre problème commence par une phase d'apprentissage non supervisé, car à partir du simple historique des résultats au test, il faut déterminer des paramètres sur les apprenants et les questions qui expliquent ces résultats. Puis, le problème devient supervisé pour un nouvel apprenant car il s'agit d'une classification binaire : on cherche à prédire à partir de ses réponses précédentes ses résultats sur le reste des questions du test. Une particularité est que l'apprentissage est ici interactif, dans la mesure où c'est le système qui choisit les questions à poser (c'est-à-dire, les éléments à étiqueter) afin d'améliorer son apprentissage. Cette approche s'appelle apprentissage actif (*active learning*).
 
 # Double validation croisée
 
