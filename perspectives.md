@@ -1,7 +1,7 @@
 # Perspectives
 
-- Prendre en compte le temps
-- Ajouter d'autres informations dans le profil
+- Prendre en compte le temps (aspect séquentiel, d'où les modèles de facteurs additifs ou de Bayesian knowledge tracing)
+- Ajouter d'autres informations dans le profil (démographiques, traces ?)
 
 # Le futur de l'évaluation
 

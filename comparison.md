@@ -17,14 +17,11 @@ Au début d'un test adaptatif, le système n'a aucune information sur l'apprenan
 
 Lorsqu'on cherche à modéliser un phénomène naturel, on peut utiliser un modèle statistique, dont on estime les paramètres en fonction des occurrences observées. Par exemple, si on suppose qu'une pièce suit une loi de Bernoulli et tombe sur Face avec probabilité $p$ et Pile avec probabilité $1 - p$, on peut estimer $p$ à partir de l'historique des occurrences des lancers de la pièce. On appelle estimateur du maximum de vraisemblance la valeur des paramètres qui maximise la vraisemblance, c'est-à-dire qui maximise la probabilité d'obtenir les résultats observés.
 
-On distingue l'apprentissage supervisé, où l'on a accès aux étiquettes que l'on cherche à prédire, de l'apprentissage supervisé, où il faut chercher une représentation des données dont on dispose afin de faire de l'apprentissage. Ainsi, reconnaître un chat sur une image est un problème supervisé si l'on dispose de plusieurs photos étiquetées « chat » ou « non chat ». En revanche, répartir en groupes un ensemble de photos d'animaux dépourvus d'étiquette est un problème non supervisé, car un système s'y attaquant doit identifier par lui-même des motifs récurrents au sein d'un groupe de photos, afin de comprendre ce qui fait qu'un chat est un chat.
+On distingue l'apprentissage supervisé, où l'on a accès aux étiquettes que l'on cherche à prédire, de l'apprentissage supervisé, où il faut chercher une représentation des données dont on dispose afin de faire de l'apprentissage. Ainsi, reconnaître un chat sur une image est un problème supervisé si l'on dispose de plusieurs photos étiquetées « chat » ou « non chat ». En revanche, répartir en groupes un ensemble de photos d'animaux dépourvus d'étiquette est un problème non supervisé, car un système s'y attaquant doit identifier par lui-même des motifs récurrents au sein d'un groupe de photos, afin de comprendre ce qui fait qu'un chat est un chat. Formellement, pour un problème supervisé on note $X$ la matrice des données dont on dispose (en lignes les exemples, en colonnes les caractéristiques, par exemple la liste des pixels d'une image) et $y$ la colonne des valeurs à prédire (par exemple 1 si c'est un chat, 0 sinon). Pour un problème non supervisé, on a seulement accès à $X$.
 
-En ce qui nous concerne, notre problème commence par une phase d'apprentissage non supervisé, car à partir du simple historique des résultats au test, il faut déterminer des paramètres sur les apprenants et les questions qui expliquent ces résultats. Puis, le problème devient supervisé pour un nouvel apprenant car il s'agit d'une classification binaire : on cherche à prédire à partir de ses réponses précédentes ses résultats sur le reste des questions du test. Une particularité est que l'apprentissage est ici interactif, dans la mesure où c'est le système qui choisit les questions à poser (c'est-à-dire, les éléments à étiqueter) afin d'améliorer son apprentissage. Cette approche s'appelle apprentissage actif (*active learning*).
+Pour un problème de filtrage collaboratif, on dispose d'une matrice creuse $M$ comportant des informations sur certaines entrées. Le problème est de déterminer les entrées manquantes.
 
-# Double validation croisée
-
-- On entraîne sur un jeu de données
-- On teste sur un autre jeu de données : en posant des questions sauf sur un sous-ensemble de validation
+En ce qui nous concerne, notre problème commence par une phase d'apprentissage non supervisé, car à partir du simple historique des résultats au test, il faut déterminer des paramètres sur les apprenants et les questions qui expliquent ces résultats. Puis, le problème devient supervisé pour un nouvel apprenant car il s'agit d'un problème de classification binaire : on cherche à prédire à partir de ses réponses précédentes ses résultats (vrai ou faux) sur le reste des questions du test. Une particularité est que l'apprentissage est ici interactif, dans la mesure où c'est le système qui choisit les questions à poser (c'est-à-dire, les éléments à étiqueter) afin d'améliorer son apprentissage. Cette approche s'appelle apprentissage actif (*active learning*).
 
 <!-- # Bornes théoriques de problèmes similaires
 
@@ -36,7 +33,51 @@ Le problème d'identification d'une cible en posant la question qui minimise l'e
 
 Toutefois, on a une borne théorique dans le cas où les apprenants répondent sans erreur. -->
 
-# Framework de comparaison de modèles sur un jeu de données réel
+# Comparaison de modèles sur des jeux de données réels
+
+## Double validation croisée
+
+Pour valider un modèle d'apprentissage supervisé, une méthode courante consiste à estimer ses paramètres à partir de 80 % des données et évaluer les prédictions faites sur les données restantes. Cette méthode s'appelle validation croisée. Ainsi, le jeu de données $X$ est divisé en $X_{train}$ et $X_{test}$, le modèle est entraîné sur $X_{train}$ et $y_{train}$ et fait une prédiction sur les données $X_{test}$ appelée $y_{pred}$, qui est ensuite comparée à la vraie valeur $y_{test}$ pour validation. S'il s'agit d'un problème de régression, on utilise par exemple la fonction de coût RMSE (*root mean squared error*) :
+
+$$ RMSE(y^*, y) = \sqrt{\frac1n \sum_{k = 1}^n (y^*_i - y_i)^2} $$
+
+où $y = (y_1, \ldots, y_n)$ et $y^* = (y^*_1, \ldots, y^*_n)$.
+
+S'il s'agit d'un problème de classification binaire, on utilise habituellement la fonction de coût *log-loss* (aussi appelée coût logistique ou perte d'entropie mutuelle) :
+
+$$ logloss(y^*, y) = \frac1n \sum_{k = 1}^n \log (1 - |y^*_k - y_k|). $$
+
+Toutes les valeurs prédites étant comprises entre 0 et 1, cette fonction pénalise beaucoup plus une grosse différence entre valeur prédite (comprise entre 0 ou 1) et valeur réelle (égale à 0 ou 1) que la RMSE, voir Figure \ref{rmse-ll}.
+
+Afin d'obtenir une validation plus robuste, on peut recourir à une validation croisée à $k$ paquets : le jeu de données $X$ est divisé en $k$ paquets, et $k$ validations croisées sont faites en utilisant $k - 1$ paquets parmi les $k$ pour entraîner le modèle et le paquet restant pour l'évaluer.
+
+Dans notre cadre, nous avons deux types de populations : les apprenants de l'historique, pour lesquels nous avons observé les résultats à toutes les questions, et les apprenants qui passent le test, pour lesquels nous observons les réponses aux questions une par une. Ainsi, comme nous cherchons à valider un modèle de tests adaptatifs, nous séparons les apprenants en deux groupes d'entraînement et de test, et également les questions en deux groupes de test et de validation. Pour chaque apprenant du groupe d'entraînement, nous connaissons toutes ses réponses et pouvons entraîner nos modèles à partir de ces données, et pour chaque apprenant du groupe de test, nous simulons un test adaptatif qui choisit les questions à poser parmi les questions de test. Nous vérifions alors, à chaque étape du test adaptatif, les prédictions sur l'ensemble des questions de validation.
+
+Notre comparaison de modèles a deux aspects : qualitatifs en termes d'interprétabilité ou d'explicabilité et quantitatifs en termes de vitesse de convergence de la phase d'entraînement et performance des prédictions.
+
+## Évaluation qualitative
+
+Plusieurs aspects font qu'on peut préférer un modèle de test adaptatif plutôt qu'un autre. Par exemple, la mise en œuvre d'un modèle de test peut requérir la construction d'une q-matrice, ce qui peut être coûteux si l'on a plusieurs milliers de questions à apparier avec une dizaine de composantes de connaissance.
+
+Interprétabilité
+
+:   Ce facteur distingue un modèle qui renvoie une simple valeur de niveau à l'apprenant d'un modèle qui fait un retour utile à l'apprenant (*feedback*) afin qu'il puisse s'améliorer. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible de nommer les lacunes de l'apprenant.
+
+Explicabilité
+
+:   Un modèle explicable est capable de décrire le processus qui l'a fait aboutir à son diagnostic. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Il est en effet possible d'avoir un modèle de test interprétable non explicable : par exemple, un modèle qui ne poserait que des questions de mathématiques à un apprenant et lui suggérerait à la fin de retravailler la conjugaison, pourrait avoir raison, mais ne serait pas capable de l'expliquer, les raisons étant plus profondes, par exemple parce que le modèle aurait capturé que les questions de mathématiques non résolues correctement comportaient du subjonctif imparfait.
+
+## Évaluation quantitative
+
+Les modèles testés implémentent les routines suivantes :
+
+- TrainingStep
+- PriorInitialization
+- NextItem
+- UpdateParameters
+- TerminationRule
+- PredictPerformance
+- EvaluatePerformance
 
 In order to compare the models described above on real data, they can be embedded in a unified framework: all of them can be seen as decision trees [@Ueno2010; @Yan2014], where nodes are possible states of the test and edges are followed according to the answers provided by the learner, like a flowchart. Thus, within a node, we have access to an incomplete response pattern and want to infer the behavior of the learner over the remaining questions using our student model. The best model is the one that classifies remaining outcomes with minimal error.
 

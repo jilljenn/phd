@@ -5,5 +5,7 @@
 *.blg
 *.log
 *.out
+*.pdf
 *.toc
+*.xml
 figures
