@@ -1,7 +1,10 @@
 # Perspectives
 
-- Prendre en compte le temps (aspect séquentiel, d'où les modèles de facteurs additifs ou de Bayesian knowledge tracing)
-- Ajouter d'autres informations dans le profil (démographiques, traces ?)
+La théorie de la réponse à l'item suppose l'indépendance locale entre les questions : sachant le niveau de l'étudiant, ses réponses aux questions sont indépendantes. Cela suppose entre autres que les apprenants répondent de la même manière aux questions peu importe l'ordre dans lequel on les pose, et que le niveau de l'apprenant reste le même tout au long du test. Cette hypothèse est raisonnable dans le cadre d'un test de positionnement au début d'un cours ou d'un test rapide de diagnostic de connaissances en mi-parcours. Toutefois dans les systèmes de tuteurs intelligents on observe plutôt des modèles temporels : bandits à plusieurs bras [@Clement2015], traçage de connaissances bayésien, modèles de Markov cachés.
+
+Plus le système a de données sur les apprenants, meilleures sont les prédictions. Ainsi il serait intéressant d'intégrer des informations démographiques dans le profil, qui permettraient de mieux comprendre les erreurs. Toutefois, cela présente des problèmes de confidentialité. Aussi un risque d'impact disparate, de discrimination involontaire.
+
+Avoir des représentations plus compliquées comme une ontologie [@Mandin2014]. Ce genre de structure est difficile à construire.
 
 # Le futur de l'évaluation
 

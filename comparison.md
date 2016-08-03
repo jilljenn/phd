@@ -79,6 +79,8 @@ Les modèles testés implémentent les routines suivantes :
 - PredictPerformance
 - EvaluatePerformance
 
+À chaque étape, nous posons la question de probabilité plus proche de 0,5 [@Chang2014].
+
 In order to compare the models described above on real data, they can be embedded in a unified framework: all of them can be seen as decision trees [@Ueno2010; @Yan2014], where nodes are possible states of the test and edges are followed according to the answers provided by the learner, like a flowchart. Thus, within a node, we have access to an incomplete response pattern and want to infer the behavior of the learner over the remaining questions using our student model. The best model is the one that classifies remaining outcomes with minimal error.
 
 Formally, let us consider students, from a set $I$, that answer questions from a set $Q$. Our student data is a binary matrix $D$ of size $|I| \times |Q|$ where $D_{iq}$ is 1 if student $i$ answered question $q$, 0 otherwise. An adaptive test can be formalized the following way.\bigskip
@@ -114,6 +116,8 @@ The error is given by the following formula, called score or log-loss:
 $$ e(p, t) = \frac1{|Q_{val}|} \sum_{k \in Q_{val}} t_k \log p_k + (1 - t_k) \log (1 - p_k) $$
 
 where $p$ is the predicted outcome over all $|Q|$ questions and $t$ is the true response pattern.
+
+Il s'agit d'un problème de classification binaire, donc cette fonction d'erreur est courante.
 
 In order to visualize the results, errors computed during experiment $(i, j)$ are stored in a matrix of size $10 \times 4$. Thus, computing the mean error for each column, we can see how models performed on a certain subset of questions, see Figure \ref{crossval}.
 
