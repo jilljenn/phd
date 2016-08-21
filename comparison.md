@@ -1,17 +1,32 @@
-% Comparaison de modèles
+# Spécification du test adaptatif
 
-# Différents composants du test adaptatif
+## Calibrage à partir d'un historique
 
-- Calibrage
-- Choix de la question initiale
-- Choix de la question suivante
-- Estimation de la probabilité de répondre correctement à chaque question
+Pour fonctionner, un test adaptatif nécessite un historique de réponses d'une population $U$ d'apprenants face à des questions d'un ensemble $I$, sous la forme d'une matrice $U \times I$ dont l'élément $m_{ui}$ vaut 1 si l'apprenant $u$ a répondu correctement à la question $i$, 0 sinon. Il essaie ensuite de positionner un nouvel apprenant par rapport à la population donnée en historique.
 
-## Spécifications
+## Choix de la question initiale
 
-Un test adaptatif a besoin d'un historique de $U$ réponses d'une population face à $I$ questions, sous la forme d'une matrice $U \times I$ dont l'élément $m_{ui}$ vaut 1 si l'apprenant $u$ a répondu correctement à la question $i$, 0 sinon. Il essaie ensuite de positionner un nouvel apprenant par rapport à la population donnée en historique.
+Au début d'un test adaptatif, le système n'a aucune information sur l'apprenant. Pour choisir la première question à poser, le système peut choisir au hasard, ou bien supposer que l'apprenant est de niveau moyen au sein de la population donnée en historique.
 
-Au début d'un test adaptatif, le système n'a aucune information sur l'apprenant. Il suppose donc que l'apprenant est de niveau moyen au sein de l'historique et doit donc choisir la première question à lui poser. À un certain moment, le système doit donc, à partir des questions déjà posées et de leurs résultats, choisir la question suivante. Ainsi la fonction qui choisit la question suivante prend en paramètre une liste de couples $\{(i_k, r_k)\}_k$ où $r_k$ désigne 1 si l'apprenant a répondu correctement à la question $i_k$, 0 sinon.
+## Choix de la question suivante
+
+À un certain moment du test, le système doit, à partir des questions déjà posées et de leurs résultats, choisir la question suivante. Ainsi, la fonction qui choisit la question suivante prend en paramètre une liste de couples $\{(i_k, r_k)\}_k$ où $r_k$ désigne 1 si l'apprenant a répondu correctement à la question $i_k$, 0 sinon.
+
+## Modèle de la probabilité de répondre correctement à chaque question
+
+Les choix que font le système et la calibration des paramètres dépendent du modèle de probabilité de réponse d'un apprenant sur une question.
+
+<!-- # Bornes théoriques de problèmes similaires
+
+## Recherche binaire généralisée
+
+Le problème d'identification d'une cible en posant la question qui minimise l'entropie à chaque tour s'appelle la recherche dichotomique généralisée. On peut considérer des erreurs iid mais pour des erreurs persistantes, ce problème est peu connu théoriquement.
+
+## Sous-modularité
+
+Toutefois, on a une borne théorique dans le cas où les apprenants répondent sans erreur. -->
+
+# Comparaison de modèles sur des jeux de données réels
 
 ## Apprentissage automatique à partir d'exemples
 
@@ -22,18 +37,6 @@ On distingue l'apprentissage supervisé, où l'on a accès aux étiquettes que l
 Pour un problème de filtrage collaboratif, on dispose d'une matrice creuse $M$ comportant des informations sur certaines entrées. Le problème est de déterminer les entrées manquantes.
 
 En ce qui nous concerne, notre problème commence par une phase d'apprentissage non supervisé, car à partir du simple historique des résultats au test, il faut déterminer des paramètres sur les apprenants et les questions qui expliquent ces résultats. Puis, le problème devient supervisé pour un nouvel apprenant car il s'agit d'un problème de classification binaire : on cherche à prédire à partir de ses réponses précédentes ses résultats (vrai ou faux) sur le reste des questions du test. Une particularité est que l'apprentissage est ici interactif, dans la mesure où c'est le système qui choisit les questions à poser (c'est-à-dire, les éléments à étiqueter) afin d'améliorer son apprentissage. Cette approche s'appelle apprentissage actif (*active learning*).
-
-<!-- # Bornes théoriques de problèmes similaires
-
-## Recherche binaire généralisée
-
-Le problème d'identification d'une cible en posant la question qui minimise l'entropie à chaque tour s'appelle la recherche dichotomique généralisée. On peut considérer des erreurs iid mais pour des erreurs persistentes, ce problème est peu connu théoriquement.
-
-## Sous-modularité
-
-Toutefois, on a une borne théorique dans le cas où les apprenants répondent sans erreur. -->
-
-# Comparaison de modèles sur des jeux de données réels
 
 ## Double validation croisée
 
@@ -61,23 +64,23 @@ Plusieurs aspects font qu'on peut préférer un modèle de test adaptatif plutô
 
 Interprétabilité
 
-:   Ce facteur distingue un modèle qui renvoie une simple valeur de niveau à l'apprenant d'un modèle qui fait un retour utile à l'apprenant (*feedback*) afin qu'il puisse s'améliorer. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible de nommer les lacunes de l'apprenant.
+:   Ce facteur distingue un modèle qui renvoie une simple valeur de niveau à l'apprenant d'un modèle qui fait un retour utile à l'apprenant (*feedback*) afin qu'il puisse s'améliorer. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible de nommer les lacunes de l'apprenant soulignées par le test.
 
 Explicabilité
 
-:   Un modèle explicable est capable de décrire le processus qui l'a fait aboutir à son diagnostic. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Il est en effet possible d'avoir un modèle de test interprétable non explicable : par exemple, un modèle qui ne poserait que des questions de mathématiques à un apprenant et lui suggérerait à la fin de retravailler la conjugaison, pourrait avoir raison, mais ne serait pas capable de l'expliquer, les raisons étant plus profondes, par exemple parce que le modèle aurait capturé que les questions de mathématiques non résolues correctement comportaient du subjonctif imparfait.
+:   Un modèle explicable est capable de décrire le processus qui l'a fait aboutir à son diagnostic. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Il est en effet possible d'avoir un modèle de test interprétable non explicable : par exemple, un modèle qui ne poserait que des questions de mathématiques à un apprenant et lui suggérerait à la fin de retravailler la conjugaison, pourrait être pertinent, mais ne serait pas capable de l'expliquer, les raisons étant plus profondes, par exemple parce que le modèle aurait capturé que les questions de mathématiques non résolues correctement comportaient du subjonctif imparfait.
 
 ## Évaluation quantitative
 
 Les modèles testés implémentent les routines suivantes :
 
-- TrainingStep
-- PriorInitialization
-- NextItem
-- UpdateParameters
-- TerminationRule
-- PredictPerformance
-- EvaluatePerformance
+- **TrainingStep** : calibrer le modèle sur l'historique
+- **PriorInitialization** : initialiser les paramètres de l'apprenant au début du test
+- **NextItem** : choisir la meilleure question à poser selon un certain critère, en fonction des réponses précédentes de l'apprenant
+- **UpdateParameters** : mettre à jour les paramètres de l'apprenant en fonction de sa réponse à la dernière question posée
+- **TerminationRule** : critère de terminaison du test adaptatif
+- **PredictPerformance** : calculer la probabilité de répondre correctement pour chacune des questions restantes du test
+- **EvaluatePerformance** : comparer les vraies réponses à celles prédites, de façon à évaluer le modèle.
 
 À chaque étape, nous posons la question de probabilité plus proche de 0,5 [@Chang2014].
 
