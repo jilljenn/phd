@@ -251,3 +251,22 @@ So far, we only considered questions asked one after another. But the first abil
 \label{mst}
 \end{figure}
 -->
+
+# Limitations
+
+Here we just considered knowledge recall, not other dimensions such as perseverance, clarity, carefulness. By reducing items, we reduce the time spent by students being assessed, which prevents boredom and leaves more time for other activities.
+
+In our case, within a test our model never asks the same question twice. In many scenarios though, presenting the same item several times is better, for example in vocabulary learning. Such so-called spaced repetition systems such as Anki have been succesfully used for vocabulary learning [@RefNecessaire]. In our case, we prefer to ask different items that need similar KCs (knowledge components). Such approach has been referred to as interleaved practice [@Dunlosky2013] and reduces the risks of guessing the correct answer.
+
+Our approach is mainly static, which means we don't assume that the knowledge of the student increases after he gets many opportunities of being assessed on the same KCs. This assumption is made in intelligent tutoring systems, where the knowledge of the learner is dynamic. Thus, our diagnostic test provides a snapshot of the knowledge for the student at a certain time.
+(Là faudrait pas que je me contredise trop avec The Future of Assessment où l'on écrit que l'explicit testing pourrait être remplacé par de l'embedded assessment : d'être continument monitoré par la plateforme.)
+
+We don't consider metadata over the learner, such as demographic information. This allows us to provide an anonymous test, of which the results are stored anonymously. This prevents stress from the examinee, scared that his mistakes may be recorded forever [@Obama2014].
+
+We do not track the student from one occurrence of the test to the next one. Thus, a student may get the same items from an occurrence to the other one. This could be prevented by recording minimal information such as the previous items administered (not the outcomes).
+
+There exist different interfaces for assessment such as serious games or stealth assessment [@Shute2015], which lead to more motivation and engagement from the students (such as Packet Tracer for learning network routing, or Newton's Playground for learning physics). We believe our approach is more generic: it only needs student data under the form of 1 and 0's and may be applied to these serious-game scenarios. We leave this for further research.
+
+# Discussion
+
+Practice testing is a key factor to success [@Dunlosky2013]. However, asking questions can be boring. In order to prevent boredom, asking less questions is better.

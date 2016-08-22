@@ -10,7 +10,11 @@ Ainsi, le problème devient : comment choisir les $k$ premières questions à pr
 
 # Visualisation d'un test adaptatif
 
-Courbes.
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{figures/2d}
+\caption{Test adaptatif en 2 dimensions}
+\end{figure}
 
 Ainsi, un jeu de questions sera informatif s'il réalise un maillage de l'espace des questions.
 
@@ -26,7 +30,9 @@ Toutefois, deux problèmes se présentent :
 
 Existence de l'estimateur du maximum de vraisemblance
 
-:   L'estimateur du maximum de vraisemblance n'est pas sûr d'exister, notamment si toutes les réponses jusque-là ont été vraies ou si elles ont été toutes fausses. Ce problème avait déjà été mis en évidence par @Lan2014 et par @Magis.
+:   L'estimateur du maximum de vraisemblance n'est pas sûr d'exister, notamment si toutes les réponses jusque-là ont été vraies ou si elles ont été toutes fausses. Ce problème avait déjà été mis en évidence par @Lan2014 et par @Magis2015.
+
+C'est pourquoi on préférerait poser des questions peu corrélées afin de maximiser nos chances d'obtenir une réponse fausse et une réponse vraie.
 
 # Processus à point déterminantal
 
@@ -40,7 +46,7 @@ où $K_Y$ est la sous-matrice carrée de $K$ indexée par les éléments de $Y$ 
 
 Une intuition est que le déterminant d'une matrice est le volume du parallélotope formé par ses lignes (ou colonnes). Ainsi, moins les vecteurs de similarité seront corrélés, plus grand sera leur volume. On peut encore le voir de la façon suivante : des vecteurs de questions similaires apportent une information similaire. Afin d'avoir le plus d'information possible au début du test il vaut mieux choisir des vecteurs écartés deux à deux.
 
-Il existe des algorithmes efficaces pour échantillonner selon une PPD @Kulesza2013, y compris lorsqu'on fixe à l'avance le nombre d'éléments qu'on souhaite sélectionner ($k$-PPD). En revanche, le problème de déterminer le mode de cette distribution (c'est-à-dire l'ensemble $X$ de plus grande probabilité a posteriori) est un problème NP-difficile, néanmoins des algorithmes d'approximation ont été développés. Ce n'est que récemment que les PPD sont appliqués à l'apprentissage statistique, mais surtout à des méthodes de diversification et de résumé.
+Il existe des algorithmes efficaces pour échantillonner selon une PPD @Kulesza2012, y compris lorsqu'on fixe à l'avance le nombre d'éléments qu'on souhaite sélectionner ($k$-PPD). En revanche, le problème de déterminer le mode de cette distribution (c'est-à-dire l'ensemble $X$ de plus grande probabilité a posteriori) est un problème NP-difficile, néanmoins des algorithmes d'approximation ont été développés. Ce n'est que récemment que les PPD sont appliqués à l'apprentissage statistique, mais surtout à des méthodes de diversification et de résumé.
 
 Un autre avantage de cette méthode est qu'on garantit que le choix de $k$ questions est randomisé, donc on ne pose pas les mêmes premières questions à tout le monde, ce qui permet d'éviter de griller trop d'items. Cela s'appelle le taux d'exposition des questions.
 

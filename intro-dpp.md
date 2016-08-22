@@ -9,7 +9,6 @@ Jusqu'à présent nous avons considéré des modèles de tests adaptatifs qui pr
 Ainsi que plusieurs inconvénients :
 
 - le processus est alors moins adaptatif (dans le cas extrême où $k$ est le nombre total de questions, on pose toutes les questions en une fois, auquel cas le test redevient un test classique) ;
-- la probabilité de guessing devient plus grande car on peut s'aider du contenu des autres questions pour répondre à une question.
 
 Le problème des tests à multi-étapes devient alors de façon combinatoire plus difficile à résoudre : si maximiser une fonction objectif pour un seul élément reste faisable, en revanche itérer sur tous les sous-ensembles de questions à $k$ éléments pour calculer une fonction objectif devient impraticable. On recourt alors généralement à des heuristiques, des algorithmes d'approximation, qui ont une borne de complexité prouvée.
 
