@@ -1,0 +1,1 @@
+Akinator pour l'éducation.

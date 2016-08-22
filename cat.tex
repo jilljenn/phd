@@ -5,6 +5,7 @@
 \usepackage{graphicx,array}
 \usepackage{hyperref}
 \usepackage{biblatex}
+\usepackage[refpage]{nomencl}
 \addbibresource{biblio.bib}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \setsecnumdepth{subsection}
@@ -12,12 +13,22 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
+\makenomenclature
+
 \title{Construction et analyse de tests adaptatifs dans un cadre de filtrage collaboratif}
 \author{Jill-Jênn Vie}
 
 \begin{document}
 \maketitle
-\clearpage
+
+\chapter*{Remerciements}
+\input{merci}
+
+\printnomenclature
+
+\chapter*{Résumé}
+\input{summary}
+
 \tableofcontents
 
 \chapter{Introduction}

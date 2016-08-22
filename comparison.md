@@ -191,6 +191,18 @@ $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
 
 # Résultats
 
+\begin{figure}
+\centering
+\caption{Évolution pour le dataset Castor}
+\includegraphics{figures/comp-castor}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{figures/comp-fraction}
+\caption{Évolution pour le dataset Fraction}
+\end{figure}
+
 ## Discussion
 
 In all experiments, the hybrid model GenMA with the expert q-matrix performs the best. For example, in the Fraction dataset, 4 questions over 15 are enough to provide a feedback that predicts correctly 4 questions over 5 in average in the validation set. As an example, after 4 questions, the predicted performance over the validation question set of one of the test students is $[0.617, 0.123, 0.418, 0.127, 0.120]$ while his true performance is $[1, 0, 1, 0, 0]$, thereby yielding a mean error of 0.350.

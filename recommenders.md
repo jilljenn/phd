@@ -12,7 +12,7 @@ Filtrage collaboratif
 
 Calcul de pertinence des recommandations
 
-:	Lorsque les notes sont catégoriques (aimé, pas aimé), habituellement la prédiction revêt la forme d'une probabilité que l'utilisateur aime l'œuvre, et le score est la log-perte. D'autres approches [@Karypis] utilisent une fonction d'erreur qui pénalise davantage les faux positifs que les faux négatifs. Lorsque les notes sont continues, on utilise habituellement la RMSE (*root mean square error*).
+:	Lorsque les notes sont catégoriques (aimé, pas aimé), habituellement la prédiction revêt la forme d'une probabilité que l'utilisateur aime l'œuvre, et le score est la log-perte. D'autres approches [@Rashid2008] utilisent une fonction d'erreur qui pénalise davantage les faux positifs que les faux négatifs. Lorsque les notes sont continues, on utilise habituellement la RMSE (*root mean square error*).
 
 Lorsqu'un nouvel utilisateur se rend sur un site de recommandation, celui-ci n'a aucune information et doit donc solliciter l'utilisateur afin d'obtenir ces informations. Afin que le processus soit efficace, il est préférable de poser un minimum de questions, donc tout l'enjeu est de déterminer des œuvres discriminantes permettant au système d'avoir une idée précise des goûts de l'utilisateur. @Golbandi2011 fait ainsi un arbre de décision qui vise à répartir les utilisateurs dans des groupes au sein desquels la RMSE est faible.
 
