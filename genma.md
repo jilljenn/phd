@@ -76,8 +76,14 @@ Et les datasets suivants :
 \caption{Évolution du nombre de prédictions erronées en fonction du nombre de questions posées}
 \end{figure}
 
+\begin{figure}
+\centering
+\includegraphics{figures/plot-fraction-count}
+\caption{Évolution du nombre de prédictions erronées en fonction du nombre de questions posées}
+\end{figure}
+
 ## Discussion
 
 Sur les jeux de données testés, GenMA a un plus grand pouvoir prédictif que le DINA model. La réponse à une question apporte plus d'information car chaque item a un paramètre de difficulté qui lui est propre selon chaque composante de connaissance.
 
-<!-- MIRT à 2 dimensions se débrouille mieux que GenMA, ce qui laisse entendre qu'un modèle prédictif n'est pas nécessairement explicatif. Toutefois afin de faire un retour à l'utilisateur, notre modèle fait un feedback correspondant davantage à la réalité qu'un modèle DINA basé sur les q-matrices. -->
+MIRT à 2 dimensions se débrouille mieux que GenMA, ce qui laisse entendre qu'un modèle prédictif n'est pas nécessairement explicatif. Toutefois afin de faire un retour à l'utilisateur, notre modèle fait un feedback correspondant davantage à la réalité qu'un modèle DINA basé sur les q-matrices.

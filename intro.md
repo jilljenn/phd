@@ -53,8 +53,10 @@ Afin de montrer ce qu'il est possible de faire à partir des données d'un véri
 
 # Publications
 
-- Poster à EDM 2015
-- Workshop à EAEI 2015
-- Conférence à EC-TEL 2016
-- Chapitre de journal Springer 2016
-- Revue STICEF 2016
+- Conférence à LATINCRYPT 2012 @Abdalla2012
+- Poster à EDM 2015 @Vie2015
+- Workshop à EAEI 2015 @Vie2015b
+- Conférence à EC-TEL 2016 @Vie2016
+- Chapitre de journal Springer 2016 @Vie2016b
+- Revue STICEF 2016 @Vie2016c
+- Livre @Durr2016
