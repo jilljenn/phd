@@ -4,6 +4,8 @@ La théorie de la réponse à l'item suppose l'indépendance locale entre les qu
 
 Plus le système a de données sur les apprenants, meilleures sont les prédictions. Ainsi il serait intéressant d'intégrer des informations démographiques dans le profil, qui permettraient de mieux comprendre les erreurs. Toutefois, cela présente des problèmes de confidentialité. Aussi un risque d'impact disparate, de discrimination involontaire.
 
+Pour répondre à ce démarrage à froid lorsqu'on ne dispose pas d'informations sur les apprenants, on peut incorporer des liens entre les questions comme ce que fait @Dieleman2016 sur des musiques. Par exemple on pourrait faire un tf-idf sur l'énoncé (mais celui-ci peut comporter des images).
+
 Avoir des représentations plus compliquées comme une ontologie [@Mandin2014]. Ce genre de structure est difficile à construire.
 
 # Le futur de l'évaluation

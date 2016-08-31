@@ -4,9 +4,9 @@ all:
 
 cat:
 	xelatex cat
-	makeindex -s nomencl.ist -t cat.lng -o cat.nls cat.nlo
-	biber cat
-	xelatex cat
+	# makeindex -s nomencl.ist -t cat.lng -o cat.nls cat.nlo
+	# biber cat
+	# xelatex cat
 
 %.tex: %.md
 	pandoc --biblatex --bibliography biblio.bib -N $< -o $@
