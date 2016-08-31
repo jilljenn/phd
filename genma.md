@@ -4,7 +4,7 @@ Nous considérons ici un modèle qui suppose que l'on connaisse les CC mises en 
 
 ## Comparaison avec le modèle DINA
 
-Le modèle DINA est un modèle cognitif basé sur une q-matrice, voir la section \ref{dina} pour une description précise. Ce modèle a été utilisé pour des tests adaptatifs et apprécié pour sa capacité à renvoyer un feedback à la fin de test comportant les composantes de connaissances maîtrises ou non.
+Le modèle DINA est un modèle cognitif basé sur une q-matrice, voir la section \ref{dina} pour une description précise. Ce modèle a été utilisé pour des tests adaptatifs et apprécié pour sa capacité à renvoyer un feedback à la fin de test comportant les composantes de connaissances maîtrisées ou non.
 
 Pour rappel, on pouvait s'étonner du fait que ce modèle, bien que multidimensionnel, ait un pouvoir prédictif concurrencé par le modèle unidimensionnel de Rasch.
 
@@ -60,26 +60,53 @@ Pour la prédiction de performance, nous avons suivi le protocole décrit au cha
 
 Et les datasets suivants :
 
-- Fraction
-- ECPE
-- TIMSS
+- Fraction. Une matrice représentant les résultats sur des questions de soustraction de fraction.
+- ECPE. Proficiency of English.
+- TIMSS. Trends in Mathematics Studies.
 
 \begin{figure}
 \centering
-\includegraphics{figures/fraction}
+\includegraphics[width=0.8\textwidth]{figures/results/fraction-mean}
+%\includegraphics[width=0.5\textwidth]{figures/results/fraction-count}
+\begin{tabular}{cccc}
+& After 4 questions & After 7 questions & After 10 questions\\
+IRT & $0.469 \pm 0.017$ (79 \%) & $0.457 \pm 0.017$ (79 \%) & $0.446 \pm 0.016$ (79 \%)\\
+MIRT & $0.459 \pm 0.023$ (79 \%) & $0.355 \pm 0.017$ (85 \%) & $0.294 \pm 0.013$ (88 \%)\\
+MIRT & $0.368 \pm 0.014$ (83 \%) & $0.325 \pm 0.012$ (86 \%) & $0.316 \pm 0.011$ (86 \%)\\
+QMatrix & $0.441 \pm 0.014$ (80 \%) & $0.41 \pm 0.014$ (82 \%) & $0.406 \pm 0.014$ (82 \%)\\
+\end{tabular}
+\caption{Évolution de la log-likelihood en fonction du nombre de questions posées}
+\end{figure}
+
+<!-- \begin{table}
+\caption{Erreur moyenne sur le jeu Fraction}
+\end{table} -->
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{figures/results/ecpe-mean}
+%\includegraphics[width=0.5\textwidth]{figures/results/ecpe-count}
+\begin{tabular}{cccc}
+& After 4 questions & After 8 questions & After 12 questions\\
+MIRT & $0.509 \pm 0.005$ (76 \%) & $0.496 \pm 0.005$ (76 \%) & $0.489 \pm 0.005$ (77 \%)\\
+QMatrix & $0.535 \pm 0.003$ (73 \%) & $0.526 \pm 0.003$ (74 \%) & $0.523 \pm 0.003$ (74 \%)\\
+IRT & $0.537 \pm 0.005$ (73 \%) & $0.527 \pm 0.005$ (74 \%) & $0.522 \pm 0.005$ (74 \%)\\
+MIRT & $0.532 \pm 0.005$ (73 \%) & $0.507 \pm 0.004$ (75 \%) & $0.498 \pm 0.004$ (76 \%)\\
+\end{tabular}
 \caption{Évolution de la log-likelihood en fonction du nombre de questions posées}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics{figures/counter}
-\caption{Évolution du nombre de prédictions erronées en fonction du nombre de questions posées}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics{figures/plot-fraction-count}
-\caption{Évolution du nombre de prédictions erronées en fonction du nombre de questions posées}
+\includegraphics[width=0.8\textwidth]{figures/results/timss-mean}
+%\includegraphics[width=0.5\textwidth]{figures/results/timss-count}
+\begin{tabular}{cccc}
+& After 4 questions & After 8 questions & After 11 questions\\
+IRT & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%) & $0.555 \pm 0.008$ (71 \%)\\
+MIRT & $0.537 \pm 0.006$ (72 \%) & $0.505 \pm 0.006$ (75 \%) & $0.487 \pm 0.006$ (77 \%)\\
+QMatrix & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%) & $0.566 \pm 0.006$ (70 \%)\\
+\end{tabular}
+\caption{Évolution de la log-likelihood en fonction du nombre de questions posées}
 \end{figure}
 
 ## Discussion

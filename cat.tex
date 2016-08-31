@@ -1,4 +1,4 @@
-\documentclass[a4paper,14pt]{memoir}
+\documentclass[a4paper,14pt,draft]{memoir}
 \usepackage{geometry}
 \usepackage[french]{babel}
 \usepackage{xltxtra}
@@ -8,8 +8,6 @@
 \usepackage[refpage]{nomencl}
 \addbibresource{biblio.bib}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\setsecnumdepth{subsection}
-\setcounter{tocdepth}{2}
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
@@ -26,8 +24,14 @@
 
 \printnomenclature
 
+\setsecnumdepth{chapter}
+\setcounter{tocdepth}{0}
+
 \chapter*{Résumé}
 \input{summary}
+
+\setsecnumdepth{subsection}
+\setcounter{tocdepth}{2}
 
 \clearpage
 \tableofcontents
