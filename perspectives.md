@@ -1,12 +1,14 @@
 # Perspectives
 
-La théorie de la réponse à l'item suppose l'indépendance locale entre les questions : sachant le niveau de l'étudiant, ses réponses aux questions sont indépendantes. Cela suppose entre autres que les apprenants répondent de la même manière aux questions peu importe l'ordre dans lequel on les pose, et que le niveau de l'apprenant reste le même tout au long du test. Cette hypothèse est raisonnable dans le cadre d'un test de positionnement au début d'un cours ou d'un test rapide de diagnostic de connaissances en mi-parcours. Toutefois dans les systèmes de tuteurs intelligents on observe plutôt des modèles temporels : bandits à plusieurs bras [@Clement2015], traçage de connaissances bayésien, modèles de Markov cachés.
+La théorie de la réponse à l'item suppose l'indépendance locale entre les questions : sachant le niveau de l'étudiant, ses réponses aux questions sont indépendantes. Cela suppose entre autres que les apprenants répondent de la même manière aux questions peu importe l'ordre dans lequel on les pose, et que le niveau de l'apprenant reste le même tout au long du test. Cette hypothèse est raisonnable dans le cadre d'un test de positionnement au début d'un cours ou d'un test rapide de diagnostic de connaissances en mi-parcours. Toutefois dans les systèmes de tuteurs intelligents on observe plutôt des modèles temporels, où le niveau de l'apprenant peut évoluer alors qu'il accomplit des tâches : bandits à plusieurs bras [@Clement2015], traçage de connaissances bayésien, modèles de Markov cachés.
 
 Plus le système a de données sur les apprenants, meilleures sont les prédictions. Ainsi il serait intéressant d'intégrer des informations démographiques dans le profil, qui permettraient de mieux comprendre les erreurs. Toutefois, cela présente des problèmes de confidentialité. Aussi un risque d'impact disparate, de discrimination involontaire.
 
-Pour répondre à ce démarrage à froid lorsqu'on ne dispose pas d'informations sur les apprenants, on peut incorporer des liens entre les questions comme ce que fait @Dieleman2016 sur des musiques. Par exemple on pourrait faire un tf-idf sur l'énoncé (mais celui-ci peut comporter des images).
+Pour répondre à ce démarrage à froid lorsqu'on ne dispose pas d'informations sur les apprenants, on peut incorporer des liens entre les questions comme ce que fait @Van2013 sur des musiques. Par exemple on pourrait faire un tf-idf sur les mots de l'énoncé, ajouter des mots-clés.
 
-Avoir des représentations plus compliquées comme une ontologie [@Mandin2014]. Ce genre de structure est difficile à construire.
+Avoir des représentations plus compliquées comme une ontologie [@Mandin2014]. Ce genre de structure est difficile à construire. Nous apprécions l'approche q-matrice, qui permet à plusieurs experts de partager et de combiner leur représentation du domaine [@Koedinger2012].
+
+Il est parfois utile de répéter les questions, par exemple lorsqu'on apprend du vocabulaire au moyen de cartes de support visuel, et de systèmes par répétitions espacées [@Altiner2011]. Notre approche correspond davantage lorsqu'on cherche à apprendre une compétence plutôt qu'un item particulier. Aussi, ne pas poser la même question plusieurs fois mais plutôt des variantes, par exemple en mathématiques en changeant l'opération à effectuer, permet de réduire le risque que l'apprenant devine la bonne réponse. Il serait intéressant de coupler ça avec des générateur automatiques d'exercices.
 
 # Le futur de l'évaluation
 

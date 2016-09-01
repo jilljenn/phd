@@ -42,6 +42,23 @@ Pour un problème de filtrage collaboratif, on dispose d'une matrice creuse $M$ 
 
 En ce qui nous concerne, notre problème commence par une phase d'apprentissage non supervisé, car à partir du simple historique des résultats au test, il faut déterminer des paramètres sur les apprenants et les questions qui expliquent ces résultats. Puis, le problème devient supervisé pour un nouvel apprenant car il s'agit d'un problème de classification binaire : on cherche à prédire à partir de ses réponses précédentes ses résultats (vrai ou faux) sur le reste des questions du test. Une particularité est que l'apprentissage est ici interactif, dans la mesure où c'est le système qui choisit les questions à poser (c'est-à-dire, les éléments à étiqueter) afin d'améliorer son apprentissage. Cette approche s'appelle apprentissage actif (*active learning*).
 
+## Extraction automatique de q-matrice
+
+Pour certains des jeux de données, nous en disposions pas de q-matrice. Certaines approches en fouille de données pour l'éducation consistent à la calculer automatiquement puis tenter de l'interpréter a posteriori.
+
+- @Barnes2005 fait une escalade de colline, mais la complexité de cette opération est grande ;
+- @Desmarais2011 a fait une factorisation de matrices positives.
+
+Nous avons testé des approches plus génériques. @Zou2006 présente un algorithme pour l'analyse de composantes principales creuses, qui détermine deux matrices $W$ et $H$ tels que :
+
+$$M \simeq WH \textnormal{ et } H \textnormal{ est creuse}. $$
+
+@Lee2010 propose une analyse de composantes principales creuses avec une fonction de lien logistique, ce qui est plus approprié pour notre problème où nous cherchons à approximer une matrice binaire.
+
+$$M \simeq \Phi(WH) \textnormal{ et } H \textnormal{ est creuse}. $$
+
+Dans ces deux cas, $H$ est composée majoritairement de 0. Pour extraire une q-matrice, nous fixons à 1 les entrées non nulles.
+
 ## Double validation croisée
 
 Pour valider un modèle d'apprentissage supervisé, une méthode courante consiste à estimer ses paramètres à partir de 80 % des données et évaluer les prédictions faites sur les données restantes. Cette méthode s'appelle validation croisée. Ainsi, le jeu de données $X$ est divisé en $X_{train}$ et $X_{test}$, le modèle est entraîné sur $X_{train}$ et $y_{train}$ et fait une prédiction sur les données $X_{test}$ appelée $y_{pred}$, qui est ensuite comparée à la vraie valeur $y_{test}$ pour validation. S'il s'agit d'un problème de régression, on utilise par exemple la fonction de coût RMSE (*root mean squared error*) :
@@ -135,6 +152,28 @@ These sets will stay the same for all considered models.\bigskip
 \indent \indent \indent \textsc{ChooseNextItem} and ask it to student $i$  
 \indent \indent \indent Evaluate predictions of model $M$ over questions $Q_{val}$.\bigskip
 
+\begin{algorithm}
+\begin{algorithmic}
+\Procedure{Simulate}{$train, test$}
+\State $\alpha \gets \Call{TrainingStep}{train}$
+\State $t \gets 0$
+\For{all students $s$ in $test$}
+    \State $\pi \gets \Call{PriorInitialization}$
+    \While{\textsc{TerminationRule} is not satisfied}
+        \State $q_{t + 1} \gets \Call{NextItem}{q_1, r_1, \ldots, q_t, r_t, \alpha, \pi}$
+        \State Ask question $q_{t + 1}$ to the student $s$
+        \State Get reply $r_{t + 1}$
+        \State $\pi \gets \Call{EstimateParameters}{q_1, r_1, \ldots, q_t, r_t, \alpha}$
+        \State $p \gets$ \Call{PredictPerformance}{$\alpha, \pi$}
+        \State $\Sigma \gets$ \Call{EvaluatePerformance}{$p$}
+    \EndWhile
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\caption{\textbf{CAT Framework}}
+\label{algo}
+\end{algorithm}
+
 We make a cross validation of each model over 10 subsamples of students and 4 subsamples of questions (these constant values are parameters that may be changed). Thus, if we number student subsamples $I_i$ for $i = 1, \ldots, 10$ and questions subsamples $Q_j$ for $j = 1, \ldots, 4$, experiment $(i, j)$ consists in:
 
 - train the evaluated model over all student subsamples except the $i$-th ($I_{train} = I \setminus I_i$);
@@ -150,24 +189,38 @@ Il s'agit d'un problème de classification binaire, donc cette fonction d'erreur
 
 In order to visualize the results, errors computed during experiment $(i, j)$ are stored in a matrix of size $10 \times 4$. Thus, computing the mean error for each column, we can see how models performed on a certain subset of questions, see Figure \ref{crossval}.
 
-<!--
 \begin{figure}
 \centering
-\includegraphics{crossval.pdf}
+\includegraphics{figures/crossval.pdf}
 \caption{Cross validation over 10 student subsamples and 4 question subsamples. Each case $(i, j)$ contains the results of the experiment $(i, j)$ for student test set ($I_{test} = I_i$) and question validation set ($Q_{val} = Q_j$).}
 \label{crossval}
 \end{figure}
--->
 
-## Jeux de données et modèles
+## Jeux de données
 
 For our experiments, we used two real datasets.
 
-**ECPE.** This student dataset is a $2922 \times 28$ binary matrix representing the results of 2922 learners over 28 questions. The corresponding q-matrix has only 3 skills: morphosyntactic rules, cohesive rules, lexical rules.
+### SAT
 
-**Fraction.** This student dataset is a $536 \times 20$ binary matrix representing the results of 536 learners over 20 questions. The corresponding q-matrix has 8 skills.
+Le SAT est un test standardisé aux États-Unis. Il est multidisciplinaire : mathématiques, biologie, histoire et français. Dans ce jeu de données, 296 apprenants ont répondu à 40 questions. Ce jeu a été étudié par @Winters2005 et @Desmarais2011 pour déterminer une q-matrice automatiquement via factorisation de matrices positives.
 
-Models considered are the Rasch model, the DINA model with an expert-specified q-matrix and the GenMA model with the same q-matrix. For the fraction matrix, we compared two occurrences of the GenMA model, one with the original expert q-matrix, the other one with another one which was computed using sparse PCA. The results are given in Figure \ref{curves}.
+### ECPE
+
+Il s'agit d'une matrice $2922 \times 28$ représentant les résultats de 2922 apprenants sur 28 questions d'anglais de l'examen ECPE (Examination for the Certificate of Proficiency in English). Ce test standardisé cherche à mesurer trois attributs, c'est pourquoi la q-matrice correspondante a 3 CC : règles morphosyntaxiques, règles cohésives, règles lexicales.
+
+À titre d'exemple, les paramètres d'inattention et de chance ont été répertoriés Figure~\ref{ecpe-guess}.
+
+### Fraction
+
+Ce jeu de données regroupe les résultats de 536 collégiens sur 20 questions de soustraction de fractions. Les items et la q-matrice correspondante sont décrits dans @DeCarlo2010.
+
+### TIMSS
+
+Le TIMSS (Trends in International Mathematics and Science Study) effectue un test standardisé de mathématiques. Les données sont librement disponibles sur leur site pour les chercheurs. En l'occurrence, ce jeu de données provient de l'édition 2003 du TIMSS. C'est une matrice binaire de taille $757 \times 23$ qui regroupe les résultats de 757 apprenants du grade 8 sur 23 questions de mathématiques. La q-matrice a été définie par des experts du TIMSS et comporte 13 CC sur les 15 décrites dans @Su2013 : toutes sauf la 10\ieme{} et la 12\ieme.\bigskip
+
+### Castor
+
+Le Castor est un concours d'informatique où les candidats, collégiens ou lycéens, doivent résoudre des problèmes d'algorithmique déguisés au moyen d'interfaces. Le jeu de données provient de l'édition 2013, où 58 939 élèves de 6\ieme{} et 5\ieme{} ont dû résoudre 17 problèmes. La matrice est encore dichotomique, c'est-à-dire que son entrée $(i, j)$ vaut 1 si l'apprenant $i$ a eu le score parfait sur la question $j$, 0 sinon.
 
 <!--
 \begin{figure}
@@ -180,7 +233,7 @@ Models considered are the Rasch model, the DINA model with an expert-specified q
 
 \begin{table}
 $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
-\multicolumn{3}{c|}{\textnormal{q-matrix}} & \textnormal{guess} & \textnormal{slip} & \textnormal{success rate}\\
+\multicolumn{3}{c|}{\textnormal{q-matrix}} & \textnormal{chance} & \textnormal{inattention} & \textnormal{taux de succès}\\
 \hline
 1 & 1 & 0 & 0.705 & 0.085 & 80 \%\\
 0 & 1 & 0 & 0.724 & 0.101 & 83 \%\\
@@ -212,8 +265,22 @@ $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
 0 & 0 & 1 & 0.659 & 0.086 & 81 \%\\
 \end{array} $$
 \caption{The q-matrix used for the ECPE dataset, together with the guess and slip parameters, and the success rate for each question. In bold, the highest guess value.}
-\label{guess}
+\label{ecpe-guess}
 \end{table}
+
+## Modèles et détails d'implémentation
+
+Le code est en Python, et fait appel à des fonctions en R au moyen du package RPy2.
+
+### Rasch
+
+Nous nous sommes basés sur les packages ``ltm`` et ``catR``.
+
+### DINA
+
+C'est ``CDM`` qui détermine à partir d'une q-matrice et d'une population, les meilleurs paramètres d'inattention et de chance.
+
+Afin d'accélérer la procédure d'entraînement parfois coûteuse, nous utilisons le compilateur à la volée ``pypy``.
 
 # Résultats
 
@@ -234,35 +301,43 @@ La complexité est calculée selon plusieurs paramètres :
 - le nombre de CC $K$ ;
 - le nombre de valeurs non nulles de la q-matrice $|Q|$.
 
-Par exemple, pour le modèle DINA, le choix de la question suivante coûte $O(K 2^K N_Q)$ opérations. La phase d'entraînement de DINA a une complexité $O(|I_{train}| N_Q^2 K 2^K)$ tandis que la phase de test $O(|I_{test}| |Q \setminus Q_{val}|^2 K 2^K)$.
+Par exemple, pour le modèle DINA, le choix de la question suivante coûte $O(K 2^K N_Q)$ opérations. La phase d'entraînement de DINA a une complexité $O(|I_{train}| N_Q^2 K 2^K)$ tandis que la phase de test $O(|I_{test}| \cdot |Q \setminus Q_{val}|^2 K 2^K)$.
 
 ## Évaluation quantitative
 
 \begin{figure}
 \centering
 \caption{Évolution pour le dataset Castor}
-\includegraphics{figures/comp-castor}
+\includegraphics[width=\linewidth]{figures/comp-castor}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics{figures/comp-fraction}
+\includegraphics[width=\linewidth]{figures/comp-fraction}
 \caption{Évolution pour le dataset Fraction}
 \end{figure}
 
+## Vitesse
+
+\begin{table}[H]
+\centering\begin{tabular}{@{}c|cc@{}}
+& Train phase & Test phase\\
+\hline
+IRT & 1 min 49 s & 4 min 20 s\\%0.499 $\pm$ 0.024 & 0.469 $\pm$ 0.020 & 0.446 $\pm$ 0.015\\
+Q $K = 1$ & 2 min 32 s & 7 s\\
+Q $K = 2$ & 5 min 24 s & 14 s\\
+Q $K = 3$ & 10 min 57 s & 25 s\\ %0.517 $\pm$ 0.016 & 0.470 $\pm$ 0.012 & 0.444 $\pm$ 0.012\\
+Q $K = 4$ & 23 min 29 s & 49 s\\ %0.494 $\pm$ 0.015 & 0.459 $\pm$ 0.011 & 0.417 $\pm$ 0.011\\
+Q $K = 5$ & 48 min 42 s & 1 min 35 s\\ %\textbf{0.474 $\pm$ 0.014} & 0.433 $\pm$ 0.011 & 0.415 $\pm$ 0.011\\
+Q $K = 6$ & 1 h 45 min 3 s & 3 min 14 s %0.482 $\pm$ 0.015 & \textbf{0.425 $\pm$ 0.012} & \textbf{0.403 $\pm$ 0.011}\\
+\end{tabular}
+\caption{Process time of train and test phases for each algorithm, over all dataset.}
+\label{tab:time}
+\end{table}
+
 ## Discussion
 
-In all experiments, the hybrid model GenMA with the expert q-matrix performs the best. For example, in the Fraction dataset, 4 questions over 15 are enough to provide a feedback that predicts correctly 4 questions over 5 in average in the validation set. As an example, after 4 questions, the predicted performance over the validation question set of one of the test students is $[0.617, 0.123, 0.418, 0.127, 0.120]$ while his true performance is $[1, 0, 1, 0, 0]$, thereby yielding a mean error of 0.350.
-
-In the ECPE dataset, DINA and Rasch have similar predictive power, which is quite surprising given that Rasch does not require any domain knowledge. It may be because in this dataset, there are only 3 skills, thus the number of possible states for a learner is $2^3 = 8$, for many possible response patterns ($2^{28}$). Consequently, the estimated guess and slip parameters are really high (see Table \ref{guess}), which explains why the information gained at each question is low. Indeed, the item which requires KC 2 and 3 is really easy to solve (88% success rate), even easier than items that require only KC 2 or only KC 3, thus the only way for the DINA model to express this behavior is to boost the guess parameter. On the contrary, GenMA calibrates one difficulty value per knowledge component thus it is a more expressive model. The same reason may explain why the mean error of GenMA converges after 11 questions: this 3-dimensional model may not be rich enough to comprehend the dataset, while in the Fraction dataset, the 8-dimensional GenMA model learns after every question.
-
-In the Fraction dataset, we want to identify the latent state of the learner over $2^8$ possible states, asking questions over few KCs at each step. This may explain why DINA requires several questions in order to converge. Rasch and GenMA-expert have similar predictive power in the early questions, but at least GenMA-expert can provide useful feedback while Rasch cannot. The automatically-devised q-matrix used in GenMA-auto has lower predictive power, therefore for this dataset, Rasch provides a better adaptive assessment model than a q-matrix that is computed automatically (DINA or GenMA-auto), the three of them being able to provide explicable feedback.
-
-\paragraph{Adaptive pretest at the beginning of a course} At the beginning of a course, we have to fully explore the knowledge of the learner, in order to identify his static latent knowledge using as few questions as possible. This is a cold-start problem, where we have to identify whether the learner holds the prerequisites of the course, and possibly his weak and strong points. If a dependency graph is available, we suggest to use Doignon and Falmagne's adaptive assessment model (see Section \ref{knowledge-space}). If a q-matrix is available, we suggest to use the GenMA model (see Section \ref{genma}). Otherwise, the Rasch model provides a way to at least measure the level of the learner.
-
-\paragraph{Adaptive test at the middle of a course} Learners are interested in having a look at the tasks they are expected to be able to solve in the final test, in the form of a self-assessment that "does not count". There are several scenarios to consider. If learners have access to the course while taking this low-stake test, an adaptive assessment should take into account the fact that the level of the learner may change while he is taking the test, for example because he is checking the course lessons of the course during the test. Therefore, models measuring the progress of the learner (such as @Clement2015 mentioned in Section \ref{bandits}) are of interest. As a recall, they require either a dependency graph or a q-matrix. If learners do not check the course content while taking the test, for example because they have limited time, the GenMA model can ask them few questions and provide feedback, under the condition that a q-matrix is available.
-
-\paragraph{Adaptive test at the end of a course} A high-stake at the end of the course might rely on the usual adaptive assessment strategies in item response theory, in order to measure examinees effectively and give them a mark. On this last examination, we assume that feedback is not so useful.
+Selon le jeu de données, le meilleur modèle n'est pas le même.
 
 # Conclusion
 

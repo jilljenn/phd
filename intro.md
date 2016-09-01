@@ -25,7 +25,10 @@ En filtrage collaboratif, on imagine que l'on dispose d'utilisateurs ayant noté
 
 L'historique d'un test peut être représenté par une matrice $M = (m_{ui})$ où l'élément $m_{ui}$ représente 1 si l'apprenant $u$ a réussi la question $i$, 0 sinon. Administrer un test adaptatif à un nouvel apprenant revient à ajouter une ligne dans la matrice et choisir les composantes à révéler (les questions à poser) de façon à inférer les composantes restantes.
 
-![Un exemple de problème de filtrage collaboratif appliqué à la complétion de matrice.](figures/cf.jpg)
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/cf.jpg}
+\caption{Un exemple de problème de filtrage collaboratif appliqué à la complétion de matrice.}
+\end{figure}
 
 On peut citer de nombreuses différences : les connaissances évoluent plus vite que les goûts ; il y aura toujours des discordes entre les goûts et les couleurs, tandis que tout le monde peut passer d'un état où il ne répond pas correctement partout à un état où il répond correctement partout.
 
@@ -57,12 +60,26 @@ Afin de montrer ce qu'il est possible de faire à partir des données d'un véri
 
 # Publications
 
-- Conférence à LATINCRYPT 2012 @Abdalla2012
-- Poster à EDM 2015 @Vie2015
-- Workshop à EAEI 2015 @Vie2015b
-- Conférence à EC-TEL 2016 @Vie2016
-- Chapitre de journal Springer 2016 @Vie2016b
-- Revue STICEF 2016 @Vie2016c
-- Livre @Durr2016
+### Poster à EDM 2015
 
-\nocite{Vie2015, Vie2015b, Vie2016, Vie2016b, Vie2016c, Durr2016}
+\fullcite{Vie2015}
+
+### Workshop à EAEI 2015
+
+\fullcite{Vie2015b}
+
+### Conférence à EC-TEL 2016
+
+\fullcite{Vie2016}
+
+### Chapitre de journal Springer 2016
+
+\fullcite{Vie2016b}
+
+### Revue STICEF 2016
+
+\fullcite{Vie2016c}
+
+### Livre
+
+\fullcite{Durr2016}

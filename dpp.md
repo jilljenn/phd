@@ -68,28 +68,42 @@ Ainsi, nos éléments à tirer sont les questions qui sont des vecteurs de dimen
 
 L'algorithme de tirage est tiré de [@Kulesza2012].
 
+![Échantillonnage de $k$ vecteurs selon un PPD.](figures/k-dpp)
+
 # Validation
 
 ## Protocole
 
-À partir des données des apprenants, nous comparons 3 stratégies de sélection des $k$ premières questions à poser, étant donné un modèle de tests adaptatifs MIRT (ou GenMA) :
+À partir des données des apprenants, nous comparons quatre stratégies de sélection des $k$ premières questions à poser, étant donné un modèle de tests adaptatifs MIRT (ou GenMA) :
 
-- random
-- information de Fisher proche de 0,5
-- PPD
-- sélection adaptative de type CAT
+Aléatoire
+
+:   Les questions sont choisies au hasard.
+
+Information de Fisher proche de 0,5
+
+:   On suppose que l'apprenant est du niveau moyen de l'historique et on choisit $k$ questions de probabilité estimée proche de 0,5.
+
+PPD
+
+:   L'algorithme présenté à la section précédente.
+
+Sélection adaptative de type CAT
+
+:   On suppose que les questions sont sélectionnées comme dans un test adaptatif habituel.
 
 La méthode est similaire à la méthode de double validation croisée présentée dans un chapitre antérieur. Nous séparons les apprenants en deux ensembles d'entraînement et de test (80 % et 20 %) et calibrons le modèle MIRT (ou GenMA) avec les apprenants d'entraînement. Puis, pour chaque apprenant de test, nous choisissons $k$ premières questions à poser, récoltons ses réponses et estimons son vecteur de compétence.
 
 Les valeurs que nous mesurons, pour différentes valeurs du nombre de questions $k$ :
 
 - quelle est la performance des prédictions qui découlent de ce premier groupe de questions ;
-- quelle est la différence entre le paramètre estimé à partir de $k$ questions et le paramètre estimé lorsqu'on a posé toutes les questions.
+- quelle est la différence entre le paramètre estimé à partir de $k$ questions et le paramètre estimé lorsqu'on a posé toutes les questions (c'est ce que fait @Lan2014).
 
 Pour le jeu de données Fraction, grâce à la q-matrice et au modèle GenMA nous obtenons une représentation distribuée des questions de dimension 8, que nous utilisons pour calculer la matrice de similarité et échantillonner les questions.
 
 ## Résultats
 
+\begin{table}
 \begin{tabular}{cc}
 Dataset & Fraction\\
 \hline
@@ -98,10 +112,12 @@ PPD & $0.359 \pm 0.032$\\
 CAT & $0.416 \pm 0.044$\\
 \hline
 \end{tabular}
+\caption{Erreur sur l'ensemble de validation.}
+\end{table}
 
 PPD aboutit à une erreur plus faible. Dans cette expérience, 5 questions ont été posées.
 
-CAT réalise une erreur plus grande, ce qui veut dire que l'estimateur du test adaptatif est parti dans une mauvaise direction.
+CAT réalise une erreur plus grande, ce qui veut dire que l'estimateur du test adaptatif est biaisé.
 
 ## Discussion et applications
 
@@ -113,4 +129,12 @@ Bien sûr cette méthode est plus adaptée à des vecteurs de grande dimension. 
 
 La méthode proposée dans ce chapitre ne cherche pas à déterminer le meilleur ensemble de questions à poser selon une certaine métrique, mais un bon ensemble aléatoire. Ajouter de l'aléa dans cette technique présente plusieurs avantages : les premières questions posées à chaque candidat ne sont pas les mêmes. Si cela constitue une surcharge supplémentaire lorsqu'on doit corriger manuellement les exercices des apprenants, en revanche lorsqu'ils sont administrés automatiquement sur une plateforme, cela permet d'éviter un comportement de triche, ou tout simplement de trop utiliser les mêmes exercices de sa banque.
 
-Que faire lorsqu'on a une nouvelle question sur un test ? Il faudrait, de façon similaire, la poser à des apprenants qui ont des niveaux disjoints. C'est l'approche qu'adopte @Anava2015 dans un contexte de filtrage collaboratif.
+### Génération de testlets
+
+Le test préalable peut être également appliqué à la génération d'une planche d'exercices \og diversifiée \fg{} étant donné un historique de réponses.
+
+### Démarrage à froid de question
+
+Cette méthode pourrait être appliquée au problème de démarrage à froid de la question : lorsqu'une nouvelle question est ajoutée à un test existant, on ne dispose d'aucune information concernant son niveau. Une méthode consiste à, de façon similaire, la poser à des apprenants qui ont des niveaux disjoints. C'est l'approche qu'adopte @Anava2015 dans un contexte de filtrage collaboratif. On peut imaginer sur un MOOC repérer le nombre de personnes actuellement connectées et échantillonner auxquelles il faut poser la question[^1].
+
+ [^1]: Ça ressemble un peu à de la publicité ciblée, sauf qu'on ne connaît aucune information personnelle sur les apprenants.

@@ -14,7 +14,9 @@ $$ M \simeq \Phi(\Theta D^T) $$
 
 Le principe est de représenter apprenants et questions de façon que pour un apprenant fixé, des questions ayant des vecteurs proches induisent des motifs de réponse proches, tandis que des utilisateurs proches induisent des motifs de réponse proches. On parle de représentation distribuée.
 
-On cherche ainsi à extraire $d$ variables cachées expliquant les motifs de réponse. 
+On cherche ainsi à extraire $d$ variables cachées expliquant les motifs de réponse.
+
+On peut tenter d'interpréter les dimensions. Le modèle est log-linéaire, donc les poids des vecteurs des apprenants permettent de déterminer à quel point ils sont corrélés aux vecteurs de questions.
 
 # Modèles descriptifs non interprétables
 
@@ -28,7 +30,7 @@ L'analyse de composantes principales est une méthode descriptive qui consiste �
 
 ## Analyse de facteurs
 
-Une approche plus robuste au bruit est de faire une analyse de facteurs. Les composantes ne sont alors plus orthogonales mais plus interprétables.
+Une approche plus robuste au bruit est de faire une analyse de facteurs. Les composantes ne sont alors plus orthogonales, la décomposition n'est plus unique, mais il est plus facile de les interpréter.
 
 ## Régression logistique
 
@@ -43,6 +45,8 @@ Lien avec le score Elo.
 Le modèle de la régression logistique est utilisé pour la prédiction de variables dichotomiques (vrai ou faux). Il estime un paramètre $\theta \in \R^d$ tel que $\Phi(X\theta) = y$.
 
 Ainsi, à partir d'un plongement des questions dans $\R^d$, le problème revient à estimer le vecteur $\theta$ du candidat en fonction des réponses binaires aux questions qu'on lui a posées. C'est le modèle MIRT, qui justement cherche à trouver une représentation non supervisée $\Phi(\Theta V) = M$ où $M$ est la matrice binaire des résultats des apprenants à un test.
+
+Il est apprécié pour sa propriété de généralisation à partir de peu de données.
 
 ## Extraction de q-matrice via factorisation de matrices positives
 

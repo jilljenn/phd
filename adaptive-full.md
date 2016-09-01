@@ -59,7 +59,7 @@ The most simple model for adaptive testing is the Rasch model, also known as 1-p
 
 $$ Pr(\textnormal{``learner $i$ answers item $j$''}) = \Phi(\theta_i - d_j) $$
 
-where $\Phi : x \mapsto 1 / (1 + e^{-x})$ is the so-called logistic function.
+where $\Phi : x \mapsto 1 / (1 + e^{-x})$ is the so-called logistic function.\nomenclature{$\Phi$}{fonction logistique}
 
 <!-- \begin{figure}
 \includegraphics[width=\linewidth]{figures/irt}
@@ -96,7 +96,7 @@ In adaptive testing though, we do not observe all student responses but only the
 
 \label{mirt}
 
-It is natural to extend the Rasch model to multidimensional abilities. In Multidimensional Item Response Theory (MIRT) [@Reckase2009], both learners and items are modelled by vectors of a certain dimension $d$, and the tendency for a learner to solve an item depends only on the dot product of those vectors. Thus, a learner has greater chance to solve items correlated with its ability vector, and asking a question brings information in the direction of its item vector.
+It is natural to extend the Rasch model to multidimensional abilities. In Multidimensional Item Response Theory (MIRT) [@Reckase2009], both learners and items are modelled by vectors of a certain dimension $d$, and the tendency for a learner to solve an item depends only on the dot product of those vectors. Thus, a learner has greater chance to solve items correlated with its ability vector, and asking a question brings information in the direction of its item vector.\nomenclature{TRIM}{théorie de la réponse à l'item multidimensionnelle}
 
 \def\R{\textbf{R}}
 
@@ -190,6 +190,17 @@ Therefore, in order to converge quickly into the true latent state, the best ite
 $$ D_{KL}(P||Q) = \sum_i P(i) \log \frac{P(i)}{Q(i)}. $$
 
 As @Chang2014 states, "A survey conducted in Zhengzhou found that CD-CAT encourages critical thinking, making students more independent in problem solving, and offers easy to follow individualized remedy, making learning more interesting."
+
+As the distribution over skills is on a finite support, we can maintain at each step the whole probability distribution $\pi$ over the possible skill vectors, initialized at some prior distribution inferred during the train phase.
+Knowing the student answer to a certain question $i$, the update of $\pi_i$ is done according to Bayes' rule. Let $x$ be a skill vector, $s_i$ and $g_i$ the slip and guess parameters of the question $i$ and $a_i$ be 1 if the answer was correct, 0 otherwise. If the skills associated to $x$ are sufficient to answer the question correctly,
+
+$$ \pi_{i+1}(x) = \pi_i(x) \cdot [a_i \cdot(1-s_i) + (1-a_i)\cdot s_i] $$
+
+otherwise
+
+$$ \pi_{i+1}(x) = \pi_i(x) \cdot [a_i \cdot g_i + (1-a_i)\cdot(1-g_i)]. $$
+
+En effet : si $x$ a bien les compétences requises, il peut soit donner la bonne réponse en ne faisant pas d'erreur d'inattention (résultat $a_i = 1$ avec probabilité $1 - s_i$), soit faire une erreur d'inattention (résultat $a_i = 0$ avec probabilité $s_i$).
 
 Maintaining the probability distribution over the $2^K$ states may be intractable for large values of $K$, therefore $K \leq 10$ in practice [@Su2013]. It is possible to reduce the complexity by assuming prerequisites between KCs: if the mastery of some KC implies the mastery of another KC, the number of possible states decreases and so does the complexity. This approach is called the Attribute Hierarchy Model [@Leighton2004], and has allowed more accurate knowledge representations that fit the data better [@Rupp2012].
 
