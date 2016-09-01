@@ -2,7 +2,7 @@
 
 ## Calibrage à partir d'un historique
 
-Pour fonctionner, un test adaptatif nécessite un historique de réponses d'une population $U$ d'apprenants face à des questions d'un ensemble $I$, sous la forme d'une matrice $U \times I$ dont l'élément $m_{ui}$ vaut 1 si l'apprenant $u$ a répondu correctement à la question $i$, 0 sinon. Il essaie ensuite de positionner un nouvel apprenant par rapport à la population donnée en historique.
+Pour fonctionner, certains modèles de test adaptatif nécessitent un historique de réponses d'une population $U$ d'apprenants face à des questions d'un ensemble $I$, sous la forme d'une matrice $U \times I$ dont l'élément $m_{ui}$ vaut 1 si l'apprenant $u$ a répondu correctement à la question $i$, 0 sinon. Ils essaient ensuite de positionner un nouvel apprenant par rapport à la population donnée en historique.
 
 ## Choix de la question initiale
 
@@ -15,6 +15,10 @@ Au début d'un test adaptatif, le système n'a aucune information sur l'apprenan
 ## Modèle de la probabilité de répondre correctement à chaque question
 
 Les choix que font le système et la calibration des paramètres dépendent du modèle de probabilité de réponse d'un apprenant sur une question.
+
+## Nature du retour fait à la fin du test
+
+Selon le modèle, l'apprenant obtient à la fin du test un retour qui sera utile ou non pour s'améliorer. Par exemple le modèle de Rasch renvoie une information de niveau tandis que le modèle DINA indique la probabilité que le candidat maîtrise chacune des CC.
 
 <!-- # Bornes théoriques de problèmes similaires
 
@@ -62,6 +66,10 @@ Notre comparaison de modèles a deux aspects : qualitatifs en termes d'interpré
 
 Plusieurs aspects font qu'on peut préférer un modèle de test adaptatif plutôt qu'un autre. Par exemple, la mise en œuvre d'un modèle de test peut requérir la construction d'une q-matrice, ce qui peut être coûteux si l'on a plusieurs milliers de questions à apparier avec une dizaine de composantes de connaissance.
 
+Multidimensionalité
+
+:   Est-ce que le modèle mesure une ou plusieurs dimensions ?
+
 Interprétabilité
 
 :   Ce facteur distingue un modèle qui renvoie une simple valeur de niveau à l'apprenant d'un modèle qui fait un retour utile à l'apprenant (*feedback*) afin qu'il puisse s'améliorer. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible de nommer les lacunes de l'apprenant soulignées par le test.
@@ -70,7 +78,25 @@ Explicabilité
 
 :   Un modèle explicable est capable de décrire le processus qui l'a fait aboutir à son diagnostic. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Il est en effet possible d'avoir un modèle de test interprétable non explicable : par exemple, un modèle qui ne poserait que des questions de mathématiques à un apprenant et lui suggérerait à la fin de retravailler la conjugaison, pourrait être pertinent, mais ne serait pas capable de l'expliquer, les raisons étant plus profondes, par exemple parce que le modèle aurait capturé que les questions de mathématiques non résolues correctement comportaient du subjonctif imparfait.
 
+Besoin d'un historique
+
+:   Est-ce que le modèle a besoin d'un historique d'apprenants pour fonctionner ?
+
 ## Évaluation quantitative
+
+Complexité
+
+:   Quel est la complexité en temps et mémoire de ce modèle ?
+
+Rapidité de convergence vers un diagnostic
+
+:   C'est une façon de mesurer à quel point le test a été réduit grâce au modèle.
+
+Pouvoir prédictif
+
+:   Est-ce que le diagnostic permet effectivement d'expliquer les résultats qu'on aurait obtenu si on avait continué le test ?
+
+## Implémentation
 
 Les modèles testés implémentent les routines suivantes :
 
@@ -190,6 +216,27 @@ $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
 \end{table}
 
 # Résultats
+
+## Évaluation qualitative
+
+Rasch
+
+:   Le modèle de Rasch est unidimensionnel, n'a pas besoin de q-matrice pour fonctionner, fait un retour à l'apprenant sous la forme d'une valeur de niveau. Cela permet à l'apprenant de se situer au sein des autres apprenants mais pas de comprendre les points du cours qu'il doit approfondir. Les paramètres estimés peuvent être interprétés comme des valeurs de niveau pour les apprenants et de difficulté pour les questions, mais peuvent correspondre à des erreurs d'énoncé. Aussi, afin de calibrer les paramètres de difficulté des questions et de niveau des apprenants, le modèle de Rasch a besoin de données d'entraînement.
+
+DINA
+
+:   Le modèle DINA est multidimensionnel, requiert une q-matrice, fait un retour à l'apprenant sous la forme d'une probabilité de maîtriser chacune des composantes de connaissance. Ainsi, l'apprenant peut se situer vis-à-vis des objectifs du cours. Les paramètres estimés sont les probabilités de répondre correctement aux questions alors qu'on ne maîtrise pas les CC, et inversement. Grâce à la q-matrice, on peut interpréter les différentes dimensions, et les déductions sont faites de façon bayésienne, donc explicables. Si la q-matrice est mal définie, des valeurs aberrantes apparaîtront pour les paramètres d'inattention et de chance. Le modèle DINA peut fonctionner sans historique, en supposant un a priori uniforme.
+
+La complexité est calculée selon plusieurs paramètres :
+
+- le nombre d'apprenants $N_A$ ;
+- le nombre de questions $N_Q$ ;
+- le nombre de CC $K$ ;
+- le nombre de valeurs non nulles de la q-matrice $|Q|$.
+
+Par exemple, pour le modèle DINA, le choix de la question suivante coûte $O(K 2^K N_Q)$ opérations. La phase d'entraînement de DINA a une complexité $O(|I_{train}| N_Q^2 K 2^K)$ tandis que la phase de test $O(|I_{test}| |Q \setminus Q_{val}|^2 K 2^K)$.
+
+## Évaluation quantitative
 
 \begin{figure}
 \centering

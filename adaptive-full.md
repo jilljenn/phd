@@ -1,11 +1,3 @@
-% A review of recent advances in adaptive testing
-% Jill-Jênn Vie \and Fabrice Popineau \and Éric Bruillard \and Yolaine Bourda
-% June 10, 2016
-
-<!-- \keywords{Latent knowledge extraction; item response theory; q-matrix; cognitive diagnosis models; adaptive testing; knowledge space theory} -->
-
-\label{state of the art}
-
 # Introduction
 
 Today, assessments are often automatized, making it possible to store and analyze student data in order to provide more accurate and shorter assessments for future learners. The learning analytics process consists in collecting data about learners, discovering hidden patterns that can help provide a more effective learning experience, and constantly refining models using new data [@Chatti2012]. In terms of adaptive testing, learning analytics have certain, well-defined objectives: improve the efficiency and effectiveness of the learning process, and tell learners what to do next by adaptively organizing instructional activities [@Chatti2012]. Reducing the length of tests is even more needed as students are today overtested [@Zernike2015], thus leaving fewer time for instruction.
@@ -16,7 +8,7 @@ Traditionally, models used for adaptive testing (such as the ones encountered in
 
 This chapter is organized as follows. First, we mention the learning analytics methods that will be used in the chapter, then we describe the models used for adaptive testings found in diverse fields ranging from psychometrics to machine learning, and their limitations. Later, we present an experimental protocol to compare adaptive testing strategies for predicting student performance, and our results. Finally, we highlight which models suit which use cases, describe what could be the future of assessment, and eventually draw our conclusions.
 
-# Learning Analytics
+# Analytique de l'apprentissage
 
 In the possible objectives of learning analytics (LA), @Chatti2012 describe the need for intelligent feedback in assessment, and the problem of choosing the next activity to present to the learner. To address these needs, they highlighted the following classes of methods: statistics, information visualization (IV), data mining (DM) and social network analysis (SNA).\nomenclature{LA}{learning analytics}
 
@@ -32,7 +24,7 @@ Recommender systems, that aggregate data about users in order to recommend relev
 
 Response time within assessment has been studied in cognitive psychology, because the amount time a person needs to answer an item is believed to indicate some aspects about the cognitive process. It requires sophisticated statistical models [@Chang2014] that we did not consider in this chapter.
 
-# Adaptive Testing Models
+# Modèles de tests adaptatifs
 
 In our case, we want to filter the questions to ask to a learner. Instead of asking the same questions to everyone, the so-called computer adaptive tests (CAT) [@VDL2010] select the next question to ask according to the previous answers, thus allowing adaptivity at each step. Their design relies on two criteria: a *termination criterion*, and a *next item criterion*. While the termination criterion is not satisfied (such as asking a certain number of questions), questions are asked according to the next item criterion (such as asking questions which bring the most information about the learner's ability or knowledge). @Lan2014 have proven that such adaptive tests could achieve same prediction accuracy using fewer questions than non-adaptive tests.
 
@@ -42,7 +34,26 @@ CATs have been extensively studied over the past years and put into practice. As
 
 According to the purpose of the assessment, several models are available, whether we want to estimate a general level of proficiency, provide diagnostic information, or characterize knowledge [@Mislevy2012]. In what follows, we describe those models under the following categories: item response theory for summative assessment, cognitive models for formative assessment, more complex knowledge structures, exploration and exploitation trade-off and multistage testing.
 
-## Psychometrics: Measuring Proficiency using Item Response Theory
+## Modèle de Rasch
+
+L'enjeu en théorie de la réponse à l'item est d'identifier ce que les réponses à un test disent sur des facteurs cachés.
+
+    We ask question 42 to the examinee.
+    Correct!
+    We ask question 48 to the examinee.
+    Correct!
+    We ask question 82 to the examinee.
+    Incorrect.
+    We ask question 53 to the examinee.
+    Correct!
+    We ask question 78 to the examinee.
+    Incorrect.
+    We ask question 56 to the examinee.
+    Correct!
+    We ask question 76 to the examinee.
+    Incorrect.
+    We ask question 58 to the examinee.
+    Incorrect.
 
 The most simple model for adaptive testing is the Rasch model, also known as 1-parameter logistic model, thus falling into the DM category of LA. It models the behavior of a learner with a single latent trait called ability, and the items or tasks with a single parameter called difficulty. The tendency for a learner to solve a task only depends on the difference between the difficulty and the ability. Thus, if a learner $i$ has ability $\theta_i$ and wants to solve an item $j$ of difficulty $d_j$:
 
@@ -51,7 +62,7 @@ $$ Pr(\textnormal{``learner $i$ answers item $j$''}) = \Phi(\theta_i - d_j) $$
 where $\Phi : x \mapsto 1 / (1 + e^{-x})$ is the so-called logistic function.
 
 <!-- \begin{figure}
-\includegraphics[width=\linewidth]{difficulty.png}
+\includegraphics[width=\linewidth]{figures/irt}
 \caption{Item response curves for various values of the difficulty parameter $d$ of the Rasch model.}
 \end{figure} -->
 
@@ -65,27 +76,23 @@ where $X_j$ is the binary outcome of the learner $i$ over the item $j$ and $f(X_
 
 Therefore, an adaptive testing can be designed the following way: given the learner's current ability estimate, pick the question that brings the most information over the ability, update the estimate according to the outcome (right or wrong), and so on. At the end of the test, one can visualize the whole process like in Figure \ref{irt}. As we can see, the confidence interval over the ability estimate is refined after each outcome.
 
-<!--
 \begin{figure}
-\includegraphics[width=\linewidth]{irt.pdf}
+\includegraphics[width=\linewidth]{figures/irt.pdf}
 \caption{Evolution of the ability estimate throughout an adaptive test based on the Rasch model.}
 \label{irt}
 \end{figure}
--->
 
 Being a unidimensional model, the Rasch model is not suitable for cognitive diagnosis. Still, it is really popular because of its simplicity, its stability and its sound mathematical framework [@Desmarais2012; @Bergner2012]. Also, @Verhelst2012 has showed that if the items are splitted into categories, it is possible to provide to the examinee a useful deviation profile, specifying which category subscores were lower or higher than expected. More precisely, if we consider that in each category, an answer gives one point if correct, no point otherwise, we can compute the number of points obtained by the learner in each category (the subscores), which sum up to his total score. Given the Rasch model only, it is possible to compute the expected subscore of each category, given the total score. Finally, the deviation profile, defined as the difference between the observed and expected subscores, provides a nice visualization of the categories that need further work, see Figure \ref{deviation}. Such deviation profiles can be aggregated in order to highlight the strong and weak points of the students at the level of a country, witnessing a possible deficiency in the national curriculum. Studies of international assessments, such as the Trends in International Mathematics and Science Study (TIMSS), allow for worldwide comparisons. An example is given over the TIMSS 2011 dataset of proficiency in mathematics, see Figure \ref{deviation}, highlighting the fact that Romania is stronger in Algebra than expected, while Norway is weaker in Algebra than expected. This belongs to the information visualization class of learning analytics methods, and shows what can be done using the most simple psychometric model and the student data only.
 
 In adaptive testing though, we do not observe all student responses but only the answers to the subset of questions we asked, which may differ from a student to another. It is still possible to compute the deviation profile within this subset, but it can't be aggregated to a higher level, because of the bias induced by the adaptive process.
 
-<!--
 \begin{figure}
 \centering
-\includegraphics[width=0.5\linewidth]{profil.png}\\
-\includegraphics[width=\linewidth]{profilpays.png}
+\includegraphics[width=0.5\linewidth]{figures/profil.png}\\
+\includegraphics[width=\linewidth]{figures/profilpays.png}
 \caption{Above, the deviation profile of a single learner. Below, the deviation profile of different countries on the TIMSS 2011 math dataset, from the presentation of N.D. Verhelst. at the Psychoco 2016 conference.}
 \label{deviation}
 \end{figure}
--->
 
 \label{mirt}
 
@@ -107,7 +114,23 @@ where $M$ is the $n \times m$ student data, $\Theta$ is the $n \times r$ learner
 
 Nevertheless, those richer models involve many more parameters : if $d$ parameters are estimated for each of the $n$ learners, and $d$ parameters are estimated for each of the $m$ items. Thus, this model has proven to be much harder to calibrate [@Desmarais2012; @Lan2014].
 
-## Cognitive Diagnosis: adaptive testing with Feedback
+## Modèle DINA
+
+Les modèles de diagnostic cognitifs reposent sur une q-matrice, qui fait le lien entre les questions et les composantes de connaissance.\nomenclature{CC}{Composante de connaissance}
+
+    Round 1 -> We ask question 9 to the examinee.
+    It requires KC: [0, 1, 0, 0, 0, 0, 0, 0]
+    Correct!
+    Examinee: [0.5, 0.74, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+    Estimate: 00000101100000000000
+       Truth: 00011111111101001111
+
+    Round 2 -> We ask question 6 to the examinee.
+    It requires KC: [0, 0, 0, 0, 0, 0, 1, 0]
+    Correct!
+    Examinee: [0.5, 0.74, 0.5, 0.5, 0.5, 0.5, 0.91, 0.5]
+    Estimate: 00000101100101010000
+       Truth: 00011111111101001111
 
 Cognitive diagnosis models rely on the assumption that the resolution of learning tasks in a test can be explained by the mastery or non-mastery of some knowledge components (KC), thus allowing a transfer of evidence from one item to another. For instance, a learner that solves $1/7 + 8/9$ correctly can add and put fractions at same denominator, while a learner that solves $1/7 + 8/7$ only needs to know how to add. These cognitive models require a specification of the KCs involved in the resolution of the items proposed in the test, in the form of a binary matrix called q-matrix, which simply maps items to KCs: it is a transfer model. See Table \ref{fraction-qmatrix} for a real-world example of q-matrix.
 
@@ -155,6 +178,7 @@ Description of the knowledge components:
 \end{table}
 
 \label{dina}
+\nomenclature{DINA}{Deterministic Input, Noisy And}
 The DINA model ("deterministic input noisy and") assumes that the learner will solve a certain item $i$ with probability $1 - s_i$ if he masters every KC involved in its resolution and with probability $g_i$ otherwise. The parameter $g_i$ is called the guess parameter of item $i$, it represents the probability of guessing the right answer to item $i$ while not being able to solve it, while $s_i$ is called the slip parameter of items $i$ and represents the probability of slipping on item $i$ while mastering the correct KCs. The DINO model ("deterministic input noisy or") only requires the mastery of one KC involved in the resolution of an item in order to solve it with probability $1 - s_i$. If no KC involved is mastered, the probability of solving the item is $g_i$.
 
 The latent state of a learner is represented by a vector of $K$ bits $(c_1, \ldots, c_K)$ where $K$ is the number of KCs involved, indicating the KCs that are mastered: for each $KC$ $k$, $c_k$ is 1 if the learner masters the $k$-th KC, 0 otherwise. Each answer that the learner gives on an item brings us information about his probable latent state. @Xu2003 have used adaptive testing strategies in order to infer the latent state of the learner using few questions, coined as cognitive diagnosis computerized adaptive testing (CD-CAT). Knowing the mental state of a learner, we can infer his behavior over the remaining questions in the test, and choose questions accordingly. At each moment, the system keeps a probability distribution over the $2^K$ possible latent states and refines it after each question using the Bayes' rule. A usual measure of uncertainty is entropy:
@@ -178,38 +202,36 @@ $$ Pr(\textnormal{``learner $i$ answers item $j$''}) = \Phi\left(\beta_i + \sum_
 where $K$ is the number of KCs involved in the test, $\beta_i$ is the main ability of learner $i$, $\theta_{ik}$ its ability for KC $k$, $q_{jk}$ is the $(j,k)$ entry of the q-matrix which is 1 if KC $k$ is involved in the resolution of item $j$, 0 otherwise, $d_{jk}$ the difficulty of item $j$ over KC $k$. Please note that this model is similar to the MIRT model specified above, but the dot product is computed only on part of the components. The intuition is to consider a MIRT model where the number of dimensions is the number of KCs of the q-matrix ($d = K$). When we calibrate the feature vector of dimension $d$ of an item, only the components that correspond to KCs involved in the resolution of this item are taken into account, see Figure \ref{fig-genma}. Hence, the fact that few components are required to solve each item allows the MIRT parameter estimation to converge. @Vie2016 used it in adaptive testing under the name GenMA. Another advantage is that the ability estimate at some point in the test represents degrees of proficiency for each knowledge component. The GenMA model is therefore a hybrid model that combines the Rasch model and a cognitive model.
 \label{genma}
 
-<!--
 \begin{figure}
 \centering
-\includegraphics[width=\linewidth]{genma.pdf}
+\includegraphics[width=\linewidth]{figures/genma.pdf}
 \caption{The GenMA hybrid model, combining item response theory and a q-matrix.}
 \label{fig-genma}
 \end{figure}
--->
 
-## Competence-based Knowledge Space Theory and Applications
+De façon surprenante, le modèle DINA n'a pas besoin de données de test pour être déjà adaptatif. La q-matrice suffit à lancer des tests, où l'on suppose alors que les apprenants ont autant de chance de maîtriser une composante que de ne pas la maîtriser. À l'aide d'un historique, on peut avoir un a priori sur les composantes qu'un nouvel apprenant maîtrisera ou non.
+
+## Théorie des espaces de connaissances basés sur les compétences
 \label{knowledge-space}
 
 @Doignon2012 have developed knowledge space theory, an abstract theory that relies on a partial order between subsets of a discrete knowledge space. Formally, let us assume that there is a certain number of KCs to learn, following a dependency graph specifying which KCs needs to be mastered before learning a certain KC, see Figure \ref{dependency}. From this dependency graph, one can compute the feasible knowledge states, i.e., the KCs that are actually mastered by the learner. For example, $\{a, b\}$ is a feasible knowledge state while the singleton $\{b\}$ is not, because $a$ needs to be mastered before $b$. Thus, for this example there are 10 feasible knowledge states: $\emptyset, \{a\}, \{b\}, \{a, b\}, \{a, c\}, \{a, b, c\}, \{a, b, c, d\}, \{a, b, c, e\}, \{a, b, c, d, e\}$. An adaptive testing can then uncover the knowledge state of the examinee, in a similar fashion to the Attribute Hierarchy Model described above. Once the knowledge subset of a learner has been identified, this model can suggest to him the next knowledge components to learn in order to help him progress, through a so-called learning path, see Figure \ref{dependency}. From the knowledge state $\{a\}$, the learner can choose whether he wants to learn the KC $b$ or the KC $c$ first.
 
 @Falmagne2006 provide an adaptive test in order to guess effectively the knowledge space using entropy minimization, which is however not robust to careless errors. This model has been implemented in practice in the ALEKS system, which is said to be used by millions of users today [@Kickmeier2015; @Desmarais2012].
 
-<!--
 \begin{figure}
 \centering
-\includegraphics{knowledge-space.pdf}
+\includegraphics{figures/knowledge-space.pdf}
 \qquad
-\includegraphics[width=0.4\textwidth]{learning-path.pdf}
+\includegraphics[width=0.4\textwidth]{figures/learning-path.pdf}
 \caption{On the left, the precedence diagram for algebra problems. On the right, the corresponding learning paths.}
 \label{dependency}
 \end{figure}
--->
 
 @Lynch2014 have implemented a similar adaptive pretest at the beginning of a MOOC in order to guess what the learner already masters and help them jump directly to useful materials in the course. To address slip and guess parameters, they combine models from knowledge space theory and item response theory.
 
 There has been a tendency for more fine-grained models for adaptive testing that consider an even richer domain representation such as an ontology [@Mandin2014; @Kickmeier2015] of the domain covered by the test. However, such knowledge representations are costly to make.
 
-## Adaptive testing in recommender systems
+## Démarrage à froid en filtrage collaboratif
 
 Recommender systems can recommend new items to a user based on his preferences on other items. Two approaches are used:
 
@@ -232,25 +254,23 @@ Most collaborative filtering techniques assume the user-to-item matrix $M$ is of
 
 \paragraph{Adding external information} Some recommender systems embed additional information in their learning models such as the description of the item, or even the musical content itself in the scope of music recommendation. In order to improve prediction over the test, one could consider extracting any features from the problem statements of the items and incorporate them within the feature vector.
 
-## Adaptive strategies for exploration-exploitation tradeoff
+## Stratégies adaptatives pour le compromis exploration-exploitation
 \label{bandits}
 
 In some applications, one wants to maximize a certain objective function while asking questions. There is a tradeoff between knowing the user more by exploring the space of items and exploiting what we know in order to maximize a certain reward. @Clement2015 applied these techniques to intelligent tutoring systems: they personalize sequences of learning activities in order to uncover the knowledge components of the learner while maximizing his learning progress, as a function of the performance over the latest tasks. They use two models based on multi-armed bandits, one that relies on Vigotsky’s zone of proximal development [@Vygotsky1980] under the form of a dependency graph, the second on a q-matrix. They tested both approaches on 400 real students between 7 and 8 years old. They discovered quite surprisingly that the dependency graph performed better than the model using the expert-specified q-matrix. Their technique provided a great gain in learning for populations of students with larger variety and stronger difficulties.
 
-## Multistage testing
+## Tests à étapes multiples
 
 So far, we only considered questions asked one after another. But the first ability estimate, using only the first answer, has high bias. Thus ongoing psychometrics research tends to consider asking pools of questions at each step, allowing adaptation only once sufficient information has been gathered. This approach has been referred to as multistage testing (MST) [@Yan2014]. After the first stage of $k_1$ questions, according to his performance, the learner moves to another stage of $k_2$ questions that depend only on his performance, and so on, see Figure \ref{mst}. MST presents another advantage: the learner can revise his answers before moving to the next stage without the need of complicated models for response revision [@Han2013; @Wang2015]. In clinical trials, MST design can be viewed as a group sequential design while a CAT can be viewed as a fully sequential design. The item selection is performed automatically, but the test developers can review the assembled test forms before administration.
 
 @Wang2016 suggests to ask a group of questions at the beginning of the test, when little information about learner ability is available, and progressively reduce the number of questions of each stage in order to increase opportunities to adapt. Also, asking pools of questions allow to do content balancing at each stage instead of jumping from one knowledge component to the other after every question.
 
-<!--
 \begin{figure}
 \centering
-\includegraphics{mst.pdf}
+\includegraphics{figures/mst.pdf}
 \caption{In multistage testing, questions are asked in a group sequential design.}
 \label{mst}
 \end{figure}
--->
 
 # Limitations
 

@@ -1,4 +1,5 @@
-\documentclass[a4paper,14pt,draft]{memoir}
+%\documentclass[a4paper,12pt,draft]{report}
+\documentclass[a4paper,14pt]{memoir}
 \usepackage{geometry}
 \usepackage[french]{babel}
 \usepackage{xltxtra}
@@ -7,6 +8,9 @@
 \usepackage{biblatex}
 \usepackage[refpage]{nomencl}
 \addbibresource{biblio.bib}
+\setsecnumdepth{subsection}
+\setcounter{tocdepth}{2}
+
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -24,17 +28,11 @@
 
 \printnomenclature
 
-\setsecnumdepth{chapter}
-\setcounter{tocdepth}{0}
-
 \chapter*{Résumé}
 \input{summary}
 
-\setsecnumdepth{subsection}
-\setcounter{tocdepth}{2}
-
 \clearpage
-\tableofcontents
+\tableofcontents*
 
 \chapter{Introduction}
 \input{intro}

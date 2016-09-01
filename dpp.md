@@ -1,7 +1,3 @@
-% DPP
-% JJV
-% 13 juillet
-
 # Test à étapes multiples
 
 Une variante des tests adaptatifs consiste à poser un groupe de questions avant de choisir le suivant, et ainsi de suite, plutôt que de choisir la question suivante. Cela permet en effet d'éviter d'adapter le processus tout de suite après une information peu fiable. De plus, cela permet d'éviter de sauter d'une question à une autre qui n'a rien à voir, et permet à l'apprenant de vérifier ses réponses avant de déclencher le jeu de questions suivant.
@@ -76,7 +72,7 @@ L'algorithme de tirage est tiré de [@Kulesza2012].
 
 ## Protocole
 
-À partir des données des apprenants, nous comparons 3 stratégie de sélection des $k$ premières questions à poser, étant donné un modèle de tests adaptatifs MIRT (ou GenMA) :
+À partir des données des apprenants, nous comparons 3 stratégies de sélection des $k$ premières questions à poser, étant donné un modèle de tests adaptatifs MIRT (ou GenMA) :
 
 - random
 - information de Fisher proche de 0,5
@@ -87,8 +83,8 @@ La méthode est similaire à la méthode de double validation croisée présent�
 
 Les valeurs que nous mesurons, pour différentes valeurs du nombre de questions $k$ :
 
-- quelle est l'entropie de la distribution des vrai et des faux dans les réponses de l'apprenant ;
-- quelle est la performance des prédictions qui découlent de ce premier groupe de questions.
+- quelle est la performance des prédictions qui découlent de ce premier groupe de questions ;
+- quelle est la différence entre le paramètre estimé à partir de $k$ questions et le paramètre estimé lorsqu'on a posé toutes les questions.
 
 Pour le jeu de données Fraction, grâce à la q-matrice et au modèle GenMA nous obtenons une représentation distribuée des questions de dimension 8, que nous utilisons pour calculer la matrice de similarité et échantillonner les questions.
 
@@ -116,3 +112,5 @@ Il est possible d'incorporer des caractéristiques telles que le contenu des que
 Bien sûr cette méthode est plus adaptée à des vecteurs de grande dimension. Si le nombre de questions à poser $k$, le nombre de questions disponibles $n$ et le nombre de dimensions $d$ est assez petit, il est possible de simuler tous les choix possibles de $k$ questions parmi $n$. Toutefois, en pratique, les banques de questions sur des plateformes de MOOC seront telles qu'il faudra recourir à ce genre d'échantillonnage.
 
 La méthode proposée dans ce chapitre ne cherche pas à déterminer le meilleur ensemble de questions à poser selon une certaine métrique, mais un bon ensemble aléatoire. Ajouter de l'aléa dans cette technique présente plusieurs avantages : les premières questions posées à chaque candidat ne sont pas les mêmes. Si cela constitue une surcharge supplémentaire lorsqu'on doit corriger manuellement les exercices des apprenants, en revanche lorsqu'ils sont administrés automatiquement sur une plateforme, cela permet d'éviter un comportement de triche, ou tout simplement de trop utiliser les mêmes exercices de sa banque.
+
+Que faire lorsqu'on a une nouvelle question sur un test ? Il faudrait, de façon similaire, la poser à des apprenants qui ont des niveaux disjoints. C'est l'approche qu'adopte @Anava2015 dans un contexte de filtrage collaboratif.

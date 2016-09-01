@@ -40,11 +40,11 @@ Mais aussi comparés quantitativement sur des données réelles de tests :
 
 Cette analyse m'a permis de faire un état de l'art interdisciplinaire des modèles de tests adaptatifs récents, de concevoir une méthodologie pour étudier les modèles de tests adaptatifs et de proposer deux contributions.
 
-# GenMA, un modèle de test adaptatif faisant un retour à l'apprenant {-}
+\section*{GenMA, un modèle de test adaptatif faisant un retour à l'apprenant}
 
 Un modèle qui permet d'avoir un test adaptatif qui fait un retour à l'apprenant selon plusieurs dimensions. GenMA est meilleur que le modèle existant de diagnostic cognitif sur tous les jeux de données étudiés.
 
-# InitialD, un premier choix de questions non adaptatif {-}
+\section*{InitialD, un premier choix de questions non adaptatif}
 
 Avant de commencer le diagnostic, on peut faire un test préalable où l'on pose un groupe de questions diversifiées. J'applique un algorithme de récapitulation afin de ne conserver qu'un sous-ensemble de questions du test qui soit informatif, c'est-à-dire qui \og résume \fg{} l'ensemble des questions.
 
