@@ -1,29 +1,16 @@
-Cette thèse porte sur les tests adaptatifs dans les environnements d'apprentissage. Vous avez sûrement déjà joué au jeu \og Qui est-ce ? \fg{} où il faut localiser l'individu auquel l'adversaire pense. De toute évidence, poser la question : \og Est-ce que le personnage auquel tu penses s'appelle Bob ? \fg{} ne va pas permettre de gagner rapidement. Il vaut mieux poser des questions discriminantes, qui divisent au mieux l'espace de recherche en deux (si la moitié des candidats restants ont des lunettes, demander si la cible porte des lunettes sera utile). On retrouve de tels systèmes dans plusieurs domaines :
+Cette thèse porte sur les tests adaptatifs dans les environnements d'apprentissage. Elle s'inscrit dans les contextes de fouille de données éducatives et d'analytique de l'apprentissage, où l'on s'intéresse à utiliser les données laissées par les apprenants sur des environnements éducatifs pour optimiser l'apprentissage au sens large.
 
-- en psychométrie, dans certains tests standardisés tels que le GMAT ou le GRE ;
-- l'élicitation des préférences sur un système de recommandation ;
-- les jeux de devinette (recherche binaire généralisée) ;
-- de façon plus théorique, en apprentissage actif pour l'apprentissage statistique.
+Les tests par ordinateur sont un moyen d'évaluer les apprenants qui permet en outre de stocker facilement leurs réponses, afin de les analyser et éventuellement améliorer les tests futurs. Il est en effet possible de réduire le nombre de questions posées à un apprenant lors d'un test tout en conservant une mesure précise, en choisissant la question suivante à poser à la volée, en fonction de la performance estimée de l'apprenant jusqu'alors. Cette inspiration nous vient des tests adaptatifs standardisés (tels que le GMAT ou le GRE), largement utilisés en psychométrie. Toutefois, les modèles de tests adaptatifs traditionnels se contentent de noter les apprenants, ce qui est utile pour l'institution qui évalue, mais pas pour leur apprentissage. C'est pourquoi des modèles plus formatifs ont été proposés, s'appuyant sur des modèles cognitifs de l'apprenant, afin de pouvoir leur faire un retour utile à l'issue du test pour qu'ils puissent comprendre leurs lacunes et y remédier. On parle alors de diagnostic adaptatif.
 
-De façon surprenante, ces systèmes ne sont pas très répandus en apprentissage. Lorsqu'on évalue un apprenant, on aimerait pourtant ne poser que des questions utiles, afin d'établir un diagnostic en peu de questions. C'est d'autant plus important que les élèves sont aujourd'hui trop testés, et que pour que les apprenants sur un cours en ligne restent stimulés, il faille leur poser des questions ni trop faciles, ni trop difficiles.
+Dans cette thèse, j'ai répertorié des modèles de tests adaptatifs issus de différents domaines. Je me suis demandé comment évaluer des modèles différents sur un même jeu de données. J'ai donc proposé un protocole expérimental, que j'ai mis en place sur plusieurs jeux de données réels. Cela m'a permis de proposer un modèle hybride de diagnostic de connaissances adaptatif. Enfin, je me suis intéressé à une méthode pour poser plusieurs questions au tout début du test avant de réaliser une première estimation des connaissances de l'apprenant.
 
-La difficulté principale, c'est qu'il y a beaucoup de scénarios possibles lorsqu'un apprenant passe un test, et certains modèles de tests adaptatifs ne sont pas robustes : il suffit que l'apprenant fasse une erreur d'inattention pour que le diagnostic s'emballe. Les chercheurs en sciences sociales sont toutefois habitués à prendre avec des pincettes les réponses de leurs examinés.
-
-Cette thèse s'inscrit dans le domaine en vogue des analytiques d'apprentissage : comment s'aider des données laissées par les apprenants sur des environnements éducatifs pour optimiser l'apprentissage sous toutes ses formes ? Les problèmes que je me suis posés sont les suivants : Quel nombre minimal de questions poser à un apprenant de manière à explorer au mieux ses connaissances ? Y a-t-il un moyen de ne poser que des questions informatives afin d'éviter de la redondance ? Qu'est-ce la réponse à une question nous dit sur le comportement de l'apprenant sur les autres questions ? Dans cette thèse, j'adopte un point de vue venant de l'apprentissage statistique, plus précisément du filtrage collaboratif, pour attaquer le problème du choix des questions à poser pour réaliser un diagnostic.
-
-En filtrage collaboratif, on se demande comment s'aider d'une communauté pour avoir une idée des préférences d'un utilisateur en fonction des préférences des autres utilisateurs. Il n'est pas question ici de faire un analogue direct entre l'apprentissage et la consommation de culture, mais plutôt de s'inspirer des techniques étudiées dans cet autre domaine : il est indéniable que les plateformes de consommation de culture sont plus préparées à recevoir des milliers d'utilisateurs que les salles de classe ou même les MOOCs, en termes d'adaptation. Ainsi, les algorithmes qu'on y retrouve ne comportent pas seulement de belles propriétés statistiques mais également d'un souci de mise en pratique efficace[^1].
-
- [^1]: On n'entendra pas un développeur de Netflix dire : \og Ça marche jusqu'à la dimension 10, ensuite ce n'est pas possible. \fg{} [@Su2013].
-
-<!-- ![Les psychométriciens se situent entre les psychologues, les statisticiens et ceux qui savent programmer.](figures/psychometrie)
-
-Et de fait, il y a de multiples stratégies qui permettent d'attaquer des problèmes de haute dimension. D'abord, la parallélisation des calculs lorsqu'on fait de la réduction de dimension.
-
-Une réflexion plus personnelle est que le deep learning est une manière de concevoir un calcul de façon hiérarchique. On a des briques qui sont chacun des modèles, et on les emboîte. Pour un problème donné (traitement d'image) il faut certaines boîtes. Pour d'autres, d'autres. Ça permet d'avoir du recul, de concevoir son modèle de façon hiérarchique, et ça relève davantage de la culture. C'est pour ça qu'on parle de feature engineering.
-
-Mais le deep learning porte sur des problèmes relativement objectifs : de façon indéniable, ceci est un chat. Mais peut-on vraiment dire que de façon indéniable, cet élève maîtrise l'addition ? On fera toujours des fautes de calcul. Le a-ha facteur semble requérir une discrétisation de la pensée. -->
+J'ai souhaité adopter un point de vue venant de l'apprentissage automatique, plus précisément du filtrage collaboratif, pour attaquer le problème du choix des questions à poser pour réaliser un diagnostic. En filtrage collaboratif, on se demande comment s'aider d'une communauté active pour avoir une idée des préférences d'un utilisateur en fonction des préférences des autres utilisateurs. En évaluation adaptative, on se demande comment s'aider d'un historique de passage d'un test pour avoir une idée de la performance d'un utilisateur en fonction de la performance des autres utilisateurs. Il n'est pas question ici de faire un analogue direct entre l'apprentissage et la consommation de culture, mais plutôt de s'inspirer des techniques étudiées dans cet autre domaine : il est indéniable que les plateformes de consommation de culture sont plus préparées à recevoir des milliers d'utilisateurs que les salles de classe ou même les MOOCs, en termes d'adaptation. Ainsi, les algorithmes qu'on y retrouve ne reposent pas seulement sur une solide théorie statistique mais également d'un souci de mise en pratique efficace en grande dimension.
 
 \section*{Comparaison des modèles}
+
+Tout au long de mes recherches, j'ai supposé que les données étaient sous la forme de réponses correctes ou incorrectes des apprenants. Ce cadre très simple me permet d'analyser des données issues de différents environnements éducatifs : des tests standardisés, des plateformes de jeux sérieux ou des MOOCs.
+
+Afin de pouvoir mener mes expériences sur des données de test existantes, j'ai fait la supposition que le niveau de l'apprenant n'évolue pas pendant qu'il passe le test. Aussi je suppose que quel que soit l'ordre dans lequel je pose mes questions, il y répondra de la même façon. Les questions doivent donc être localement indépendantes. Je ne suppose aucune information sur l'apprenant, ce qui me permet de proposer des tests anonymes.
 
 J'ai identifié plusieurs modèles de tests adaptatifs et je les ai comparés selon plusieurs angles qualitatifs :
 
@@ -38,14 +25,20 @@ Mais aussi comparés quantitativement sur des données réelles de tests :
 - capacité à requérir peu de questions de l'utilisateur pour converger vers un diagnostic ;
 - capacité à avoir un diagnostic vraisemblable.
 
-Cette analyse m'a permis de faire un état de l'art interdisciplinaire des modèles de tests adaptatifs récents, de concevoir une méthodologie pour étudier les modèles de tests adaptatifs et de proposer deux contributions.
+Cette analyse m'a permis de faire un état de l'art interdisciplinaire des modèles de tests adaptatifs récents[^1] et de concevoir une méthodologie pour étudier les modèles de tests adaptatifs. J'ai ainsi pu mettre en évidence que selon le type de test, le meilleur modèle n'est pas le même, et de proposer deux contributions.
 
-\section*{GenMA, un modèle de test adaptatif faisant un retour à l'apprenant}
+ [^1]: \fullcite{Vie2016b}
 
-Un modèle qui permet d'avoir un test adaptatif qui fait un retour à l'apprenant selon plusieurs dimensions. GenMA est meilleur que le modèle existant de diagnostic cognitif sur tous les jeux de données étudiés.
+\section*{GenMA, un modèle de test adaptatif reposant sur le modèle général de diagnostic}
+
+Certains modèles plus explicatifs sont moins prédictifs. Dans ce chapitre, je propose un modèle hybride qui à la fois mesure le niveau de l'apprenant et son degré de maîtrise des composantes de connaissances, afin de lui faire un retour utile pour s'améliorer. Ce modèle est un cas particulier de modèle de théorie de réponse à l'item multidimensionnelle mais plus facile à converger.
+
+GenMA est meilleur que le modèle existant de diagnostic cognitif sur tous les jeux de données étudiés. Il a été présenté à EC-TEL 2016[^2].
+
+ [^2]: \fullcite{Vie2016}
 
 \section*{InitialD, un premier choix de questions non adaptatif}
 
-Avant de commencer le diagnostic, on peut faire un test préalable où l'on pose un groupe de questions diversifiées. J'applique un algorithme de récapitulation afin de ne conserver qu'un sous-ensemble de questions du test qui soit informatif, c'est-à-dire qui \og résume \fg{} l'ensemble des questions.
+Avant de commencer le diagnostic, on peut faire un test préalable où l'on pose un groupe de questions diversifiées. Je propose dans ce chapitre un algorithme de récapitulation afin de ne conserver qu'un sous-ensemble de questions du test qui soit informatif, c'est-à-dire qui \og résume \fg{} l'ensemble des questions.
 
 Je montre ainsi que l'adaptation a elle-même ses limites, puisque parfois poser un petit groupe de $k$ questions est plus informatif que poser $k$ questions une par une, de façon adaptative.
