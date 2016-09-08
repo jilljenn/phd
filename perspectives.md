@@ -8,7 +8,37 @@ Pour répondre à ce démarrage à froid lorsqu'on ne dispose pas d'informations
 
 Avoir des représentations plus compliquées comme une ontologie [@Mandin2014]. Ce genre de structure est difficile à construire. Nous apprécions l'approche q-matrice, qui permet à plusieurs experts de partager et de combiner leur représentation du domaine [@Koedinger2012].
 
-Il est parfois utile de répéter les questions, par exemple lorsqu'on apprend du vocabulaire au moyen de cartes de support visuel, et de systèmes par répétitions espacées [@Altiner2011]. Notre approche correspond davantage lorsqu'on cherche à apprendre une compétence plutôt qu'un item particulier. Aussi, ne pas poser la même question plusieurs fois mais plutôt des variantes, par exemple en mathématiques en changeant l'opération à effectuer, permet de réduire le risque que l'apprenant devine la bonne réponse. Il serait intéressant de coupler ça avec des générateur automatiques d'exercices.
+Il est parfois utile de répéter les questions, par exemple lorsqu'on apprend du vocabulaire au moyen de cartes de support visuel, et de systèmes par répétitions espacées [@Altiner2011]. Notre approche correspond davantage lorsqu'on cherche à apprendre une compétence plutôt qu'un item particulier. Aussi, ne pas poser la même question plusieurs fois mais plutôt des variantes, par exemple en mathématiques en changeant l'opération à effectuer, permet de réduire le risque que l'apprenant devine la bonne réponse. Il serait intéressant de coupler ça avec des générateurs automatiques d'exercices.
+
+# Évaluation furtive dans les jeux sérieux
+
+@Shute2011 décrit la notion d'évaluation furtive. Le principe est de collecter les données d'une plateforme éducative alors que des apprenants sont en train de l'utiliser, sous la forme d'actions et de leurs résultats, et de faire des inférences sur le niveau de l'apprenant selon les différentes compétences associées à ces actions. On peut citer par exemple le Packet Tracer de Cisco étudié dans @Rupp2012, cf. Figure \ref{cisco} permettant de comprendre par la pratique comment fonctionne le routage des paquets dans un réseau ou *Newton's Playground* [@Shute2013], où les apprenants jouent avec une interface leur faisant découvrir des notions de physique. L'approche est basée sur deux éléments principaux : la conception d'une évaluation centrée sur les faits, et le retour fait à l'apprenant pour soutenir l'apprentissage.
+
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/cisco}
+\caption{Capture d'écran de Packet Tracer, développé par Cisco.}
+\label{cisco}
+\end{figure}
+
+@Shute2011 insiste sur la capacité de l'évaluation furtive via les jeux vidéo à entretenir le flux (*flow*), c'est-à-dire l'état mental atteint par une personne lorsqu'elle est complètement absorbée par une activité, telle qu'une résolution de problème, et se trouve dans un état maximal de concentration, de plein engagement et de satisfaction dans son accomplissement. Ils motivent leur recherche par le fait qu'aujourd'hui, les problèmes auxquels nous sommes confrontés nécessitent de réfléchir de façon créative, critique, collaborative et systémique. Ainsi, comme dit @Shute2011, \og apprendre et réussir dans un monde complexe et dynamique ne peut être facilement mesuré par un test de connaissances composé de questions à choix multiple. \fg Ils proposent plutôt de repenser la notion d'évaluation, en identifiant les *compétences clés du 21\ieme{} siècle* et les façons d'évaluer leur acquisition par les apprenants.
+
+## Évaluation centrée sur les faits et réseaux bayésiens
+
+La conception d'une évaluation centrée sur les faits ont été formalisées par Mislevy. Les lignes principales sont les suivantes.
+
+Modèle de compétences
+
+:   Quelles connaissances et compétences doivent être évaluées ?
+
+Modèle des faits
+
+:   Quels comportements ou performance devraient révéler ces constructions ?
+
+Modèle des tâches
+
+:   Quelles tâches devraient éliciter ces comportements qui constituent les faits observés ?
+
+Afin de modéliser les liens entre compétences et faits, @Shute2011 utilise des réseaux bayésiens. Nous pensons toutefois que cette approche est coûteuse à construire et doit être refaite pour chaque nouvelle interface d'évalution. De plus, elle impose une fixation a priori d'un modèle d'évaluation auquel un apprenant pourrait ne pas adhérer. Toutefois, cela permet de proposer un diagnostic alors même que l'on ne comporte d'aucun historique d'évaluation : le diagnostic n'a besoin que du modèle de compétences pour fonctionner. @Rupp2012 compare, pour le Packet Tracer, une méthode de diagnostic utilisant des réseaux bayésiens avec une approche utilisant le modèle hiérarchique d'attributs décrit à la Section \ref{ahm} qui requiert une q-matrice, et montre que les approches sont complémentaires.
 
 # Le futur de l'évaluation
 
