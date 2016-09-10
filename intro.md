@@ -15,6 +15,7 @@ Les tests adaptatifs qui se contentent de mesurer l'apprenant opèrent de façon
 
 # Filtrage collaboratif
 
+\label{collaborative-filtering}
 Comment faire pour avoir une idée du comportement d'un apprenant face à des questions qu'on ne lui a pas posées, en s'aidant des données d'autres apprenants (ayant, eux, répondu à ces questions) ? C'est le problème auquel s'attaquent les techniques de filtrage collaboratif\footnote{Notez que si les questions deviennent \og Est-ce que l'utilisateur $i$ a apprécié le film $j$ ? \fg, on retombe sur les systèmes de recommandation de films.}. Une méthode consiste à déterminer les apprenants ayant un profil similaire afin de s'appuyer sur leur comportement pour faire des déductions.
 
 Également de nos jours, de nombreuses personnes se rendent sur des sites Internet pour découvrir de nouvelles choses. Toutefois ils se retrouvent parfois submergés par un océan de ressources, à partir desquelles il est difficile de faire son choix. Heureusement, à partir seulement des données communiquées par les autres internautes, il est possible de faire le tri de façon automatique pour un nouvel utilisateur, par exemple en identifiant des internautes ayant un profil similaire à celui-ci et en lui suggérant des ressources qui les ont satisfaits.

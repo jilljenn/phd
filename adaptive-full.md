@@ -1,85 +1,97 @@
 # Introduction
 
-Today, assessments are often automatized, making it possible to store and analyze student data in order to provide more accurate and shorter assessments for future learners. The learning analytics process consists in collecting data about learners, discovering hidden patterns that can help provide a more effective learning experience, and constantly refining models using new data [@Chatti2012]. In terms of adaptive testing, learning analytics have certain, well-defined objectives: improve the efficiency and effectiveness of the learning process, and tell learners what to do next by adaptively organizing instructional activities [@Chatti2012]. Reducing the length of tests is even more needed as students are today overtested [@Zernike2015], thus leaving fewer time for instruction.
+De nos jours, les évaluations sont automatisées, rendant possible le stockage et l'analyse de données d'apprenants qui permettent de proposer des évaluations plus courtes et plus précises pour des apprenants futurs. L'analytique de l'apprentissage consiste à collecter des données d'apprenants, déterminer des motifs permettant d'améliorer l'apprentissage au sens large, et de continuellement mettre à jour les modèles en fonction des nouvelles données récoltées [@Chatti2012]. Dans le cadre des tests adaptatifs, il s'agit de déterminer la prochaine activité à faire faire à l'apprenant. Réduire la durée de l'évaluation est d'autant plus utile qu'aujourd'hui les apprenants sont surévalués [@Zernike2015], ce qui leur laisse moins de temps pour apprendre.
 
-In this chapter, we focus on using assessment data, under the form of dichotomous response patterns (learners answering correctly or incorrectly questions) to provide better assessments. We want to train user models so they can help uncover the latent knowledge of the examinees using fewer, carefully-chosen questions, and provide useful feedback at the end of the test. Such feedback can be aggregated at various levels (e.g., from student, to class, to school, to district, to state, to country) in order to enable decision-making [@Shute2015].
+Les premiers modèles utilisés pour les tests adaptatifs [@Hambleton1985] sont *sommatifs* : ils affectent une valeur de niveau aux examinés, ce qui permet de les classer. Plus récemment, on s'est demandé comment construire des tests *formatifs*, qui font un retour plus utile à l'apprenant pour qu'il puisse s'améliorer. Ainsi, en combinant des modèles cognitifs, on a pu proposer des diagnostics cognitifs adaptatifs [@Ferguson2012; @Huebner2010], qui indiquent à l'apprenant à la fin du test les points à retravailler et sont d'autant plus utiles pour les professeurs afin de juger le niveau de leur classe.
 
-Traditionally, models used for adaptive testing (such as the ones encountered in item response theory [@Hambleton1985]) have been mostly summative: they measure or rank effectively examinees, but do not provide any other feedback. Recent advances have focused on formative assessments [@Ferguson2012; @Huebner2010], providing more useful feedback for both the learner and the teacher, thus of greater interest to the learning analytics community. Indeed, @Tempelaar2015 have shown that computer-assisted formative assessments have high predictive power for detecting underperforming students and academic performance. We prove that such adaptive strategies can be applied to formative assessments, in order to improve efficiency and test reduction.
+Dans cette thèse, nous nous sommes concentrés sur l'utilisation de données d'apprenants à des questions ou items, sous la forme de motifs de réponse dichotomiques : les apprenants ont répondu de façon correcte ou incorrecte à des questions. Comment réduire le nombre de questions en fonction de l'historique de passage d'un test. Nous souhaitons entraîner des modèles pour qu'ils puissent garantir une mesure précise des apprenants tout en réduisant le nombre de questions à poser. De plus, nous souhaitons que ces tests soient formatifs, et qu'ils fassent un retour à l'apprenant. Ce retour peut être agrégé à différents niveaux (celui de l'étudiant, d'une classe, d'une école, d'un district, d'un état ou d'un pays), sur des panneaux de visualisation (*dashboards*), de façon à prendre des décisions informées [@Shute2015].
 
-This chapter is organized as follows. First, we mention the learning analytics methods that will be used in the chapter, then we describe the models used for adaptive testings found in diverse fields ranging from psychometrics to machine learning, and their limitations. Later, we present an experimental protocol to compare adaptive testing strategies for predicting student performance, and our results. Finally, we highlight which models suit which use cases, describe what could be the future of assessment, and eventually draw our conclusions.
+Ce chapitre est organisé de la façon suivante. Nous commençons par décrire plus précisément le domaine de l'analytique de l'apprentissage et ses méthodes, puis nous présentons les différents modèles de tests adaptatifs issus de domaines divers ainsi que leurs limitations.
 
 # Analytique de l'apprentissage
 
-In the possible objectives of learning analytics (LA), @Chatti2012 describe the need for intelligent feedback in assessment, and the problem of choosing the next activity to present to the learner. To address these needs, they highlighted the following classes of methods: statistics, information visualization (IV), data mining (DM) and social network analysis (SNA).\nomenclature{LA}{learning analytics}
+Il existe deux domaines très proches qui sont celui de la fouille de données éducatives et l'analytique de l'apprentissage. La première part d'un modèle et s'intéresse à voir comment il permet d'extraire de l'information à partir de données. La deuxième se veut plus holistique et s'intéresse à voir, avec un peu plus de recul, les effets que les systèmes ont sur l'apprentissage, et comment représenter l'information de façon à ce qu'elle puisse être utilisée par un apprenant, un professeur ou un décideur politique (*policy-maker*).
 
-Adaptive testing allows better personalization by organizing learning resources. For example, curriculum sequencing consists in defining learning paths in a space of learning objectives [@Desmarais2012]. It aims to use skills assessment to tailor the learning content with the least possible amount of evidence. As stated by @Desmarais2012, "The ratio of the amount of the evidence to the breadth of the assessment is particularly critical for systems that cover a large array of skills, as it would be unacceptable to ask hours of questions before making a usable assessment."
+Sur le plan de l'évaluation qui nous concerne, @Chatti2012 décrit différents objectifs de l'analytique de l'apprentissage : le besoin en retour intelligent, le problème de déterminer l'activité suivante à présenter à l'apprenant. Les méthodes utilisées sont regroupées en plusieurs classes : statistiques, visualisation d'information, fouille de données (dont apprentissage statistique), et analyse de réseaux sociaux.\nomenclature{LA}{learning analytics}
 
-In educational systems, there is a highlight on the difference between adaptivity, the ability to modify course materials using different parameters and a set of pre-defined rules, and adaptability, the possibility for learners to personalize the course materials by themselves. @Chatti2012 precise that "more recent literature in personalized adaptive learning have criticized that traditional approaches are very much top-down and ignore the crucial role of the learners in the learning process." There should be a better balance between giving the learner what he needs to learn (i.e. adaptivity) and giving the learner what he wants to learn (i.e. adaptability), the way he wants to learn it (whether he prefers more examples, or more exercises). Anyway, learner profiling is a crucial task.
+Comme le dit @Desmarais2012, « Le ratio de la quantité de faits observés à la largeur de l'évaluation est particulièrement critique pour des systèmes qui couvrent un large nombre de compétences, dans la mesure où il serait inacceptable de poser des heures de questions avant de faire une évaluation utilisable. »
 
-As a use case scenario, let us consider a newcomer arriving on a massive online open course (MOOC). She may have acquired knowledge from really diverse backgrounds, some prerequisites of the course might not be mastered while some chapters of the lesson could be skipped. Therefore, it would be useful to adaptively assess their needs and preferences in order to filter the content of the course accordingly and minimize information overload. @Lynch2014 describe such an algorithm that uncovers the latent knowledge state of a learner by asking few questions at the beginning of a course.\nomenclature{MOOC}{massive online open course}
+Dans les systèmes éducatifs, il y a une différence entre l'adaptativité, la capacité à modifier les contenus des cours en fonction de différents paramètres et d'un ensemble de règles préétablies, et l'adaptabilité, qui consiste à permettre aux apprenants de personnaliser les contenus de cours par eux-mêmes. @Chatti2012 précise que « des travaux récents en apprentissage adaptatif personnalisé ont critiqué que les approches traditionnelles soient top-down et ignorent le rôle crucial des apprenants dans le processus d'apprentissage. » Il doit y avoir un meilleur équilibre entre donner à l'apprenant ce qu'il a besoin d'apprendre (adaptativité) et lui donner ce qu'il souhaite apprendre (adaptabilité), de la façon qu'il souhaite l'apprendre (s'il préfère plus d'exemples, ou plus d'exercices). Dans tous les cas, le profilage de l'apprenant est une tâche cruciale.
 
-In learning analytics, the data mining category includes machine learning techniques such as regression trees for prediction. As an example, one may want to use a gradient boosting tree to highlight what variables can explain best the obtention or non-obtention of a certificate for a learner in a MOOC. Gradient boosting trees have been successful to tackle prediction problems, notably in data science challenges, because they can integrate heterogeneous values (categorical variables and numerical variables) and they are robust to outliers. We were surprised to see in the learning analytics methods so many models interested in the prediction of a certain objective from a fixed set of variables and so few models assessing the learner about his needs and preferences. We believe that a lot of research has yet to be done towards more interactive models in learning analytics.
+Comme cas d'utilisation, considérons un nouvel arrivant sur un MOOC (cours en ligne ouvert massif). Il peut avoir acquis des connaissances de milieux divers, certains prérequis du cours pourraient ne pas être maîtrisés tandis que d'autres leçons pourraient être sautées. Ainsi, il serait utile de pouvoir évaluer leurs besoins et préférences de açon adaptatives, pour filtrer le contenu du cours en conséquence et minimiser la surcharge d'information. @Lynch2014 décrit un tel algorithme qui dévoile l'état des connaissances d'un apprenant en posant quelques questions au début d'un cours.\nomenclature{MOOC}{massive online open course}
 
-Recommender systems, that aggregate data about users in order to recommend relevant resources (such as movies, products), are increasingly used in technology-enhanced learning research as a core objective of learning analytics [@Chatti2012; @Manouselis2011; @Verbert2011]. Most recommender systems rely on collaborative filtering, a method that makes automated predictions about the interest of a user, based on information collected from many users. The intuition is that a user may like items that similar users have liked in the past. In our case, a learner may face difficulties similar to the ones learners with similar response patterns have faced. There are open research questions on how algorithms and methods have to be adapted from the field of commercial recommendations. Still, we believe that existing techniques can be applied to adaptive testing.
+En analytique de l'apprentissage, parmi les méthodes on trouve l'apprentissage automatique pour la prédiction. Par exemple, prédire à partir des traces d'un apprenant s'il va obtenir son certificat à la fin du cours, ou non. Nous avons été surpris de constater dans les méthodes en analytique de l'apprentissage tant de modèles intéressés dans la prédiction d'un certain objectif à partir d'un nombre fixé de variables et si peu de modèles interrogeant l'apprenant sur ses besoins et préférences. Nous estimons qu'il reste encore beaucoup de recherche à faire vers des modèles d'analytique de l'apprentissage plus interactifs. À ces fins, nous avons rédigé un chapitre de journal répertoriant les plus récents modèles en évaluation adaptative [@Vie2016b], qui reprend les éléments de ce chapitre de thèse.
 
-Response time within assessment has been studied in cognitive psychology, because the amount time a person needs to answer an item is believed to indicate some aspects about the cognitive process. It requires sophisticated statistical models [@Chang2014] that we did not consider in this chapter.
+Deux éléments issus des systèmes de recommandation peuvent être transposés au cadre éducatif de l'analytique de l'apprentissage. Le premier est la technique du filtrage collaboratif, décrite à la section \ref{collaborative-filtering}, qui permet de concevoir un système de recommandation de ressources éducatives [@Chatti2012; @Manouselis2011; @Verbert2011]. Le second est le problème du démarrage à froid de l'utilisateur, dans la mesure où lorsqu'un nouvel utilisateur utilise un système de recommandation, le système n'a que peu d'information sur lui et doit donc lui poser des questions de façon à éliciter ses préférences.
+
+Le temps de réponse lors d'une évaluation a été étudié en psychologie cognitive, car le temps qu'un apprenant met pour répondre à une question peut indiquer quelques aspects sur le processus cognitif [@Chang2014] et joue un rôle dans la performance [@Papamitsiou2014]. Cela requiert des modèles statistiques sophistiqués que nous ne considérons pas ici.
 
 # Modèles de tests adaptatifs
 
-In our case, we want to filter the questions to ask to a learner. Instead of asking the same questions to everyone, the so-called computer adaptive tests (CAT) [@VDL2010] select the next question to ask according to the previous answers, thus allowing adaptivity at each step. Their design relies on two criteria: a *termination criterion*, and a *next item criterion*. While the termination criterion is not satisfied (such as asking a certain number of questions), questions are asked according to the next item criterion (such as asking questions which bring the most information about the learner's ability or knowledge). @Lan2014 have proven that such adaptive tests could achieve same prediction accuracy using fewer questions than non-adaptive tests.
+Dans notre cas, nous cherchons à filtrer les questions à poser à un apprenant. Plutôt que de poser les mêmes questions à tout le monde, les tests adaptatifs [@VDL2010] choisissent la question suivante à poser étant donné les réponses précédentes, ainsi permettant une adaptation à chaque élément de la séquence. Leur conception repose sur deux critères : un critère de *terminaison* et un critère de *choix de la question suivante*. Tant que le critère de terminaison n'est pas satisfait (par exemple, poser un certain nombre de question), les questions sont posées selon le critère de choix de la question suivante (par exemple, poser la question la plus informative pour déterminer les connaissances de l'apprenant). @Lan2014 a prouvé que de tels tests adaptatifs permettaient d'obtenir une mesure aussi précise que des tests non adaptatifs, tout en requérant moins de questions.
 
-Shorter tests are useful for both the system, which needs to balance load, and the learner, which may be frustrated or bored by providing too many answers [@Lynch2014; @Chen2015]. Thus, adaptive testing is getting more and more necessary in the current age of MOOCs, where motivation plays an important role [@Lynch2014]. In real-case scenarios though, the following additional constraints apply: the computation of criteria should be done in a reasonable time, thus the time complexity of the approaches is important. Also, when assessing skills, uncertainty is an important factor. A learner may slip, which means accidentally or carelessly fail an item he is supposed to solve; or guess, which means correctly answer an item by chance. This is why a simple binary search over the ability of the learner (asking a more difficult question if the learner succeeds and a easier question if he fails) is not feasible, and more robust methods needs to be considered, such as probabilistic models for skill assessment.
+Raccourcir la taille des tests est utile à la fois pour le système, qui doit équilibrer la charge, et pour les apprenants, qui risqueraient d'être frustrés de fournir trop de réponses [@Lynch2014; @Chen2015]. Ainsi, les tests adaptatifs deviennent de plus en plus utiles dans l'ère actuelle des MOOC, où la motivation des apprenants joue un rôle important sur leur apprentissage [@Lynch2014]. Lorsqu'on implémente ces tests dans la vraie vie, des contraintes supplémentaires s'appliquent : le calcul des critères doit se faire dans un temps raisonnable, ainsi la complexité en temps est importante. De même, lorsqu'on évalue des CC, l'incertitude est à prendre en compte. Un apprenant risque de faire des fautes d'inattention ou de deviner une bonne réponse alors qu'il n'a pas compris la question. C'est pourquoi une simple dichotomie sur le niveau de l'apprenant (poser des questions plus difficiles lorsqu'un apprenant réussit une question ou poser des questions plus faciles lorsqu'il échoue) n'est pas viable, il faut considérer des méthodes plus robustes, tels que des modèles probabilistes pour l'évaluation des compétences.
 
-CATs have been extensively studied over the past years and put into practice. As an example, 238,536 such adaptive tests have been administered through the GMAT by the Graduate Management Admission Council in 2012--2013 [@GMAT2013]. Given a student model [@Pena2014], the objective is to provide an accurate measurement of the parameters of an upcoming student while minimizing the number of questions asked. This problem has been referred to as *test-size reduction* [@Lan2014] and is also related to predicting student performance [@Bergner2012; @ThaiNghe2011]. In machine learning, this approach has been referred to as *active learning*: adaptively query informative labels of a training set in order to optimize learning.
+Les tests adaptatifs ont été étudiés au cours des dernières années et ont été développées en pratique. Par exemple, 238 536 tels tests ont été administrés via le GMAT (Graduate Admission Management Test), développé par le Graduate Management Admission Council (GMAC) entre 2012 et 2013. Étant donné un modèle de l'apprenant [@Pena2014], l'objectif est de fournir une mesure précise des paramètres d'un nouvel apprenant tout en minimisant le nombre de questions posées. Ce problème s'appelle la *réduction de longueur d'un test* [@Lan2014] et est également liée à la prédiction de performance future [@Bergner2012; @ThaiNghe2011]. En apprentissage automatique, on parle également d'apprentissage actif : choisir les éléments à étiqueter de façon adaptative afin de maximiser l'information récoltée à chaque pas.
 
-According to the purpose of the assessment, several models are available, whether we want to estimate a general level of proficiency, provide diagnostic information, or characterize knowledge [@Mislevy2012]. In what follows, we describe those models under the following categories: item response theory for summative assessment, cognitive models for formative assessment, more complex knowledge structures, exploration and exploitation trade-off and multistage testing.
+En fonction du but de l'évaluation, plusieurs modèles sont disponibles, selon si l'on souhaite estimer un niveau général de connaissance, faire un diagnostic détaillé, ou identifier les CC maîtrisées [@Mislevy2012]. Dans ce qui suit, nous décrivons ces modèles dans les catégories suivantes : théorie de la réponse à l'item pour des tests sommatifs, modèles cognitifs pour des tests formatifs, structures de connaissance plus complexes, compromis exploration et exploitation et tests à étapes multiples.
 
 ## Modèle de Rasch
 
-L'enjeu en théorie de la réponse à l'item est d'identifier ce que les réponses à un test disent sur des facteurs cachés.
+La théorie de la réponse à l'item consiste à supposer que les réponses d'un apprenant observées lors d'un test peuvent être expliquées par un certain nombre de valeurs cachées, qu'il convient d'identifier.
 
-    We ask question 42 to the examinee.
-    Correct!
-    We ask question 48 to the examinee.
-    Correct!
-    We ask question 82 to the examinee.
-    Incorrect.
-    We ask question 53 to the examinee.
-    Correct!
-    We ask question 78 to the examinee.
-    Incorrect.
-    We ask question 56 to the examinee.
-    Correct!
-    We ask question 76 to the examinee.
-    Incorrect.
-    We ask question 58 to the examinee.
-    Incorrect.
+Le modèle le plus simple de tests adaptatifs est le modèle de Rasch, aussi connu sous le nom de modèle logistique à un paramètre. Il modélise un apprenant par une valeur unique de niveau, et les questions ou tâches par une valeur de difficulté. La propension d'un apprenant à résoudre une tâche ne dépend que de la différence entre sa difficulté et son niveau. Ainsi, si un apprenant $i$ a un niveau $\theta_i$ et souhaite résoudre une question $j$ de difficulté $d_j$ :
 
-The most simple model for adaptive testing is the Rasch model, also known as 1-parameter logistic model, thus falling into the DM category of LA. It models the behavior of a learner with a single latent trait called ability, and the items or tasks with a single parameter called difficulty. The tendency for a learner to solve a task only depends on the difference between the difficulty and the ability. Thus, if a learner $i$ has ability $\theta_i$ and wants to solve an item $j$ of difficulty $d_j$:
+$$ Pr(\textnormal{``l'apprenant $i$ répond correctement à la question $j$''}) = \Phi(\theta_i - d_j) $$
 
-$$ Pr(\textnormal{``learner $i$ answers item $j$''}) = \Phi(\theta_i - d_j) $$
+où $\Phi : x \mapsto 1 / (1 + e^{-x})$ est la fonction logistique.\nomenclature{$\Phi$}{fonction logistique}
 
-where $\Phi : x \mapsto 1 / (1 + e^{-x})$ is the so-called logistic function.\nomenclature{$\Phi$}{fonction logistique}
-
-<!-- \begin{figure}
+\begin{figure}
 \includegraphics[width=\linewidth]{figures/irt}
-\caption{Item response curves for various values of the difficulty parameter $d$ of the Rasch model.}
-\end{figure} -->
+\caption{Courbes pour différentes valeurs du paramètre de difficulté $d$ du modèle de Rasch.}
+\end{figure}
 
-Specifying all difficulty values by hand would be costly for an expert, and would provide subjective values that may fit student data poorly. Fortunately, this model allows an efficient parameter estimation: using former student data, it is possible to calibrate the item difficulties and learner abilities automatically, computing the maximum likelihood estimates. In particular, no domain knowledge is needed.
+ <!-- TODO nouvelle courbe -->
 
-When a newcomer takes a test, the observed variables are its outcomes over the questions that are asked to him, and the hidden variable we want to estimate is his ability, given the known difficulty parameters. Estimation is usually performed using maximum likelihood, easy to compute using Newton's method to find the zeroes of the derivative of the likelihood function. Therefore, the adaptive process becomes: given an estimate over the ability of the learner, what question outcome will be the most useful to refine this estimate? It is indeed possible to quantify the information that each item $j$ provides over the ability parameter, called Fisher information, defined as the variance of the gradient of the log-likelihood with respect to the ability parameter:
+(Exemple de produit de matrices.)
+
+Spécifier toutes les valeurs de difficulté à la main serait coûteux pour un expert, et fournirait des valeurs subjectives qui risquent de ne pas correspondre aux données observées. Ce modèle est suffisamment simple pour qu'il soit possible de calibrer automatiquement et de façon efficace les paramètres de niveau et difficulté, à partir d'un historique de réponses. En particulier, aucune connaissance du domaine n'est requise.
+
+Ainsi, lorsqu'un apprenant passe un test, les variables observées sont ses résultats (vrai ou faux) sur les questions qui lui sont posées, et la variable que l'on souhaite estimer est son niveau, étant donné les valeurs de difficulté des questions qui lui ont été posées, ainsi que ses résultats. L'estimation est habituellement faite en calculant le maximum de vraisemblance, facile à déterminer en utilisant la méthode de Newton pour déterminer les zéros de la dérivée de la fonction de vraisemblance. Ainsi, le processus adaptatif devient : étant donné une estimation du niveau de l'apprenant, quelle question poser afin d'obtenir un résultat informatif pour affiner cette estimation ? Il est en effet possible de quantifier l'information que chaque question $j$ donne sur le paramètre de niveau. Il s'agit de l'information de Fisher, définie par la variance du gradient de la log-vraisemblance en fonction du paramètre de niveau :
 
 $$ I_j(\theta_i) = E\left[{\left(\frac\partial{\partial\theta} \log f(X_j, \theta_i)\right)}^2 \bigg| \theta_i \right] $$
 
-where $X_j$ is the binary outcome of the learner $i$ over the item $j$ and $f(X_j, \theta_i)$ is the probability function for $X_j$ depending on $\theta_i$ : $f(X_j, \theta_i) = \Phi(\theta_i - d_j)$.
+où $X_j$ est la variable correspondant au succès/échec de l'apprenant $i$ sur la question $j$ et $f(X_j, \theta_i)$ est la fonction de probabilité pour $X_j$ qui dépend de $\theta_i$ comme indiqué plus haut : $f(X_j, \theta_i) = \Phi(\theta_i - d_j)$.
 
-Therefore, an adaptive testing can be designed the following way: given the learner's current ability estimate, pick the question that brings the most information over the ability, update the estimate according to the outcome (right or wrong), and so on. At the end of the test, one can visualize the whole process like in Figure \ref{irt}. As we can see, the confidence interval over the ability estimate is refined after each outcome.
+Ainsi, un test adaptatif peut être conçu de la façon suivante : étant donné l'estimation actuelle du niveau de l'apprenant, choisir la question qui va apporter le plus d'information sur son niveau, mettre à jour l'estimation en fonction du résultat (succès ou échec), et ainsi de suite. À la fin du test, on peut visualiser le processus comme dans les Figures \ref{irt} et \ref{irt-output} : l'intervalle de confiance sur le niveau de l'apprenant réduit après chaque résultat, et les questions sont choisies de façon adaptative.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{figures/irt.pdf}
 \caption{Evolution of the ability estimate throughout an adaptive test based on the Rasch model.}
 \label{irt}
+\end{figure}
+
+\begin{figure}
+\begin{verbatim}
+We ask question 42 to the examinee.
+Correct!
+We ask question 48 to the examinee.
+Correct!
+We ask question 82 to the examinee.
+Incorrect.
+We ask question 53 to the examinee.
+Correct!
+We ask question 78 to the examinee.
+Incorrect.
+We ask question 56 to the examinee.
+Correct!
+We ask question 76 to the examinee.
+Incorrect.
+We ask question 58 to the examinee.
+Incorrect.
+\end{verbatim}
+\caption{Exemple de test adaptatif.}
+\label{irt-output}
 \end{figure}
 
 Being a unidimensional model, the Rasch model is not suitable for cognitive diagnosis. Still, it is really popular because of its simplicity, its stability and its sound mathematical framework [@Desmarais2012; @Bergner2012]. Also, @Verhelst2012 has showed that if the items are splitted into categories, it is possible to provide to the examinee a useful deviation profile, specifying which category subscores were lower or higher than expected. More precisely, if we consider that in each category, an answer gives one point if correct, no point otherwise, we can compute the number of points obtained by the learner in each category (the subscores), which sum up to his total score. Given the Rasch model only, it is possible to compute the expected subscore of each category, given the total score. Finally, the deviation profile, defined as the difference between the observed and expected subscores, provides a nice visualization of the categories that need further work, see Figure \ref{deviation}. Such deviation profiles can be aggregated in order to highlight the strong and weak points of the students at the level of a country, witnessing a possible deficiency in the national curriculum. Studies of international assessments, such as the Trends in International Mathematics and Science Study (TIMSS), allow for worldwide comparisons. An example is given over the TIMSS 2011 dataset of proficiency in mathematics, see Figure \ref{deviation}, highlighting the fact that Romania is stronger in Algebra than expected, while Norway is weaker in Algebra than expected. This belongs to the information visualization class of learning analytics methods, and shows what can be done using the most simple psychometric model and the student data only.
@@ -116,7 +128,7 @@ Nevertheless, those richer models involve many more parameters : if $d$ paramete
 
 ## Modèle DINA
 
-Les modèles de diagnostic cognitifs reposent sur une q-matrice, qui fait le lien entre les questions et les composantes de connaissance.\nomenclature{CC}{Composante de connaissance}
+Les modèles de diagnostic cognitif reposent sur une q-matrice, qui fait le lien entre les questions et les composantes de connaissance (CC).\nomenclature{CC}{Composante de connaissance}
 
     Round 1 -> We ask question 9 to the examinee.
     It requires KC: [0, 1, 0, 0, 0, 0, 0, 0]
@@ -132,7 +144,7 @@ Les modèles de diagnostic cognitifs reposent sur une q-matrice, qui fait le lie
     Estimate: 00000101100101010000
        Truth: 00011111111101001111
 
-Cognitive diagnosis models rely on the assumption that the resolution of learning tasks in a test can be explained by the mastery or non-mastery of some knowledge components (KC), thus allowing a transfer of evidence from one item to another. For instance, a learner that solves $1/7 + 8/9$ correctly can add and put fractions at same denominator, while a learner that solves $1/7 + 8/7$ only needs to know how to add. These cognitive models require a specification of the KCs involved in the resolution of the items proposed in the test, in the form of a binary matrix called q-matrix, which simply maps items to KCs: it is a transfer model. See Table \ref{fraction-qmatrix} for a real-world example of q-matrix.
+Les modèles de diagnostic cognitif font l'hypothèse que la résolution de tâches d'apprentissage peut être expliquée par la maîtrise ou non-maîtrise de certaines CC, ce qui permet de transférer de l'information d'une question à l'autre. Par exemple, pour calculer $1/7 + 8/9$ correctement, un apprenant est censé maîtriser l'addition, et la mise au même dénominateur. En revanche, pour calculer $1/7 +8/7$, seul le fait d'additionner est nécessaire. Ces modèles cognitifs requièrent la spécification des CC impliqués dans la résolution de chacune des questions du test, sous la forme d'une matrice binaire appelée q-matrice, qui fait le lien entre les questions et les CC : c'est un modèle de transfert. Voir Table \ref{fraction-qmatrix} pour un exemple de q-matrice.
 
 \begin{table}
 \centering
@@ -301,3 +313,5 @@ There exist different interfaces for assessment such as serious games or stealth
 # Discussion
 
 Practice testing is a key factor to success [@Dunlosky2013]. However, asking questions can be boring. In order to prevent boredom, asking less questions is better.
+
+Adaptive testing allows better personalization by organizing learning resources. For example, curriculum sequencing consists in defining learning paths in a space of learning objectives [@Desmarais2012]. It aims to use skills assessment to tailor the learning content with the least possible amount of evidence. 
