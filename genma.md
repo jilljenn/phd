@@ -14,6 +14,21 @@ Dans le modèle DINA, l'apprenant est modélisé par un vecteur de bits appelé 
 
 Nous proposons un nouveau modèle qui au lieu d'associer à une question un vecteur de bits, lui associe un vecteur de valeurs positives, correspondant à des paramètres de difficulté selon chaque composante de connaissance. Les entrées à 0 de la q-matrice permettent de fixer les entrées à 0 du vecteur de chaque question, c'est-à-dire que les composantes de connaissances non mises en œuvre dans une question ont une difficulté nulle pour cette question, ou encore que la compétence de l'apprenant selon cette composante ne sera pas prise en compte dans le calcul du score.
 
+
+One may desire a model that encompasses both the mastery of a knowledge component and a notion of difficulty. To address this need, unified models have been designed, such as the general diagnostic model for partial credit data [@Davier2005] that takes MIRT and some cognitive models as special cases:
+
+$$ Pr(\textnormal{``learner $i$ answers item $j$''}) = \Phi\left(\beta_i + \sum_{k = 1}^K \theta_{ik} q_{jk} d_{jk}\right) $$
+
+where $K$ is the number of KCs involved in the test, $\beta_i$ is the main ability of learner $i$, $\theta_{ik}$ its ability for KC $k$, $q_{jk}$ is the $(j,k)$ entry of the q-matrix which is 1 if KC $k$ is involved in the resolution of item $j$, 0 otherwise, $d_{jk}$ the difficulty of item $j$ over KC $k$. Please note that this model is similar to the MIRT model specified above, but the dot product is computed only on part of the components. The intuition is to consider a MIRT model where the number of dimensions is the number of KCs of the q-matrix ($d = K$). When we calibrate the feature vector of dimension $d$ of an item, only the components that correspond to KCs involved in the resolution of this item are taken into account, see Figure \ref{fig-genma}. Hence, the fact that few components are required to solve each item allows the MIRT parameter estimation to converge. @Vie2016 used it in adaptive testing under the name GenMA. Another advantage is that the ability estimate at some point in the test represents degrees of proficiency for each knowledge component. The GenMA model is therefore a hybrid model that combines the Rasch model and a cognitive model.
+\label{genma}
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{figures/genma.pdf}
+\caption{The GenMA hybrid model, combining item response theory and a q-matrix.}
+\label{fig-genma}
+\end{figure}
+
 @Davier2005 a proposé un modèle qui unifie plusieurs modèles de théorie de la réponse à l'item ainsi que des modèles cognitifs : le modèle général de diagnostic (*general diagnostic model for partial credit data*) :
 
 $$ Pr(\textnormal{``l'apprenant $i$ répond correctement à la question $j$''}) = \Phi\left(\beta_i + \sum_{k = 1}^K \theta_{ik} q_{jk} d_{jk}\right) $$

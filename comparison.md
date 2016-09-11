@@ -281,6 +281,8 @@ Nous nous sommes basés sur les packages ``ltm`` et ``catR``.
 C'est ``CDM`` qui détermine à partir d'une q-matrice et d'une population, les meilleurs paramètres d'inattention et de chance.
 
 Afin d'accélérer la procédure d'entraînement parfois coûteuse, nous utilisons le compilateur à la volée ``pypy``.
+ 
+ Les paramètres sont initialisés à une certaine distribution a priori déterminée pendant la phase de test.
 
 # Résultats
 

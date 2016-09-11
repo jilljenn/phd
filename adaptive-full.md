@@ -38,7 +38,7 @@ En fonction du but de l'évaluation, plusieurs modèles sont disponibles, selon 
 
 ## Modèle de Rasch
 
-La théorie de la réponse à l'item consiste à supposer que les réponses d'un apprenant observées lors d'un test peuvent être expliquées par un certain nombre de valeurs cachées, qu'il convient d'identifier.
+La théorie de la réponse à l'item consiste à supposer que les réponses d'un apprenant que l'on observe lors d'un test peuvent être expliquées par un certain nombre de valeurs cachées, qu'il convient d'identifier.
 
 Le modèle le plus simple de tests adaptatifs est le modèle de Rasch, aussi connu sous le nom de modèle logistique à un paramètre. Il modélise un apprenant par une valeur unique de niveau, et les questions ou tâches par une valeur de difficulté. La propension d'un apprenant à résoudre une tâche ne dépend que de la différence entre sa difficulté et son niveau. Ainsi, si un apprenant $i$ a un niveau $\theta_i$ et souhaite résoudre une question $j$ de difficulté $d_j$ :
 
@@ -63,88 +63,81 @@ $$ I_j(\theta_i) = E\left[{\left(\frac\partial{\partial\theta} \log f(X_j, \thet
 
 où $X_j$ est la variable correspondant au succès/échec de l'apprenant $i$ sur la question $j$ et $f(X_j, \theta_i)$ est la fonction de probabilité pour $X_j$ qui dépend de $\theta_i$ comme indiqué plus haut : $f(X_j, \theta_i) = \Phi(\theta_i - d_j)$.
 
-Ainsi, un test adaptatif peut être conçu de la façon suivante : étant donné l'estimation actuelle du niveau de l'apprenant, choisir la question qui va apporter le plus d'information sur son niveau, mettre à jour l'estimation en fonction du résultat (succès ou échec), et ainsi de suite. À la fin du test, on peut visualiser le processus comme dans les Figures \ref{irt} et \ref{irt-output} : l'intervalle de confiance sur le niveau de l'apprenant réduit après chaque résultat, et les questions sont choisies de façon adaptative.
+Ainsi, un test adaptatif peut être conçu de la façon suivante : étant donné l'estimation actuelle du niveau de l'apprenant, choisir la question qui va apporter le plus d'information sur son niveau, mettre à jour l'estimation en fonction du résultat (succès ou échec), et ainsi de suite. À la fin du test, on peut visualiser le processus comme dans les Figures \ref{irt} et \ref{irt-output} : l'intervalle de confiance sur le niveau de l'apprenant est réduit après chaque résultat, et les questions sont choisies de façon adaptative.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{figures/irt.pdf}
-\caption{Evolution of the ability estimate throughout an adaptive test based on the Rasch model.}
+\caption{Évolution de l'estimation du niveau via un test adaptatif basé sur le modèle de Rasch.}
 \label{irt}
 \end{figure}
 
 \begin{figure}
 \begin{verbatim}
-We ask question 42 to the examinee.
-Correct!
-We ask question 48 to the examinee.
-Correct!
-We ask question 82 to the examinee.
+On pose la question 42 à l'apprenant.
+Correct !
+On pose la question 48 à l'apprenant.
+Correct !
+On pose la question 82 à l'apprenant.
 Incorrect.
-We ask question 53 to the examinee.
-Correct!
-We ask question 78 to the examinee.
+On pose la question 53 à l'apprenant.
+Correct !
+On pose la question 78 à l'apprenant.
 Incorrect.
-We ask question 56 to the examinee.
-Correct!
-We ask question 76 to the examinee.
+On pose la question 56 à l'apprenant.
+Correct !
+On pose la question 76 à l'apprenant.
 Incorrect.
-We ask question 58 to the examinee.
+On pose la question 58 à l'apprenant.
 Incorrect.
 \end{verbatim}
 \caption{Exemple de test adaptatif.}
 \label{irt-output}
 \end{figure}
 
-Being a unidimensional model, the Rasch model is not suitable for cognitive diagnosis. Still, it is really popular because of its simplicity, its stability and its sound mathematical framework [@Desmarais2012; @Bergner2012]. Also, @Verhelst2012 has showed that if the items are splitted into categories, it is possible to provide to the examinee a useful deviation profile, specifying which category subscores were lower or higher than expected. More precisely, if we consider that in each category, an answer gives one point if correct, no point otherwise, we can compute the number of points obtained by the learner in each category (the subscores), which sum up to his total score. Given the Rasch model only, it is possible to compute the expected subscore of each category, given the total score. Finally, the deviation profile, defined as the difference between the observed and expected subscores, provides a nice visualization of the categories that need further work, see Figure \ref{deviation}. Such deviation profiles can be aggregated in order to highlight the strong and weak points of the students at the level of a country, witnessing a possible deficiency in the national curriculum. Studies of international assessments, such as the Trends in International Mathematics and Science Study (TIMSS), allow for worldwide comparisons. An example is given over the TIMSS 2011 dataset of proficiency in mathematics, see Figure \ref{deviation}, highlighting the fact that Romania is stronger in Algebra than expected, while Norway is weaker in Algebra than expected. This belongs to the information visualization class of learning analytics methods, and shows what can be done using the most simple psychometric model and the student data only.
-
-In adaptive testing though, we do not observe all student responses but only the answers to the subset of questions we asked, which may differ from a student to another. It is still possible to compute the deviation profile within this subset, but it can't be aggregated to a higher level, because of the bias induced by the adaptive process.
+Le modèle de Rasch est unidimensionnel, donc il ne permet pas d'effectuer un diagnostic cognitif. Il reste pourtant populaire pour sa simplicité, sa généricité [@Desmarais2012; @Bergner2012] et sa robustesse [@Bartholomew2008]. @Verhelst2012 a montré qu'avec la simple donnée supplémentaire d'une répartition des questions en catégories, il est possible de renvoyer à l'examiné un profil utile à la fin du test, spécifiant quels sous-scores de catégorie sont plus bas ou plus haut que la moyenne. Plus précisément, si l'on considère que dans chaque catégorie, une réponse donne 1 point si elle est correcte, 0 point sinon, on peut calculer le nombre de points obtenu par l'apprenant dans chaque catégorie. À partir du modèle de Rasch, il est alors possible de calculer l'espérance du sous-score dans chaque catégorie, étant donné le score total. Enfin, le profil de déviation, défini comme la différence entre le sous-score obtenu et le sous-score moyen, fournit une bonne visualisation des catégories qui requièrent un approfondissement, voir la figure \ref{deviation}. De tels profils de déviation peuvent être agrégés de façon à mettre en évidence les points forts et faibles des apprenants au niveau d'un pays, pour identifier d'éventuelles carences dans le programme scolaire de ce pays. En effet, des évaluations internationales telles que PISA ou TIMSS permettent des comparaisons à l'échelle des pays. À partir des données de l'édition 2011 du test Trends in International Mathematics and Science Study (TIMSS), @Verhelst2012 a pu construire le diagramme à la figure \ref{deviation-country}, où l'on peut observer que la Roumanie est plus forte en algèbre qu'attendu, tandis que la Norvège est plus faible en algèbre qu'attendu. Ceci est un remarquable exemple de visualisation d'information basé sur le plus simple modèle psychométrique, le modèle de Rasch, et avec une répartition des questions en 4 catégories.\nomenclature{TIMSS}{Trends in International Mathematics and Science Study}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.5\linewidth]{figures/profil.png}\\
-\includegraphics[width=\linewidth]{figures/profilpays.png}
-\caption{Above, the deviation profile of a single learner. Below, the deviation profile of different countries on the TIMSS 2011 math dataset, from the presentation of N.D. Verhelst. at the Psychoco 2016 conference.}
+\includegraphics[width=0.5\linewidth]{figures/profil.png}
+\caption{Profil de déviation d'un unique apprenant, à partir du modèle de Rasch.}
 \label{deviation}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/profilpays.png}
+\caption{Profil de déviation de différents pays sur le jeu de données de TIMSS 2011, tiré de la présentation de of N.D. Verhelst au workshop Psychoco 2016.}
+\label{deviation-country}
 \end{figure}
 
 \label{mirt}
 
-It is natural to extend the Rasch model to multidimensional abilities. In Multidimensional Item Response Theory (MIRT) [@Reckase2009], both learners and items are modelled by vectors of a certain dimension $d$, and the tendency for a learner to solve an item depends only on the dot product of those vectors. Thus, a learner has greater chance to solve items correlated with its ability vector, and asking a question brings information in the direction of its item vector.\nomenclature{TRIM}{théorie de la réponse à l'item multidimensionnelle}
+Il est naturel d'étendre le modèle de Rasch à des compétences multidimensionnelles. En théorie de la réponse à l'item multidimensionnelle (TRIM) [@Reckase2009], les apprenants et les questions ne sont plus modélisés par de simples scalaires mais par des vecteurs de dimension $d$, tels que la propension pour un apprenant à répondre correctement à une question dépend seulement du produit scalaire de ces vecteurs. Ainsi, un apprenant a plus de chances de répondre à des questions qui sont corrélées à son vecteur de compétences, et poser une question apporte de l'information dans la direction de son vecteur.\nomenclature{TRIM}{théorie de la réponse à l'item multidimensionnelle}
 
 \def\R{\textbf{R}}
 
-Thus, if learner $i \in \{1, \ldots, n\}$ is modelled by vector $\vec{\theta_i} \in \R^d$ and item $j \in \{1, \ldots, m\}$ is modelled by vector $\vec{d_j} \in \R^d$:
+Ainsi, si l'apprenant $i \in \{1, \ldots, n\}$ est modélisé par le vecteur $\mathbf{\theta_i} \in \R^d$ et la question $j \in \{1, \ldots, m\}$ par le vecteur $\mathbf{d_j} \in \R^d$:
 
-$$ Pr(\textnormal{``learner $i$ answers item $j$''}) = \Phi(\vec{\theta_i} \cdot \vec{d_j}). $$
+$$ Pr(\textnormal{``l'apprenant $i$ répond correctement à la question $j$''}) = \Phi(\mathbf{\theta_i} \cdot \mathbf{d_j}). $$
 
-Using this model, the Fisher information becomes a matrix, of which one wants to maximize either the determinant ("D-rule") or the trace ("T-rule"). The item with maximum determinant provides the maximum volume of information thus the largest reduction of volume in the variance of the ability estimate, while the item with maximum trace attempts to increase the average information about each component of the ability, by ignoring the covariation between components.
+Notez qu'on ne retrouve pas le modèle de Rasch lorsque $d = 1$ mais lorsque $d = 2$ avec des paramètres $\mathbf{\theta_i} = (\theta, 1)$ et $\mathbf{d_j} = (1, d_j)$, car :
 
-Restated as a matrix factorization problem, MIRT becomes:
+$$ \mathbf{\theta_i} \cdot \mathbf{d_j} = (\theta, 1) \cdot (1, -d_j) = \theta - d_j $$
+
+qui correspond bien au modèle de Rasch.
+
+Avec le modèle de la TRIM, l'information de Fisher n'est plus un scalaire mais une matrice, dont on cherche à maximiser soit le déterminant ou la trace. La question de déterminant maximal apporte le plus d'information donc la plus grande réduction de volume dans la variance de l'estimation du niveau, tandis que la question de trace maximale essaie d'augmenter l'information moyenne de chaque dimension du niveau, en ignorant la covariance entre composantes.
+
+Réécrit comme un problème de factorisation de matrice, MIRT devient :
 
 $$ M \simeq \Phi(\Theta D^T) $$
 
-where $M$ is the $n \times m$ student data, $\Theta$ is the $n \times r$ learner matrix of all learners vectors and $D$ is the $m \times r$ item matrix of all item vectors.
+où $M$ est la matrice $n \times m$ des réponses des $n$ étudiants sur les $m$ questions d'un test, $\Theta$ est la matrice $n \times d$ des vecteurs des apprenants et enfin $D$ est la matrice $m \times d$ des vecteurs des questions.
 
-Nevertheless, those richer models involve many more parameters : if $d$ parameters are estimated for each of the $n$ learners, and $d$ parameters are estimated for each of the $m$ items. Thus, this model has proven to be much harder to calibrate [@Desmarais2012; @Lan2014].
+Ce modèle plus riche a beaucoup plus de paramètres : $d$ paramètres doivent être estimés pour chacun des $n$ apprenants et chacune des $m$ questions, soit $d(n + m)$ paramètres au total. Ainsi, ce modèle est plus difficile à converger [@Desmarais2012; @Lan2014].
 
 ## Modèle DINA
 
-Les modèles de diagnostic cognitif reposent sur une q-matrice, qui fait le lien entre les questions et les composantes de connaissance (CC).\nomenclature{CC}{Composante de connaissance}
-
-    Round 1 -> We ask question 9 to the examinee.
-    It requires KC: [0, 1, 0, 0, 0, 0, 0, 0]
-    Correct!
-    Examinee: [0.5, 0.74, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
-    Estimate: 00000101100000000000
-       Truth: 00011111111101001111
-
-    Round 2 -> We ask question 6 to the examinee.
-    It requires KC: [0, 0, 0, 0, 0, 0, 1, 0]
-    Correct!
-    Examinee: [0.5, 0.74, 0.5, 0.5, 0.5, 0.5, 0.91, 0.5]
-    Estimate: 00000101100101010000
-       Truth: 00011111111101001111
-
-Les modèles de diagnostic cognitif font l'hypothèse que la résolution de tâches d'apprentissage peut être expliquée par la maîtrise ou non-maîtrise de certaines CC, ce qui permet de transférer de l'information d'une question à l'autre. Par exemple, pour calculer $1/7 + 8/9$ correctement, un apprenant est censé maîtriser l'addition, et la mise au même dénominateur. En revanche, pour calculer $1/7 +8/7$, seul le fait d'additionner est nécessaire. Ces modèles cognitifs requièrent la spécification des CC impliqués dans la résolution de chacune des questions du test, sous la forme d'une matrice binaire appelée q-matrice, qui fait le lien entre les questions et les CC : c'est un modèle de transfert. Voir Table \ref{fraction-qmatrix} pour un exemple de q-matrice.
+Les modèles de diagnostic cognitif font l'hypothèse que la résolution des questions ou tâches d'apprentissage peut être expliquée par la maîtrise ou non-maîtrise de certaines composantes de connaissance (CC), ce qui permet de transférer de l'information d'une question à l'autre. Par exemple, pour calculer $1/7 + 8/9$ correctement, un apprenant est censé maîtriser l'addition, et la mise au même dénominateur. En revanche, pour calculer $1/7 + 8/7$, il suffit de savoir additionner deux fractions de même dénominateur. Ces modèles cognitifs requièrent la spécification des CC impliqués dans la résolution de chacune des questions du test, sous la forme d'une matrice binaire appelée q-matrice, qui fait le lien entre les questions et les CC : c'est un modèle de transfert. Voir Table \ref{fraction-qmatrix} pour un exemple de q-matrice.\nomenclature{CC}{Composante de connaissance}
 
 \begin{table}
 \centering
@@ -173,71 +166,94 @@ $$ \begin{array}{cccccccc}
 \end{array} $$
 \end{minipage}
 \begin{minipage}{0.46\textwidth}
-Description of the knowledge components:
+Description des composantes de connaissance :
 \begin{itemize}
-\item convert a whole number to a fraction
-\item separate a whole number from a fraction
-\item simplify before subtracting
-\item find a common denominator
-\item borrow from whole number part
-\item column borrow to subtract the second numerator from the first
-\item subtract numerators
-\item reduce answers to simplest form
+\item convertir un nombre entier en fraction
+\item séparer un nombre entier d'une fraction
+\item simplifier avant de soustraire
+\item mettre au même dénominateur
+\item soustraire une fraction d'un entier
+\item poser la retenue lors de la soustraction des numérateurs
+\item soustraire les numérateurs
+\item réduire les fractions sous forme irréductible
 \end{itemize}
 \end{minipage}
-\caption{The q-matrix corresponding to Tatsuoka's (1984) fraction subtraction data set of 536 middle school students over 20 fraction subtraction test items spanned over 8 knowledge components.}
+\caption{La q-matrice correspondant aux réponses de 536 collégiens sur 20 questions de soustraction de fonction comportant 8 composantes de connaissance. Le jeu de données est étudié dans @DeCarlo2010.}
 \label{fraction-qmatrix}
 \end{table}
 
 \label{dina}
 \nomenclature{DINA}{Deterministic Input, Noisy And}
-The DINA model ("deterministic input noisy and") assumes that the learner will solve a certain item $i$ with probability $1 - s_i$ if he masters every KC involved in its resolution and with probability $g_i$ otherwise. The parameter $g_i$ is called the guess parameter of item $i$, it represents the probability of guessing the right answer to item $i$ while not being able to solve it, while $s_i$ is called the slip parameter of items $i$ and represents the probability of slipping on item $i$ while mastering the correct KCs. The DINO model ("deterministic input noisy or") only requires the mastery of one KC involved in the resolution of an item in order to solve it with probability $1 - s_i$. If no KC involved is mastered, the probability of solving the item is $g_i$.
+Le modèle DINA ("deterministic input noisy and", c'est-à-dire entrée déterministe, avec un « et » avec bruit) suppose que l'apprenant résoudra une certaine question $i$ avec probabilité $1 - s_i$ s'il maîtrise toutes les CC impliquées dans sa résolution, sinon avec probabilité $g_i$. Le paramètre $g_i$ est le paramètre de chance de la question $i$, c'est-à-dire la probabilité de deviner la bonne réponse alors que l'on ne maîtrise pas les CC nécessaires, tandis que $s_i$ est le paramètre d'inattention, c'est-à-dire la probabilité de se tromper alors qu'on maîtrise les CC associées. Il existe d'autres variantes de modèles cognitifs tels que le modèle DINO ("deterministic input noisy or", c'est-à-dire entrée déterministe, avec un « ou » avec bruit) où ne maîtriser qu'une seule des CC impliquées dans une question $i$ suffit à la résoudre avec probabilité $1 - s_i$, et si en revanche aucune CC impliquée n'est maîtrisée, la probabilité d'y répondre correctement est $g_i$.
 
-The latent state of a learner is represented by a vector of $K$ bits $(c_1, \ldots, c_K)$ where $K$ is the number of KCs involved, indicating the KCs that are mastered: for each $KC$ $k$, $c_k$ is 1 if the learner masters the $k$-th KC, 0 otherwise. Each answer that the learner gives on an item brings us information about his probable latent state. @Xu2003 have used adaptive testing strategies in order to infer the latent state of the learner using few questions, coined as cognitive diagnosis computerized adaptive testing (CD-CAT). Knowing the mental state of a learner, we can infer his behavior over the remaining questions in the test, and choose questions accordingly. At each moment, the system keeps a probability distribution over the $2^K$ possible latent states and refines it after each question using the Bayes' rule. A usual measure of uncertainty is entropy:
+L'état latent d'un apprenant est représenté par un vecteur de bits $(c_1, \ldots, c_K)$, une par CC à maîtriser ($K$ est donc le nombre de CC impliquées dans le test), indiquant les CC qui sont maîtrisées : $c_k$ vaut 1 si l'apprenant maîtrise la $k$-ième CC, 0 sinon. Chaque réponse que l'apprenant donne sur une question nous donne de l'information sur les états possibles qui pourraient correspondre à l'apprenant. @Xu2003 ont utilisé des stratégies de tests adaptatifs pour inférer l'état latent de l'apprenant en utilisant peu de questions, c'est ainsi qu'ont été développés les tests adaptatifs de diagnostic cognitif (en anglais CD-CAT, pour *cognitive diagnosis computerized adaptive testing*), que nous appellerons diagnostics cognitifs adaptatifs. Ayant une estimation a priori de l'état mental de l'apprenant, on peut inférer son comportement sur les questions restantes du test, et choisir des questions informatives en fonction. À chaque étape, le système maintient une distribution de probabilité sur les $2^K$ états mentaux possibles et l'affine après chaque réponse de l'apprenant de façon bayésienne.\nomenclature{CD-CAT}{cognitive diagnosis computerized adaptative testing, tests adaptatifs de diagnostic cognitif}
+
+Pour converger rapidement vers l'état latent le plus vraisemblable, la meilleure question à poser est celle qui réduit l'incertitude le plus [@Doignon2012; @Huebner2010], c'est-à-dire l'entropie de la distribution sur les états latents possibles :
 
 $$ H(\mu) = - \sum_{c \in \{0, 1\}^K} \mu(c) \log \mu(c). $$
 
-Therefore, in order to converge quickly into the true latent state, the best item to ask is the one that reduces average entropy the most [@Doignon2012; @Huebner2010]. Other criteria have been tried such as the question that maximizes the Kullback-Leibler divergence, which is a measure of the difference between two probability distributions [@Cheng2009]:
+D'autres critères ont été étudiés et comparés tels que la question qui maximise la divergence de Kullback-Leibler, qui est une mesure de la différence entre deux distributions de probabilité [@Cheng2009]:
 
 $$ D_{KL}(P||Q) = \sum_i P(i) \log \frac{P(i)}{Q(i)}. $$
 
-As @Chang2014 states, "A survey conducted in Zhengzhou found that CD-CAT encourages critical thinking, making students more independent in problem solving, and offers easy to follow individualized remedy, making learning more interesting."
+Un exemple de test adaptatif basé sur le modèle DINA est donné dans la figure \ref{example-dina}.
 
-As the distribution over skills is on a finite support, we can maintain at each step the whole probability distribution $\pi$ over the possible skill vectors, initialized at some prior distribution inferred during the train phase.
-Knowing the student answer to a certain question $i$, the update of $\pi_i$ is done according to Bayes' rule. Let $x$ be a skill vector, $s_i$ and $g_i$ the slip and guess parameters of the question $i$ and $a_i$ be 1 if the answer was correct, 0 otherwise. If the skills associated to $x$ are sufficient to answer the question correctly,
+\begin{figure}
+\begin{verbatim}
+Tour 1 -> On pose la question 1 à l'apprenant.
+Elle requiert les CC suivantes : [1, 1, 0, 0]
+Correct !
+L'examiné a beaucoup de chance de maîtriser ces 2 premières CC
+Estimation: 0000
+Vérité: 0001
 
-$$ \pi_{i+1}(x) = \pi_i(x) \cdot [a_i \cdot(1-s_i) + (1-a_i)\cdot s_i] $$
+Tour 2 -> On pose la question 3 à l'apprenant.
+Elle requiert les CC suivantes : [0, 0, 1, 0]
+Correct !
+L'examiné a peu de chances
+Estimation: 0000
+Vérité: 0001
+\end{verbatim}
+\caption{Exemple de test adaptatif basé sur le modèle DINA.}
+\label{example-dina}
+\end{figure}
 
-otherwise
+\begin{figure}
+\includegraphics{figures/compnum}
+\caption{Exemple de q-matrice.}
+\label{example-dina}
+\end{figure}
 
-$$ \pi_{i+1}(x) = \pi_i(x) \cdot [a_i \cdot g_i + (1-a_i)\cdot(1-g_i)]. $$
+\begin{figure}
+\includegraphics{figures/hierarchy}
+\caption{Exemple de relations de prérequis.}
+\label{example-dina}
+\end{figure}
+
+Comme le dit @Chang2014, "Une étude conduite à Zhengzhou indique que CD-CAT encourage la pensée critique, en rendant les étudiants plus autonomes en résolution de problèmes, et offre de la remédiation personnalisée facile à suivre, ce qui rend l'apprentissage plus intéressant." En effet, une fois avoir identifié à l'issue d'un test l'état mental de l'apprenant, on peut l'orienter vers des ressources utiles pour combler ses lacunes.
+
+Comme l'espace des états latents possibles est discret, on peut maintenir la distribution de probabilité $(\pi_i)_{i \in \mathbf{N}}$ sur les vecteurs de compétences possibles tout au long du test. Connaissant la réponse de l'apprenant à la $i$-ième question, la mise à jour de $\pi_{i - 1}$ est faite par la règle de Bayes. Soit $x$ un état latent, $s_i$ et $g_i$ les paramètres d'inattention et de chance associés à la $i$-ième question et soit $a_i$ une variable qui vaut 1 si la réponse de l'apprenant est correcte, 0 sinon. Si les CC associées à $x$ sont suffisantes pour répondre à la question correctement,
+
+$$ \pi_i(x) = \pi_{i - 1}(x) \cdot [a_i \cdot(1-s_i) + (1-a_i)\cdot s_i] $$
+
+sinon
+
+$$ \pi_i(x) = \pi_{i - 1}(x) \cdot [a_i \cdot g_i + (1-a_i)\cdot(1-g_i)]. $$
 
 En effet : si $x$ a bien les compétences requises, il peut soit donner la bonne réponse en ne faisant pas d'erreur d'inattention (résultat $a_i = 1$ avec probabilité $1 - s_i$), soit faire une erreur d'inattention (résultat $a_i = 0$ avec probabilité $s_i$).
 
-Maintaining the probability distribution over the $2^K$ states may be intractable for large values of $K$, therefore $K \leq 10$ in practice [@Su2013]. It is possible to reduce the complexity by assuming prerequisites between KCs: if the mastery of some KC implies the mastery of another KC, the number of possible states decreases and so does the complexity. This approach is called the Attribute Hierarchy Model [@Leighton2004], and has allowed more accurate knowledge representations that fit the data better [@Rupp2012].\label{ahm}
+Maintenir la distribution de probabilité sur les $2^K$ états latents possibles risque d'être impraticable pour de larges valeurs de $K$, c'est pourquoi en pratique $K \leq 10$ [@Su2013]. Il est toutefois possible de réduire la complexité en supposant des relations de prérequis entre CC : si la maîtrise d'une CC implique celle d'une autre CC, le nombre d'états possibles décroît et donc la complexité en temps fait de même. Cette approche est appelée modèle de hiérarchie sur les attributs [@Leighton2004] et permet d'obtenir des représentations de connaissances qui correspondent mieux aux données [@Rupp2012].\label{ahm}
 
-The q-matrix may be costly to build. Thus, devising a q-matrix automatically has been an open field of research. @Barnes2005 used a hill-climbing technique while [@Winters2005; @Desmarais2011] tried non-negative matrix factorization techniques to recover q-matrices from real and simulated multidisciplinary assessment data. They discovered that for topics well separated such as French and Mathematics, these techniques can separate well items that belong to these categories. On the contrary, on another dataset of assessments from the general knowledge game Trivial Pursuit, the results are no better than chance. As a recall, non-negative matrix factorization tries to devise matrices with non-negative coefficients $W$ and $Q$ such that the original matrix $M$ verifies $M \simeq WQ^T$. But other matrix factorization techniques can be tried such as sparse PCA [@Zou2006], which tries to devise a factorization under the form $M \simeq WQ^T$ where $Q$ is sparse, the intuition being: only few knowledge components are involved in the resolution of one task. On the datasets we tried, the expert-specified q-matrix fit better than a q-matrix devised automatically using sparse PCA. Even if we had an automatically devised q-matrix that fits the data better, we would not be able to name the knowledge components anyway. @Lan2014 tried to circumvent this issue by trying to interpret a posteriori the lines of the q-matrix, using expert-specified tags. A more recent work from @Koedinger2012 managed to combine q-matrices from several experts using crowdsourcing in order to find better cognitive models that are still explainable.
-
-One may desire a model that encompasses both the mastery of a knowledge component and a notion of difficulty. To address this need, unified models have been designed, such as the general diagnostic model for partial credit data [@Davier2005] that takes MIRT and some cognitive models as special cases:
-
-$$ Pr(\textnormal{``learner $i$ answers item $j$''}) = \Phi\left(\beta_i + \sum_{k = 1}^K \theta_{ik} q_{jk} d_{jk}\right) $$
-
-where $K$ is the number of KCs involved in the test, $\beta_i$ is the main ability of learner $i$, $\theta_{ik}$ its ability for KC $k$, $q_{jk}$ is the $(j,k)$ entry of the q-matrix which is 1 if KC $k$ is involved in the resolution of item $j$, 0 otherwise, $d_{jk}$ the difficulty of item $j$ over KC $k$. Please note that this model is similar to the MIRT model specified above, but the dot product is computed only on part of the components. The intuition is to consider a MIRT model where the number of dimensions is the number of KCs of the q-matrix ($d = K$). When we calibrate the feature vector of dimension $d$ of an item, only the components that correspond to KCs involved in the resolution of this item are taken into account, see Figure \ref{fig-genma}. Hence, the fact that few components are required to solve each item allows the MIRT parameter estimation to converge. @Vie2016 used it in adaptive testing under the name GenMA. Another advantage is that the ability estimate at some point in the test represents degrees of proficiency for each knowledge component. The GenMA model is therefore a hybrid model that combines the Rasch model and a cognitive model.
-\label{genma}
-
-\begin{figure}
-\centering
-\includegraphics[width=\linewidth]{figures/genma.pdf}
-\caption{The GenMA hybrid model, combining item response theory and a q-matrix.}
-\label{fig-genma}
-\end{figure}
+La q-matrice peut être coûteuse à construire. Ainsi, calculer une q-matrice automatiquement a été un sujet de recherche. @Barnes2005 utilise une technique d'escalade de colline (qui consiste à flipper quelques bits et regarder si l'erreur est diminuée) tandis que @Winters2005 et @Desmarais2011 ont essayé des méthodes de factorisation de matrice pour recouvrer des q-matrices à partir de données d'apprenants. Ils ont découvert que pour des domaines bien distincts comme le français et les mathématiques, ces techniques permettent de séparer les questions qui portent sur ces domaines. Une critique est que même si l'on obtient via ces méthodes automatiques des matrices qui correspondent bien aux données, les colonnes risquent de ne plus être interprétables. @Lan2014 a tenté de contourner ce problème en tentant d'interpréter a posteriori les colonnes de la q-matrice, en utilisant des tags spécifiés par des experts sur les questions. @Koedinger2012 a réussi à combiner des q-matrices de différents experts par externalisation ouverte (*crowdsourcing*) de façon à obtenir des q-matrices plus riches, toujours interprétables, et qui correspondent davantage aux données.
 
 De façon surprenante, le modèle DINA n'a pas besoin de données de test pour être déjà adaptatif. La q-matrice suffit à lancer des tests, où l'on suppose alors que les apprenants ont autant de chance de maîtriser une composante que de ne pas la maîtriser. À l'aide d'un historique, on peut avoir un a priori sur les composantes qu'un nouvel apprenant maîtrisera ou non.
 
 ## Théorie des espaces de connaissances basés sur les compétences
 \label{knowledge-space}
 
-@Doignon2012 have developed knowledge space theory, an abstract theory that relies on a partial order between subsets of a discrete knowledge space. Formally, let us assume that there is a certain number of KCs to learn, following a dependency graph specifying which KCs needs to be mastered before learning a certain KC, see Figure \ref{dependency}. From this dependency graph, one can compute the feasible knowledge states, i.e., the KCs that are actually mastered by the learner. For example, $\{a, b\}$ is a feasible knowledge state while the singleton $\{b\}$ is not, because $a$ needs to be mastered before $b$. Thus, for this example there are 10 feasible knowledge states: $\emptyset, \{a\}, \{b\}, \{a, b\}, \{a, c\}, \{a, b, c\}, \{a, b, c, d\}, \{a, b, c, e\}, \{a, b, c, d, e\}$. An adaptive testing can then uncover the knowledge state of the examinee, in a similar fashion to the Attribute Hierarchy Model described above. Once the knowledge subset of a learner has been identified, this model can suggest to him the next knowledge components to learn in order to help him progress, through a so-called learning path, see Figure \ref{dependency}. From the knowledge state $\{a\}$, the learner can choose whether he wants to learn the KC $b$ or the KC $c$ first.
+@Doignon2012 ont développé la théorie des espaces de connaissances, qui repose sur un ordre partiel entre les sous-ensembles d'un espace de connaissances discret. Supposons qu'il existe 
+
+have developed knowledge space theory, an abstract theory that relies on a partial order between subsets of a discrete knowledge space. Formally, let us assume that there is a certain number of KCs to learn, following a dependency graph specifying which KCs needs to be mastered before learning a certain KC, see Figure \ref{dependency}. From this dependency graph, one can compute the feasible knowledge states, i.e., the KCs that are actually mastered by the learner. For example, $\{a, b\}$ is a feasible knowledge state while the singleton $\{b\}$ is not, because $a$ needs to be mastered before $b$. Thus, for this example there are 10 feasible knowledge states: $\emptyset, \{a\}, \{b\}, \{a, b\}, \{a, c\}, \{a, b, c\}, \{a, b, c, d\}, \{a, b, c, e\}, \{a, b, c, d, e\}$. An adaptive testing can then uncover the knowledge state of the examinee, in a similar fashion to the Attribute Hierarchy Model described above. Once the knowledge subset of a learner has been identified, this model can suggest to him the next knowledge components to learn in order to help him progress, through a so-called learning path, see Figure \ref{dependency}. From the knowledge state $\{a\}$, the learner can choose whether he wants to learn the KC $b$ or the KC $c$ first.
 
 @Falmagne2006 provide an adaptive test in order to guess effectively the knowledge space using entropy minimization, which is however not robust to careless errors. This model has been implemented in practice in the ALEKS system, which is said to be used by millions of users today [@Kickmeier2015; @Desmarais2012].
 
@@ -315,3 +331,5 @@ There exist different interfaces for assessment such as serious games or stealth
 Practice testing is a key factor to success [@Dunlosky2013]. However, asking questions can be boring. In order to prevent boredom, asking less questions is better.
 
 Adaptive testing allows better personalization by organizing learning resources. For example, curriculum sequencing consists in defining learning paths in a space of learning objectives [@Desmarais2012]. It aims to use skills assessment to tailor the learning content with the least possible amount of evidence. 
+
+Dans les tests adaptatifs, nous n'observons pas toutes les réponses  all student responses but only the answers to the subset of questions we asked, which may differ from a student to another. It is still possible to compute the deviation profile within this subset, but it can't be aggregated to a higher level, because of the bias induced by the adaptive process.
