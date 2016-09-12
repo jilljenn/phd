@@ -197,8 +197,9 @@ In order to visualize the results, errors computed during experiment $(i, j)$ ar
 \end{figure}
 
 ## Jeux de données
+\label{datasets}
 
-For our experiments, we used two real datasets.
+Pour nos expériences, nous avons utilisé les jeux de données suivants.
 
 ### SAT
 

@@ -4,56 +4,52 @@ Nous considérons ici un modèle qui suppose que l'on connaisse les CC mises en 
 
 ## Comparaison avec le modèle DINA
 
-Le modèle DINA est un modèle cognitif basé sur une q-matrice, voir la section \ref{dina} pour une description précise. Ce modèle a été utilisé pour des tests adaptatifs et apprécié pour sa capacité à renvoyer un feedback à la fin de test comportant les composantes de connaissances maîtrisées ou non.
+Le modèle DINA est un modèle cognitif basé sur une q-matrice, qui a été décrit à la section \ref{dina}. Ce modèle a été utilisé pour des tests adaptatifs et apprécié pour sa capacité à faire un retour à l'apprenant à la fin du test décrivant les composantes de connaissances qui semblent être maîtrisées et celles qui semblent ne pas l'être.
 
-Pour rappel, on pouvait s'étonner du fait que ce modèle, bien que multidimensionnel, ait un pouvoir prédictif concurrencé par le modèle unidimensionnel de Rasch.
+Dans le modèle DINA, l'apprenant est modélisé par un vecteur de bits appelé état indiquant pour chaque CC si elle est maîtrisée ou non. Ainsi, à tout moment du test, le modèle maintient une distribution de probabilité sur les $2^K$ états possibles, où $K$ est le nombre de CC, et chaque question est associée à un vecteur de bits correspondant aux CC qu'il faut avoir maîtrisées afin d'y répondre correctement.
 
-Dans le modèle DINA, l'apprenant est modélisé par un vecteur de bits appelé état indiquant pour chaque CC si elle est maîtrisée ou non. Ainsi, à tout moment du test, le modèle maintient une distribution de probabilité selon les $2^K$ états possibles, où $K$ est le nombre de CC, et chaque question est associée à un autre vecteur de bits, correspondant aux CC qu'il faut avoir maîtrisées afin d'y répondre correctement.
+## Modèle de diagnostic général
+
+@Davier2005 a proposé un modèle qui unifie plusieurs modèles de TRIM ainsi que des modèles cognitifs, en s'appuyant sur un degré de maîtrise de chaque CC et d'une notion de difficulté des questions. Il s'agit du modèle général de diagnostic (*general diagnostic model for partial credit data*) :
+
+$$ Pr(\textnormal{``l'apprenant $i$ répond correctement à la question $j$''}) = \Phi\left(\beta_i + \sum_{k = 1}^K \theta_{ik} q_{jk} d_{jk}\right) $$
+
+\noindent
+où $K$ est le nombre de CC évaluées par le test, $\beta_i$ est le niveau de l'apprenant $i$, $\theta_{ik}$ son niveau dans la CC $k$, $q_{jk}$ l'élément $(j, k)$ de la q-matrice qui vaut 1 si la CC $k$ est impliquée dans la résolution de la question $j$, 0 sinon, et enfin $d_{jk}$ est la difficulté de la question $j$ selon la CC $k$. Si la q-matrice ne contient que des 1, ce modèle est équivalent à la TRIM. Sinon, les composantes de connaissances coïncident avec les dimensions du modèle, et les paramètres de difficulté de chaque question ne sont estimés que pour les CC mises en œuvre dans la résolution de cette question, les autres étant fixées à 0, voir figure \ref{fig-genma}.
+
+À notre connaissance, ce modèle n'a pas été utilisé dans des tests adaptatifs [@Yan2014]. C'est ce que nous proposons dans ce chapitre, sous le nom de modèle GenMA.
 
 ## GenMA
 
-Nous proposons un nouveau modèle qui au lieu d'associer à une question un vecteur de bits, lui associe un vecteur de valeurs positives, correspondant à des paramètres de difficulté selon chaque composante de connaissance. Les entrées à 0 de la q-matrice permettent de fixer les entrées à 0 du vecteur de chaque question, c'est-à-dire que les composantes de connaissances non mises en œuvre dans une question ont une difficulté nulle pour cette question, ou encore que la compétence de l'apprenant selon cette composante ne sera pas prise en compte dans le calcul du score.
+Nous proposons un nouveau modèle de test adaptatif basé sur le modèle général de diagnostic. Au lieu d'associer à chaque question $j$ un vecteur de bits comme dans le modèle DINA, on va lui associer un vecteur de valeurs réelles $(d_{j1}, \ldots, d_{jK})$, correspondant à des paramètres de difficulté pour chaque composante de connaissance. Les entrées à 0 de la q-matrice permettent de fixer les entrées à 0 du vecteur de chaque question, c'est-à-dire que les composantes de connaissances non mises en œuvre dans une question ont une difficulté nulle pour cette question, ou encore que la compétence de l'apprenant selon cette composante ne sera pas prise en compte dans le calcul de sa propension à répondre correctement à la question, voir l'expression à la section précédente.
 
-
-One may desire a model that encompasses both the mastery of a knowledge component and a notion of difficulty. To address this need, unified models have been designed, such as the general diagnostic model for partial credit data [@Davier2005] that takes MIRT and some cognitive models as special cases:
-
-$$ Pr(\textnormal{``learner $i$ answers item $j$''}) = \Phi\left(\beta_i + \sum_{k = 1}^K \theta_{ik} q_{jk} d_{jk}\right) $$
-
-where $K$ is the number of KCs involved in the test, $\beta_i$ is the main ability of learner $i$, $\theta_{ik}$ its ability for KC $k$, $q_{jk}$ is the $(j,k)$ entry of the q-matrix which is 1 if KC $k$ is involved in the resolution of item $j$, 0 otherwise, $d_{jk}$ the difficulty of item $j$ over KC $k$. Please note that this model is similar to the MIRT model specified above, but the dot product is computed only on part of the components. The intuition is to consider a MIRT model where the number of dimensions is the number of KCs of the q-matrix ($d = K$). When we calibrate the feature vector of dimension $d$ of an item, only the components that correspond to KCs involved in the resolution of this item are taken into account, see Figure \ref{fig-genma}. Hence, the fact that few components are required to solve each item allows the MIRT parameter estimation to converge. @Vie2016 used it in adaptive testing under the name GenMA. Another advantage is that the ability estimate at some point in the test represents degrees of proficiency for each knowledge component. The GenMA model is therefore a hybrid model that combines the Rasch model and a cognitive model.
+À l'issue du test, l'apprenant reçoit une estimation de son niveau selon chaque composante de connaissance. GenMA est donc un modèle hybride qui combine la TRIM et un modèle cognitif basé sur une q-matrice.
 \label{genma}
 
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figures/genma.pdf}
-\caption{The GenMA hybrid model, combining item response theory and a q-matrix.}
+\caption{Le modèle hybride GenMA, qui combine TRIM et une q-matrice.}
 \label{fig-genma}
 \end{figure}
-
-@Davier2005 a proposé un modèle qui unifie plusieurs modèles de théorie de la réponse à l'item ainsi que des modèles cognitifs : le modèle général de diagnostic (*general diagnostic model for partial credit data*) :
-
-$$ Pr(\textnormal{``l'apprenant $i$ répond correctement à la question $j$''}) = \Phi\left(\beta_i + \sum_{k = 1}^K \theta_{ik} q_{jk} d_{jk}\right) $$
-
-où $K$ est le nombre de CC mises en œuvre dans le test, $\beta_i$ est la compétence principale de l'apprenant $i$, $\theta_{ik}$ sa compétence selon la CC $k$, $q_{jk}$ l'élément $(j,k)$ de la matrice qui vaut 1 si la CC $k$ est impliquée dans la résolution de la question $j$, 0 sinon, $d_{jk}$ la difficulté de la question $j$ selon la CC $k$. On peut remarquer que si la q-matrice a toutes ses entrées à 1, on retrouve le modèle MIRT mentionné plus haut.
-
-À notre connaissance, ce modèle n'a pas été utilisé dans des tests adaptatifs [@Yan2014]. C'est ce que nous proposons dans ce chapitre, sous le nom de modèle GenMA.
 
 ## Calibrage
 
 GenMA requiert la spécification d'une q-matrice par un expert. Les paramètres $d_{jk}$ pour chaque question $j$ et CC $k$ sont calibrés à partir d'un historique de réponses, en utilisant l'algorithme de Metropolis-Hastings Robbins-Monro [@Chalmers2012; @Cai2010]. Pour notre implémentation, nous nous sommes basés sur le package ``mirt`` [@Chalmers2012].
 
-In real tests, items usually rely on only few KCs, hence there are fewer parameters to estimate than in a general MIRT model, which explains why the convergence is easy to obtain for ``GenMA``.
+Dans les tests, les questions font habituellement appel à peu de CC, c'est pourquoi le modèle GenMA est plus facile à calibrer que le modèle de TRIM général : il y a moins de paramètres à estimer.
 
 ## Choix de la question suivante
 
-For the selection item rule of ``GenMA``, we choose to maximize the Fisher information at each step, details of the implementation can be found in [@Chalmers2012].
+Pour le choix de la question suivante dans le modèle GenMA, nous choisissons de maximiser le déterminant de l'information de Fisher à chaque étape. Les détails d'implémentation peuvent être trouvés dans [@Chalmers2012].
 
-<!-- The problem TeSR-PSP becomes: after $k$ questions asked to a certain learner $i$, how to estimate its main ability $\beta_i$ and ability for each KC $\theta_{ik}$ that can explain its behavior throughout the test? -->
+## Estimation des paramètres
+
+Après que l'apprenant $i$ a répondu à une question, en fonction de sa réponse il faut déterminer les paramètres $(\theta_{i1}, \ldots, \theta_{iK})$ les plus vraisemblables, c'est-à-dire son niveau selon chaque CC.
 
 ## Retour à la fin du test
 
-We can thus use the general diagnostic model to create an adaptive test that makes best of possible worlds: providing feedback under the form of degrees of proficiency over several KCs at the end of test, represented by the vector $\theta_i = (\theta_{i1}, \ldots, \theta_{iK})$, and being easy to converge. ``GenMA`` is both summative and formative, thus a hybrid model. Such feedback can be aggregated at various levels (e.g., from student, to class, to school, to city, to country) in order to enable decision-making [@Shute2015; @Verhelst2012].
-
-![The GenMA hybrid model, combining item response theory and a q-matrix.](figures/genma.pdf)
+À la fin du test, l'apprenant reçoit un retour sous la forme de valeurs de niveau selon chaque CC. Il s'agit du vecteur $\mathbf{\theta_i} = (\theta_{i1}, \ldots, \theta_{iK})$. GenMA est à la fois sommatif et formatif, donc un modèle hybride.
 
 # Validation
 
@@ -61,101 +57,138 @@ We can thus use the general diagnostic model to create an adaptive test that mak
 
 GenMA est multidimensionnel donc mesure des valeurs selon plusieurs CC, contrairement à Rasch qui ne mesure qu'une unique valeur correspondant au niveau de l'apprenant sur tout le test.
 
-Le modèle GenMA est aussi interprétable qu'un modèle DINA : au lieu de renvoyer des probabilités de maîtrise selon chaque CC, il renvoie une valeur de niveau selon chaque CC. Les dimensions sont directement interprétables car elles coïncident avec la q-matrice.
+Le modèle GenMA est aussi interprétable qu'un modèle DINA : au lieu de renvoyer des probabilités de maîtrise selon chaque CC, il renvoie une valeur de niveau selon chaque CC. Les dimensions sont directement interprétables car elles coïncident avec les colonnes de la q-matrice.
 
 ## Quantitative
 
 GenMA a l'avantage multidimensionnel de MIRT tout en étant plus rapide à converger.
 
-Pour la prédiction de performance, nous avons suivi le protocole décrit au chapitre précédent avec les modèles suivants :
+Pour la prédiction de performance, nous avons suivi le protocole décrit au chapitre précédent avec les modèles Rasch, DINA avec une q-matrice spécifiée par un expert et notre modèle GenMA avec la même q-matrice.
 
 - Rasch
 - DINA
 - GenMA
 
-Et les datasets suivants :
+Et les datasets suivants, décrits à la section \ref{datasets} :
 
-- Fraction. Une matrice représentant les résultats sur des questions de soustraction de fraction.
-- ECPE. Proficiency of English.
-- TIMSS. Trends in Mathematics Studies.
+- **Fraction.** Pour ce jeu de données, nous avons comparé deux occurrences du modèle GenMA, l'une avec la q-matrice spécifiée par un expert, l'autre avec une q-matrice qui a été calculée automatiquement.
+- **ECPE.**
+- **TIMSS.**
 
-Pour l'implémentation, nous utilisons le package ``mirt``, qui permet de fixer les entrées non nulles à estimer (au moyen d'une q-matrice). Le package ``mirtCAT`` nous permet de poser les questions.
-
-Models considered are the Rasch model, the DINA model with an expert-specified q-matrix and the GenMA model with the same q-matrix. For the fraction matrix, we compared two occurrences of the GenMA model, one with the original expert q-matrix, the other one with another one which was computed using sparse PCA. The results are given in Figure \ref{curves}.
+Pour l'implémentation, nous utilisons le package ``mirt``, qui permet de fixer les entrées non nulles à estimer (au moyen d'une q-matrice). Le package ``mirtCAT`` nous permet de poser les questions. Les résultats sont donnés dans les figures \ref{results-fraction} à \ref{results-timss}.
 
 \begin{figure}
+\small
 \centering
 \includegraphics[width=0.8\textwidth]{figures/results/fraction-mean}
 %\includegraphics[width=0.5\textwidth]{figures/results/fraction-count}
 \begin{tabular}{cccc}
-& After 4 questions & After 7 questions & After 10 questions\\
+& Après 4 questions & Après 7 questions & Après 10 questions\\
 IRT & $0.469 \pm 0.017$ (79 \%) & $0.457 \pm 0.017$ (79 \%) & $0.446 \pm 0.016$ (79 \%)\\
 MIRT & $0.459 \pm 0.023$ (79 \%) & $0.355 \pm 0.017$ (85 \%) & $0.294 \pm 0.013$ (88 \%)\\
 MIRT & $0.368 \pm 0.014$ (83 \%) & $0.325 \pm 0.012$ (86 \%) & $0.316 \pm 0.011$ (86 \%)\\
 QMatrix & $0.441 \pm 0.014$ (80 \%) & $0.41 \pm 0.014$ (82 \%) & $0.406 \pm 0.014$ (82 \%)\\
 \end{tabular}
-\caption{Évolution de la log-likelihood en fonction du nombre de questions posées}
+\caption{Évolution de l'erreur moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Fraction.}
+\label{results-fraction}
 \end{figure}
 
-<!-- \begin{table}
-\caption{Erreur moyenne sur le jeu Fraction}
-\end{table} -->
-
 \begin{figure}
+\small
 \centering
 \includegraphics[width=0.8\textwidth]{figures/results/ecpe-mean}
 %\includegraphics[width=0.5\textwidth]{figures/results/ecpe-count}
 \begin{tabular}{cccc}
-& After 4 questions & After 8 questions & After 12 questions\\
+& Après 4 questions & Après 8 questions & Après 12 questions\\
 MIRT & $0.509 \pm 0.005$ (76 \%) & $0.496 \pm 0.005$ (76 \%) & $0.489 \pm 0.005$ (77 \%)\\
 QMatrix & $0.535 \pm 0.003$ (73 \%) & $0.526 \pm 0.003$ (74 \%) & $0.523 \pm 0.003$ (74 \%)\\
 IRT & $0.537 \pm 0.005$ (73 \%) & $0.527 \pm 0.005$ (74 \%) & $0.522 \pm 0.005$ (74 \%)\\
 MIRT & $0.532 \pm 0.005$ (73 \%) & $0.507 \pm 0.004$ (75 \%) & $0.498 \pm 0.004$ (76 \%)\\
 \end{tabular}
-\caption{Évolution de la log-likelihood en fonction du nombre de questions posées}
+\caption{Évolution de l'erreur moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données ECPE.}
+\label{results-ecpe}
 \end{figure}
 
 \begin{figure}
+\small
 \centering
 \includegraphics[width=0.8\textwidth]{figures/results/timss-mean}
 %\includegraphics[width=0.5\textwidth]{figures/results/timss-count}
 \begin{tabular}{cccc}
-& After 4 questions & After 8 questions & After 11 questions\\
+& Après 4 questions & Après 8 questions & Après 11 questions\\
 IRT & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%) & $0.555 \pm 0.008$ (71 \%)\\
 MIRT & $0.537 \pm 0.006$ (72 \%) & $0.505 \pm 0.006$ (75 \%) & $0.487 \pm 0.006$ (77 \%)\\
 QMatrix & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%) & $0.566 \pm 0.006$ (70 \%)\\
 \end{tabular}
-\caption{Évolution de la log-likelihood en fonction du nombre de questions posées}
+\caption{Évolution de l'erreur moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données TIMSS.}
+\label{results-timss}
 \end{figure}
+
+Sur les jeux de données testés, GenMA a un plus grand pouvoir prédictif que les autres modèles. La réponse à une question posée à l'apprenant apporte plus d'information car chaque question a des paramètres de difficulté selon chaque composante de connaissance.
+
+Dans le jeu de données Fraction, 4 questions sur 10 sont suffisantes pour prédire correctement 80 % en moyenne des réponses sur les 10 questions de l'ensemble de validation. À titre d'exemple, pour un des apprenants, après 4 questions, la performance prédite sur l'ensemble de validation est $[0.617, 0.123, 0.418, 0.127, 0.120]$ tandis que sa vraie performance est $[\textnormal{Correct}, \textnormal{Incorrect}, \textnormal{Correct}, \textnormal{Incorrect}, \textnormal{Incorrect}]$, ce qui correspond à une erreur de 0.350.
 
 # Discussion et applications
 
-Sur les jeux de données testés, GenMA a un plus grand pouvoir prédictif que le DINA model. La réponse à une question apporte plus d'information car chaque item a un paramètre de difficulté qui lui est propre selon chaque composante de connaissance.
+<!-- MIRT à 2 dimensions se débrouille mieux que GenMA, ce qui laisse entendre qu'un modèle prédictif n'est pas nécessairement explicatif. Toutefois afin de faire un retour à l'utilisateur, notre modèle fait un feedback correspondant davantage à la réalité qu'un modèle DINA basé sur les q-matrices. -->
 
-MIRT à 2 dimensions se débrouille mieux que GenMA, ce qui laisse entendre qu'un modèle prédictif n'est pas nécessairement explicatif. Toutefois afin de faire un retour à l'utilisateur, notre modèle fait un feedback correspondant davantage à la réalité qu'un modèle DINA basé sur les q-matrices.
+Dans le jeu de données ECPE, DINA et Rasch ont une performance similaire, ce qui est surprenant étant donné que Rasch ne requiert aucune connaissance du domaine. Cela doit être parce qu'il n'y a que 3 CC décrites dans la q-matrice, donc le nombre d'états possibles pour un apprenant est $2^3 = 8$ pour $2^{28}$ motifs de réponse possibles. Ainsi, les paramètres d'inattention et de chance sont très hauts, voir la table \ref{guess}, ce qui explique pourquoi l'information gagnée à chaque question est basse. Par exemple, la question qui requiert les CC 2 et 3 a un grand taux de succès de 88 %, ce qui rend cette question plus facile à résoudre que des questions qui ne requièrent que la CC 2 ou 3, donc le seul moyen pour le modèle DINA d'exprimer ce comportement est d'accroître le paramètre de chance. À l'inverse, GenMA est un modèle plus expressif.
 
-In all experiments, the hybrid model GenMA with the expert q-matrix performs the best. For example, in the Fraction dataset, 4 questions over 15 are enough to provide a feedback that predicts correctly 4 questions over 5 in average in the validation set. As an example, after 4 questions, the predicted performance over the validation question set of one of the test students is $[0.617, 0.123, 0.418, 0.127, 0.120]$ while his true performance is $[1, 0, 1, 0, 0]$, thereby yielding a mean error of 0.350.
+Dans le jeu de données Fraction, on souhaite identifier l'état latent de l'apprenant parmi $2^8$ états possibles, en posant des questions qui portent sur peu de CC. Cela explique pourquoi DINA a besoin de beaucoup de questions pour converger. Pour ce jeu de données, le modèle de Rasch est plus prédictif qu'un modèle DINA basé sur une q-matrice qui a été calculée automatiquement.
 
-In the ECPE dataset, DINA and Rasch have similar predictive power, which is quite surprising given that Rasch does not require any domain knowledge. It may be because in this dataset, there are only 3 skills, thus the number of possible states for a learner is $2^3 = 8$, for many possible response patterns ($2^{28}$). Consequently, the estimated guess and slip parameters are really high (see Table \ref{guess}), which explains why the information gained at each question is low. Indeed, the item which requires KC 2 and 3 is really easy to solve (88% success rate), even easier than items that require only KC 2 or only KC 3, thus the only way for the DINA model to express this behavior is to boost the guess parameter. On the contrary, GenMA calibrates one difficulty value per knowledge component thus it is a more expressive model. The same reason may explain why the mean error of GenMA converges after 11 questions: this 3-dimensional model may not be rich enough to comprehend the dataset, while in the Fraction dataset, the 8-dimensional GenMA model learns after every question.
-
-In the Fraction dataset, we want to identify the latent state of the learner over $2^8$ possible states, asking questions over few KCs at each step. This may explain why DINA requires several questions in order to converge. Rasch and GenMA-expert have similar predictive power in the early questions, but at least GenMA-expert can provide useful feedback while Rasch cannot. The automatically-devised q-matrix used in GenMA-auto has lower predictive power, therefore for this dataset, Rasch provides a better adaptive assessment model than a q-matrix that is computed automatically (DINA or GenMA-auto), the three of them being able to provide explicable feedback.
+\begin{table}
+\centering
+\begin{tabular}{C{5mm}C{5mm}C{5mm}ccc} \toprule
+\multicolumn{5}{c}{\textnormal{q-matrice}} & \multirow{2}{*}{\textnormal{taux de succès}} \\ \cmidrule(r){1-5}
+\multicolumn{3}{c}{\textnormal{entrées}} & \textnormal{chance} & \multicolumn{1}{c}{\textnormal{inattention}} & \\ \midrule
+%\hline
+1 & 1 & 0 & 0.705 & 0.085 & 80 \%\\
+0 & 1 & 0 & 0.724 & 0.101 & 83 \%\\
+1 & 0 & 1 & 0.438 & 0.266 & 57 \%\\
+0 & 0 & 1 & 0.480 & 0.162 & 70 \%\\
+0 & 0 & 1 & 0.764 & 0.040 & 88 \%\\
+0 & 0 & 1 & 0.717 & 0.066 & 85 \%\\
+1 & 0 & 1 & 0.544 & 0.085 & 72 \%\\
+0 & 1 & 0 & 0.802 & 0.040 & 89 \%\\
+0 & 0 & 1 & 0.534 & 0.199 & 70 \%\\
+1 & 0 & 0 & 0.483 & 0.163 & 65 \%\\
+1 & 0 & 1 & 0.556 & 0.099 & 72 \%\\
+1 & 0 & 1 & 0.195 & 0.305 & 43 \%\\
+1 & 0 & 0 & 0.633 & 0.122 & 75 \%\\
+1 & 0 & 0 & 0.517 & 0.212 & 65 \%\\
+0 & 0 & 1 & 0.749 & 0.040 & 88 \%\\
+1 & 0 & 1 & 0.549 & 0.126 & 70 \%\\
+\textbf0 & \textbf1 & \textbf1 & \textbf{0.816} & \textbf{0.058} & \textbf{88\%}\\
+0 & 0 & 1 & 0.729 & 0.086 & 84 \%\\
+0 & 0 & 1 & 0.473 & 0.150 & 71 \%\\
+1 & 0 & 1 & 0.239 & 0.295 & 46 \%\\
+1 & 0 & 1 & 0.621 & 0.097 & 75 \%\\
+0 & 0 & 1 & 0.322 & 0.188 & 63 \%\\
+0 & 1 & 0 & 0.637 & 0.075 & 81 \%\\
+0 & 1 & 0 & 0.313 & 0.322 & 53 \%\\
+1 & 0 & 0 & 0.512 & 0.272 & 61 \%\\
+0 & 0 & 1 & 0.555 & 0.211 & 70 \%\\
+1 & 0 & 0 & 0.265 & 0.369 & 44 \%\\
+0 & 0 & 1 & 0.659 & 0.086 & 81 \%\\ \bottomrule
+\end{tabular}
+\caption{Paramètres d'inattention et de chance pour la q-matrice du jeu de données ECPE. Les valeurs les plus hautes sont indiquées en gras.}
+\label{guess}
+\end{table}
 
 ## Test adaptatif au début d'un MOOC
 
-At the beginning of a course, we have to fully explore the knowledge of the learner, in order to identify his static latent knowledge using as few questions as possible. This is a cold-start problem, where we have to identify whether the learner holds the prerequisites of the course, and possibly his weak and strong points. If a dependency graph is available, we suggest to use Doignon and Falmagne's adaptive assessment model (see Section \ref{knowledge-space}). If a q-matrix is available, we suggest to use the GenMA model (see Section \ref{genma}). Otherwise, the Rasch model provides a way to at least measure the level of the learner.
-
-Voir l'annexe pour un exemple de test sur les données de Coursera.
+Au début d'un cours, il faut identifier les connaissances de l'apprenant avec le moins de questions possible. C'est un problème de démarrage à froid, où il faut identifier si l'apprenant a bien les prérequis du cours. Si un graphe de prérequis est dispoible, nous suggérons d'utiliser le modèle de @Falmagne2006, décrit à la section \ref{knowledge-space}. Si une q-matrice est disponible, nous suggérons d'utiliser le modèle GenMA ci-haut. Sinon, le modèle de Rasch permet au moins de classer les apprenants. Si aucun historique sur le test n'est disponible et qu'il s'agit de la première édition, les seuls modèles possibles sont celui de @Falmagne2006 qui nécessite un graphe de prérequis, ou le modèle DINA qui nécessite une q-matrice.
 
 ## Test adaptatif au milieu d'un MOOC
 
-Learners are interested in having a look at the tasks they are expected to be able to solve in the final test, in the form of a self-assessment that "does not count". There are several scenarios to consider. If learners have access to the course while taking this low-stake test, an adaptive assessment should take into account the fact that the level of the learner may change while he is taking the test, for example because he is checking the course lessons of the course during the test. Therefore, models measuring the progress of the learner (such as @Clement2015 mentioned in Section \ref{bandits}) are of interest. As a recall, they require either a dependency graph or a q-matrix. If learners do not check the course content while taking the test, for example because they have limited time, the GenMA model can ask them few questions and provide feedback, under the condition that a q-matrix is available.
+Les apprenants aiment pouvoir savoir sur quoi ils vont être testés, sous la forme d'une autoévaluation qui « ne compte pas ». Cet entraînement de passage de tests a un effet bénéfique sur leur apprentissage [@Dunlosky2013]. Il y a toutefois plusieurs scénarios à considérer. Si les apprenants ont accès au cours alors qu'ils passent ce test à faible enjeu, le modèle de test adaptatif doit prendre en compte le fait que le niveau de l'apprenant puisse changer alors qu'il passe le test, par exemple parce qu'il consulte son cours à chaque question. Dans ce cas, les modèles qui tentent de faire progresser le plus les élèves, tel que celui proposé par @Clement2015 décrit à la section \ref{bandits}, sont appropriés. Ils requièrent soit un graphe de prérequis, soit une q-matrice. Si les apprenants n'ont pas accès au cours pendant le test, le modèle GenMA convient, à condition qu'une q-matrice soit spécifiée.
 
 ## Test adaptatif à la fin d'un MOOC
 
-A high-stake at the end of the course might rely on the usual adaptive assessment strategies in item response theory, in order to measure examinees effectively and give them a mark. On this last examination, we assume that feedback is not so useful.
+Un test d'évaluation à la fin d'un cours peut se baser sur les modèles de tests adaptatifs usuels, de façon à mesurer les apprenants efficacement et leur attribuer une note. Pour ce dernier examen, nous supposons que le retour peut se limiter à un score.
 
-## Autres applications
+<!-- ## Autres applications
 
 Tableaux de bord.
 
-Un apprenant peut demandé à être évalué sur seulement une partie des CC.
+Un apprenant peut demandé à être évalué sur seulement une partie des CC. -->
