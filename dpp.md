@@ -1,6 +1,6 @@
 # Test à étapes multiples
 
-Une variante des tests adaptatifs consiste à poser un groupe de questions avant de choisir le suivant, et ainsi de suite, plutôt que de choisir la question suivante. Cela permet en effet d'éviter d'adapter le processus tout de suite après une information peu fiable. De plus, cela permet d'éviter de sauter d'une question à une autre qui n'a rien à voir, et permet à l'apprenant de vérifier ses réponses avant de déclencher le jeu de questions suivant.
+Une variante des tests adaptatifs consiste à poser un groupe de questions avant de choisir le groupe suivant, et ainsi de suite, plutôt que d'adapter le processus après chaque question. Cela permet d'avoir plus d'information sur l'apprenant avant de réaliser la première estimation de son niveau. De plus, cela permet à l'apprenant d'avoir plus de recul sur les exercices qui lui sont posés et de se relire avant de lancer le processus adaptatif, plutôt que d'obtenir des questions portant sur des CC diverses question après question.
 
 Ainsi, le problème devient : comment choisir les $k$ premières questions à présenter à un nouveau venu ? Elles doivent porter sur des sujets diversifiés afin de varier le plus possible l'information obtenue.
 
@@ -22,7 +22,7 @@ Toutefois, deux problèmes se présentent :
 
 Échantillonnage de plusieurs questions
 
-:   Si l'on pose plusieurs questions en une seule fois, prendre plusieurs questions de probabilité prédite de 0,5 risque d'apporter de l'information redondante. @Hoi2006 choisit une approche gloutonne en approximant la fonction objectif par une fonction sous-modulaire.
+:   Si l'on pose plusieurs questions en une seule fois, prendre plusieurs questions de probabilité prédite proche de 0,5 risque d'apporter de l'information redondante. @Hoi2006 choisit une approche gloutonne en approximant la fonction objectif par une fonction sous-modulaire.
 
 Existence de l'estimateur du maximum de vraisemblance
 
@@ -36,7 +36,7 @@ Ces processus, tirés de la théorie des matrices aléatoires, ont des applicati
 
 Implémenter cet échantillonnage requiert la donnée d'une valeur de similarité pour chaque paire d'éléments à échantillonner d'un ensemble $X = \{\mathbf{x_1}, \ldots, \mathbf{x_n}\}$ : une matrice symétrique $L$ telle que $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$ où $K$ est la fonction (noyau, donc symétrique) de similarité. Pour nos usages nous avons utilisé la simple similarité cosinus du produit scalaire $K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ mais il est possible d'utiliser le noyau gaussien :
 
-$$ K(\mathbf{x_i}, \mathbf{x_j}) = \exp(-\frac{{||\mathbf{x_i} - \mathbf{x_j}||}^2}{2\sigma^2}). $$
+$$ K(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{{||\mathbf{x_i} - \mathbf{x_j}||}^2}{2\sigma^2}\right). $$
 
 À titre d'exemple, la Figure \ref{dpp-u} montre ce qu'on obtient si l'on échantillonne selon un processus à point déterminantal des points équirépartis sur le cercle unité (de dimension 2). On voit que la méthode PPD échantillonne des points plus éloignés les uns des autres qu'un échantillonnage uniforme. Les points échantillonnés avec le noyau gaussien sont davantage répulsifs sur cet exemple.
 
@@ -50,6 +50,7 @@ Formellement, $P$ est un processus à point déterminantal (PPD) s'il vérifie p
 
 $$ Pr(Y \subset X) \propto \det L_Y $$
 
+\noindent
 où $L_Y$ est la sous-matrice carrée de $L$ indexée par les éléments de $Y$ en ligne et colonne.
 
 Une intuition est que le déterminant d'une matrice est le volume du parallélotope formé par ses lignes (ou colonnes). Ainsi, moins les vecteurs de similarité seront corrélés, plus grand sera leur volume. On peut encore le voir de la façon suivante : des vecteurs de questions similaires apportent une information similaire. Afin d'avoir le plus d'information possible au début du test il vaut mieux choisir des vecteurs écartés deux à deux.
