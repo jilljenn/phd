@@ -242,6 +242,8 @@ Comme le dit @Chang2014, "Une étude conduite à Zhengzhou indique que CD-CAT en
 
 Comme l'espace des états latents possibles est discret, on peut maintenir la distribution de probabilité $(\pi_i)_{i \in \mathbf{N}}$ sur les vecteurs de compétences possibles tout au long du test. Connaissant la réponse de l'apprenant à la $i$-ième question, la mise à jour de $\pi_{i - 1}$ est faite par la règle de Bayes. Soit $x$ un état latent, $s_i$ et $g_i$ les paramètres d'inattention et de chance associés à la $i$-ième question et soit $a_i$ une variable qui vaut 1 si la réponse de l'apprenant est correcte, 0 sinon. Si les CC associées à $x$ sont suffisantes pour répondre à la question correctement,
 
+\label{dina-update}
+
 $$ \pi_i(x) = \pi_{i - 1}(x) \cdot [a_i \cdot(1-s_i) + (1-a_i)\cdot s_i] $$
 
 sinon
