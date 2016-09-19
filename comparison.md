@@ -140,17 +140,16 @@ Nous cherchons à comparer le pouvoir prédictif de différents modèles de test
 \begin{algorithmic}
 \Procedure{Simuler}{$train, test$}
 \State $\alpha \gets \Call{TrainingStep}{train}$
-\State $t \gets 0$
-\For{all students $s$ in $test$}
+\For{tout étudiant $s$ de l'ensemble de $test$}
     \State $\pi \gets \Call{PriorInitialization}$
-    \While{\textsc{TerminationRule} is not satisfied}
+    \For{$t$ de 0 à $|Q| - 1$}
         \State $q_{t + 1} \gets \Call{NextItem}{\{(q_k, r_k)\}_{k = 1, \ldots, t}, \alpha, \pi}$
-        \State Ask question $q_{t + 1}$ to the student $s$
-        \State Get reply $r_{t + 1}$
-        \State $\pi \gets \Call{EstimateParameters}{q_1, r_1, \ldots, q_t, r_t, \alpha}$
+        \State Poser la question $q_{t + 1}$ à l'apprenant $s$
+        \State Récupérer la valeur de succès ou échec $r_{t + 1}$ de sa réponse
+        \State $\pi \gets \Call{EstimateParameters}{\{(q_k, r_k)\}_{k = 1, \ldots, t + 1}, \alpha}$
         \State $p \gets$ \Call{PredictPerformance}{$\alpha, \pi$}
         \State $\Sigma \gets$ \Call{EvaluatePerformance}{$p$}
-    \EndWhile
+    \EndFor
 \EndFor
 \EndProcedure
 \end{algorithmic}
