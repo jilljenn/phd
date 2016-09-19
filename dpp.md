@@ -1,38 +1,43 @@
-# Test à étapes multiples
+# Un prétest non adaptatif
 
-Une variante des tests adaptatifs consiste à poser un groupe de questions avant de choisir le groupe suivant, et ainsi de suite, plutôt que d'adapter le processus après chaque question. Cela permet d'avoir plus d'information sur l'apprenant avant de réaliser la première estimation de son niveau. De plus, cela permet à l'apprenant d'avoir plus de recul sur les exercices qui lui sont posés et de se relire avant de lancer le processus adaptatif, plutôt que d'obtenir des questions portant sur des CC diverses question après question.
+Une variante des tests adaptatifs appelée *test à étapes multiples* consiste à poser un groupe de questions avant de choisir le groupe suivant, et ainsi de suite, plutôt que d'adapter le processus après chaque question. Cela permet d'avoir plus d'information sur l'apprenant avant de réaliser la première estimation de son niveau. De plus, cela permet à l'apprenant d'avoir plus de recul sur les exercices qui lui sont posés et de se relire avant de lancer le processus adaptatif, plutôt que d'obtenir des questions portant sur des CC diverses question après question.
 
 Ainsi, le problème devient : comment choisir les $k$ premières questions à présenter à un nouveau venu ? Elles doivent porter sur des sujets diversifiés afin de varier le plus possible l'information obtenue.
 
-# Visualisation d'un test adaptatif
+## Visualisation géométrique d'un test adaptatif
+
+Pour mieux comprendre notre approche, voici une interprétation géométrique de ce qu'il se passe lorsqu'un test adaptatif multidimensionnel est administré.
+
+Pour rappel, la phase d'apprentissage d'un modèle TRIM de dimension $K$ consiste à déterminer un vecteur $\mathbf{d_j} = (d_{j1}, \ldots, d_{jK})$ comme paramètre de chaque question $j$ et un vecteur $\mathbf{\theta_i} = (\theta_{i1}, \ldots, \theta_{iK})$ pour chaque apprenant $i$. La probabilité qu'un apprenant $i$ réponde correctement à une question $j$ est ensuite donnée par l'expression $\Phi(\mathbf{\theta_i} \cdot \mathbf{d_j}))$. Pour visualiser, on peut représenter les questions par des points à coordonnées $(d_{j1}, \ldots, d_{jK})$ pour chaque $j$ et l'apprenant $i$ par le vecteur $\theta_i$. Les questions qui ont le plus de chances d'être résolues par l'apprenant correspondent aux points le plus dans la direction de $\theta_i$, voir la figure \ref{viz-mirt}.
 
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figures/2d}
 \caption{Test adaptatif en 2 dimensions}
+\label{viz-mirt}
 \end{figure}
 
-Ainsi, un jeu de questions sera informatif s'il réalise un maillage de l'espace des questions.
+Ainsi, poser un jeu de $k$ questions revient à choisir $k$ points de l'espace à présenter à l'apprenant, ce qui permettra après étiquetage par succès/échec en fonction de ses réponses de déterminer une première estimation de son vecteur de niveau $\mathbf{\theta}$.
 
-L'information de Fisher désigne la variance du score, c'est-à-dire du gradient de la log-vraisemblance.
+Pour estimer les paramètres de l'apprenant, on souhaite choisir l'estimateur du maximum de vraisemblance. Mais si les réponses que l'apprenant a faites jusque-là sont toutes correctes ou toutes incorrectes, l'estimateur tend vers $\pm \infty$ et il faut choisir un autre estimateur. Ce problème avait déjà été mis en évidence par @Lan2014 et par @Magis2015.
 
-Une des méthodes en machine learning consiste à faire un échantillon selon l'incertitude, c'est-à-dire choisir l'entrée sur laquelle le système est le moins sûr. Ainsi, étant donné l'estimateur du maximum de vraisemblance, on va choisir un élément de probabilité prédite la plus proche de 0,5.
+## Stratégies de choix de $k$ questions
 
-Toutefois, deux problèmes se présentent :
+Aléatoire
 
-Échantillonnage de plusieurs questions
+:   Une première méthode naïve consiste à choisir $k$ questions au hasard.
 
-:   Si l'on pose plusieurs questions en une seule fois, prendre plusieurs questions de probabilité prédite proche de 0,5 risque d'apporter de l'information redondante. @Hoi2006 choisit une approche gloutonne en approximant la fonction objectif par une fonction sous-modulaire.
+Incertitude maximale
 
-Existence de l'estimateur du maximum de vraisemblance
+:   Une des méthodes en apprentissage automatique consiste à choisir les questions les plus incertaines, c'est-à-dire celles de probabilité prédite la plus proche de 0,5. Toutefois, cela risque d'apporter de l'information redondante [@Hoi2006].
 
-:   L'estimateur du maximum de vraisemblance n'est pas sûr d'exister, notamment si toutes les réponses jusque-là ont été vraies ou si elles ont été toutes fausses. Ce problème avait déjà été mis en évidence par @Lan2014 et par @Magis2015.
+Déterminant maximal
 
-C'est pourquoi on préférerait poser des questions peu corrélées afin de maximiser nos chances d'obtenir une réponse fausse et une réponse vraie.
+:   Une façon de choisir des questions peu corrélées les unes des autres consiste à choisir un ensemble de questions dont le parallélotope forme un grand volume. Le volume d'un parallélotope formé par des vecteurs $V = (\mathbf{v_1}, \ldots, \mathbf{v_n})$ où $\mathbf{v_1}, \ldots, \mathbf{v_n}$ sont les lignes de la matrice $V$, est donné par $\sqrt{\det V^T V}$.
 
 # Processus à point déterminantal
 
-Ces processus, tirés de la théorie des matrices aléatoires, ont des applications en processus de Markov, etc. Ils permettent d'échantillonner des éléments diversifiés pour une certaine mesure de distance. Cela a par exemple des applications en recommandation pour sélectionner des éléments diversifiés, dans les moteurs de recherche afin que les résultats en tête portent sur des thèmes différents (par exemple, pour une requête « jaguar », l'animal et la voiture) ou encore en génération de résumé, à partir d'un corpus de textes, par exemple des articles de presse dont on souhaiterait sélectionner les thèmes principaux.
+Nous allons présenter une loi de probabilité, tirée de la théorie des matrices aléatoires, qui a récemment été appliquée en apprentissage automatique. Cette loi permet, étant donné des objets munis de caractéristiques, d'échantillonner des éléments \og diversifiés \fg{} pour une certaine mesure de distance. Cela a par exemple des applications en recommandation pour sélectionner des produits diversifiés, dans les moteurs de recherche afin que les résultats en tête de la recherche portent sur des thèmes différents (par exemple, pour une requête « jaguar », l'animal et la voiture) ou encore en génération automatique de résumé, à partir d'un corpus de textes, par exemple des articles de presse dont on souhaiterait sélectionner les thèmes principaux.
 
 Implémenter cet échantillonnage requiert la donnée d'une valeur de similarité pour chaque paire d'éléments à échantillonner d'un ensemble $X = \{\mathbf{x_1}, \ldots, \mathbf{x_n}\}$ : une matrice symétrique $L$ telle que $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$ où $K$ est la fonction (noyau, donc symétrique) de similarité. Pour nos usages nous avons utilisé la simple similarité cosinus du produit scalaire $K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ mais il est possible d'utiliser le noyau gaussien :
 
@@ -52,6 +57,8 @@ $$ Pr(Y \subset X) \propto \det L_Y $$
 
 \noindent
 où $L_Y$ est la sous-matrice carrée de $L$ indexée par les éléments de $Y$ en ligne et colonne.
+
+Dans notre cas, cette loi est intéressante car des éléments seront tirés avec une probabilité proportionnelle à la racine carrée du volume du parallélotope qu'ils forment.
 
 Une intuition est que le déterminant d'une matrice est le volume du parallélotope formé par ses lignes (ou colonnes). Ainsi, moins les vecteurs de similarité seront corrélés, plus grand sera leur volume. On peut encore le voir de la façon suivante : des vecteurs de questions similaires apportent une information similaire. Afin d'avoir le plus d'information possible au début du test il vaut mieux choisir des vecteurs écartés deux à deux.
 
@@ -103,6 +110,16 @@ Les valeurs que nous mesurons, pour différentes valeurs du nombre de questions 
 Pour le jeu de données Fraction, grâce à la q-matrice et au modèle GenMA nous obtenons une représentation distribuée des questions de dimension 8, que nous utilisons pour calculer la matrice de similarité et échantillonner les questions.
 
 ## Résultats
+
+\begin{figure}
+\includegraphics{figures/dpp-delta}
+\caption{Évolution de la différence.}
+\end{figure}
+
+\begin{figure}
+\includegraphics{figures/dpp-mean}
+\caption{Évolution de l'erreur moyenne.}
+\end{figure}
 
 \begin{table}
 \begin{tabular}{cc}
