@@ -33,21 +33,21 @@ Incertitude maximale
 
 Déterminant maximal
 
-:   Une façon de choisir des questions peu corrélées les unes des autres consiste à choisir un ensemble de questions dont le parallélotope forme un grand volume. Le volume d'un parallélotope formé par des vecteurs $V = (\mathbf{v_1}, \ldots, \mathbf{v_n})$ où $\mathbf{v_1}, \ldots, \mathbf{v_n}$ sont les lignes de la matrice $V$, est donné par $\sqrt{\det V^T V}$.
+:   Une façon de choisir des questions peu corrélées les unes des autres consiste à choisir un ensemble de questions dont le parallélotope forme un grand volume. Le volume d'un parallélotope formé par des vecteurs $V = (\mathbf{v_1}, \ldots, \mathbf{v_n})$ où $\mathbf{v_1}, \ldots, \mathbf{v_n}$ sont les lignes de la matrice $V$, est donné par $Vol(\{\mathbf{v_i}\}_{i = 1, \ldots, n}) = \sqrt{\det V V^T}$.
 
 # Processus à point déterminantal
 
-Nous allons présenter une loi de probabilité, tirée de la théorie des matrices aléatoires, qui a récemment été appliquée en apprentissage automatique. Cette loi permet, étant donné des objets munis de caractéristiques, d'échantillonner des éléments \og diversifiés \fg{} pour une certaine mesure de distance. Cela a par exemple des applications en recommandation pour sélectionner des produits diversifiés, dans les moteurs de recherche afin que les résultats en tête de la recherche portent sur des thèmes différents (par exemple, pour une requête « jaguar », l'animal et la voiture) ou encore en génération automatique de résumé, à partir d'un corpus de textes, par exemple des articles de presse dont on souhaiterait sélectionner les thèmes principaux.
+Nous allons présenter une loi de probabilité, tirée de la théorie des matrices aléatoires, qui a récemment été appliquée en apprentissage automatique. Cette loi permet, étant donné des objets munis de caractéristiques, d'échantillonner efficacement des éléments \og diversifiés \fg{} pour une certaine mesure de distance. Cela a par exemple des applications en recommandation pour sélectionner des produits diversifiés, dans les moteurs de recherche afin que les résultats en tête de la recherche portent sur des thèmes différents (par exemple, pour une requête « jaguar », l'animal et la voiture) ou encore en génération automatique de résumé, à partir d'un corpus de textes, par exemple des articles de presse dont on souhaiterait sélectionner les thèmes principaux.
 
-Implémenter cet échantillonnage requiert la donnée d'une valeur de similarité pour chaque paire d'éléments à échantillonner d'un ensemble $X = \{\mathbf{x_1}, \ldots, \mathbf{x_n}\}$ : une matrice symétrique $L$ telle que $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$ où $K$ est la fonction (noyau, donc symétrique) de similarité. Pour nos usages nous avons utilisé la simple similarité cosinus du produit scalaire $K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ mais il est possible d'utiliser le noyau gaussien :
+Implémenter cet échantillonnage requiert la donnée d'une valeur de similarité pour chaque paire d'éléments à échantillonner d'un ensemble $X = \{\mathbf{x_1}, \ldots, \mathbf{x_n}\}$ : une matrice symétrique $L$ telle que $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$ où $K$ est la fonction (noyau, donc symétrique) de similarité. Pour nos usages nous avons utilisé la simple similarité cosinus du produit scalaire $K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ aussi appelé noyau linéaire, mais il est possible d'utiliser le noyau gaussien :
 
 $$ K(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{{||\mathbf{x_i} - \mathbf{x_j}||}^2}{2\sigma^2}\right). $$
 
-À titre d'exemple, la Figure \ref{dpp-u} montre ce qu'on obtient si l'on échantillonne selon un processus à point déterminantal des points équirépartis sur le cercle unité (de dimension 2). On voit que la méthode PPD échantillonne des points plus éloignés les uns des autres qu'un échantillonnage uniforme. Les points échantillonnés avec le noyau gaussien sont davantage répulsifs sur cet exemple.
+À titre d'exemple, la Figure \ref{dpp-u} montre ce qu'on obtient si l'on échantillonne selon un processus à point déterminantal des points équirépartis sur le cercle unité en dimension 2. On voit que la méthode PPD échantillonne des points plus éloignés les uns des autres qu'un échantillonnage selon une loi uniforme. Les points échantillonnés avec le noyau gaussien sont davantage répulsifs sur cet exemple.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{figures/dpp-u.png}
-\caption{Points échantillonnés sur le cercle unité uniformément / par DPP avec noyau gaussien / par DPP avec noyau cosinus.}
+\caption{Points échantillonnés sur le cercle unité. À gauche, les points sont choisis aléatoirement, selon une loi uniforme. Au milieu, les points sont échantillons sont tirés selon un PPD avec noyau gaussien. À droite, l'échantillonnage se fait selon un PPD avec noyau linéaire.}
 \label{dpp-u}
 \end{figure}
 
@@ -58,37 +58,37 @@ $$ Pr(Y \subset X) \propto \det L_Y $$
 \noindent
 où $L_Y$ est la sous-matrice carrée de $L$ indexée par les éléments de $Y$ en ligne et colonne.
 
-Dans notre cas, cette loi est intéressante car des éléments seront tirés avec une probabilité proportionnelle à la racine carrée du volume du parallélotope qu'ils forment.
+Dans notre cas, cette loi est intéressante car des éléments seront tirés avec une probabilité proportionnelle au carré du volume du parallélotope qu'ils forment. En effet, chaque élément $\ell_{ij}$ de la matrice $L$ vaut $\ell_{ij} = K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ donc si on note $B$ la matrice ayant pour lignes $\mathbf{x_1}, \ldots, \mathbf{x_n}$, on a $L = B B^T$. Si à présent on note $B_Y$ la matrice ayant pour lignes les $\mathbf{x_i}$ pour $i$ appartenant à $Y$, $L_Y = B_Y B_Y^T$ et donc $Pr(Y \subset X) \propto \det L_Y = \det B_Y B_Y^T = {Vol(\{\mathbf{x_i}\}_{i \in Y})}^2.$
 
-Une intuition est que le déterminant d'une matrice est le volume du parallélotope formé par ses lignes (ou colonnes). Ainsi, moins les vecteurs de similarité seront corrélés, plus grand sera leur volume. On peut encore le voir de la façon suivante : des vecteurs de questions similaires apportent une information similaire. Afin d'avoir le plus d'information possible au début du test il vaut mieux choisir des vecteurs écartés deux à deux.
+Or, plus le volume d'un ensemble de vecteurs est grand, moins ces vecteurs sont corrélés. Ainsi, des éléments diversifiés auront plus de chances d'être tirés par un PPD. On peut encore le voir de la façon suivante : des vecteurs de questions similaires apportent une information similaire. Afin d'avoir le plus d'information possible au début du test il vaut mieux choisir des vecteurs écartés deux à deux.
 
-Il existe des algorithmes efficaces pour échantillonner selon une PPD [@Kulesza2012], y compris lorsqu'on fixe à l'avance le nombre d'éléments qu'on souhaite sélectionner ($k$-PPD). En revanche, le problème de déterminer le mode de cette distribution (c'est-à-dire l'ensemble $X$ de plus grande probabilité a posteriori) est un problème NP-difficile, néanmoins des algorithmes d'approximation ont été développés. Ce n'est que récemment que les PPD sont appliqués à l'apprentissage statistique, mais surtout à des méthodes de diversification et de résumé.
+Il existe des algorithmes efficaces pour échantillonner selon une PPD [@Kulesza2012], y compris lorsqu'on fixe à l'avance le nombre d'éléments qu'on souhaite sélectionner ($k$-PPD) : la complexité de tirage est $O(nk^3)$ où $n$ est le nombre de questions, à condition d'avoir calculé la diagonalisation de la matrice $L$ au préalable, ce qui se fait avec une complexité $O(N^3)$. En revanche, le problème de déterminer le mode de cette distribution (c'est-à-dire l'ensemble $X$ de plus grande probabilité a posteriori) est un problème NP-difficile, néanmoins des algorithmes d'approximation ont été développés. Ce n'est que récemment que les PPD sont appliqués à l'apprentissage statistique, mais surtout à des méthodes de diversification et de résumé.
 
-Un autre avantage de cette méthode est qu'on garantit que le choix de $k$ questions est randomisé, donc on ne pose pas les mêmes premières questions à tout le monde, ce qui permet d'éviter de griller trop d'items. Cela s'appelle le taux d'exposition des questions.
+Un autre avantage de cette méthode est que le choix de $k$ questions est probabiliste, ainsi on ne pose pas nécessairement les mêmes $k$ premières questions à tous les apprenants, ce qui présente certains avantages : sécurité, diversification de la banque de questions.
 
 # InitialD
 
-Notre contribution consiste à appliquer la méthode de tirage d'éléments diversifiés PPD au choix de questions diversifiées au début d'un test, de façon automatique.
+Notre contribution consiste à appliquer la méthode de tirage d'éléments diversifiés selon un PPD au choix de questions diversifiées au début d'un test, de façon automatique.
 
-Étant donné un calibrage de type MIRT, et donc une représentation distribuée des questions en dimension $d$, on tire $k$ vecteurs parmi ceux-là selon PPD. Nous émettons l'hypothèse qu'en choisissant ainsi, les réponses de l'apprenant auront de grandes chances de ne pas être que vraies ou que fausses mais alternées, ce qui permettra de faire converger l'estimateur du maximum de vraisemblance.
+Étant donné un calibrage de type MIRT, et donc une représentation distribuée des $n$ questions du test en dimension $d$, on tire $k$ questions parmi celles-là selon PPD. Nous faisons l'hypothèse que les questions ainsi choisies seront peu redondantes, donc constitueront un bon résumé des questions du test pour l'apprenant.
 
-Ainsi, nos éléments à tirer sont les questions qui sont des vecteurs de dimensions $d$ : si MIRT a réalisé la factorisation $M \simeq \Theta D^T$, alors les lignes de $D$ sont les vecteurs $(D_1, \ldots, D_n)$ correspondant aux questions et $L = D^T D$ est la matrice de similarité dont l'élément $(i, j)$ vaut $D_i \cdot D_j$.
+Ainsi, nos éléments à tirer sont les questions qui sont des vecteurs de dimensions $d$ : si MIRT a réalisé la factorisation $M \simeq \Phi(\Theta D^T)$, alors les lignes de $D$ sont les vecteurs $(\mathbf{d_1}, \ldots, \mathbf{d_n})$ correspondant aux questions et $L = D D^T$ est la matrice de similarité dont l'élément $(i, j)$ vaut $\mathbf{d_i} \cdot \mathbf{d_j}$.
 
-L'algorithme de tirage est tiré de [@Kulesza2012].
-
-![Échantillonnage de $k$ vecteurs selon un PPD.](figures/k-dpp)
+L'algorithme de tirage est tiré de [@Kulesza2012] et est implémenté en Python. Sa complexité est $O(nk^3)$ où $k$ est le nombre de questions sélectionnées et $n$ est le nombre de questions du test, après une coûteuse étape de diagonalisation de complexité $O(n^3)$. Ainsi, cette complexité convient à une grande base de questions comme peut l'être celle sur un MOOC.
 
 # Validation
 
-## Protocole
+À partir des données dichotomiques des apprenants, nous allons comparer trois stratégies pour choisir les $k$ premières questions, selon une méthode \textsc{FirstBulk} qui renvoie un ensemble de $k$ questions en fonction du paramètre a priori de l'apprenant.
 
-À partir des données des apprenants, nous comparons quatre stratégies de sélection des $k$ premières questions à poser, étant donné un modèle de tests adaptatifs MIRT (ou GenMA) :
+Comme modèle de l'apprenant, nous choisissons la première phase de GenMA.
+
+## Stratégies comparées
 
 Aléatoire
 
 :   Les questions sont choisies au hasard.
 
-Information de Fisher proche de 0,5
+Incertitude maximale
 
 :   On suppose que l'apprenant est du niveau moyen de l'historique et on choisit $k$ questions de probabilité estimée proche de 0,5.
 
@@ -96,28 +96,30 @@ PPD
 
 :   L'algorithme présenté à la section précédente.
 
-Sélection adaptative de type CAT
+Adaptative
 
-:   On suppose que les questions sont sélectionnées comme dans un test adaptatif habituel.
+:   Enfin, nous ajoutons à ces trois stratégies la sélection adaptative habituelle, question par question, afin de comparer nos trois stratégies non adaptatives à la stratégie adaptative.
 
-La méthode est similaire à la méthode de double validation croisée présentée dans un chapitre antérieur. Nous séparons les apprenants en deux ensembles d'entraînement et de test (80 % et 20 %) et calibrons le modèle MIRT (ou GenMA) avec les apprenants d'entraînement. Puis, pour chaque apprenant de test, nous choisissons $k$ premières questions à poser, récoltons ses réponses et estimons son vecteur de compétence.
+## Protocole expérimental
 
-Les valeurs que nous mesurons, pour différentes valeurs du nombre de questions $k$ :
+La méthode est similaire à la méthode de validation bicroisée présentée à la section \ref{algo}. Nous séparons les apprenants en deux ensembles d'entraînement et de test (80 % et 20 %) et calibrons le modèle GenMA avec les apprenants d'entraînement. Puis, pour chaque apprenant de test, nous choisissons $k$ premières questions à poser, récoltons ses réponses et estimons son vecteur de niveau.
 
-- quelle est la performance des prédictions qui découlent de ce premier groupe de questions ;
-- quelle est la différence entre le paramètre estimé à partir de $k$ questions et le paramètre estimé lorsqu'on a posé toutes les questions (c'est ce que fait @Lan2014).
+Nous mesurons alors les différentes valeurs, pour différentes valeurs du nombre de questions $k$ :
+
+- quelle est la performance des prédictions qui découlent de ce premier groupe de questions : log loss et nombre de prédictions incorrectes ;
+- quelle est la différence entre le paramètre estimé à partir de $k$ questions et le paramètre estimé lorsqu'on a posé toutes les questions ; cette valeur est calculée par @Lan2014 pour comparer les méthodes de sélection de questions.
 
 Pour le jeu de données Fraction, grâce à la q-matrice et au modèle GenMA nous obtenons une représentation distribuée des questions de dimension 8, que nous utilisons pour calculer la matrice de similarité et échantillonner les questions.
 
 ## Résultats
 
 \begin{figure}
-\includegraphics{figures/dpp-delta}
+\includegraphics[width=\linewidth]{figures/dpp-delta}
 \caption{Évolution de la différence.}
 \end{figure}
 
 \begin{figure}
-\includegraphics{figures/dpp-mean}
+\includegraphics[width=\linewidth]{figures/dpp-mean}
 \caption{Évolution de l'erreur moyenne.}
 \end{figure}
 
@@ -134,8 +136,6 @@ CAT & $0.416 \pm 0.044$\\
 \end{table}
 
 PPD aboutit à une erreur plus faible. Dans cette expérience, 5 questions ont été posées.
-
-CAT réalise une erreur plus grande, ce qui veut dire que l'estimateur du test adaptatif est biaisé.
 
 ## Discussion et applications
 

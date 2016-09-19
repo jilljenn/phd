@@ -154,7 +154,7 @@ Nous cherchons à comparer le pouvoir prédictif de différents modèles de test
 \EndFor
 \EndProcedure
 \end{algorithmic}
-\caption{\textbf{Simulation d'un modèle de tests adaptatifs}
+\caption{Simulation d'un modèle de tests adaptatifs}
 \label{algo}
 \end{algorithm}
 
