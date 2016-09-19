@@ -76,7 +76,7 @@ S'il s'agit d'un problème de classification binaire, on utilise habituellement 
 
 $$ logloss(\mathbf{y}^*, \mathbf{y}) = \frac1n \sum_{k = 1}^n \log (1 - |y^*_k - y_k|). $$
 
-Toutes les valeurs prédites étant comprises entre 0 et 1, cette fonction pénalise beaucoup plus une grosse différence entre valeur prédite (comprise entre 0 ou 1) et valeur réelle (égale à 0 ou 1) que la RMSE, voir Figure \ref{rmse-ll}.
+Toutes les valeurs prédites étant comprises entre 0 et 1, cette fonction pénalise beaucoup plus une grosse différence entre valeur prédite (comprise entre 0 ou 1) et valeur réelle (égale à 0 ou 1) que la RMSE. <!-- , voir Figure \ref{rmse-ll}. -->
 
 Afin d'obtenir une validation plus robuste, il faut s'assurer que la proportion de 0 et de 1 soit la même dans les étiquettes d'entraînement et dans les étiquettes d'évaluation. Pour une validation encore meilleure, on peut recourir à une validation croisée à $k$ paquets : le jeu de données $X$ est divisé en $k$ paquets, et $k$ validations croisées sont faites en utilisant $k - 1$ paquets parmi les $k$ pour entraîner le modèle et le paquet restant pour l'évaluer.
 
@@ -180,7 +180,8 @@ Pour calculer l'erreur, nous avons choisi la log loss, courante pour les problè
 
 $$ e(p, t) = \frac1{|Q_{val}|} \sum_{k \in Q_{val}} t_k \log p_k + (1 - t_k) \log (1 - p_k) $$
 
-où $p$ est la performance prédite sur les $|Q_val|$ questions et $t$ est le vrai motif de réponse de l'apprenant en cours.
+\noindent
+où $p$ est la performance prédite sur les $|Q_{val}|$ questions et $t$ est le vrai motif de réponse de l'apprenant en cours.
 
 Lors de chaque expérience $(i, j)$, on enregistre pour chaque apprenant $t$ valeurs d'erreurs où $t$ est le nombre de questions posées, soit $|Q \setminus Q_{val}|$. Ainsi, on peut déterminer l'erreur moyenne que chaque modèle a obtenu après avoir posé un certain nombre de questions. Ces valeurs sont stockées dans une matrice de taille $U \times V$ dont chaque case correspond à l'expérience $(i, j)$, voir figure \ref{crossval}. En calculant l'erreur moyenne selon chaque colonne, on peut visualiser comment les modèles se comportent pour chaque ensemble de question de validation. On calcule la moyenne de toutes les cases pour tracer les courbes correspondant à chaque modèle.
 
@@ -194,7 +195,7 @@ Lors de chaque expérience $(i, j)$, on enregistre pour chaque apprenant $t$ val
 ## Jeux de données
 \label{datasets}
 
-Pour nos expériences, nous avons utilisé les jeux de données suivants.
+Pour nos expériences, nous avons utilisé les quatre jeux de données réelles suivants.
 
 ### SAT
 
@@ -214,9 +215,9 @@ Ce jeu de données regroupe les résultats de 536 collégiens sur 20 questions d
 
 Le TIMSS (*Trends in International Mathematics and Science Study*) effectue un test standardisé de mathématiques. Les données sont librement disponibles sur leur site pour les chercheurs. En l'occurrence, ce jeu de données provient de l'édition 2003 du TIMSS. C'est une matrice binaire de taille $757 \times 23$ qui regroupe les résultats de 757 apprenants du grade 8 sur 23 questions de mathématiques. La q-matrice a été définie par des experts du TIMSS et comporte 13 CC sur les 15 décrites dans @Su2013 : toutes sauf la 10\ieme{} et la 12\ieme.
 
-### Castor
+<!-- ### Castor
 
-Le Castor est un concours d'informatique où les candidats, collégiens ou lycéens, doivent résoudre des problèmes d'algorithmique déguisés au moyen d'interfaces. Le jeu de données provient de l'édition 2013, où 58 939 élèves de 6\ieme{} et 5\ieme{} ont dû résoudre 17 problèmes. La matrice est encore dichotomique, c'est-à-dire que son entrée $(i, j)$ vaut 1 si l'apprenant $i$ a eu le score parfait sur la question $j$, 0 sinon.
+Le Castor est un concours d'informatique où les candidats, collégiens ou lycéens, doivent résoudre des problèmes d'algorithmique déguisés au moyen d'interfaces. Le jeu de données provient de l'édition 2013, où 58 939 élèves de 6\ieme{} et 5\ieme{} ont dû résoudre 17 problèmes. La matrice est encore dichotomique, c'est-à-dire que son entrée $(i, j)$ vaut 1 si l'apprenant $i$ a eu le score parfait sur la question $j$, 0 sinon. -->
 
 <!--
 \begin{figure}
@@ -260,7 +261,7 @@ $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
 1 & 0 & 0 & 0.265 & 0.369 & 44 \%\\
 0 & 0 & 1 & 0.659 & 0.086 & 81 \%\\
 \end{array} $$
-\caption{The q-matrix used for the ECPE dataset, together with the guess and slip parameters, and the success rate for each question. In bold, the highest guess value.}
+\caption{La q-matrice utilisée pour le jeu de données ECPE, ainsi que les paramètres d'inattention et de chance, et le taux de succès de chaque question. En gras, la ligne ayant la plus grande valeur de chance.}
 \label{ecpe-guess}
 \end{table}
 
@@ -350,17 +351,67 @@ Par exemple, pour le modèle DINA, le choix de la question suivante coûte $O(K 
 
 ## Évaluation quantitative
 
+Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss}.
+
 \begin{figure}
 \centering
-\caption{Évolution pour le dataset Castor}
-\includegraphics[width=\linewidth]{figures/comp-castor}
+\includegraphics[width=\linewidth]{figures/comp-sat}
+\begin{tabular}{ccc}
+& After 5 questions & After 10 questions\\
+Rasch & $0.415 \pm 0.03$ (80 \%) & $0.409 \pm 0.032$ (81 \%)\\
+DINA auto K = 2 & $0.479 \pm 0.028$ (80 \%) & $0.488 \pm 0.031$ (78 \%)\\
+DINA auto K = 3 & $0.524 \pm 0.034$ (74 \%) & $0.52 \pm 0.034$ (77 \%)\\
+DINA auto K = 5 & $0.496 \pm 0.037$ (77 \%) & $0.519 \pm 0.04$ (74 \%)\\
+\end{tabular}
+\caption{Évolution de l'erreur moyenne sur le jeu de données SAT après qu'un certain nombre de questions ont été posées.}
+\label{comp-sat}
 \end{figure}
+
+Dans la figure \ref{comp-sat}, le modèle de Rasch est un peu meilleur que les modèles DINA avec une q-matrice spécifiée automatiquement.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{figures/comp-ecpe}
+\begin{tabular}{ccc}
+& After 5 questions & After 10 questions\\
+Rasch & $0.534 \pm 0.005$ (73 \%) & $0.524 \pm 0.005$ (74 \%)\\
+DINA K = 3 & $0.532 \pm 0.003$ (73 \%) & $0.524 \pm 0.003$ (74 \%)\\
+\end{tabular}
+\caption{Évolution de l'erreur moyenne sur le jeu de données ECPE après qu'un certain nombre de questions ont été posées.}
+\label{comp-ecpe}
+\end{figure}
+
+Dans la figure \ref{comp-ecpe}, les modèles se valent.
 
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figures/comp-fraction}
-\caption{Évolution pour le dataset Fraction}
+\begin{tabular}{ccc}
+& After 4 questions & After 7 questions\\
+Rasch & $0.402 \pm 0.037$ (84 \%) & $0.381 \pm 0.033$ (85 \%)\\
+DINA auto K = 3 & $0.486 \pm 0.06$ (74 \%) & $0.358 \pm 0.042$ (86 \%)\\
+DINA auto K = 5 & $0.44 \pm 0.046$ (78 \%) & $0.413 \pm 0.045$ (81 \%)\\
+DINA K = 8 & $0.368 \pm 0.039$ (86 \%) & $0.346 \pm 0.039$ (86 \%)\\
+\end{tabular}
+\caption{Évolution de l'erreur moyenne sur le jeu de données Fraction après qu'un certain nombre de questions ont été posées.}
+\label{comp-fraction}
 \end{figure}
+
+Dans la figure \ref{comp-fraction}, le meilleur modèle est le modèle DINA avec la matrice spécifiée par un expert. Le modèle de Rasch est meilleur que les modèles avec des q-matrices qui ont été calculées automatiquement. Après avoir posé 4 questions de façon adaptative, le modèle DINA est capable de prédire en moyenne 86 % de l'ensemble de question de validation correctement, soit 8,6 questions sur 10.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{figures/comp-timss}
+\begin{tabular}{ccc}
+& After 4 questions & After 8 questions\\
+Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%)\\
+DINA K = 13 & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%)\\
+\end{tabular}
+\caption{Évolution de l'erreur moyenne sur le jeu de données TIMSS après qu'un certain nombre de questions ont été posées.}
+\label{comp-timss}
+\end{figure}
+
+Dans la figure \ref{comp-timss}, les deux modèles se valent. 
 
 ## Vitesse
 
@@ -382,9 +433,9 @@ Q $K = 6$ & 1 h 45 min 3 s & 3 min 14 s %0.482 $\pm$ 0.015 & \textbf{0.425 $\pm$
 
 ## Discussion
 
-Selon le jeu de données, le meilleur modèle n'est pas le même.
+Selon le jeu de données, le meilleur modèle n'est pas le même. Par exemple, pour des tâches procédurales telles que Fraction, le modèle DINA a une haute précision en prédiction de performance. Le modèle de Rasch surprend pour ses performances étant donné sa simplicité.
 
-Il est utile de remarquer que si $K = 1$, l'apprenant peut être modélisé par une probabilité d'avoir l'unique CC ou non. Si la question ne requiert aucune CC, il a une probabilité constante $1 - s_i$ d'y répondre. Sinon, sa probabilité est $(1 - p) g_i + p (1 - s_i) = g_i + p (1 - s_i - g_i)$ soit une valeur qui croît entre $g_i$ et $1 - s_i$ de façon linéaire avec $p$. On retrouve les paramètres de chance et d'inattention du modèle logistique à 4 paramètres.
+Il est utile de remarquer que pour le modèle DINA avec $K = 1$, l'apprenant peut être modélisé par une probabilité d'avoir l'unique CC ou non. Si la question ne requiert aucune CC, il a une probabilité constante $1 - s_i$ d'y répondre. Sinon, sa probabilité est $(1 - p) g_i + p (1 - s_i) = g_i + p (1 - s_i - g_i)$ soit une valeur qui croît entre $g_i$ et $1 - s_i$ de façon linéaire avec $p$. On retrouve les paramètres de chance et d'inattention du modèle logistique à 4 paramètres.
 
 # Conclusion
 
