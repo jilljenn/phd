@@ -175,6 +175,8 @@ Dans le jeu de données Fraction, on souhaite identifier l'état latent de l'app
 \label{guess}
 \end{table}
 
+\label{use-cases}
+
 ## Test adaptatif au début d'un MOOC
 
 Au début d'un cours, il faut identifier les connaissances de l'apprenant avec le moins de questions possible. C'est un problème de démarrage à froid, où il faut identifier si l'apprenant a bien les prérequis du cours. Si un graphe de prérequis est dispoible, nous suggérons d'utiliser le modèle de @Falmagne2006, décrit à la section \ref{knowledge-space}. Si une q-matrice est disponible, nous suggérons d'utiliser le modèle GenMA ci-haut. Sinon, le modèle de Rasch permet au moins de classer les apprenants. Si aucun historique sur le test n'est disponible et qu'il s'agit de la première édition, les seuls modèles possibles sont celui de @Falmagne2006 qui nécessite un graphe de prérequis, ou le modèle DINA qui nécessite une q-matrice.
