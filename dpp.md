@@ -209,13 +209,13 @@ Dans la figure \ref{initiald-fraction-delta}, le modèle qui converge le plus v
 
 ## Discussion et applications
 
-Nous avons donc proposé dans ce chapitre InitialD, une nouvelle méthode pour choisir les $k$ premières questions à poser.
-
-Il est possible d'incorporer des caractéristiques telles que le contenu des questions pour avoir des vecteurs plus précis, en plus grande dimension. En filtrage collaboratif, c'est l'approche qu'adopte @Van2013 pour résoudre le problème du démarrage à froid.
+Il est possible d'incorporer des caractéristiques telles que le contenu des questions pour avoir des vecteurs plus précis, en plus grande dimension. En filtrage collaboratif, c'est l'approche qu'adopte @Van2013 pour résoudre le problème du démarrage à froid de l'utilisateur. Pour leur système de recommandation de musiques, ils intègrent des informations supplémentaires telles que le contenu de la musique pour obtenir de meilleures représentations distribuées des musiques.
 
 Si le nombre de questions à poser $k$, le nombre de questions disponibles $n$ et le nombre de dimensions $d$ sont des petites valeurs, il est possible de simuler tous les choix possibles de $k$ questions parmi $n$. Toutefois, en pratique, les banques de questions sur des plateformes de MOOC seront telles que la complexité de InitialD, $O(nk^3)$ après un précalcul de $O(n^3)$, sera un avantage.
 
 La méthode proposée dans ce chapitre ne cherche pas à déterminer le meilleur ensemble de questions à poser, mais un bon ensemble aléatoire. Ajouter de l'aléa dans cette technique présente plusieurs avantages : les premières questions posées à chaque candidat ne sont pas les mêmes. Si cela constitue une surcharge supplémentaire lorsqu'on doit corriger manuellement les exercices des apprenants, en revanche lorsqu'ils sont administrés automatiquement sur une plateforme, cela permet d'éviter que les apprenants s'échangent les réponses ou que l'apprenant se lasse, ou tout simplement de trop utiliser les mêmes exercices de sa banque.
+
+La stratégie InitialD peut être améliorée en ne tirant pas un seul ensemble de $k$ questions mais plusieurs, et en conservant le meilleur des échantillons. Tirer $\ell$ fois $k$ questions a une complexité $O(\ell nk^3)$, déterminer le meilleur ensemble a une complexité $O(\ell k^3)$. Faire plusieurs tirages augmente la probabilité de déterminer ainsi le meilleur ensemble de questions.
 
 ### Génération de testlets
 
@@ -226,3 +226,13 @@ Le test préalable peut être également appliqué à la génération d'une plan
 Cette méthode pourrait être appliquée au problème de démarrage à froid de la question : lorsqu'une nouvelle question est ajoutée à un test existant, on ne dispose d'aucune information concernant son niveau. Une méthode consiste à, de façon similaire, la poser à des apprenants qui ont des niveaux diversifiés pour estimer son paramètre. C'est l'approche qu'adopte @Anava2015 dans un contexte de filtrage collaboratif. On peut imaginer sur un MOOC repérer le nombre de personnes actuellement connectées et tirer un sous-ensemble d'apprenants à qui poser la question[^1].
 
  [^1]: Cela ressemble un peu à de la publicité ciblée, sauf qu'on ne connaît aucune information personnelle sur les apprenants.
+
+# Conclusion
+
+Dans ce chapitre, nous avons présenté une nouvelle manière de choisir les $k$ premières questions à administrer à un nouvel apprenant, via un algorithme probabiliste efficace tiré de la littérature en apprentissage automatique.
+
+Grâce à la complexité de $O(nk^3)$ pour choisir $k$ questions à poser parmi $n$ (après un précalcul de complexité $O(n^3)$ qui peut être parallélisé car il s'agit d'une diagonalisation de matrice), notre méthode peut être appliquée à des grandes banques de questions, telles que celles que peut contenir un cours en ligne.
+
+Également, nous avons mis en évidence qu'un processus non-adaptatif peut être utile pour les premières questions, tandis qu'une évaluation adaptative peut donner de meilleurs résultats plus loin dans le test. Il serait utile de comparer différentes stratégies de tests à étapes multiples.
+
+Cette méthode peut convenir à un professeur cherchant à tirer un bon ensemble de $k$ questions à poser pour construire une planche d'exercices, pour un cours de travaux dirigés par exemple.

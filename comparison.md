@@ -1,4 +1,4 @@
-# Spécification du test adaptatif
+# Composants modulables d'un test adaptatif
 
 ## Modèle de la probabilité de répondre correctement à chaque question
 
@@ -36,9 +36,29 @@ Le problème d'identification d'une cible en posant la question qui minimise l'e
 
 Toutefois, on a une borne théorique dans le cas où les apprenants répondent sans erreur. -->
 
-# Comparaison de modèles sur des jeux de données réels
+## Évaluation qualitative
 
-Nous allons employer un vocabulaire qui vient de l'apprentissage automatique pour définir notre problème.
+Plusieurs aspects font qu'on peut préférer un modèle de test adaptatif plutôt qu'un autre. Par exemple, la mise en œuvre d'un modèle de test peut requérir la construction d'une q-matrice, ce qui peut être coûteux si l'on a plusieurs milliers de questions à apparier avec une dizaine de composantes de connaissance.
+
+Multidimensionalité
+
+:   Est-ce que le modèle mesure une ou plusieurs dimensions ?
+
+Interprétabilité
+
+:   Dans les évaluations formatives, il est important de pouvoir nommer les CC dont l'apprenant a dû faire preuve, de façon satisfaisante ou insatisfaisante. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible d'identifier les lacunes de l'apprenant soulignées par le test.
+
+Explicabilité
+
+:   Un modèle explicable est capable de justifier le processus qui l'a fait aboutir à son diagnostic. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Si le modèle prédictif est linéaire ou log-linéaire, il est possible de justifier ses prédictions. S'il est non linéaire, on ne peut pas expliquer les prédictions.
+
+Besoin d'un historique
+
+:   Est-ce que le modèle a besoin d'un historique d'apprenants pour fonctionner ou est-ce que le test peut être adaptatif dès sa première administration ?
+
+# Méthodologie de comparaison quantitative de modèles
+
+Nous allons employer un formalisme qui vient de l'apprentissage automatique pour définir notre problème.
 
 ## Apprentissage automatique à partir d'exemples
 
@@ -91,27 +111,8 @@ Dans notre cadre, nous avons deux types de populations : les apprenants de l'his
 
 Notre comparaison de modèles a deux aspects : qualitatifs en termes d'interprétabilité ou d'explicabilité et quantitatifs en termes de vitesse de convergence de la phase d'entraînement et performance des prédictions.
 
-## Évaluation qualitative
-
-Plusieurs aspects font qu'on peut préférer un modèle de test adaptatif plutôt qu'un autre. Par exemple, la mise en œuvre d'un modèle de test peut requérir la construction d'une q-matrice, ce qui peut être coûteux si l'on a plusieurs milliers de questions à apparier avec une dizaine de composantes de connaissance.
-
-Multidimensionalité
-
-:   Est-ce que le modèle mesure une ou plusieurs dimensions ?
-
-Interprétabilité
-
-:   Dans les évaluations formatives, il est important de pouvoir nommer les CC dont l'apprenant a dû faire preuve, de façon satisfaisante ou insatisfaisante. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible d'identifier les lacunes de l'apprenant soulignées par le test.
-
-Explicabilité
-
-:   Un modèle explicable est capable de justifier le processus qui l'a fait aboutir à son diagnostic. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Si le modèle prédictif est linéaire ou log-linéaire, il est possible de justifier ses prédictions. S'il est non linéaire, on ne peut pas expliquer les prédictions.
-
-Besoin d'un historique
-
-:   Est-ce que le modèle a besoin d'un historique d'apprenants pour fonctionner ou est-ce que le test peut être adaptatif dès sa première administration ?
-
 ## Évaluation quantitative et implémentation
+\label{comp-cat}
 
 Complexité
 
@@ -433,9 +434,15 @@ Q $K = 6$ & 1 h 45 min 3 s & 3 min 14 s %0.482 $\pm$ 0.015 & \textbf{0.425 $\pm$
 
 ## Discussion
 
+\ref{discu-comp}
+
 Selon le jeu de données, le meilleur modèle n'est pas le même. Par exemple, pour des tâches procédurales telles que Fraction, le modèle DINA a une haute précision en prédiction de performance. Le modèle de Rasch surprend pour ses performances étant donné sa simplicité.
 
 Il est utile de remarquer que pour le modèle DINA avec $K = 1$, l'apprenant peut être modélisé par une probabilité d'avoir l'unique CC ou non. Si la question ne requiert aucune CC, il a une probabilité constante $1 - s_i$ d'y répondre. Sinon, sa probabilité est $(1 - p) g_i + p (1 - s_i) = g_i + p (1 - s_i - g_i)$ soit une valeur qui croît entre $g_i$ et $1 - s_i$ de façon linéaire avec $p$. On retrouve les paramètres de chance et d'inattention du modèle logistique à 4 paramètres.
+
+Le calcul automatique d'une q-matrice est un problème difficile : s'il y a $|Q|$ questions et $K$ composantes de connaissance, il y a $|Q|K$ bits donc $2^{|Q|K}$ q-matrices possibles. Pour chacune, le calcul des paramètres d'inattention et de chance est un problème d'optimisation convexe. Notre calcul a conduit à des résultats peu satisfaisants, sachant que la méthode de calibration du modèle de Rasch est efficace tandis que si l'on souhaite calculer une distribution a priori sur les apprenants du modèle DINA, la complexité est grande dans la mesure où il faut simuler l'administration de chaque question à chaque apprenant de l'ensemble d'entraînement, or chaque fois qu'un apprenant répond à une question, il faut mettre à jour la distribution de probabilité sur les états possibles ce qui a une complexité $O(2^K K)$, ce qui donne une complexité totale de $N M 2^K K$ où $N$ est le nombre d'apprenants de l'ensemble d'entraînement et $M$ le nombre de questions.
+
+Le modèle DINA en lui-même mélange des paramètres discrets (les bits de la q-matrice) et des paramètres continus (les paramètres d'inattention et de chance), ce qui fait qu'il s'agit ni d'un problème d'optimisation linéaire en nombres entiers, ni d'un problème d'optimisation convexe. La méthode naïve d'escalade de colline fait tomber dans des minima locaux qui ne donnent pas un modèle qui correspond aux données de façon satisfaisante. Ainsi on préférera le modèle de Rasch ou ses analogues multidimensionnels de la théorie de la réponse à l'item.
 
 # Conclusion
 
@@ -443,4 +450,6 @@ Dans ce chapitre, nous avons détaillé les différents points récurrents dans 
 
 Comme @Rupp2012, nous ne cherchons pas à déterminer un meilleur modèle pour tous les usages, nous cherchons à identifier quel modèle convient le mieux à quel usage et avons proposé une méthologie pour comparer leur capacité à efficacement réduire la taille des tests.
 
-Dans la littérature, nous avons observé que la plupart des modèles qui se basent sur des q-matrices sont évalués sur des données simulées. Ici, nous ne considérons que des données réelles d'apprenants, et notre protocole expérimental peut être testé sur n'importe quel jeu de données de test dichotomique. Il peut également être généralisé à des tests non adaptatifs comme nous le verrons à la section \ref{initiald}. Le fait de considérer seulement les réussites ou échecs d'apprenants face à des questions ou tâches permet d'appliquer un modèle de test adaptatif à des données issues d'interfaces plus complexes telles que des jeux sérieux. Si l'on dispose d'un générateur automatique de niveau qui prend en argument les composantes de connaissances que le niveau est censé évaluer, alors le modèle de test adaptatif pourra présenter à l'apprenant un niveau inédit basé sur les composantes de connaissances que le système souhaite évaluer, en fonction de la performance de l'apprenant jusqu'alors.
+Dans la littérature, nous avons observé que la plupart des modèles qui se basent sur des q-matrices sont évalués sur des données simulées. Ici, nous ne considérons que des données réelles d'apprenants, et notre système de comparaison peut être testé sur n'importe quel jeu de données de test dichotomique. Il peut également être généralisé à des tests non adaptatifs comme nous le verrons à la section \vref{initiald}. Le fait de considérer seulement les réussites ou échecs d'apprenants face à des questions ou tâches permet d'appliquer un modèle de test adaptatif à des données issues d'interfaces plus complexes telles que des jeux sérieux. Si l'on dispose d'un générateur automatique de niveau qui prend en argument les composantes de connaissances que le niveau est censé évaluer, alors le modèle de test adaptatif pourra présenter à l'apprenant un niveau inédit basé sur les composantes de connaissances que le système souhaite évaluer, en fonction de la performance de l'apprenant jusqu'alors.
+
+Ce système de comparaison va nous être utile pour proposer un nouveau modèle de test adaptatif dans le chapitre suivant.

@@ -136,6 +136,8 @@ Ainsi, si l'apprenant $i \in \{1, \ldots, n\}$ est modélisé par le vecteur $\m
 
 $$ Pr(\textnormal{``l'apprenant $i$ répond correctement à la question $j$''}) = \Phi(\mathbf{\theta_i} \cdot \mathbf{d_j}). $$
 
+\label{rasch-mirt}
+
 Notez qu'on ne retrouve pas le modèle de Rasch lorsque $d = 1$ mais lorsque $d = 2$ avec des paramètres $\mathbf{\theta_i} = (\theta, 1)$ et $\mathbf{d_j} = (1, d_j)$, car :
 
 $$ \mathbf{\theta_i} \cdot \mathbf{d_j} = (\theta, 1) \cdot (1, -d_j) = \theta - d_j $$
@@ -150,9 +152,31 @@ Réécrit comme un problème de factorisation de matrice, TRIM devient :
 $$ M \simeq \Phi(\Theta D^T) $$
 
 \noindent
-où $M$ est la matrice $n \times m$ des réponses des $n$ étudiants sur les $m$ questions d'un test, $\Theta$ est la matrice $n \times d$ des vecteurs des apprenants et enfin $D$ est la matrice $m \times d$ des vecteurs des questions.
+où $M$ est la matrice $n \times m$ des réponses des $n$ apprenants sur les $m$ questions d'un test, $\Theta$ est la matrice $n \times d$ des vecteurs des apprenants et enfin $D$ est la matrice $m \times d$ des vecteurs des questions.
 
 Ce modèle plus riche a beaucoup plus de paramètres : $d$ paramètres doivent être estimés pour chacun des $n$ apprenants et chacune des $m$ questions, soit $d(n + m)$ paramètres au total. Ayant de nombreux paramètres, ce modèle est plus difficile à calibrer [@Desmarais2012; @Lan2014].
+
+### SPARFA
+
+@Lan2014 ont défini un nouveau modèle de tests adaptatifs appelé SPARFA (Sparse Factor Analysis). Leur probabilité que l'apprenant réponde correctement à une certaine question repose sur un produit scalaire, ce qui est semblable au modèle TRIM, avec des contraintes supplémentaires. Écrit comme un problème de factorisation de matrice, SPARFA est :
+
+$$ M \simeq \Phi(\Theta D^T) $$
+
+\noindent
+où $M$ est la matrice $n \times m$ des réponses des $n$ apprenants sur les $m$ questions d'un test, $\Theta$ est la matrice $n \times d$ des vecteurs des apprenants et $D$ est uniquement constituée de coefficients positifs, et elle est creuse, c'est-à-dire que la majorité de ses entrées est nulle.
+
+### Tests à étapes multiples
+
+Jusqu'à présent, nous n'avons considéré que des questions posées une par une. Mais les premières étapes d'un test adaptatif conduisent à des estimations du niveau de l'apprenant biaisées, car il y a peu de faits sur lesquels s'appuyer pour effectuer un diagnostic. C'est pourquoi d'autres recherches en psychométrie portent sur des tests à étapes multiples [@Yan2014], qui posent des groupes de questions avant de choisir le groupe de questions suivant. Après une première planche de $k_1$ questions, l'apprenant est orienté vers une autre planche de $k_2$ questions sélectionnées en fonction de sa performance sur la première planche, et ainsi de suite, voir la figure \ref{mst}. Cela permet également à l'apprenant de vérifier ses réponses avant de déclencher le processus suivant de questions.
+
+Il y a ainsi un compromis entre adapter le processus après chaque question ou ne le faire que lorsque suffisamment d'information a été récoltée sur l'apprenant. @Wang2016 suggère de poser un groupe de questions au début du test, lorsque peu d'information sur l'apprenant est disponible, puis progressivement réduire le nombre de questions de chaque planche afin d'augmenter les opportunités d'adapter le processus. Aussi, poser des groupes de questions permet d'équilibrer les planches de questions en termes de CC évaluées, tandis que poser les questions une par une crée forcément un passage d'une CC à une autre, question après question.
+
+\begin{figure}
+\centering
+\includegraphics{figures/mst.pdf}
+\caption{Un exemple de test à étapes multiples. Les questions sont posées par groupe.}
+\label{mst}
+\end{figure}
 
 ## Modèles de diagnostic cognitif basés sur les composantes de connaissances
 
@@ -301,7 +325,9 @@ Un avantage du modèle DINA est qu'il n'a pas besoin de données de test pour ê
 
 Il y a une tendance pour des modèles plus fins pour le diagnostic qui considèrent des représentations de connaissance plus riches, telles que des réseaux bayésiens [@Shute2011] ou des ontologies du domaine couvert par le test [@Mandin2014; @Kickmeier2015]. Toutefois, de telles représentations sont coûteuses à construire.
 
-## Lien entre tests adaptatifs et filtrage collaboratif
+## Lien avec l'apprentissage automatique
+
+### Tests adaptatifs et filtrage collaboratif
 
 Les systèmes de recommandation peuvent recommander des nouvelles ressources à un utilisateur en fonction de ses préférences sur d'autres ressources et des préférences d'autres utilisateurs sur ces mêmes ressources. Le but est de prédire le comportement d'un utilisateur face à une ressource inédite, à partir de ses préférences sur une fraction des ressources qu'il a consultées. Deux techniques sont utilisées.
 
@@ -316,25 +342,12 @@ Un autre élément qui apparaît dans les systèmes de recommandation peut être
 
 Parmi les techniques les plus populaires pour s'attaquer au problème du démarrage à froid, une méthode qui nous intéresse particulièrement est un test adaptatif qui présente certaines ressources à l'apprenant et lui demande de les noter. @Golbandi2011 construit un arbre de décision qui pose des questions à un nouvel utilisateur et, en fonction de ses réponses, choisit les meilleures questions à lui poser de façon à identifier rapidement un groupe d'utilisateurs qui lui sont proches. Les meilleures questions sont celles qui séparent la population en trois parties de taille similaire, selon si l'utilisateur a apprécié la ressource, n'a pas apprécié la ressource, ou ne connaît pas la ressource. La différence principale avec notre cadre éducatif est que les apprenants risquent de moins coopérer avec un système d'évaluation qu'avec un système de recommandations commercial, car leur objectif n'est pas d'obtenir des bonnes recommandations mais un bon score. Ainsi, leurs réponses risquent de ne pas refléter les compétences qu'ils maîtrisent vraiment.
 
-## Stratégies adaptatives pour le compromis exploration-exploitation
+### Stratégies adaptatives pour le compromis exploration-exploitation
 \label{bandits}
 
 Dans certaines applications de tests adaptatifs, on souhaite maximiser une certaine fonction objectif pendant qu'on pose les questions. Par exemple, supposons qu'un site commercial cherche à maximiser le nombre de clics sur ses publicités. Il y a un compromis entre explorer l'espace des publicités en présentant à l'utilisateur des publicités plus risquées, et exploiter la connaissance sur l'utilisateur en lui présentant des publicités sur des domaines susceptibles de lui plaire. Dans un contexte éducatif, on peut se demander quelle serait la tâche qui permettrait de faire progresser l'apprenant le plus, tout en cherchant à identifier ce qu'il maîtrise ou non. C'est la technique qu'adoptent @Clement2015 aux systèmes de tuteurs intelligents : ils personnalisent les séquences d'activités d'apprentissage de façon à identifier les CC de l'apprenant tout en maximisant son progrès, défini comme la performance sur les dernières activités. Ils utilisent deux modèles de bandit, l'un se basant sur la zone proximale de développement de Vygotski [@Vygotsky1980] sous la forme d'un graphe de prérequis, l'autre sur une q-matrice. Ils ont comparé ces deux approches sur 400 apprenants de 7 et 8 ans, et ont découvert de façon surprenante que le graphe de dépendance se comportait mieux que le modèle qui utilise une q-matrice spécifiée par un expert. Leur technique est adaptée à des populations d'apprenants de niveaux variés, notamment ceux ayant des difficultés.
 
-## Tests à étapes multiples
-
-Jusqu'à présent, nous n'avons considéré que des questions posées une par une. Mais les premières étapes d'un test adaptatif conduisent à des estimations du niveau de l'apprenant biaisées, car il y a peu de faits sur lesquels s'appuyer pour effectuer un diagnostic. C'est pourquoi d'autres recherches en psychométrie portent sur des tests à étapes multiples [@Yan2014], qui posent des groupes de questions avant de choisir le groupe de questions suivant. Après une première planche de $k_1$ questions, l'apprenant est orienté vers une autre planche de $k_2$ questions sélectionnées en fonction de sa performance sur la première planche, et ainsi de suite, voir la figure \ref{mst}. Cela permet également à l'apprenant de vérifier ses réponses avant de déclencher le processus suivant de questions.
-
-Il y a ainsi un compromis entre adapter le processus après chaque question ou ne le faire que lorsque suffisamment d'information a été récoltée sur l'apprenant. @Wang2016 suggère de poser un groupe de questions au début du test, lorsque peu d'information sur l'apprenant est disponible, puis progressivement réduire le nombre de questions de chaque planche afin d'augmenter les opportunités d'adapter le processus. Aussi, poser des groupes de questions permet d'équilibrer les planches de questions en termes de CC évaluées, tandis que poser les questions une par une crée forcément un passage d'une CC à une autre, question après question.
-
-\begin{figure}
-\centering
-\includegraphics{figures/mst.pdf}
-\caption{Un exemple de test à étapes multiples. Les questions sont posées par groupe.}
-\label{mst}
-\end{figure}
-
-# Limitations
+# Hypothèses
 
 Dans tous les modèles de tests adaptatifs présentés dans ce chapitre, nous nous cherchons à évaluer les connaissances des apprenants, et non d'autres dimensions telles que leur persévérance, leur organisation ou leur prudence lorsqu'ils répondent à des questions. En réduisant le nombre de questions, nous réduisons le temps que les apprenants passent à être évalués, ce qui les empêche de s'ennuyer et laisse plus de temps pour d'autres activités d'apprentissage.
 
@@ -348,6 +361,8 @@ Il existe d'autres interfaces pour l'évaluation plus riche telles que des jeux 
 
 # Conclusion
 
-Historiquement, les tests adaptatifs ont été développés pour réduire le coût des tests standardisés et augmenter leur sécurité, car tous les examinés n'obtenaient pas les mêmes questions. Combinés avec des modèles cognitifs, ils permettent de faire un retour à l'apprenant à la fin du test sur les points à améliorer, ce qui est plus bénéfique pour l'apprenant, et peut également être utile pour un professeur afin d'identifier les apprenants qui ont besoin d'intervention. De plus, @Dunlosky2013 ont prouvé que s'entraîner à passer des tests avait un impact notable sur l'apprentissage.
+Dans ce chapitre, nous avons présenté différents modèles de tests adaptatifs que nous avons classés selon trois catégories : théorie de la réponse à l'item, modèles de diagnostic basés sur les compétences et apprentissage automatique. Cette première description nous permettra de concevoir un système de comparaison de modèles dans le chapitre suivant. Nous avons également précisé les hypothèses de notre approche, qui se limite à considérer des succès et échecs des apprenants, et non des notes plus précises.
+
+Historiquement, les tests adaptatifs ont été développés pour réduire le coût des tests standardisés et augmenter leur sécurité, car tous les examinés n'obtenaient pas les mêmes questions. Combinés avec des modèles cognitifs, ils permettent de faire un retour à l'apprenant à la fin du test sur les points à améliorer, ce qui est plus bénéfique pour l'apprenant, et peut également être utile pour un professeur afin d'identifier les apprenants qui ont besoin d'une attention supplémentaire. De plus, @Dunlosky2013 ont prouvé que s'entraîner à passer des tests avait un impact notable sur l'apprentissage.
 
 Les tests adaptatifs permettent une meilleure personalisation en organisant les ressources d'apprentissage. Par exemple, le séquençage du programme (*curriculum sequencing*) consiste à définir des parcours d'apprentissage dans un espace d'objectifs d'apprentissage [@Desmarais2012]. Cela consiste à faire passer des évaluations de compétences pour adapter le contenu d'apprentissage à partir d'un minimum de faits observés. En effet, à partir du retour d'un test adaptatif formatif, comme on a une idée plus précise des CC que maîtrise l'apprenant, il est possible de filtrer le contenu du cours qui lui sera utile pour s'améliorer.

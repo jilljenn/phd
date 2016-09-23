@@ -194,3 +194,9 @@ Un test d'évaluation à la fin d'un cours peut se baser sur les modèles de tes
 Tableaux de bord.
 
 Un apprenant peut demandé à être évalué sur seulement une partie des CC. -->
+
+# Conclusion
+
+Dans ce chapitre, nous avons présenté un modèle hybride de tests adaptatifs, que nous avons validé en utilisant plusieurs jeux de données réels.
+
+Interpréter le modèle DINA et le modèle de Rasch en termes d'apprentissage automatique nous a permis de proposer ce modèle, plus facile à calibrer qu'un modèle de théorie de la réponse à l'item général, puisque la q-matrice force le modèle à se restreindre au calcul des paramètres de difficulté de chaque question selon chaque composante de connaissance.
