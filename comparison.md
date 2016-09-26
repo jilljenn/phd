@@ -2,29 +2,33 @@
 
 ## Modèle de la probabilité de répondre correctement à chaque question
 
-Les choix que font le système et la calibration des paramètres dépendent du modèle de probabilité de réponse d'un apprenant sur une question.
+Tous les modèles de tests adaptatifs reposent sur des caractéristiques des questions et des apprenants, spécifiés par un expert ou déterminés automatiquement au moyen d'algorithmes. Ils reposent sur une expression de la probabilité qu'un certain apprenant réponde à une certaine question, en fonction de leurs caractéristiques.
 
-## Calibrage à partir d'un historique ou ensemble d'entraînement
+## Calibrage des caractéristiques
 
-Pour fonctionner, certains modèles de test adaptatif nécessitent de calibrer leurs paramètres à l'aide d'un historique de réponses (aussi appelé *ensemble d'entraînement*) d'une population $I$ d'apprenants face à des questions d'un ensemble $Q$, sous la forme d'une matrice $I \times Q$ dont l'élément $m_{ij}$ vaut 1 si l'apprenant $i$ a répondu correctement à la question $j$, 0 sinon.
+Les caractéristiques des questions et des apprenants peuvent être spécifiées à la main par un enseignant, ou bien calculées automatiquement à partir de ce qu'on appelle des *données d'entraînement*. Si le test est administré pour la première fois, il n'y a pas de données d'entraînement, sinon on dispose d'un historique de réponses d'une population $I$ d'apprenants face à des questions d'un ensemble $Q$, sous la forme d'une matrice $|I| \times |Q|$ dont l'élément $m_{ij}$ vaut 1 si l'apprenant $i$ a répondu correctement à la question $j$, 0 sinon.
 
-Cela leur permet ensuite de positionner un nouvel apprenant par rapport à la population donnée en historique.
+En général, les valeurs calculées automatiquement conduisent à une erreur du modèle plus faible, car les algorithmes de calibrage sont justement conçus pour minimiser l'erreur le plus possible sur les données d'entraînement, contrairement à un humain dont les valeurs affectées peuvent être subjectives et ne pas correspondre à la réalité.
+
+Il est également possible de spécifier une partie des caractéristiques et de calculer automatiquement les autres. Lorsqu'il y a plusieurs caractéristiques à optimiser, il est possible d'en optimiser une première en fixant toutes les autres, puis optimiser la deuxième en fixant toutes les autres, et ainsi de suite, jusqu'à obtenir une erreur convenable.
 
 ## Choix de la question initiale
 
-Au début d'un test adaptatif, le système n'a aucune information sur l'apprenant, car aucune question de lui a encore été posée, et que nous ne considérons pas de métadonnées sur l'apprenant.
+Au début d'un test adaptatif, le système n'a aucune information sur l'apprenant, car il n'a fourni aucune réponse et nous ne considérons aucune donnée sur l'apprenant nous permettant de l'identifier.
 
-Pour choisir la première question à poser, le système peut en choisir une au hasard, ou bien supposer initialiser les paramètres de l'apprenant à la valeur moyenne rencontrée dans la population donnée en historique. Nous avons fait ce second choix afin d'avoir un processus déterministe qui utilise toute l'information à disposition.
+Pour choisir la première question à poser, le système peut en choisir une au hasard, ou bien initialiser les caractéristiques de l'apprenant à une certaine valeur qui peut dépendre des données d'entraînement, s'il y en a (par exemple, supposer que l'apprenant est de niveau moyen).
+
+<!-- Nous avons fait ce dernier choix afin d'avoir un processus déterministe qui utilise toute l'information à disposition. -->
 
 ## Choix de la question suivante
 
-À un certain moment du test, le système doit, à partir des questions déjà posées et de leurs résultats, choisir la question suivante. Ainsi, la fonction qui choisit la question suivante prend en paramètre une liste de couples $\{(i_k, r_k)\}_k$ où $r_k$ désigne 1 si l'apprenant a répondu correctement à la question $i_k$, 0 sinon.
+À un certain moment du test, le système doit, à partir des questions déjà posées et de leurs résultats, choisir la question suivante. Ainsi, la fonction qui choisit la question suivante prend en paramètre une liste de couples $\{(i_k, r_k)\}_k$ où $r_k$ vaut 1 si l'apprenant a répondu correctement à la question $i_k$, 0 sinon.
 
-## Nature du retour fait à la fin du test
+## Retour fait à la fin du test
 
-Selon le modèle, l'apprenant obtient à la fin du test un retour qui lui sera utile ou non pour s'améliorer. Par exemple le modèle de Rasch renvoie une information de niveau tandis que le modèle DINA indique la probabilité que le candidat maîtrise chacune des CC.
+L'apprenant obtient à la fin du test ses caractéristiques qui ont été calculées pendant le processus. Cela peut comprendre la liste des questions qu'il a résolues correctement ou non, munies éventuellement de leurs caractéristiques. Par exemple, le modèle de Rasch renvoie une valeur réelle de niveau tandis que le modèle DINA indique la probabilité que le candidat maîtrise chacune des CC.
 
-Pour visualiser cette information, diverses méthodes sont employées. Par exemple, pour le modèle de Rasch, on peut indiquer où l'apprenant où il se trouve au sein de la population (par exemple, dans les 10 % meilleurs). Pour le modèle DINA, on peut lui renvoyer des jauges de compétences à partir de la probabilité qu'il maîtrise chacune des CC.
+Pour visualiser cette information, diverses méthodes peuvent être employées. Pour le modèle de Rasch, on peut indiquer à l'apprenant où il se trouve au sein de la population (par exemple, dans les 10 % meilleurs). Pour le modèle DINA, on peut tracer des jauges de maîtrise des différentes compétences, à partir de sa probabilité de les maîtriser.
 
 <!-- # Bornes théoriques de problèmes similaires
 
@@ -36,7 +40,7 @@ Le problème d'identification d'une cible en posant la question qui minimise l'e
 
 Toutefois, on a une borne théorique dans le cas où les apprenants répondent sans erreur. -->
 
-## Évaluation qualitative
+# Évaluation qualitative
 
 Plusieurs aspects font qu'on peut préférer un modèle de test adaptatif plutôt qu'un autre. Par exemple, la mise en œuvre d'un modèle de test peut requérir la construction d'une q-matrice, ce qui peut être coûteux si l'on a plusieurs milliers de questions à apparier avec une dizaine de composantes de connaissance.
 
@@ -46,7 +50,7 @@ Multidimensionalité
 
 Interprétabilité
 
-:   Dans les évaluations formatives, il est important de pouvoir nommer les CC dont l'apprenant a dû faire preuve, de façon satisfaisante ou insatisfaisante. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible d'identifier les lacunes de l'apprenant soulignées par le test.
+:   Dans les évaluations formatives, il est important de pouvoir nommer les composantes de connaissances dont l'apprenant a dû faire preuve, de façon satisfaisante ou insatisfaisante. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible d'identifier les lacunes de l'apprenant soulignées par le test.
 
 Explicabilité
 
@@ -62,23 +66,27 @@ Nous allons employer un formalisme qui vient de l'apprentissage automatique pour
 
 ## Apprentissage automatique à partir d'exemples
 
-Lorsqu'on cherche à modéliser un phénomène naturel, on peut utiliser un modèle statistique, dont on estime les paramètres en fonction des occurrences observées. Par exemple, si on suppose qu'une pièce suit une loi de Bernoulli et tombe sur Face avec probabilité $p$ et Pile avec probabilité $1 - p$, on peut estimer $p$ à partir de l'historique des occurrences des lancers de la pièce. On appelle *estimateur du maximum de vraisemblance* la valeur des paramètres qui maximise la vraisemblance, c'est-à-dire qui maximise la probabilité d'obtenir les résultats observés. À partir de ce modèle, il est possible de faire des prédictions sur les futurs lancers de pièce.
+Lorsqu'on cherche à modéliser un phénomène naturel, on peut utiliser un modèle statistique, dont on estime les paramètres en fonction des occurrences observées. Par exemple, si on suppose qu'une pièce suit une loi de Bernoulli et tombe sur Face avec probabilité $p$ et Pile avec probabilité $1 - p$, on peut estimer $p$ à partir de l'historique des occurrences des lancers de la pièce. On appelle *estimateur du maximum de vraisemblance* la valeur des paramètres qui maximise la vraisemblance, c'est-à-dire qui maximise la probabilité d'obtenir les résultats observés. À partir de ce modèle, il est possible de faire des prédictions sur les futurs lancers de la pièce.
 
 On distingue deux types d'apprentissage automatique. L'*apprentissage supervisé* consiste à disposer d'échantillons étiquetés, c'est-à-dire appariés avec une variable d'intérêt, et à devoir prédire les étiquettes d'échantillons inédits. L'*apprentissage non supervisé* consiste à ne pas savoir quelle variable prédire, et donc à déterminer des motifs récurrents au sein des échantillons ou en extraire des caractéristiques pour faire de l'apprentissage.
 
-En apprentissage supervisé, on appelle *classifieur* un modèle qui prédit une variable discrète, et régresseur un modèle qui prédit une variable continue. Ainsi, à partir des *caractéristiques* d'un échantillon $\mathbf{x} = (x_1, \ldots, x_d)$, par exemple les couleurs des pixels d'une image, un classifieur peut prédire une variable $y$ dite *étiquette*, par exemple le chiffre 1 si l'image est un chat, 0 sinon. Une fois ce modèle entraîné sur des exemples de caractéristiques $\mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(e)}$ étiquetées par les variables $y^{(1)}, \ldots, y^{(e)}$, on peut s'en servir pour prédire les étiquettes d'échantillons inédits $\mathbf{x'}^{(1)}, \ldots, \mathbf{x'}^{(t)}$. Ainsi on distingue les données d'entraînement $X_{train} = (\mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(e)})$, sous la forme d'une matrice de taille $e \times d$ où $e$ est le nombre d'exemples et $d$ la dimension des caractéristiques, et leurs étiquettes $\mathbf{y}_{train} = (y^{(1)}, \ldots, y^{(e)})$ des données de test $X_{test} = (\mathbf{x'}^{(1)}, \ldots, \mathbf{x'}^{(t)})$.
+<!-- TODO pas clair -->
 
-En ce qui nous concerne, nous disposons des résultats de plusieurs apprenants sur les questions d'un test, et cherchons à prédire les résultats d'un nouvel apprenant alors qu'il passe le test. Notre problème commence par une phase d'apprentissage non supervisé, car à partir du simple historique des résultats au test, il faut extraire des caractéristiques sur les apprenants et les questions qui expliquent ces résultats. Puis, le problème devient supervisé pour un nouvel apprenant car il s'agit d'un problème de classification binaire : on cherche à prédire à partir des réponses que donne l'apprenant ses résultats (vrai ou faux) sur le reste des questions du test. Une particularité est que l'apprentissage est ici interactif, dans la mesure où c'est le système qui choisit les questions à poser (c'est-à-dire, les éléments à faire étiqueter à l'apprenant) afin d'améliorer son apprentissage. Cette approche s'appelle apprentissage actif (*active learning*).
+En apprentissage supervisé, on appelle *classifieur* un modèle qui prédit une variable discrète, et régresseur un modèle qui prédit une variable continue. Ainsi, à partir des *caractéristiques* d'un échantillon $\mathbf{x} = (x_1, \ldots, x_d)$, par exemple les couleurs des pixels d'une image, un classifieur peut prédire une variable $y$ dite *étiquette*, par exemple le chiffre 1 si l'image est un chat, 0 sinon. Une fois ce modèle entraîné sur des échantillons de caractéristiques $\mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(e)}$ étiquetées par les variables $y^{(1)}, \ldots, y^{(e)}$ (c'est la *phase d'entraînement*), on peut s'en servir pour prédire les étiquettes d'échantillons inédits $\mathbf{x'}^{(1)}, \ldots, \mathbf{x'}^{(t)}$ (c'est la *phase de test*). Ainsi on distingue les données d'entraînement $X_{train} = (\mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(e)})$, sous la forme d'une matrice de taille $e \times d$ où $e$ est le nombre d'échantillons et $d$ la dimension des caractéristiques, et leurs étiquettes $\mathbf{y}_{train} = (y^{(1)}, \ldots, y^{(e)})$ des données de test $X_{test} = (\mathbf{x'}^{(1)}, \ldots, \mathbf{x'}^{(t)})$.
+
+En ce qui nous concerne, nous disposons des résultats de plusieurs apprenants sur les questions d'un test, et cherchons à prédire les résultats d'un nouvel apprenant alors qu'il passe le test, sous la forme de succès ou échecs à chacune des questions. Notre problème commence par une phase d'apprentissage non supervisé, car à partir du simple historique des résultats au test, il faut extraire des caractéristiques sur les apprenants et les questions qui expliquent ces résultats. Puis, le problème devient supervisé pour un nouvel apprenant car il s'agit d'un problème de classification binaire : on cherche à prédire à partir des réponses que donne l'apprenant ses résultats sur le reste des questions du test. Une particularité est que l'apprentissage du modèle est ici interactif, dans la mesure où c'est le modèle qui choisit les questions à poser (c'est-à-dire, les éléments à faire étiqueter à l'apprenant) afin d'améliorer son apprentissage des caractéristiques de l'apprenant. Cette approche s'appelle apprentissage actif (*active learning*), et dans ce cadre elle comporte du bruit, car l'apprenant peut faire des fautes d'inattention ou deviner la bonne réponse.
 
 ## Extraction automatique de q-matrice
 
-Il peut arriver que pour un test donné, on ne dispose pas de q-matrice. Certaines approches en fouille de données pour l'éducation consistent à la calculer automatiquement pour ensuite en interpréter les CC correspondant aux colonnes. @Barnes2005 fait une escalade de colline, mais la complexité de cette opération est grande. @Desmarais2011 fait une factorisation de matrices positives.
+Il peut arriver que pour un test donné, on ne dispose pas de q-matrice. Certaines approches en fouille de données pour l'éducation consistent à la calculer automatiquement pour ensuite en interpréter les CC correspondant aux colonnes. @Barnes2005 fait ainsi une escalade de colline[^1], mais la complexité de cette opération est grande. @Desmarais2011 fait une factorisation de matrices positives.
 
-Nous avons testé des approches plus génériques. @Zou2006 présente un algorithme pour l'analyse de composantes principales creuses, qui détermine deux matrices $W$ et $H$ tels que :
+ [^1]: En anglais, *hill-climbing technique*.
+
+Nous avons testé des approches plus génériques. @Zou2006 présentent un algorithme pour l'analyse de composantes principales creuses, qui détermine deux matrices $W$ et $H$ tels que :
 
 $$M \simeq WH \textnormal{ et } H \textnormal{ est creuse}. $$
 
-@Lee2010 propose une analyse de composantes principales creuses avec une fonction de lien logistique, ce qui est plus approprié pour notre problème où la matrice que nous cherchons à approximer est binaire.
+@Lee2010 proposent une analyse de composantes principales creuses avec une fonction de lien logistique, ce qui est plus approprié pour notre problème où la matrice que nous cherchons à approximer est binaire.
 
 $$M \simeq \Phi(WH) \textnormal{ et } H \textnormal{ est creuse}. $$
 
@@ -88,15 +96,15 @@ Dans ces deux cas, $H$ est composée majoritairement de 0. Pour en extraire une 
 
 Pour valider un modèle d'apprentissage supervisé, une méthode courante consiste à estimer ses paramètres à partir d'une fraction des données et leurs étiquettes, calculer les prédictions faites sur les données restantes et les comparer avec les vraies étiquettes. Cette méthode s'appelle *validation croisée*. Ainsi, le jeu de données $X$ est divisé en deux parties $X_{train}$ et $X_{test}$, le modèle est entraîné sur $X_{train}$ et ses étiquettes $\mathbf{y}_{train}$ et fait une prédiction sur les données $X_{test}$ appelée $\mathbf{y}_{pred}$, qui est ensuite comparée aux vraies valeurs $\mathbf{y}_{test}$ pour validation. S'il s'agit d'un problème de régression, on peut utiliser par exemple la fonction de coût RMSE (*root mean squared error*) :
 
-$$ RMSE(\mathbf{y}^*, \mathbf{y}) = \sqrt{\frac1n \sum_{k = 1}^n (y^*_i - y_i)^2} $$
+$$ RMSE(\mathbf{y}_{test}, \mathbf{y}_{pred}) = \sqrt{\frac1n \sum_{k = 1}^n (y^*_i - y_i)^2} $$
 
-où $\mathbf{y} = (y_1, \ldots, y_n)$ et $\mathbf{y}^* = (y^*_1, \ldots, y^*_n)$.
+où $\mathbf{y}_{pred} = (y_1, \ldots, y_n)$ et $\mathbf{y}_{test} = (y^*_1, \ldots, y^*_n)$.
 
 S'il s'agit d'un problème de classification binaire, on utilise habituellement la fonction de coût *log-loss* (aussi appelée coût logistique ou perte d'entropie mutuelle) :
 
-$$ logloss(\mathbf{y}^*, \mathbf{y}) = \frac1n \sum_{k = 1}^n \log (1 - |y^*_k - y_k|). $$
+$$ logloss(\mathbf{y}_{test}, \mathbf{y}_{pred}) = \frac1n \sum_{k = 1}^n \log (1 - |y^*_k - y_k|). $$
 
-Toutes les valeurs prédites étant comprises entre 0 et 1, cette fonction pénalise beaucoup plus une grosse différence entre valeur prédite (comprise entre 0 ou 1) et valeur réelle (égale à 0 ou 1) que la RMSE. <!-- , voir Figure \ref{rmse-ll}. -->
+Toutes les valeurs prédites étant comprises entre 0 et 1, cette fonction pénalise beaucoup plus une grosse différence entre valeur prédite (comprise entre 0 ou 1) et valeur réelle (égale à 0 ou 1) que la RMSE. <!-- TODO, voir Figure \ref{rmse-ll}. -->
 
 Afin d'obtenir une validation plus robuste, il faut s'assurer que la proportion de 0 et de 1 soit la même dans les étiquettes d'entraînement et dans les étiquettes d'évaluation. Pour une validation encore meilleure, on peut recourir à une validation croisée à $k$ paquets : le jeu de données $X$ est divisé en $k$ paquets, et $k$ validations croisées sont faites en utilisant $k - 1$ paquets parmi les $k$ pour entraîner le modèle et le paquet restant pour l'évaluer.
 
@@ -111,7 +119,7 @@ Dans notre cadre, nous avons deux types de populations : les apprenants de l'his
 
 Notre comparaison de modèles a deux aspects : qualitatifs en termes d'interprétabilité ou d'explicabilité et quantitatifs en termes de vitesse de convergence de la phase d'entraînement et performance des prédictions.
 
-## Évaluation quantitative et implémentation
+## Évaluation quantitative
 \label{comp-cat}
 
 Complexité
@@ -120,7 +128,7 @@ Complexité
 
 Rapidité de convergence vers un diagnostic
 
-:   Un modèle convergera plus vite vers son diagnostic qu'un modèle plus compliqué.
+:   Combien faut-il de questions pour que le diagnostic converge ?
 
 Pouvoir prédictif
 
@@ -129,11 +137,13 @@ Pouvoir prédictif
 Nous cherchons à comparer le pouvoir prédictif de différents modèles de tests adaptatifs qui modélisent la probabilité qu'un certain apprenant résolve une certaine question d'un test. Ces modèles sont comparés sur un jeu de données réel $D$ de taille $|I| \times |Q|$ où $D_{iq}$ vaut 1 si l'apprenant $i$ a répondu correctement à la question $q$, 0 sinon. Pour faire une validation bicroisée, nous séparons les apprenants de l'ensemble $I$ en $U$ paquets et les questions de l'ensemble $Q$ en $V$ paquets. Ainsi, si on numérote les paquets d'apprenants $I_i$ pour $i = 1, \ldots, U$  et les paquets de questions $Q_j$ pour $j = 1, \ldots, V$, l'expérience $(i, j)$ consiste à, pour chaque modèle $T$ :
 
 1. entraîner le modèle $T$ sur tous les paquets d'apprenants sauf le $i$-ième (l'ensemble d'apprenants d'entraînement $I_{train} = I \setminus I_i$) ;
-2. simuler des tests adaptatifs sur les apprenants du $i$-ième paquet (l'ensemble d'apprenants de test $I_{test} = I_i$) en utilisant les questions de tous les paquets sauf le $j$-ième, et après chaque réponse de l'apprenant, en évaluant l'erreur du modèle $T$ sur le $j$-ième paquet de questions (l'ensemble de questions de validation $Q_{val} = Q_j$), voir figure \ref{predict}. On fait donc un appel à \textsc{Simuler}($train, test$), voir l'algorithme \ref{algo}.
+2. simuler des tests adaptatifs sur les apprenants du $i$-ième paquet (l'ensemble d'apprenants de test $I_{test} = I_i$) en utilisant les questions de tous les paquets sauf le $j$-ième, et après chaque réponse de l'apprenant, en évaluant l'erreur du modèle $T$ sur le $j$-ième paquet de questions (l'ensemble de questions de validation $Q_{val} = Q_j$), voir figure. On fait donc un appel à \textsc{Simuler}($train, test$), voir l'algorithme \ref{algo}.
+
+Par exemple, sur la figure \ref{predict}, après que la question de probabilité plus proche de 0,5 a été choisie puis posée, les paramètres de l'apprenant sont mis à jour, une prédiction est faite sur l'ensemble de questions de validation et cette prédiction est évaluée étant donnée la vraie performance de l'apprenant.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{figures/predict}
-\caption{Phase de test. Après que la question de probabilité plus proche de 0,5 a été choisie puis posée, les paramètres de l'apprenant sont mis à jour, une prédiction est faite sur l'ensemble de questions de validation et cette prédiction est évaluée étant donnée la vraie performance de l'apprenant.}
+\caption{Exemple de phase de test. La question de probabilité la plus proche de 0,5 est posée à chaque étape.}
 \label{predict}
 \end{figure}
 
@@ -189,7 +199,7 @@ Lors de chaque expérience $(i, j)$, on enregistre pour chaque apprenant $t$ val
 \begin{figure}
 \centering
 \includegraphics{figures/crossval.pdf}
-\caption{Validation bicroisée selon 5 paquets d'apprenants et 4 paquets de questions. Chaque case $(i, j)$ contient les résultats de l'expérience $(i, j)$ d'ensemble d'apprenants d'entraînement $I_{test} = I_i$ et l'ensemble de questions de validation $Q_{val} = Q_j$.}
+\caption{Validation bicroisée selon 5 paquets d'apprenants et 4 paquets de questions. Chaque case $(i, j)$ contient les résultats de l'expérience $(i, j)$ d'ensemble d'apprenants d'entraînement $I_{test} = I_i$ et d'ensemble de questions de validation $Q_{val} = Q_j$.}
 \label{crossval}
 \end{figure}
 
@@ -266,9 +276,9 @@ $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
 \label{ecpe-guess}
 \end{table}
 
-## Modèles et détails d'implémentation
+## Spécification des modèles
 
-Le code est en Python, et fait appel à des fonctions en R au moyen du package RPy2.
+Le code est en Python, et fait appel à des fonctions en R au moyen du package ``RPy2``.
 
 ### Rasch
 
@@ -298,15 +308,15 @@ $$ Pr(success_{ij}) = \Phi(\theta_i - d_j). $$
 
 ### DINA
 
-Chaque apprenant a un paramètre qui est son état latent, et chaque question a pour paramètres sa ligne correspondante dans la q-matrice, ainsi qu'un paramètre d'inattention et un paramètre de chance.
+Chaque apprenant a une caractéristique qui est son état latent, défini à la section \vref{dina}, et chaque question a pour caractéristiques sa ligne correspondante dans la q-matrice, ainsi qu'un paramètre d'inattention et un paramètre de chance.
 
-C'est ``CDM`` qui détermine à partir d'une q-matrice et d'une population, les meilleurs paramètres d'inattention et de chance.
+Pendant la phase de calibrage, nous calculons, à partir d'une q-matrice et d'une population, les meilleurs paramètres d'inattention et de chance.
 
 Afin d'accélérer la procédure d'entraînement parfois coûteuse, nous utilisons le compilateur à la volée ``pypy``.
 
 TrainingStep
 
-:   Si l'on dispose d'une q-matrice, la phase d'apprentissage consiste à déterminer les états latents des apprenants d'entraînement, ainsi que les paramètres d'inattention et de chance des questions les plus vraisemblables. La calibration des paramètres des questions est effectuée par le package ``CDM``, à partir des motifs de réponse des apprenants d'entraînement et de la q-matrice. Pour déterminer les états latents des apprenants, on simule le fait de leur poser toutes les questions en utilisant le modèle DINA. Si on ne dispose pas de q-matrice, nous la calculons automatiquement en itérant plusieurs phases d'optimisation de la q-matrice via escalade de colline, des paramètres d'inattention et de chance via optimisation convexe, et des états latents des apprenants.
+:   Si l'on dispose d'une q-matrice, la phase d'apprentissage consiste à déterminer les états latents des apprenants d'entraînement, ainsi que les paramètres d'inattention et de chance des questions les plus vraisemblables. La calibration des paramètres des questions est effectuée par le package R ``CDM`` (pour *cognitive diagnosis modelling*), à partir des motifs de réponse des apprenants d'entraînement et de la q-matrice. Pour déterminer les états latents des apprenants, on simule le fait de leur poser toutes les questions en utilisant le modèle DINA. Si on ne dispose pas de q-matrice, nous la calculons automatiquement en itérant plusieurs phases d'optimisation de la q-matrice via escalade de colline, des paramètres d'inattention et de chance via optimisation convexe, et des états latents des apprenants.\nomenclature{CDM}{\emph{Cognitive Diagnosis Modelling}, modèles de diagnostic cognitif.}
 
 PriorInitialization
 
@@ -339,7 +349,7 @@ Rasch
 
 DINA
 
-:   Le modèle DINA est multidimensionnel, requiert une q-matrice, fait un retour à l'apprenant sous la forme d'une probabilité de maîtriser chacune des composantes de connaissance. Ainsi, l'apprenant peut se situer vis-à-vis des objectifs du cours. Les paramètres estimés sont les probabilités de répondre correctement aux questions alors qu'on ne maîtrise pas les CC, et inversement. Grâce à la q-matrice, on peut interpréter les différentes dimensions, et les déductions sont faites de façon bayésienne, donc explicables. Si la q-matrice est mal définie, des valeurs aberrantes apparaîtront pour les paramètres d'inattention et de chance. Le modèle DINA peut fonctionner sans historique, en supposant une distribution uniforme a priori sur les états latents possibles.
+:   Le modèle DINA est multidimensionnel, requiert une q-matrice, fait un retour à l'apprenant sous la forme d'une probabilité de maîtriser chacune des composantes de connaissance. Ainsi, l'apprenant peut se situer vis-à-vis des objectifs du cours. Les paramètres estimés sont les probabilités de répondre correctement aux questions alors qu'on ne maîtrise pas les composantes de connaissances, et inversement. Grâce à la q-matrice, on peut interpréter les différentes dimensions, et les déductions sont faites de façon bayésienne, donc explicables. Si la q-matrice est mal définie, des valeurs aberrantes apparaîtront pour les paramètres d'inattention et de chance. Le modèle DINA peut fonctionner sans historique, en supposant une distribution uniforme a priori sur les états latents possibles.
 
 La complexité est calculée selon plusieurs paramètres :
 
@@ -436,7 +446,7 @@ Q $K = 6$ & 1 h 45 min 3 s & 3 min 14 s %0.482 $\pm$ 0.015 & \textbf{0.425 $\pm$
 
 \ref{discu-comp}
 
-Selon le jeu de données, le meilleur modèle n'est pas le même. Par exemple, pour des tâches procédurales telles que Fraction, le modèle DINA a une haute précision en prédiction de performance. Le modèle de Rasch surprend pour ses performances étant donné sa simplicité.
+Selon le jeu de données, le meilleur modèle n'est pas le même. Par exemple, pour des tâches procédurales telles que le test Fraction, le modèle DINA a une haute précision en prédiction de performance. Le modèle de Rasch a de bonnes performances tout en étant très simple.
 
 Il est utile de remarquer que pour le modèle DINA avec $K = 1$, l'apprenant peut être modélisé par une probabilité d'avoir l'unique CC ou non. Si la question ne requiert aucune CC, il a une probabilité constante $1 - s_i$ d'y répondre. Sinon, sa probabilité est $(1 - p) g_i + p (1 - s_i) = g_i + p (1 - s_i - g_i)$ soit une valeur qui croît entre $g_i$ et $1 - s_i$ de façon linéaire avec $p$. On retrouve les paramètres de chance et d'inattention du modèle logistique à 4 paramètres.
 
@@ -446,10 +456,12 @@ Le modèle DINA en lui-même mélange des paramètres discrets (les bits de la q
 
 # Conclusion
 
-Dans ce chapitre, nous avons détaillé les différents points récurrents dans la conception d'un système de test adaptatif, nous permettant de comparer différents modèles de tests adaptatifs sur un même jeu de données. La méthode de validation que nous proposons, la validation bicroisée, est inspirée du domaine du filtrage collaboratif.
+Dans ce chapitre, nous avons détaillé les différents composants modulables dans la conception d'un système de test adaptatif, nous permettant de comparer différents modèles de tests adaptatifs sur un même jeu de données. La méthode de validation que nous proposons, la validation bicroisée, est inspirée du domaine du filtrage collaboratif.
 
-Comme @Rupp2012, nous ne cherchons pas à déterminer un meilleur modèle pour tous les usages, nous cherchons à identifier quel modèle convient le mieux à quel usage et avons proposé une méthologie pour comparer leur capacité à efficacement réduire la taille des tests.
+Nous avons implémenté ce système et l'avons appliqué à la comparaison du modèle de Rasch et du modèle DINA. Nous avons mis en évidence que selon le type de test, le meilleur modèle n'est pas le même.
 
-Dans la littérature, nous avons observé que la plupart des modèles qui se basent sur des q-matrices sont évalués sur des données simulées. Ici, nous ne considérons que des données réelles d'apprenants, et notre système de comparaison peut être testé sur n'importe quel jeu de données de test dichotomique. Il peut également être généralisé à des tests non adaptatifs comme nous le verrons à la section \vref{initiald}. Le fait de considérer seulement les réussites ou échecs d'apprenants face à des questions ou tâches permet d'appliquer un modèle de test adaptatif à des données issues d'interfaces plus complexes telles que des jeux sérieux. Si l'on dispose d'un générateur automatique de niveau qui prend en argument les composantes de connaissances que le niveau est censé évaluer, alors le modèle de test adaptatif pourra présenter à l'apprenant un niveau inédit basé sur les composantes de connaissances que le système souhaite évaluer, en fonction de la performance de l'apprenant jusqu'alors.
+Comme @Rupp2012, nous ne cherchons pas à déterminer un meilleur modèle pour tous les usages, nous cherchons à identifier quel modèle convient le mieux à quel usage et avons proposé une méthodologie pour comparer leur capacité à efficacement réduire la taille des tests.
+
+Dans la littérature, nous avons observé que la plupart des modèles qui se basent sur des q-matrices sont évalués sur des données simulées. Ici, nous ne considérons que des données réelles d'apprenants, et notre système de comparaison peut être testé sur n'importe quel jeu de données de test dichotomique. Il peut également être généralisé à des tests à étapes multiples comme nous le verrons à la section \vref{initiald}. Le fait de considérer seulement les réussites ou échecs d'apprenants face à des questions ou tâches permet d'appliquer un modèle de test adaptatif à des données issues d'interfaces plus complexes telles que des jeux sérieux. Si l'on dispose d'un générateur automatique de niveau qui prend en argument les composantes de connaissances que le niveau est censé évaluer, alors le modèle de test adaptatif pourra présenter à l'apprenant un niveau inédit basé sur les composantes de connaissances que le système souhaite évaluer, en fonction de la performance de l'apprenant jusqu'alors.
 
 Ce système de comparaison va nous être utile pour proposer un nouveau modèle de test adaptatif dans le chapitre suivant.
