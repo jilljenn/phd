@@ -118,3 +118,17 @@ Afin de montrer ce qu'il est possible de faire à partir des données d'un véri
 ### Revue STICEF 2016
 
 \fullcite{Vie2016c}.
+
+# Plan
+
+Cette thèse est construite comme suit. Dans le chapitre 1, nous introduisons les tests adaptatifs et les techniques d'apprentissage automatique dont nous nous sommes inspirés, ainsi que les problèmes auxquels nous nous sommes attaqués et les contributions que nous avons proposées.
+
+Dans le chapitre 2, nous décrivons les différents modèles de tests adaptatifs que nous avons rencontrés dans des communautés scientifiques différentes (théorie de la réponse à l'item, modèles basés sur des composantes de connaissances, apprentissage automatique), ainsi que leurs limitations.
+
+Dans le chapitre 3, nous proposons une méthode pour comparer des modèles de tests adaptatifs différents de façon qualitative et quantitative sur un même jeu de données. Nous l'appliquons à la comparaison de deux modèles, un issu de la théorie de la réponse à l'item, un autre basé sur des composantes de connaissances.
+
+Dans le chapitre 4, nous présentons un nouveau modèle de test adaptatif, qui peut être vu à la fois comme issu de la théorie de la réponse à l'item multidimensionnelle et comme un modèle basé sur des composantes de connaissance. En utilisant le système de comparaison décrit au chapitre 3, nous montrons qu'il a une capacité plus prédictive que les autres modèles, sur tous les jeux de données testés.
+
+Dans le chapitre 5, nous présentons une nouvelle stratégie de choix des $k$ premières questions pour le modèle GenMA, basée sur une métrique qui quantifie à quel point un ensemble de questions peut être informatif. Nous montrons qu'elle permet de converger plus vite vers un diagnostic de l'apprenant.
+
+Enfin, dans le chapitre 6, nous décrivons les perspectives de notre travail, et nos futures pistes de recherche.

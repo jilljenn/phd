@@ -14,7 +14,7 @@ Il est également possible de spécifier une partie des caractéristiques et de 
 
 ## Choix de la question initiale
 
-Au début d'un test adaptatif, le système n'a aucune information sur l'apprenant, car il n'a fourni aucune réponse et nous ne considérons aucune donnée sur l'apprenant nous permettant de l'identifier.
+Au début d'un test adaptatif, le système n'a aucune information sur l'apprenant, car il n'a fourni aucune réponse et nous ne considérons aucune donnée sur l'apprenant nous permettant de l'identifier, telles que des données démographiques comme son âge ou son pays.
 
 Pour choisir la première question à poser, le système peut en choisir une au hasard, ou bien initialiser les caractéristiques de l'apprenant à une certaine valeur qui peut dépendre des données d'entraînement, s'il y en a (par exemple, supposer que l'apprenant est de niveau moyen).
 
@@ -132,12 +132,12 @@ Rapidité de convergence vers un diagnostic
 
 Pouvoir prédictif
 
-:   Est-ce que le diagnostic permet effectivement d'expliquer les résultats qu'on aurait obtenus si on avait continué le test ?
+:   Est-ce que le diagnostic fait après un nombre réduit de questions permet effectivement d'expliquer les résultats de l'apprenant sur le reste du test ?
 
 Nous cherchons à comparer le pouvoir prédictif de différents modèles de tests adaptatifs qui modélisent la probabilité qu'un certain apprenant résolve une certaine question d'un test. Ces modèles sont comparés sur un jeu de données réel $D$ de taille $|I| \times |Q|$ où $D_{iq}$ vaut 1 si l'apprenant $i$ a répondu correctement à la question $q$, 0 sinon. Pour faire une validation bicroisée, nous séparons les apprenants de l'ensemble $I$ en $U$ paquets et les questions de l'ensemble $Q$ en $V$ paquets. Ainsi, si on numérote les paquets d'apprenants $I_i$ pour $i = 1, \ldots, U$  et les paquets de questions $Q_j$ pour $j = 1, \ldots, V$, l'expérience $(i, j)$ consiste à, pour chaque modèle $T$ :
 
 1. entraîner le modèle $T$ sur tous les paquets d'apprenants sauf le $i$-ième (l'ensemble d'apprenants d'entraînement $I_{train} = I \setminus I_i$) ;
-2. simuler des tests adaptatifs sur les apprenants du $i$-ième paquet (l'ensemble d'apprenants de test $I_{test} = I_i$) en utilisant les questions de tous les paquets sauf le $j$-ième, et après chaque réponse de l'apprenant, en évaluant l'erreur du modèle $T$ sur le $j$-ième paquet de questions (l'ensemble de questions de validation $Q_{val} = Q_j$), voir figure. On fait donc un appel à \textsc{Simuler}($train, test$), voir l'algorithme \ref{algo}.
+2. simuler des tests adaptatifs sur les apprenants du $i$-ième paquet (l'ensemble d'apprenants de test $I_{test} = I_i$) en utilisant les questions de tous les paquets sauf le $j$-ième, et après chaque réponse de l'apprenant, en évaluant l'erreur du modèle $T$ sur le $j$-ième paquet de questions (l'ensemble de questions de validation $Q_{val} = Q_j$). On fait donc un appel à \textsc{Simuler}($train, test$), voir l'algorithme \ref{algo}.
 
 Par exemple, sur la figure \ref{predict}, après que la question de probabilité plus proche de 0,5 a été choisie puis posée, les paramètres de l'apprenant sont mis à jour, une prédiction est faite sur l'ensemble de questions de validation et cette prédiction est évaluée étant donnée la vraie performance de l'apprenant.
 
@@ -194,12 +194,12 @@ $$ e(p, t) = \frac1{|Q_{val}|} \sum_{k \in Q_{val}} t_k \log p_k + (1 - t_k) \lo
 \noindent
 où $p$ est la performance prédite sur les $|Q_{val}|$ questions et $t$ est le vrai motif de réponse de l'apprenant en cours.
 
-Lors de chaque expérience $(i, j)$, on enregistre pour chaque apprenant $t$ valeurs d'erreurs où $t$ est le nombre de questions posées, soit $|Q \setminus Q_{val}|$. Ainsi, on peut déterminer l'erreur moyenne que chaque modèle a obtenu après avoir posé un certain nombre de questions. Ces valeurs sont stockées dans une matrice de taille $U \times V$ dont chaque case correspond à l'expérience $(i, j)$, voir figure \ref{crossval}. En calculant l'erreur moyenne selon chaque colonne, on peut visualiser comment les modèles se comportent pour chaque ensemble de question de validation. On calcule la moyenne de toutes les cases pour tracer les courbes correspondant à chaque modèle.
+Lors de chaque expérience $(i, j)$, on enregistre pour chaque apprenant $t$ valeurs d'erreurs où $t$ est le nombre de questions posées, soit $|Q \setminus Q_{val}|$. Ainsi, on peut déterminer l'erreur moyenne que chaque modèle a obtenu après avoir posé un certain nombre de questions. Ces valeurs sont stockées dans une matrice de taille $U \times V$ dont chaque case correspond à l'expérience $(i, j)$ correspondant à un ensemble d'apprenants d'entraînement $I_{test} = I_i$ et un ensemble de questions de validation $Q_{val} = Q_j$ (voir figure \ref{crossval}). En calculant l'erreur moyenne selon chaque colonne, on peut visualiser comment les modèles se comportent pour chaque ensemble de question de validation. On calcule la moyenne de toutes les cases pour tracer les courbes correspondant à chaque modèle.
 
 \begin{figure}
 \centering
 \includegraphics{figures/crossval.pdf}
-\caption{Validation bicroisée selon 5 paquets d'apprenants et 4 paquets de questions. Chaque case $(i, j)$ contient les résultats de l'expérience $(i, j)$ d'ensemble d'apprenants d'entraînement $I_{test} = I_i$ et d'ensemble de questions de validation $Q_{val} = Q_j$.}
+\caption{Validation bicroisée selon 6 paquets d'apprenants et 4 paquets de questions.}
 \label{crossval}
 \end{figure}
 
@@ -226,9 +226,27 @@ Ce jeu de données regroupe les résultats de 536 collégiens sur 20 questions d
 
 Le TIMSS (*Trends in International Mathematics and Science Study*) effectue un test standardisé de mathématiques. Les données sont librement disponibles sur leur site pour les chercheurs. En l'occurrence, ce jeu de données provient de l'édition 2003 du TIMSS. C'est une matrice binaire de taille $757 \times 23$ qui regroupe les résultats de 757 apprenants du grade 8 sur 23 questions de mathématiques. La q-matrice a été définie par des experts du TIMSS et comporte 13 CC sur les 15 décrites dans @Su2013 : toutes sauf la 10\ieme{} et la 12\ieme.
 
-<!-- ### Castor
+### Castor
 
-Le Castor est un concours d'informatique où les candidats, collégiens ou lycéens, doivent résoudre des problèmes d'algorithmique déguisés au moyen d'interfaces. Le jeu de données provient de l'édition 2013, où 58 939 élèves de 6\ieme{} et 5\ieme{} ont dû résoudre 17 problèmes. La matrice est encore dichotomique, c'est-à-dire que son entrée $(i, j)$ vaut 1 si l'apprenant $i$ a eu le score parfait sur la question $j$, 0 sinon. -->
+Le Castor est un concours d'informatique où les candidats, collégiens ou lycéens, doivent résoudre des problèmes d'algorithmique déguisés au moyen d'interfaces. Le jeu de données provient de l'édition 2013, où 58 939 élèves de 6\ieme{} et 5\ieme{} ont dû résoudre 17 problèmes. La matrice est encore dichotomique, c'est-à-dire que son entrée $(i, j)$ vaut 1 si l'apprenant $i$ a eu le score parfait sur la question $j$, 0 sinon.
+
+### Coursera
+
+Nous avons testé un modèle de test adaptatif sur de véritables données de MOOC issues d'un cours d'analyse fonctionnelle donné par Jean Cagnol, professeur à CentraleSupélec, sur la plateforme Coursera en 2014. Le cours a accueilli 25354 inscrits et était composé de 8 leçons, à la fin de chacune un quiz, plus un examen final. Nous avons ignoré les QCM au sein de chaque vidéo car elles avaient trop peu de réponses possibles.
+
+À partir de toute la base de données SQL d'un MOOC de Coursera, nous avons ainsi pu extraire les tests suivants :
+
+- Quiz 1 topologie : 5770 essais de 3672 étudiants sur 6 questions (5770 x 6).
+- Quiz 2 espaces métriques et normés : 3296 x 7
+- Quiz 3 espaces de Banach et fonctions linéaires continues : 2467 x 7 (dont une réponse ouverte)
+- Quiz 4 espaces de Hilbert : 1807 x 6
+- Quiz 5 lemme de Lax-Milgram : 1624 x 7
+- Quiz 6 espaces $L_p$ : 1504 x 6
+- Quiz 7 distributions et espaces de Sobolev : 1358 x 9
+- Quiz 8 application à la simulation d'une membrane : 1268 x 7
+- Exam : 599 x 10
+
+L'étude de ce jeu de données est à l'annexe \ref{mooc}.
 
 <!--
 \begin{figure}
@@ -312,7 +330,7 @@ Chaque apprenant a une caractéristique qui est son état latent, défini à la 
 
 Pendant la phase de calibrage, nous calculons, à partir d'une q-matrice et d'une population, les meilleurs paramètres d'inattention et de chance.
 
-Afin d'accélérer la procédure d'entraînement parfois coûteuse, nous utilisons le compilateur à la volée ``pypy``.
+Afin d'accélérer la procédure d'entraînement parfois coûteuse, nous utilisons ``pypy`` : il s'agit d'un interpréteur Python qui compile le code à la volée en code machine, afin de fournir une exécution plus rapide de code Python. Pour l'utiliser, il suffit de taper ``pypy fichier.py`` au lieu de ``python fichier.py``.
 
 TrainingStep
 
@@ -345,7 +363,7 @@ g_j & \textnormal{ sinon.}
 
 Rasch
 
-:   Le modèle de Rasch est unidimensionnel, n'a pas besoin de q-matrice pour fonctionner, fait un retour à l'apprenant sous la forme d'une valeur de niveau. Cela permet à l'apprenant de se situer au sein des autres apprenants mais pas de comprendre les points du cours qu'il doit approfondir. Les paramètres estimés peuvent être interprétés comme des valeurs de niveau pour les apprenants et de difficulté pour les questions, mais peuvent correspondre à des erreurs d'énoncé. Aussi, afin de calibrer les paramètres de difficulté des questions et de niveau des apprenants, le modèle de Rasch a besoin de données d'entraînement.
+:   Le modèle de Rasch est unidimensionnel, il n'a pas besoin de q-matrice pour fonctionner et il fait un retour à l'apprenant sous la forme d'une valeur de niveau. Cela permet à l'apprenant de se situer au sein des autres apprenants mais pas de comprendre les points du cours qu'il doit approfondir. Les paramètres estimés peuvent être interprétés comme des valeurs de niveau pour les apprenants et de difficulté pour les questions, mais peuvent correspondre à des erreurs d'énoncé. Aussi, afin de calibrer les paramètres de difficulté des questions et de niveau des apprenants, le modèle de Rasch a besoin de données d'entraînement.
 
 DINA
 
@@ -364,7 +382,9 @@ Par exemple, pour le modèle DINA, le choix de la question suivante coûte $O(K 
 
 Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss}.
 
-\begin{figure}
+### SAT
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{figures/comp-sat}
 \begin{tabular}{ccc}
@@ -380,7 +400,9 @@ DINA auto K = 5 & $0.496 \pm 0.037$ (77 \%) & $0.519 \pm 0.04$ (74 \%)\\
 
 Dans la figure \ref{comp-sat}, le modèle de Rasch est un peu meilleur que les modèles DINA avec une q-matrice spécifiée automatiquement.
 
-\begin{figure}
+### ECPE
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{figures/comp-ecpe}
 \begin{tabular}{ccc}
@@ -394,7 +416,9 @@ DINA K = 3 & $0.532 \pm 0.003$ (73 \%) & $0.524 \pm 0.003$ (74 \%)\\
 
 Dans la figure \ref{comp-ecpe}, les modèles se valent.
 
-\begin{figure}
+### Fraction
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{figures/comp-fraction}
 \begin{tabular}{ccc}
@@ -410,7 +434,9 @@ DINA K = 8 & $0.368 \pm 0.039$ (86 \%) & $0.346 \pm 0.039$ (86 \%)\\
 
 Dans la figure \ref{comp-fraction}, le meilleur modèle est le modèle DINA avec la matrice spécifiée par un expert. Le modèle de Rasch est meilleur que les modèles avec des q-matrices qui ont été calculées automatiquement. Après avoir posé 4 questions de façon adaptative, le modèle DINA est capable de prédire en moyenne 86 % de l'ensemble de question de validation correctement, soit 8,6 questions sur 10.
 
-\begin{figure}
+### TIMSS
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{figures/comp-timss}
 \begin{tabular}{ccc}
@@ -423,6 +449,22 @@ DINA K = 13 & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%)\\
 \end{figure}
 
 Dans la figure \ref{comp-timss}, les deux modèles se valent. 
+
+### Castor
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/comp-castor}
+\begin{tabular}{ccc}
+& After 4 questions & After 8 questions\\
+Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%)\\
+DINA K = 13 & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%)\\
+\end{tabular}
+\caption{Évolution de l'erreur moyenne sur le jeu de données Castor après qu'un certain nombre de questions ont été posées.}
+\label{comp-castor}
+\end{figure}
+
+Dans la figure \ref{comp-castor}, les deux modèles se valent. 
 
 ## Vitesse
 
@@ -444,11 +486,11 @@ Q $K = 6$ & 1 h 45 min 3 s & 3 min 14 s %0.482 $\pm$ 0.015 & \textbf{0.425 $\pm$
 
 ## Discussion
 
-\ref{discu-comp}
+\label{discu-comp}
 
 Selon le jeu de données, le meilleur modèle n'est pas le même. Par exemple, pour des tâches procédurales telles que le test Fraction, le modèle DINA a une haute précision en prédiction de performance. Le modèle de Rasch a de bonnes performances tout en étant très simple.
 
-Il est utile de remarquer que pour le modèle DINA avec $K = 1$, l'apprenant peut être modélisé par une probabilité d'avoir l'unique CC ou non. Si la question ne requiert aucune CC, il a une probabilité constante $1 - s_i$ d'y répondre. Sinon, sa probabilité est $(1 - p) g_i + p (1 - s_i) = g_i + p (1 - s_i - g_i)$ soit une valeur qui croît entre $g_i$ et $1 - s_i$ de façon linéaire avec $p$. On retrouve les paramètres de chance et d'inattention du modèle logistique à 4 paramètres.
+Il est utile de remarquer que pour le modèle DINA avec $K = 1$, l'apprenant peut être modélisé par une probabilité d'avoir l'unique CC ou non. Si la question ne requiert aucune CC, il a une probabilité constante $1 - s_i$ d'y répondre. Sinon, sa probabilité est $(1 - p) g_i + p (1 - s_i) = g_i + p (1 - s_i - g_i)$ soit une valeur qui croît entre $g_i$ et $1 - s_i$ de façon linéaire avec $p$. On retrouve les paramètres de chance et d'inattention du modèle logistique à 4 paramètres. Cela donne une interprétation géométrique du modèle de Rasch comparé au modèle DINA.
 
 Le calcul automatique d'une q-matrice est un problème difficile : s'il y a $|Q|$ questions et $K$ composantes de connaissance, il y a $|Q|K$ bits donc $2^{|Q|K}$ q-matrices possibles. Pour chacune, le calcul des paramètres d'inattention et de chance est un problème d'optimisation convexe. Notre calcul a conduit à des résultats peu satisfaisants, sachant que la méthode de calibration du modèle de Rasch est efficace tandis que si l'on souhaite calculer une distribution a priori sur les apprenants du modèle DINA, la complexité est grande dans la mesure où il faut simuler l'administration de chaque question à chaque apprenant de l'ensemble d'entraînement, or chaque fois qu'un apprenant répond à une question, il faut mettre à jour la distribution de probabilité sur les états possibles ce qui a une complexité $O(2^K K)$, ce qui donne une complexité totale de $N M 2^K K$ où $N$ est le nombre d'apprenants de l'ensemble d'entraînement et $M$ le nombre de questions.
 
@@ -458,10 +500,10 @@ Le modèle DINA en lui-même mélange des paramètres discrets (les bits de la q
 
 Dans ce chapitre, nous avons détaillé les différents composants modulables dans la conception d'un système de test adaptatif, nous permettant de comparer différents modèles de tests adaptatifs sur un même jeu de données. La méthode de validation que nous proposons, la validation bicroisée, est inspirée du domaine du filtrage collaboratif.
 
-Nous avons implémenté ce système et l'avons appliqué à la comparaison du modèle de Rasch et du modèle DINA. Nous avons mis en évidence que selon le type de test, le meilleur modèle n'est pas le même.
+Nous avons implémenté ce système et l'avons appliqué à la comparaison du modèle de Rasch et du modèle DINA sur des données réelles. Nous avons mis en évidence que selon le type de test, le meilleur modèle n'est pas le même.
 
 Comme @Rupp2012, nous ne cherchons pas à déterminer un meilleur modèle pour tous les usages, nous cherchons à identifier quel modèle convient le mieux à quel usage et avons proposé une méthodologie pour comparer leur capacité à efficacement réduire la taille des tests.
 
-Dans la littérature, nous avons observé que la plupart des modèles qui se basent sur des q-matrices sont évalués sur des données simulées. Ici, nous ne considérons que des données réelles d'apprenants, et notre système de comparaison peut être testé sur n'importe quel jeu de données de test dichotomique. Il peut également être généralisé à des tests à étapes multiples comme nous le verrons à la section \vref{initiald}. Le fait de considérer seulement les réussites ou échecs d'apprenants face à des questions ou tâches permet d'appliquer un modèle de test adaptatif à des données issues d'interfaces plus complexes telles que des jeux sérieux. Si l'on dispose d'un générateur automatique de niveau qui prend en argument les composantes de connaissances que le niveau est censé évaluer, alors le modèle de test adaptatif pourra présenter à l'apprenant un niveau inédit basé sur les composantes de connaissances que le système souhaite évaluer, en fonction de la performance de l'apprenant jusqu'alors.
+Dans la littérature, nous avons observé que la plupart des modèles qui se basent sur des q-matrices sont évalués sur des données simulées. Ici, nous ne considérons que des données réelles d'apprenants, et notre système de comparaison peut être testé sur n'importe quel jeu de données de test dichotomique. Il peut également être généralisé à des tests à étapes multiples comme nous le verrons à la section \vref{initiald}. Le fait de considérer seulement les réussites ou échecs d'apprenants face à des questions ou tâches permet d'appliquer un modèle de test adaptatif à des données issues d'interfaces plus complexes telles que des jeux sérieux.
 
 Ce système de comparaison va nous être utile pour proposer un nouveau modèle de test adaptatif dans le chapitre suivant.
