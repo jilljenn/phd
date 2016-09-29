@@ -16,7 +16,7 @@ Il est également possible de spécifier une partie des caractéristiques et de 
 
 Au début d'un test adaptatif, le système n'a aucune information sur l'apprenant, car il n'a fourni aucune réponse et nous ne considérons aucune donnée sur l'apprenant nous permettant de l'identifier, telles que des données démographiques comme son âge ou son pays.
 
-Pour choisir la première question à poser, le système peut en choisir une au hasard, ou bien initialiser les caractéristiques de l'apprenant à une certaine valeur qui peut dépendre des données d'entraînement, s'il y en a (par exemple, supposer que l'apprenant est de niveau moyen).
+Le système peut choisir la première question à poser au hasard, ou bien initialiser les caractéristiques de l'apprenant à une certaine valeur qui peut dépendre des éventuellement données d'entraînement à disposition. Par exemple, le système peut supposer que l'apprenant est de niveau moyen au sein de la population.
 
 <!-- Nous avons fait ce dernier choix afin d'avoir un processus déterministe qui utilise toute l'information à disposition. -->
 
@@ -54,7 +54,7 @@ Interprétabilité
 
 Explicabilité
 
-:   Un modèle explicable est capable de justifier le processus qui l'a fait aboutir à son diagnostic. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Si le modèle prédictif est linéaire ou log-linéaire, il est possible de justifier ses prédictions. S'il est non linéaire, on ne peut pas expliquer les prédictions.
+:   Un modèle explicable est capable de justifier par quel processus le diagnostic a été obtenu. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Si le modèle prédictif est linéaire ou log-linéaire, il est possible de justifier ses prédictions. S'il est non linéaire, on ne peut pas expliquer les prédictions.
 
 Besoin d'un historique
 
@@ -70,7 +70,7 @@ Nous allons employer un formalisme qui vient de l'apprentissage automatique pour
 
 ## Apprentissage automatique à partir d'exemples
 
-On distingue deux types d'apprentissage automatique. L'*apprentissage supervisé* consiste à disposer d'échantillons étiquetés, c'est-à-dire appariés avec une variable d'intérêt, et à devoir prédire les étiquettes d'échantillons inédits. L'*apprentissage non supervisé* consiste à ne pas savoir quelle variable prédire, et donc à déterminer des motifs récurrents au sein des échantillons ou en extraire des caractéristiques pour faire de l'apprentissage.
+On distingue deux types d'apprentissage automatique. L'*apprentissage supervisé* consiste à disposer d'échantillons étiquetés, c'est-à-dire appariés avec une variable d'intérêt, et à devoir prédire les étiquettes d'échantillons inédits. L'*apprentissage non supervisé* consiste à ne pas savoir quelle variable prédire, et donc à déterminer des motifs récurrents au sein des échantillons ou à en extraire des caractéristiques pour faire de l'apprentissage.
 
 <!-- TODO pas clair -->
 
