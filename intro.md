@@ -4,26 +4,37 @@ La personnalisation de l'enseignement et de l'évaluation est un fort enjeu de n
 
 Avec l'arrivée des cours en ligne ouverts massifs (MOOC), ce besoin en évaluation adaptative s'est accentué. Des cours de nombreuses universités à travers le monde peuvent être suivis par des centaines de milliers d'étudiants. Mais la pluralité des profils de ces apprenants, notamment leurs âges et leurs parcours, fait qu'il devient crucial d'identifier les connaissances que les apprenants ont accumulées dans le passé, afin de personnaliser leur expérience d'apprentissage et d'aider le professeur à mieux connaître sa classe pour améliorer son cours. Or, répondre à de nombreuses questions d'un test de positionnement au début d'un cours risque de paraître fastidieux pour les apprenants [@Desmarais2012]. Il est alors encouragé de ne poser des questions que lorsque c'est nécessaire, par exemple ne pas poser des questions trop difficiles tant que l'apprenant n'a pas répondu à des questions faciles, et ne pas poser des questions requérant des compétences que l'apprenant semble déjà maîtriser, au vu de ses réponses précédentes [@Chang2014].
 
-Cette réduction du nombre de questions d'un test a été étudiée depuis longtemps en psychométrie. La théorie de la réponse à l'item suppose qu'un faible nombre de variables peut expliquer les réponses d'un étudiant à plusieurs questions, et cherche à déterminer les questions les plus informatives pour dévoiler les facteurs latents de l'étudiant. Cette théorie a ainsi permis de développer des modèles de tests *adaptatifs*, qui posent une question à un apprenant, évaluent sa réponse et choisissent en fonction de celle-ci la question suivante à lui poser. Alors que la théorie de la réponse à l'item remonte aux années 50, ces tests sont aujourd'hui utilisés en pratique par le GMAT, une certification administrée à des centaines de milliers d'étudiants chaque année. Toutefois, les enjeux de ces tests sont davantage liés à l'évaluation qu'à la formation : leur objectif est de mesurer les apprenants afin de leur remettre ou non un certificat, plutôt que de leur faire un retour sur leur lacunes. Un tel retour leur serait plus utile pour s'améliorer, et également renforcerait leur engagement. Ainsi, les organismes de certification se placent davantage du côté des institutions, qui décident d'une barre d'admissibilité et d'un quota d'entrants, tandis qu'une plateforme de MOOC se place davantage du côté de ses utilisateurs, les apprenants.
+Cette réduction du nombre de questions d'un test a été étudiée depuis longtemps en psychométrie. La théorie de la réponse à l'item suppose qu'un faible nombre de variables peut expliquer les réponses d'un étudiant à plusieurs questions, et cherche à déterminer les questions les plus informatives pour dévoiler les facteurs latents de l'étudiant [@Hambleton1985]. Cette théorie a ainsi permis de développer des modèles de tests *adaptatifs*, qui posent une question à un apprenant, évaluent sa réponse et choisissent en fonction de celle-ci la question suivante à lui poser. Alors que la théorie de la réponse à l'item remonte aux années 50, ces tests sont aujourd'hui utilisés en pratique par le GMAT, une certification administrée à des centaines de milliers d'étudiants chaque année. Toutefois, les enjeux de ces tests sont davantage liés à l'évaluation qu'à la formation : leur objectif est de mesurer les apprenants afin de leur remettre ou non un certificat, plutôt que de leur faire un retour sur leur lacunes. Un tel retour leur serait plus utile pour s'améliorer, et également renforcerait leur engagement. Ainsi, les organismes de certification se placent davantage du côté des institutions, qui décident d'une barre d'admissibilité et d'un quota d'entrants, tandis qu'une plateforme de MOOC se place davantage du côté de ses utilisateurs, les apprenants.
 
 On distingue deux types de tests adaptatifs. Des tests adaptatifs *sommatifs* mesurent l'apprenant et lui renvoient un simple score, tandis que des tests adaptatifs *formatifs* font un diagnostic des connaissances de l'apprenant afin qu'il puisse s'améliorer, par exemple sous la forme de points à retravailler.
 
-Les tests adaptatifs qui se contentent de mesurer l'apprenant opèrent de façon purement statistique, agnostique du domaine. En revanche, les tests formatifs ont besoin d'une représentation du domaine, par exemple une structure de données faisant le lien entre les questions et les composantes de connaissances impliquées dans leur résolution.
+Les tests adaptatifs qui se contentent de mesurer l'apprenant opèrent de façon purement statistique, agnostique du domaine. En revanche, les tests formatifs ont besoin d'une représentation du domaine qui fait le lien entre les questions et les composantes de connaissances impliquées dans leur résolution.
 
-# Systèmes de recommandation
+# Analytique de l'apprentissage
 
-Les plateformes marchandes utilisent des systèmes pour recommander des produits à des utilisateurs, à partir du comportement passé des autres utilisateurs sur la plateforme.
+En technologies de l'éducation, il existe deux domaines très proches qui sont celui de la fouille de données éducatives[^1] et l'analytique de l'apprentissage[^2]. La première consiste à se demander comment extraire de l'information à partir de données éducatives, en utilisant les modèles mathématiques adéquats. La deuxième se veut plus holistique et s'intéresse aux effets que les systèmes éducatifs ont sur l'apprentissage, et comment représenter les informations récoltées sur les apprenants de façon à ce qu'elles puissent être utilisées par des apprenants, des professeurs ou des administrateurs et législateurs.
 
-Dans cette thèse, nous avons appliqué plusieurs techniques issues des systèmes de recommandation à la réduction du nombre de questions d'un test adaptatif. Nous ferons ainsi plusieurs fois le parallèle entre ces deux formalismes.
+ [^1]: En anglais, *educational data mining*.
 
-## Filtrage collaboratif
+ [^2]: En anglais, *learning analytics*.
+
+Plus généralement, l'analytique de l'apprentissage consiste à se demander comment utiliser les données récoltées sur les apprenants pour améliorer l'apprentissage, au sens large.
+
+# Apprentissage automatique
+
+Lorsqu'on cherche à modéliser un phénomène naturel, on peut utiliser un modèle statistique, dont on estime les paramètres en fonction des occurrences observées. Par exemple, si on suppose qu'une pièce suit une loi de Bernoulli et tombe sur Face avec probabilité $p$ et Pile avec probabilité $1 - p$, on peut estimer $p$ à partir de l'historique des occurrences des lancers de la pièce. Plus l'historique est grand, meilleure sera l'estimation de $p$. À partir de ce modèle, il est possible de faire des prédictions sur les futurs lancers de la pièce.
+
+L'apprentissage automatique consiste à construire des modèles à partir d'ex\-emples capables de prédire des caractéristiques sur des données inédites, par exemple : reconnaître des chiffres sur des codes postaux, ou des chats sur des images. Plus il y a d'exemples pour entraîner le modèle, meilleures sont ses prédictions.
+
+En ce qui nous concerne, nous souhaitons utiliser l'historique des réponses d'apprenants sur un test pour permettre de concevoir automatiquement un test adaptatif composé des mêmes questions. Dans le cadre d'un MOOC, par exemple, il sera possible de réutiliser les données des apprenants d'une session pour proposer des tests plus efficaces pour la session suivante.
+
+## Systèmes de recommandation
 
 \label{collaborative-filtering}
-Comment faire pour avoir une idée du comportement d'un apprenant face à des questions qu'on ne lui a pas posées, en s'aidant du fait que d'autres apprenants ont, eux, répondu à ces questions ? C'est le problème auquel s'attaquent les techniques de filtrage collaboratif.
 
-Ces techniques ont émergé dans les systèmes de recommandation. En effet, de nombreuses personnes recherchent des ressources sur Internet : par exemple des produits, des films ou des cours. Toutefois, ils se retrouvent parfois submergés par un océan de ressources, à partir desquelles il est difficile de faire son choix. À partir des données communiquées par les autres internautes (*collaboratif*), il est possible de faire le tri de façon automatique (*filtrage*) pour un nouvel utilisateur, par exemple en identifiant des internautes ayant un profil similaire à celui-ci et en lui suggérant des ressources qui les ont satisfaits.
+Une application de l'apprentissage automatique est l'élaboration de systèmes de recommandation, capables de recommander des ressources à des utilisateurs en fonction d'autres ressources qu'ils ont appréciées. En technologies de l'éducation, de tels systèmes sont appliqués à la recommandation de ressources pédagogiques [@Chatti2012; @Manouselis2011; @Verbert2011]. Pour concevoir de tels systèmes, une technique possible est celle du *filtrage collaboratif*. À partir des données communiquées par les autres internautes (*collaboratif*), il est possible de faire le tri de façon automatique (*filtrage*) pour un nouvel utilisateur, par exemple en identifiant des internautes ayant un profil similaire à celui-ci et en lui suggérant des ressources qui les ont satisfaits.
 
-Il y a dans ce domaine de recherche des objectifs similaires au nôtre : en effet, nous cherchons justement à positionner un nouvel apprenant en fonction des autres en peu de questions, ce qui consiste à faire le tri parmi les questions à poser. Certains services recourent à des tests adaptatifs de façon similaire aujourd'hui, par exemple Facebook suggère à ses utilisateurs des amis à ajouter au moyen de questions de type : « Vous connaissez peut-être… » car le fait qu'ils connaissent certaines personnes implique une forte probabilité qu'ils en connaissent certaines autres.
+Il y a dans ce domaine de recherche des objectifs similaires au nôtre : en effet, nous cherchons justement à positionner un nouvel apprenant par rapport aux autres en peu de questions, ce qui consiste à faire le tri parmi les questions à poser. Certains services recourent à des tests adaptatifs de façon similaire aujourd'hui, par exemple Facebook suggère à ses utilisateurs des amis à ajouter au moyen de questions de type : « Vous connaissez peut-être… » car le fait qu'ils connaissent certaines personnes implique une forte probabilité qu'ils en connaissent certaines autres.
 
 En filtrage collaboratif, on fait l'hypothèse que l'on dispose d'utilisateurs ayant noté certains objets : $m_{ui}$ désigne la note que l'utilisateur $u$ affecte à l'objet $i$. La matrice observée $M = (m_{ui})$ est creuse, c'est-à-dire qu'une faible partie de ses entrées est renseignée. Le problème consiste à déterminer les entrées manquantes de $M$ (voir figure \ref{matrix-completion}). Afin d'accomplir cette tâche, on suppose en général que $M$ a un faible rang, c'est-à-dire que les notes des utilisateurs sont dans un espace de faible dimension, ou encore qu'on peut les exprimer par un faible nombre de composantes.
 
@@ -43,7 +54,7 @@ L'historique d'un test peut également être représenté par une matrice $M = (
 
 On peut citer de nombreuses différences : les connaissances évoluent plus vite que les goûts ; il y aura toujours des discordes entre les goûts des utilisateurs, tandis qu'en éducation, on aimerait que tout le monde puisse passer d'un état où il ne répond pas correctement partout à un état où il répond correctement partout. Mais comme nous le verrons dans cette thèse, plusieurs stratégies issues du filtrage collaboratif pourront être appliquées à notre problème.
 
-## Comparaison de méthodes par validation croisée
+<!-- ## Comparaison de méthodes par validation croisée
 
 Une question récurrente est de savoir comment comparer deux algorithmes de filtrage collaboratif. La méthode de *validation croisée* consiste à séparer les notes dont on dispose en deux parties : notes d'entraînement et de test, et de tenter de prédire les notes de test à partir des notes d'entraînement. Ainsi, les notes de test ne sont considérées que pour l'évaluation des algorithmes. Dans cette thèse, nous appliquons cette méthode à l'évaluation de modèles de tests adaptatifs.
 
@@ -57,7 +68,7 @@ Ce problème du démarrage à froid pour l'utilisateur est analogue à notre pro
 
 Enfin, dans les systèmes de recommandation on cherche parfois à déterminer un ensemble diversifié de recommandations : plutôt que de trier les résultats par pertinence, un moteur de recherche, qui n'est autre qu'un système de recommandation de pages Web, a plutôt intérêt à présenter des éléments diversifiés. Si l'on trie par pertinence les résultats associés à la recherche \og jaguar \fg, on risque de se retrouver avec seulement des liens associés à l'animal, ou seulement des liens à la marque de voiture, alors qu'on aimerait pouvoir récapituler les résultats de recherche à ces deux catégories, afin de maximiser les chances que l'internaute trouve ce qu'il recherche.
 
-Ce problème de récapitulation des items pour l'utilisateur est analogue à notre recherche de la réduction du nombre des questions à présenter à un apprenant.
+Ce problème de récapitulation des items pour l'utilisateur est analogue à notre recherche de la réduction du nombre des questions à présenter à un apprenant. -->
 
 # Problèmes
 
@@ -65,7 +76,7 @@ Nous nous sommes intéressés aux problèmes suivants.
 
 Réduction du nombre de questions d'un test
 
-:   Si un intervenant ne peut poser que $k$ questions d'une banque de $n$ questions (où $k < n$) à un apprenant, lesquelles choisir ? Pour cette question, nous avons considéré des tests adaptatifs ainsi que des tests non adaptatifs. Laquelle de ces approches fournit les meilleurs résultats en fonction de $k$ ?
+:   Si un intervenant ne peut poser que $k$ questions d'une banque de $n$ questions (où $k < n$) à un apprenant, lesquelles choisir ? Pour ce problème, nous avons considéré des tests adaptatifs ainsi que des tests non adaptatifs. Laquelle de ces approches fournit les meilleurs résultats en fonction de $k$ ?
 
 Méthodologie de comparaison de modèles
 

@@ -1,0 +1,116 @@
+%%% This LaTeX template was created by Adrien Thurotte
+%% It is approved by Paris-Saclay University (december 2015)
+% And, of course, needs improvements : feel free to work on it and share it back ...
+%% Under the licence CC0 - Others may freely build upon, enhance and reuse the works for any purposes without restriction under copyright or database law. https://creativecommons.org/about/cc0
+%\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+%\usepackage[french]{babel}
+%\usepackage{graphicx} % For commande \includegraphics
+%\usepackage[usenames,dvipsnames,svgnames,table]{xcolor} %% To color in violet the text
+%\frenchspacing
+\usepackage[absolute]{textpos} % to place elements in the page
+%\usepackage{multicol} % To write summary in two columns-mode
+%\usepackage{calc} % To calculate textwidth
+%\RequirePackage{geometry}% That nicely create a one-page template
+\usepackage{tikz} %% Make the square.
+
+\label{The thesis}
+\newcommand{\PhDTitleFR}{Modèles de tests adaptatifs pour le diagnostic de connaissances dans un cadre d’apprentissage à grande échelle} %% Titre en Français
+\newcommand{\PhDkeywordsFR}{Circummurana, Pertulit, Bella (3-6 mots-clefs)} %% 3 à 6 mots clefs
+\newcommand{\PhDsumFR}{Eius populus ab incunabulis primis ad usque pueritiae tempus extremum, quod annis circumcluditur fere trecentis, circummurana pertulit bella, deinde aetatem ingressus adultam post multiplices bellorum aerumnas Alpes transcendit et fretum, in iuvenem erectus et virum ex omni plaga quam orbis ambit inmensus, reportavit laureas et triumphos, iamque vergens in senium et nomine solo aliquotiens vincens ad tranquilliora vitae discessit. 
+
+Hoc inmaturo interitu ipse quoque sui pertaesus excessit e vita aetatis nono anno atque vicensimo cum quadriennio imperasset. natus apud Tuscos in Massa Veternensi, patre Constantio Constantini fratre imperatoris, matreque Galla.   Thalassius vero ea tempestate praefectus praetorio praesens ipse quoque adrogantis ingenii, considerans incitationem eius ad multorum augeri discrimina, non maturitate vel consiliis mitigabat, ut aliquotiens celsae potestates iras principum molliverunt, sed adversando iurgandoque cum parum congrueret, eum ad rabiem potius evibrabat, Augustum actus eius exaggerando creberrime docens, idque, incertum qua mente, ne lateret adfectans. quibus mox Caesar acrius efferatus, velut contumaciae quoddam vexillum altius erigens, sine respectu salutis alienae vel suae ad vertenda opposita instar rapidi fluminis irrevocabili impetu ferebatur.
+
+Hae duae provinciae bello quondam piratico catervis mixtae praedonum.} %% Résumé
+
+
+\newcommand{\PhDTitleEN}{Eius populus ab incunabulis primis ad usque pueritiae tempus extremum, quod annis circumcluditur fere trecentis, deinde aetatem ingressus} %% Title
+\newcommand{\PhDkeywordsEN}{circummurana, pertulit, bella (3-6 keywords)} %% 3-6 Keywords
+\newcommand{\PhDsumEN}{Eius populus ab incunabulis primis ad usque pueritiae tempus extremum, quod annis circumcluditur fere trecentis, circummurana pertulit bella, deinde aetatem ingressus adultam post multiplices bellorum aerumnas Alpes transcendit et fretum, in iuvenem erectus et virum ex omni plaga quam orbis ambit inmensus, reportavit laureas et triumphos, iamque vergens in senium et nomine solo aliquotiens vincens ad tranquilliora vitae discessit. 
+
+Hoc inmaturo interitu ipse quoque sui pertaesus excessit e vita aetatis nono anno atque vicensimo cum quadriennio imperasset. natus apud Tuscos in Massa Veternensi, patre Constantio Constantini fratre imperatoris, matreque Galla.   Thalassius vero ea tempestate praefectus praetorio praesens ipse quoque adrogantis ingenii, considerans incitationem eius ad multorum augeri discrimina, non maturitate vel consiliis mitigabat, ut aliquotiens celsae potestates iras principum molliverunt, sed adversando iurgandoque cum parum congrueret, eum ad rabiem potius evibrabat, Augustum actus eius exaggerando creberrime docens, idque, incertum qua mente, ne lateret adfectans. quibus mox Caesar acrius efferatus, velut contumaciae quoddam vexillum altius erigens, sine respectu salutis alienae vel suae ad vertenda opposita instar rapidi fluminis irrevocabili impetu ferebatur.
+
+Hae duae provinciae bello quondam piratico catervis mixtae praedonum.} %% Summary
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+ 
+ \label{Personnal}
+\newcommand{\PhDname}{M. Jill-Jênn Vie} % Civility, first name and name 
+\newcommand{\NNT}{201XSACLSXXX} %% Your NNT numer (the Library will attribute one...)
+\newcommand{\ecodocnum}{580} % Accrediation number
+\newcommand{\ecodoctitle}{ED Sciences et technologies de l'information et de la communication} % Full name of the doctorale school
+\newcommand{\PhDspeciality}{Informatique} % Speciality 
+\newcommand{\PhDworkingplace}{CentraleSupélec} %PhD working place (must be one of these : Université Paris-Sud, Université de Versailles Saint Quentin, Université d’Evry, AgroParisTech, CentraleSupelec, Ecole Normale Supérieure de Cachan, Ecole Polytechnique, ENSTA ParisTech,ENSAE ParisTech, HEC,Institut d’Optique Graduate School,Telecom ParisTech or Telecom SudParis)
+\newcommand{\defenseplace}{Forum des images, Paris} %Place of defense
+\newcommand{\defensedate}{5 décembre 2016} % Date of defense
+\newcommand{\logoED}{\includegraphics[scale=1.2]{logo/STIC.jpg}} % Logo of doctoral school. Check the name of the correct file in the /logo folder.
+\newcommand{\logoEt}{\includegraphics[scale=0.7]{logo/CentraleSupelec.png}} % Must be the logo corresponding to %PhD working place. Check the name of the correct file in the /logo folder.
+\newcommand{\vpos}{1.4} %% You can modify vertical position (leave cm as unit) in order to align horizontally both images
+
+%%%%%%In a case of "cotutelle" Delete " % " of the three following lines. Then, in style-pagedegarde.tex, delete " % " of line 3 to 5.
+%\newcommand{\logoCotut}{\includegraphics[scale=1]{logo/UPS.png}} % Add here the logo of the partner. 
+%\newcommand{\vCotutpos}{3.3} %% You can modify vertical position (leave cm as unit) in order to align horizontally both images
+%\newcommand{\hCotutpos}{12.5} %% You can modify horizontal position (leave cm as unit) in order to align horizontally both images
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%JURY%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lors du premier dépôt de la thèse le nom du président n’est pas connu, le choix du président se fait par les membres du Jury juste avant la soutenance. La précision est apportée sur la couverture lors du second dépôt.
+% Choice of the jury's president is made during the defense. Thus, it must be specified only for the second file deposition in ADUM.
+% All the jury members listed here must have been present during the defense.
+\label{Jury}
+%%% Jury member n1 (Président) %%%
+\newcommand{\jurynameA}{Vanda Luengo}
+\newcommand{\jurygenderA}{Mme} % M. or Mme. / Mrs.
+\newcommand{\juryadressA}{UPMC}
+\newcommand{\jurygradeA}{Professeur des universités}
+\newcommand{\juryroleA}{Président(e) du jury} % 
+%%% Jury member n2 (Rapporteur) %%%
+\newcommand{\jurynameB}{Nathalie Guin}
+\newcommand{\jurygenderB}{Mme} % M. or Mme. / Mrs.
+\newcommand{\juryadressB}{LIRIS}
+\newcommand{\jurygradeB}{Maître de conférences HDR}
+\newcommand{\juryroleB}{Rapporteur}
+%%% Jury member n3 (Rapporteur) %%%
+\newcommand{\jurynameC}{Sébastien George}
+\newcommand{\jurygenderC}{M.} % M. or Mme. / Mrs.
+\newcommand{\juryadressC}{Université du Maine}
+\newcommand{\jurygradeC}{Professeur des universités}
+\newcommand{\juryroleC}{Rapporteur}
+%%% Jury member n4 (Examinateur) %%%
+\newcommand{\jurynameD}{Amel Bouzeghoub}
+\newcommand{\jurygenderD}{Mme} % M. or Mme. / Mrs.
+\newcommand{\juryadressD}{Télécom SudParis}
+\newcommand{\jurygradeD}{Professeur associé}
+\newcommand{\juryroleD}{Examinatrice}
+%%% Jury member n5 (Examinateur) %%%
+\newcommand{\jurynameE}{Monique Grandbastien}
+\newcommand{\jurygenderE}{Mme} % M. or Mme. / Mrs.
+\newcommand{\juryadressE}{LORIA}
+\newcommand{\jurygradeE}{Professeur émérite}
+\newcommand{\juryroleE}{Examinatrice}
+%%% Jury member n6 (Examinateur) %%%
+\newcommand{\jurynameF}{Yolaine Bourda}
+\newcommand{\jurygenderF}{Mme} % M. or Mme. / Mrs.
+\newcommand{\juryadressF}{CentraleSupélec}
+\newcommand{\jurygradeF}{Professeur des universités}
+\newcommand{\juryroleF}{Directrice de thèse}
+%%% Jury member n7 (Examinateur) %%%
+\newcommand{\jurynameG}{Éric Bruillard}
+\newcommand{\jurygenderG}{M.} % M. or Mme. / Mrs.
+\newcommand{\juryadressG}{ENS Paris-Saclay}
+\newcommand{\jurygradeG}{Professeur des universités}
+\newcommand{\juryroleG}{Codirecteur de thèse}
+%%% Jury member n8 (Examinateur) %%%
+\newcommand{\jurynameH}{Fabrice Popineau}
+\newcommand{\jurygenderH}{M.} % M. or Mme. / Mrs.
+\newcommand{\juryadressH}{CentraleSupélec}
+\newcommand{\jurygradeH}{Professeur}
+\newcommand{\juryroleH}{Coencadrant de thèse}
+%% Il est possible d'ajouter des membres supplémentaires selon le même modèle.
+%% More jury members can be added according to the same model
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%COMPILATION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{Document}
+%% 
+%% Les fichiers sont à compiler un par un. Il faut retirer la marque de commentaire " % " en début de ligne, compiler le document, puis mettre la ligne à nouveau en commentaire en vue de compiler le document suivant.
+%% To compile desired document, delete the " % " at the begin of the line, compile the file, and then comment again in order to be able to compile the next one.
+%%

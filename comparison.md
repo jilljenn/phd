@@ -60,13 +60,15 @@ Besoin d'un historique
 
 :   Est-ce que le modèle a besoin d'un historique d'apprenants pour fonctionner ou est-ce que le test peut être adaptatif dès sa première administration ?
 
+Complexité
+
+:   Quelle est la complexité de chacun des composants modulables ?
+
 # Méthodologie de comparaison quantitative de modèles
 
 Nous allons employer un formalisme qui vient de l'apprentissage automatique pour définir notre problème.
 
 ## Apprentissage automatique à partir d'exemples
-
-Lorsqu'on cherche à modéliser un phénomène naturel, on peut utiliser un modèle statistique, dont on estime les paramètres en fonction des occurrences observées. Par exemple, si on suppose qu'une pièce suit une loi de Bernoulli et tombe sur Face avec probabilité $p$ et Pile avec probabilité $1 - p$, on peut estimer $p$ à partir de l'historique des occurrences des lancers de la pièce. On appelle *estimateur du maximum de vraisemblance* la valeur des paramètres qui maximise la vraisemblance, c'est-à-dire qui maximise la probabilité d'obtenir les résultats observés. À partir de ce modèle, il est possible de faire des prédictions sur les futurs lancers de la pièce.
 
 On distingue deux types d'apprentissage automatique. L'*apprentissage supervisé* consiste à disposer d'échantillons étiquetés, c'est-à-dire appariés avec une variable d'intérêt, et à devoir prédire les étiquettes d'échantillons inédits. L'*apprentissage non supervisé* consiste à ne pas savoir quelle variable prédire, et donc à déterminer des motifs récurrents au sein des échantillons ou en extraire des caractéristiques pour faire de l'apprentissage.
 
@@ -230,24 +232,6 @@ Le TIMSS (*Trends in International Mathematics and Science Study*) effectue un t
 
 Le Castor est un concours d'informatique où les candidats, collégiens ou lycéens, doivent résoudre des problèmes d'algorithmique déguisés au moyen d'interfaces. Le jeu de données provient de l'édition 2013, où 58 939 élèves de 6\ieme{} et 5\ieme{} ont dû résoudre 17 problèmes. La matrice est encore dichotomique, c'est-à-dire que son entrée $(i, j)$ vaut 1 si l'apprenant $i$ a eu le score parfait sur la question $j$, 0 sinon.
 
-### Coursera
-
-Nous avons testé un modèle de test adaptatif sur de véritables données de MOOC issues d'un cours d'analyse fonctionnelle donné par Jean Cagnol, professeur à CentraleSupélec, sur la plateforme Coursera en 2014. Le cours a accueilli 25354 inscrits et était composé de 8 leçons, à la fin de chacune un quiz, plus un examen final. Nous avons ignoré les QCM au sein de chaque vidéo car elles avaient trop peu de réponses possibles.
-
-À partir de toute la base de données SQL d'un MOOC de Coursera, nous avons ainsi pu extraire les tests suivants :
-
-- Quiz 1 topologie : 5770 essais de 3672 étudiants sur 6 questions (5770 x 6).
-- Quiz 2 espaces métriques et normés : 3296 x 7
-- Quiz 3 espaces de Banach et fonctions linéaires continues : 2467 x 7 (dont une réponse ouverte)
-- Quiz 4 espaces de Hilbert : 1807 x 6
-- Quiz 5 lemme de Lax-Milgram : 1624 x 7
-- Quiz 6 espaces $L_p$ : 1504 x 6
-- Quiz 7 distributions et espaces de Sobolev : 1358 x 9
-- Quiz 8 application à la simulation d'une membrane : 1268 x 7
-- Exam : 599 x 10
-
-L'étude de ce jeu de données est à l'annexe \ref{mooc}.
-
 <!--
 \begin{figure}
 \includegraphics[width=\textwidth]{plot-ecpe.png}\\
@@ -353,7 +337,7 @@ PredictPerformance
 :   Pour rappel, la formule est donnée par l'expression :
 
 $$ Pr(success_{ij}) = \left\{\begin{array}{ll}
-1 - s_j & \textnormal{ si l'apprenant $i$ maîtrise toutes les CC requises pour répondre à la question $j$}\\
+1 - s_j & \textnormal{ si l'apprenant $i$ maîtrise toutes les CC requises par $j$}\\
 g_j & \textnormal{ sinon.}
 \end{array}\right. $$
 
@@ -496,14 +480,41 @@ Le calcul automatique d'une q-matrice est un problème difficile : s'il y a $|Q|
 
 Le modèle DINA en lui-même mélange des paramètres discrets (les bits de la q-matrice) et des paramètres continus (les paramètres d'inattention et de chance), ce qui fait qu'il s'agit ni d'un problème d'optimisation linéaire en nombres entiers, ni d'un problème d'optimisation convexe. La méthode naïve d'escalade de colline fait tomber dans des minima locaux qui ne donnent pas un modèle qui correspond aux données de façon satisfaisante. Ainsi on préférera le modèle de Rasch ou ses analogues multidimensionnels de la théorie de la réponse à l'item.
 
+# Applications aux MOOC
+
+Forts de la description des modèles de tests adaptatifs au chapitre précédent, et de leur comparaison qualitative dans ce chapitre, nous proposons à présent une méthodologie de choix de modèles en fonction du type de test que l'on souhaite administrer dans un MOOC. Dans une seconde section, nous illustrons la réduction du nombre de questions obtenue par un test adaptatif simulé sur un MOOC de Coursera.
+
+## Méthodologie de choix de modèles
+
+\label{use-cases}
+
+### Test adaptatif au début d'un MOOC
+
+Au début d'un cours, il faut identifier les connaissances de l'apprenant avec le moins de questions possible. C'est un problème de démarrage à froid de l'apprenant, où il faut identifier si celui-ci a bien les prérequis du cours. Si un graphe de prérequis entre composantes de connaissances (CC) est disponible, nous suggérons d'utiliser le modèle de @Falmagne2006, décrit à la section \ref{knowledge-space}, ou son analogue composé de paramètres d'inattention et de chance, le modèle de hiérarchie sur les attributs. Si une q-matrice est disponible, nous suggérons d'utiliser le modèle DINA, décrit à la section \ref{dina}. Sinon, le modèle de Rasch permet au moins de classer les apprenants. Si aucun historique sur le test n'est disponible, par exemple parce qu'il s'agit de la première édition du cours, les seuls modèles envisageables parmi ceux présentés sont celui de @Falmagne2006 qui nécessite un graphe de prérequis, ou le modèle DINA qui nécessite une q-matrice.
+
+Une autre application consiste à faire un test adaptatif à partir du graphe de prérequis sur les CC développées dans le cours. Ainsi, il sera possible d'indiquer à l'apprenant s'il peut se passer de suivre certaines parties du cours.
+
+### Test adaptatif au milieu d'un MOOC
+
+Les apprenants aiment pouvoir savoir sur quoi ils vont être testés, sous la forme d'une autoévaluation qui \og ne compte pas \fg. Cet entraînement de passage de tests a un effet bénéfique sur leur apprentissage [@Dunlosky2013]. Il y a toutefois plusieurs scénarios à considérer. Si les apprenants ont accès au cours alors qu'ils passent ce test à faible enjeu, le modèle de test adaptatif doit prendre en compte le fait que le niveau de l'apprenant puisse changer alors qu'il passe le test, par exemple parce qu'il consulte son cours avant de répondre à chaque question. Dans ce cas, les modèles qui tentent de faire progresser le plus les élèves, tel que celui proposé par @Clement2015 décrit à la section \ref{bandits}, sont appropriés. Ils requièrent soit un graphe de prérequis, soit une q-matrice. Si les apprenants n'ont pas accès au cours pendant le test, le modèle DINA convient, à condition qu'une q-matrice soit spécifiée.
+
+### Test adaptatif à la fin d'un MOOC
+
+Un test d'évaluation à la fin d'un cours peut se baser sur les modèles de tests adaptatifs usuels, de façon à mesurer les apprenants efficacement et leur attribuer une note. Pour ce dernier examen, nous supposons que le retour peut se limiter à un score, ainsi le modèle de Rasch est le plus simple à mettre en place.
+
+## Simulation d'un test adaptatif à partir d'un graphe de prérequis
+
+\label{mooc}
+\input{mooc}
+
 # Conclusion
 
-Dans ce chapitre, nous avons détaillé les différents composants modulables dans la conception d'un système de test adaptatif, nous permettant de comparer différents modèles de tests adaptatifs sur un même jeu de données. La méthode de validation que nous proposons, la validation bicroisée, est inspirée du domaine du filtrage collaboratif.
+Dans ce chapitre, nous avons détaillé les différents composants modulables dans la conception d'un système de test adaptatif, nous permettant de comparer différents modèles de tests adaptatifs sur un même jeu de données. La méthode de validation que nous proposons, la validation bicroisée, est souvent utilisée en apprentissage automatique, notamment pour valider des techniques de filtrage collaboratif.
 
-Nous avons implémenté ce système et l'avons appliqué à la comparaison du modèle de Rasch et du modèle DINA sur des données réelles. Nous avons mis en évidence que selon le type de test, le meilleur modèle n'est pas le même.
-
-Comme @Rupp2012, nous ne cherchons pas à déterminer un meilleur modèle pour tous les usages, nous cherchons à identifier quel modèle convient le mieux à quel usage et avons proposé une méthodologie pour comparer leur capacité à efficacement réduire la taille des tests.
+Nous avons implémenté ce système et l'avons appliqué à la comparaison du modèle de Rasch et du modèle DINA sur des données réelles. Nous avons mis en évidence que selon le type de test, le meilleur modèle n'est pas le même. Comme @Rupp2012, nous ne cherchons pas à déterminer un meilleur modèle pour tous les usages, nous cherchons à identifier quel modèle convient le mieux à quel usage et avons proposé une méthodologie pour comparer leur capacité à efficacement réduire la taille des tests.
 
 Dans la littérature, nous avons observé que la plupart des modèles qui se basent sur des q-matrices sont évalués sur des données simulées. Ici, nous ne considérons que des données réelles d'apprenants, et notre système de comparaison peut être testé sur n'importe quel jeu de données de test dichotomique. Il peut également être généralisé à des tests à étapes multiples comme nous le verrons à la section \vref{initiald}. Le fait de considérer seulement les réussites ou échecs d'apprenants face à des questions ou tâches permet d'appliquer un modèle de test adaptatif à des données issues d'interfaces plus complexes telles que des jeux sérieux.
 
-Ce système de comparaison va nous être utile pour proposer un nouveau modèle de test adaptatif dans le chapitre suivant.
+Nous avons terminé ce chapitre en proposant une méthodologie de choix d'un modèle de test adaptatif en fonction du type de test qui peut apparaître dans un MOOC. Nous l'avons illustré par une simulation d'un test adaptatif basé sur le modèle de hiérarchie sur les attributs, appliqué à des données réelles d'un MOOC de Coursera. Pour cette simulation, nous avons construit une représentation du domaine couvert par un test d'analyse fonctionnelle, et avons mis en évidence que le nombre de questions du test pouvait être réduit grâce à ce modèle de tests adaptatifs.
+
+Le système de comparaison développé dans ce chapitre va nous être utile pour valider un nouveau modèle de test adaptatif décrit dans le chapitre suivant.

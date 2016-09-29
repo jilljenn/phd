@@ -1,23 +1,26 @@
-%\documentclass[a4paper,12pt,draft]{report}
-\documentclass[a4paper,12pt]{memoir}
-\usepackage{geometry}
+\documentclass[12pt,a4paper]{book}
+\usepackage[pass]{geometry}
 \usepackage[french]{babel}
 \usepackage{xltxtra}
 \usepackage{algorithm,caption,algpseudocode}
+\DeclareCaptionLabelFormat{bsc}{\textbf{\textsc{#1}\ #2}}
+\captionsetup[figure]{labelformat=bsc}
 \usepackage{graphicx,array,booktabs,multirow}
 \usepackage[french]{varioref}
 \usepackage{multicol}
-\usepackage{hyperref}
-\usepackage{biblatex}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue]{hyperref}
+\usepackage[style=authoryear,natbib=true,backend=biber,backref=true,maxcitenames=3]{biblatex}
+\DeclareLanguageMapping{french}{french-apa}
+\DefineBibliographyExtras{french}{\restorecommand\mkbibnamelast}
 \usepackage[refpage]{nomencl}
 \addbibresource{biblio.bib}
-\setsecnumdepth{subsection}
 \setcounter{tocdepth}{2}
 \newfontfamily{\J}{Hiragino Sans GB}
-\def\Tomoko{{\J 神津智子}}
+\def\Tomoko{Tomoko Kōzu ({\J 神津智子})}
 \def\Tito{Lê Thành D\~{u}ng Nguy\~{ê}n}
 \def\Gambaru{{\J 頑張る}}
 
+\newtheorem{algo}[equation]{Algorithme}
 \algtext*{EndProcedure}
 \algtext*{EndWhile}
 \algtext*{EndFor}
@@ -40,24 +43,25 @@
 \title{Modèles de tests adaptatifs pour le diagnostic de connaissances dans un cadre d'apprentissage à grande échelle}
 \author{Jill-Jênn Vie}
 
+\input{ups}
+
 \begin{document}
-\maketitle
+\newgeometry{textheight=150ex,textwidth=40em,top=30pt,headheight=30pt,headsep=30pt,inner=80pt}
+\input{style-pagedegarde}
+\restoregeometry
 
 \chapter*{Remerciements}
 \input{merci}
 
 \printnomenclature
 
-\chapter*{Résumé}
-\input{summary}
-
 \clearpage
-\tableofcontents*
+\tableofcontents
 
 \chapter{Introduction}
 \input{intro}
 
-\chapter{Contexte}
+\chapter{État de l'art}
 \input{adaptive-full}
 
 \chapter{Système de comparaison de modèles de tests adaptatifs}
@@ -77,16 +81,19 @@
 \chapter{Conclusion et perspectives}
 \input{perspectives}
 
+\chapter*{Résumé}
+\input{summary}
+
+\clearpage
+\listoffigures
+\listoftables
+
 \appendix
 
-\chapter{Méthodologie : mise en œuvre dans un MOOC de Coursera}
-\input{intro-mooc}
-\input{mooc}
+\chapter{Implémentation des modèles}
+\input{code}
 
-\chapter{Lien entre théorie de la réponse à l'item et apprentissage profond}
-\input{rbm}
-
-\nocite{*}
+%\nocite{*}
 \printbibliography
 
 \end{document}

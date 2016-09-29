@@ -18,7 +18,7 @@ $$ Pr(\textnormal{``l'apprenant $i$ répond correctement à la question $j$''}) 
 - $\beta_i$ est le niveau de l'apprenant $i$ ;
 - $\theta_{ik}$ son niveau dans la CC $k$ ;
 - $q_{jk}$ l'élément $(j, k)$ de la q-matrice qui vaut 1 si la CC $k$ est impliquée dans la résolution de la question $j$, 0 sinon ;
-- $d_{jk}$ est la difficulté de la question $j$ selon la CC $k$.
+- $d_{jk}$ est la difficulté de la question $j$ selon la CC $k$.\bigskip
 
 Si la q-matrice ne contient que des 1, ce modèle est équivalent à la TRIM, voir section \ref{mirt}. Sinon, les composantes de connaissances coïncident avec les dimensions du modèle, et les paramètres de difficulté de chaque question ne sont estimés que pour les CC mises en œuvre dans la résolution de cette question, les autres étant fixées à 0 (voir figure \ref{fig-genma}).
 
@@ -189,20 +189,6 @@ Dans le jeu de données Fraction, on souhaite identifier l'état latent de l'app
 \caption{Paramètres d'inattention et de chance pour la q-matrice du jeu de données ECPE. Les valeurs les plus hautes sont indiquées en gras.}
 \label{guess}
 \end{table}
-
-\label{use-cases}
-
-## Test adaptatif au début d'un MOOC
-
-Au début d'un cours, il faut identifier les connaissances de l'apprenant avec le moins de questions possible. C'est un problème de démarrage à froid, où il faut identifier si l'apprenant a bien les prérequis du cours. Si un graphe de prérequis est dispoible, nous suggérons d'utiliser le modèle de @Falmagne2006, décrit à la section \ref{knowledge-space}. Si une q-matrice est disponible, nous suggérons d'utiliser le modèle GenMA ci-haut. Sinon, le modèle de Rasch permet au moins de classer les apprenants. Si aucun historique sur le test n'est disponible et qu'il s'agit de la première édition, les seuls modèles possibles sont celui de @Falmagne2006 qui nécessite un graphe de prérequis, ou le modèle DINA qui nécessite une q-matrice.
-
-## Test adaptatif au milieu d'un MOOC
-
-Les apprenants aiment pouvoir savoir sur quoi ils vont être testés, sous la forme d'une autoévaluation qui « ne compte pas ». Cet entraînement de passage de tests a un effet bénéfique sur leur apprentissage [@Dunlosky2013]. Il y a toutefois plusieurs scénarios à considérer. Si les apprenants ont accès au cours alors qu'ils passent ce test à faible enjeu, le modèle de test adaptatif doit prendre en compte le fait que le niveau de l'apprenant puisse changer alors qu'il passe le test, par exemple parce qu'il consulte son cours à chaque question. Dans ce cas, les modèles qui tentent de faire progresser le plus les élèves, tel que celui proposé par @Clement2015 décrit à la section \ref{bandits}, sont appropriés. Ils requièrent soit un graphe de prérequis, soit une q-matrice. Si les apprenants n'ont pas accès au cours pendant le test, le modèle GenMA convient, à condition qu'une q-matrice soit spécifiée.
-
-## Test adaptatif à la fin d'un MOOC
-
-Un test d'évaluation à la fin d'un cours peut se baser sur les modèles de tests adaptatifs usuels, de façon à mesurer les apprenants efficacement et leur attribuer une note. Pour ce dernier examen, nous supposons que le retour peut se limiter à un score.
 
 <!-- ## Autres applications
 

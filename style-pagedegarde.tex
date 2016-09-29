@@ -1,0 +1,98 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%COCUTELLE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{cotutelle}
+%\begin{textblock}{1}(\hCotutpos,\vCotutpos)
+%  \logoCotut %% Logo en cas de cotutelle
+%\end{textblock}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%COCUTELLE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%% Positionner le cadre dans la page.
+	%% Modifier yshift modifie la position des bords haut et bas du cadre. Modifier xshift modifie la position des bords gauche et droit du cadre. Il faut toujours les modifier deux par deux (ceux qui ont la même valeur ensemble).
+\begin{tikzpicture}[remember picture,overlay,color=blue!20!red!45!black!75!]
+	\draw[very thick]
+		([yshift=-160pt,xshift=45pt]current page.north west)--     
+		([yshift=-160pt,xshift=-25pt]current page.north east)--    
+		([yshift=35pt,xshift=-25pt]current page.south east)--      
+		([yshift=35pt,xshift=45pt]current page.south west)--cycle; 
+\end{tikzpicture}
+
+
+%% Position du NNT
+\begin{textblock}{13}(1.15,3.3)
+  NNT : \NNT
+\end{textblock}
+
+
+%% Logos en haut de la page
+\begin{textblock}{1}(1.15,1)
+\includegraphics[height=2.4cm]{logo/UPSac.png} %% Logo de Paris Saclay
+\label{Logo Paris Saclay}
+\end{textblock}
+
+\begin{textblock}{1}(12,\vpos)
+\logoEt %% Logo de votre établissement
+\label{Logo Etablissement}
+\end{textblock}
+
+\vspace{6cm}
+%% Texte
+\color{blue!20!red!45!black} %% Couleur violette du premier paragraphe
+  \begin{center}    
+    \LARGE\textsc{Thèse de doctorat\\ de l'Université Paris-Saclay} \\
+    \LARGE{\textsc{préparée à \PhDworkingplace}} \\ \bigskip
+  \color{black} %% Couleur noir du reste du texte
+	\vfill
+    \Large{Ecole doctorale \no \ecodocnum}\\ %% Numéro ED
+     \Large{\ecodoctitle}  \\
+
+     \Large{Spécialité de doctorat: \PhDspeciality} %% Spécialité
+    \vfill  
+   \Large{par}
+   \vfill
+   \LARGE{\textbf{\textsc{\PhDname}}} %% Nom du docteur
+    \vfill
+    \Large{\PhDTitleFR} %% Titre de la thèse
+    \vfill
+    \bigskip
+\end{center}
+\color{black}
+%% Jury
+\begin{flushleft}
+Thèse présentée et soutenue au \defenseplace, le \defensedate. \\
+\bigskip
+Composition du Jury :
+\end{flushleft}
+%% Members of the jury
+%% If needed, one can add jurymemberG or remove one jury member.
+
+\begin{center}
+\begin{tabular}{llll}
+
+    \jurygenderA & \textsc{\jurynameA}  & \jurygradeA & (\juryroleA) \\
+    \null & \null & \juryadressA &\\   
+   
+    \jurygenderB & \textsc{\jurynameB}  & \jurygradeB & (\juryroleB) \\
+    \null & \null & \juryadressB &\\ 
+    
+    \jurygenderC & \textsc{\jurynameC}  & \jurygradeC & (\juryroleC) \\
+    \null & \null & \juryadressC &\\ 
+    
+    \jurygenderD & \textsc{\jurynameD}  & \jurygradeD & (\juryroleD) \\
+    \null & \null & \juryadressD &\\ 
+    
+    \jurygenderE & \textsc{\jurynameE}  & \jurygradeE & (\juryroleE) \\
+    \null & \null & \juryadressE &\\ 
+    
+    \jurygenderF & \textsc{\jurynameF}  & \jurygradeF & (\juryroleF) \\
+    \null & \null & \juryadressF &\\ 
+   
+    \jurygenderG & \textsc{\jurynameG}  & \jurygradeG & (\juryroleG) \\
+    \null & \null & \juryadressG &\\ 
+   
+    \jurygenderH & \textsc{\jurynameH}  & \jurygradeH & (\juryroleH) \\
+    \null & \null & \juryadressH &\\ 
+   
+  \end{tabular}    
+\end{center}

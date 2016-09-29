@@ -2,9 +2,11 @@
 
 ## Travaux effectués
 
-Dans cette thèse, nous avons décidé d'adopter le formalisme de l'apprentissage automatique pour définir le problème de l'évaluation adaptative des apprenants. Cela nous a permis d'avoir un point de vue générique, nous permettant de comparer différents modèles sur les mêmes données de tests. Cette différence de formalisme permettra également d'importer de nombreux autres modèles tels que des machines à vecteurs de support, ou des machines à hausse de gradient[^1]. Les modèles d'apprentissage automatique ont parfois une mauvaise réputation due à la difficulté d'interpréter certains modèles, mais ce n'est pas le cas de modèles plus simples tels que la régression logistique, qui est déjà un exemple de modèle d'apprentissage automatique.
+Dans cette thèse, nous avons décidé d'adopter le formalisme de l'apprentissage automatique pour définir le problème de l'évaluation adaptative des apprenants. Cela nous a permis d'avoir un point de vue générique, nous permettant de comparer différents modèles sur les mêmes données de tests. Cette différence de formalisme permettra également d'importer de nombreux autres modèles tels que des machines à vecteurs de support[^1], ou des machines à hausse de gradient[^2]. Les modèles d'apprentissage automatique ont parfois une mauvaise réputation due à la difficulté d'interpréter certains modèles, mais ce n'est pas le cas de modèles plus simples tels que la régression logistique, qui est déjà un exemple de modèle d'apprentissage automatique.
 
- [^1]: En anglais, *gradient boosting machine*.
+ [^1]: En anglais, *support vector machine*.
+
+ [^2]: En anglais, *gradient boosting machine*.
 
 Nous avons mis en évidence à la section \vref{use-cases} que selon le but du test : au début d'un MOOC, au milieu d'un MOOC ou à la fin d'un MOOC, le modèle plus approprié n'était pas le même. Pour choisir un modèle, il faut se poser les questions suivantes :
 
@@ -16,7 +18,7 @@ Les modèles que nous avons décrits proviennent de divers domaines de la litté
 
 Voir le modèle de Rasch comme un cas particulier de modèle de théorie de la réponse à l'item multidimensionnel à la section \vref{rasch-mirt}, et comparer le modèle DINA à un paramètre avec le modèle de Rasch \ref{discu-comp} nous a permis de proposer le modèle GenMA, tirant parti des avantages des autres modèles.
 
-Voir le modèle GenMA comme un cas particulier de modèle de théorie de la réponse à l'item multidimensionnel, et la phase de calibrage de MIRT comme une méthode d'apprentissage non supervisé qui extrait automatiquement des caractéristiques des questions (qu'on appelle représentation distribuée en apprentissage automatique) à partir des réponses des apprenants, nous a permis d'appliquer un algorithme d'échantillonnage de processus à point déterminantal, récemment utilisée en apprentissage automatique [@Kulesza2013].
+Voir le modèle GenMA comme un cas particulier de modèle de théorie de la réponse à l'item multidimensionnel, et la phase de calibrage de MIRT comme une méthode d'apprentissage non supervisé qui extrait automatiquement des caractéristiques des questions (qu'on appelle représentation distribuée en apprentissage automatique) à partir des réponses des apprenants, nous a permis d'appliquer un algorithme d'échantillonnage de processus à point déterminantal, récemment utilisée en apprentissage automatique [@Kulesza2012].
 
 ## Limitations
 
@@ -34,7 +36,7 @@ La théorie de la réponse à l'item suppose l'indépendance locale entre les qu
 
 ## Incorporer des informations supplémentaires sur les questions et les apprenants
 
-Plus le système a de données sur les apprenants, meilleures sont les prédictions. Ainsi il serait intéressant d'intégrer des informations démographiques dans le profil : à l'aide de ces données supplémentaires, les caractéristiques des apprenants seraient enrichies. Toutefois, cela présente des problèmes de confidentialité : le système risque de favoriser une classe d'apprenants plutôt qu'une autre, ce qui pose des problèmes d'impact disparate, c'est-à-dire de discrimination involontaire.
+Plus le système a de données sur les apprenants, meilleures sont les prédictions. Ainsi il serait intéressant d'intégrer des informations démographiques dans le profil : à l'aide de ces données supplémentaires, les caractéristiques des apprenants seraient enrichies. Toutefois, cela présente des problèmes de confidentialité : le système risque de favoriser une classe d'apprenants plutôt qu'une autre, ce qui pose des problèmes d'impact disparate, c'est-à-dire de discrimination involontaire [@Feldman2015].
 
 Pour s'attaquer au problème de démarrage à froid lorsqu'on ne dispose pas d'informations sur les apprenants, on peut incorporer des liens entre les questions comme ce que fait @Van2013 sur des musiques. Par exemple on pourrait faire de la fouille de données (tf-idf) sur les mots de l'énoncé, ou bien accoler des mots-clés aux questions, qui seraient un premier moyen d'aller vers une q-matrice. Toutes ces données sont autant de caractéristiques qui permettront d'enrichir le système, c'est-à-dire déterminer des vecteurs de plus grande dimension.
 

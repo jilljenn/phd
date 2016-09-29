@@ -14,9 +14,9 @@ Les caractéristiques des questions sont ainsi les colonnes de $V$.
 
 ## Analyse en composantes principales
 
-L'analyse de composantes principales est une méthode descriptive qui consiste à déterminer les composantes qui expliquent le plus la variance. Pour procéder à cette analyse, on fait habituellement une décomposition en valeurs singulières $M = U \Sigma V$ où $\Sigma$ est diagonale et ses éléments diagonaux sont dans l'ordre décroissant et $U$ et $V$ sont unitaires. $V_1$ est alors la composante expliquant le plus la variance et les lignes de $V$ sont orthogonales deux à deux. La décomposition en valeurs singulières est donc un processus de réduction de dimension, qui conduit à une représentation « éclatée » du jeu de données.
+L'analyse en composantes principales est une méthode descriptive qui consiste à déterminer les composantes qui expliquent le plus la variance. Pour procéder à cette analyse, on fait habituellement une décomposition en valeurs singulières $M = U \Sigma V$ où $\Sigma$ est diagonale et ses éléments diagonaux sont dans l'ordre décroissant et $U$ et $V$ sont unitaires. $V_1$ est alors la composante expliquant le plus la variance et les lignes de $V$ sont orthogonales deux à deux. La décomposition en valeurs singulières est donc un processus de réduction de dimension, qui conduit à une représentation « éclatée » du jeu de données.
 
-Ainsi, l'analyse de composantes principales est un processus déterministe qui conduira toujours au même résultat, et les caractéristiques des questions seront les colonnes de $\Sigma V$.
+Ainsi, l'analyse en composantes principales est un processus déterministe qui conduira toujours au même résultat, et les caractéristiques des questions seront les colonnes de $\Sigma V$.
 
 ## Analyse de facteurs
 

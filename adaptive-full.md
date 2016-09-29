@@ -10,13 +10,9 @@ Les premiers modèles utilisés pour les tests adaptatifs [@Hambleton1985] sont 
 
 Dans cette thèse, nous nous sommes concentrés sur l'utilisation de données de tests existants d'apprenants ayant répondu de façon correcte ou incorrecte à des questions, pour proposer des versions adaptatives de ces tests comportant moins de questions. De plus, nous souhaitons que ces tests soient formatifs, et qu'ils puissent faire un retour à l'apprenant. Ce retour peut être agrégé à différents niveaux (celui de l'étudiant, d'une classe, d'une école, d'un district, d'un état ou d'un pays), sur des panneaux de visualisation (*dashboards*), de façon à prendre des décisions informées [@Shute2016].
 
-Ce chapitre est organisé de la façon suivante. Nous commençons par décrire plus précisément le domaine de l'analytique de l'apprentissage et ses méthodes, puis nous présentons les différents modèles de tests adaptatifs issus de domaines divers ainsi que leurs limitations.
+Ce chapitre est organisé de la façon suivante. Nous commençons par décrire plus précisément le domaine de l'analytique de l'apprentissage et ses méthodes, puis nous présentons les différents modèles de tests adaptatifs issus de différentes communautés, ainsi que leurs limitations.
 
-# Analytique de l'apprentissage
-
-Il existe deux domaines très proches qui sont celui de la fouille de données éducatives[^2] et l'analytique de l'apprentissage. La première consiste à se demander comment extraire de l'information à partir de données éducatives, en utilisant les modèles mathématiques adéquats. La deuxième se veut plus holistique et s'intéresse aux effets que les systèmes éducatifs ont sur l'apprentissage, et comment représenter les informations récoltées sur les apprenants de façon à ce qu'elles puissent être utilisées par des apprenants, des professeurs ou des administrateurs et législateurs.
-
- [^2]: En anglais, *educational data mining*.
+# Analytique de l'apprentissage pour l'évaluation
 
 En ce qui concerne l'évaluation, @Chatti2012 décrivent différents objectifs de l'analytique de l'apprentissage : le besoin d'un retour intelligent dans les évaluations, le problème de déterminer l'activité suivante à présenter à l'apprenant. Les méthodes utilisées sont regroupées en plusieurs classes : statistiques, visualisation d'information, fouille de données (dont les méthodes d'apprentissage automatique), et analyse de réseaux sociaux.\nomenclature{LA}{\emph{Learning Analytics}}
 
@@ -32,7 +28,7 @@ En analytique de l'apprentissage, parmi les méthodes employées pour construire
 
  [^3]: En anglais, *machine learning*.
 
-Deux éléments issus des systèmes de recommandation peuvent être transposés au cadre éducatif de l'analytique de l'apprentissage. Le premier est la technique du filtrage collaboratif (cf. section \vref{collaborative-filtering}), qui permet de concevoir un système de recommandation de ressources éducatives [@Chatti2012; @Manouselis2011; @Verbert2011]. Le second est le problème du démarrage à froid de l'utilisateur, dans la mesure où lorsqu'un nouvel utilisateur utilise un système de recommandation, le système n'a que peu d'information sur lui et doit donc lui poser des questions de façon à éliciter ses préférences.
+Deux éléments issus des systèmes de recommandation peuvent être transposés au cadre éducatif de l'analytique de l'apprentissage. Le premier est la technique du filtrage collaboratif (cf. section \vref{collaborative-filtering}), qui permet de concevoir un système de recommandation de ressources pédagogiques [@Chatti2012; @Manouselis2011; @Verbert2011]. Le second est le problème du démarrage à froid de l'utilisateur, dans la mesure où lorsqu'un nouvel utilisateur utilise un système de recommandation, le système n'a que peu d'information sur lui et doit donc lui poser des questions de façon à éliciter ses préférences.
 
 Le temps de réponse lors d'une évaluation a été étudié en psychologie cognitive, car le temps qu'un apprenant met pour répondre à une question peut indiquer quelques aspects sur le processus cognitif [@Chang2014] et joue un rôle dans la performance [@Papamitsiou2014]. Cela requiert des modèles statistiques spécifiques que nous ne considérons pas ici.
 
