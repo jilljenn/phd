@@ -20,6 +20,16 @@
 \def\Tito{Lê Thành D\~{u}ng Nguy\~{ê}n}
 \def\Gambaru{{\J 頑張る}}
 
+\usepackage{fancyhdr}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\renewcommand{\headrulewidth}{0pt}
+
 \newtheorem{algo}[equation]{Algorithme}
 \algtext*{EndProcedure}
 \algtext*{EndWhile}
