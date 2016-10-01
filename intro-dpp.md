@@ -8,6 +8,8 @@ Ce problème est de façon combinatoire plus difficile à résoudre que celui du
 
 Dans ce chapitre, nous nous intéressons au choix des $k$ premières questions qui vont aider à estimer le niveau de l'apprenant. En guise d'application, on peut imaginer une génération de planche d'exercices automatique sur un MOOC, à partir d'exercices piochés dans les banques des QCM qui se trouvent déjà dans le MOOC. À noter que l'algorithme que nous présentons n'est pas déterministe : relancer la génération plusieurs fois donnera des planches d'exercices différentes, ce qui est intéressant pour diversifier les questions présentées aux apprenants.
 
+<!-- présenter dans le même paragraphe => intro -->
+
 Nous présentons d'abord une intuition sur la manière dont nous allons nous y prendre. Nous avons vu au chapitre précédent que les modèles de théorie de réponse à l'item à plusieurs dimensions consistaient à affecter à chaque question un vecteur de caractéristiques de sorte que la question mesure le niveau multidimensionnel de l'apprenant dans la direction de ce vecteur. Ainsi, chaque question donne de l'information sur l'apprenant dans sa direction, et des questions proches ont des motifs de réponse proches. Par exemple, si l'on suppose que l'on a en dimension 2 les trois questions suivantes représentées à la figure \ref{vectors}, il vaut mieux choisir des questions éloignées donc la première et la troisième. Nous présentons dans ce chapitre une façon de pouvoir tirer des questions éloignées les unes des autres, appelée processus à point déterminantal.
 
 \begin{figure}

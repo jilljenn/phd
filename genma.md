@@ -58,7 +58,7 @@ Dans les tests, les questions font habituellement appel à peu de CC, c'est pour
 
 Pour le choix de la question suivante dans le modèle GenMA, nous choisissons de maximiser le déterminant de l'information de Fisher à chaque étape. Il s'agit de la règle D spécifiée à la section \ref{mirt}.
 
-## Estimation des paramètres
+## Estimation des caractéristiques d'un nouvel apprenant
 
 Après que l'apprenant $i$ a répondu à une question, en fonction de sa réponse on calcule les paramètres $(\theta_{i1}, \ldots, \theta_{iK})$ les plus vraisemblables, c'est-à-dire son niveau selon chaque composante de connaissance. Pour cela, on calcule l'estimateur du maximum de vraisemblance, c'est-à-dire les paramètres $\mathbf{\theta_i}$ qui maximisent la probabilité d'observer ces résultats sachant $\mathbf{\theta_i}$ et l'expression de la probabilité que l'apprenant $i$ a répondu correctement à la question $j$, comme un modèle de type MIRT habituel.
 
@@ -72,7 +72,7 @@ Après que l'apprenant $i$ a répondu à une question, en fonction de sa répons
 
 GenMA est multidimensionnel donc mesure des valeurs selon plusieurs CC, contrairement à Rasch qui ne mesure qu'une unique valeur correspondant au niveau de l'apprenant sur tout le test.
 
-Le modèle GenMA est aussi interprétable qu'un modèle DINA : au lieu de renvoyer des probabilités de maîtrise selon chaque CC, il renvoie une valeur de niveau selon chaque CC. Les dimensions sont directement interprétables car elles coïncident avec les colonnes de la q-matrice.
+Le modèle GenMA est tout autant interprétable qu'un modèle DINA : au lieu de renvoyer des probabilités de maîtrise selon chaque CC, il renvoie une valeur de niveau selon chaque CC. Les dimensions sont directement interprétables car elles coïncident avec les colonnes de la q-matrice.
 
 ## Quantitative
 
@@ -147,9 +147,13 @@ Dans le jeu de données Fraction, 4 questions sur 10 sont suffisantes pour préd
 
 <!-- MIRT à 2 dimensions se débrouille mieux que GenMA, ce qui laisse entendre qu'un modèle prédictif n'est pas nécessairement explicatif. Toutefois afin de faire un retour à l'utilisateur, notre modèle fait un feedback correspondant davantage à la réalité qu'un modèle DINA basé sur les q-matrices. -->
 
-Dans le jeu de données ECPE, DINA et Rasch ont une performance similaire, ce qui est surprenant étant donné que Rasch ne requiert aucune connaissance du domaine. Nous supposons que cela apparaît parce qu'il n'y a que 3 CC décrites dans la q-matrice, donc le nombre d'états possibles pour un apprenant est $2^3 = 8$ pour $2^{28}$ motifs de réponse possibles. Ainsi, les paramètres d'inattention et de chance sont très hauts, voir la table \ref{guess}, ce qui explique pourquoi l'information gagnée à chaque question est basse. Par exemple, la question qui requiert les CC 2 et 3 a un grand taux de succès de 88 %, ce qui rend cette question plus facile à résoudre que des questions qui ne requièrent que la CC 2 ou 3, donc le seul moyen pour le modèle DINA d'exprimer ce comportement est d'accroître le paramètre de chance. À l'inverse, GenMA est un modèle plus expressif.
+Dans le jeu de données ECPE, DINA et Rasch ont une performance similaire, ce qui est surprenant étant donné que Rasch ne requiert aucune connaissance du domaine. Nous supposons que cela apparaît car il n'y a que 3 CC décrites dans la q-matrice, donc le nombre d'états possibles pour un apprenant est $2^3 = 8$ pour $2^{28}$ motifs de réponse possibles. Ainsi, les paramètres d'inattention et de chance sont très hauts, voir la table \ref{guess}, ce qui explique pourquoi l'information gagnée à chaque question est basse. Par exemple, la question qui requiert les CC 2 et 3 a un grand taux de succès de 88 %, ce qui rend cette question plus facile à résoudre que des questions qui ne requièrent que la CC 2 ou 3, donc le seul moyen pour le modèle DINA d'exprimer ce comportement est d'accroître le paramètre de chance. À l'inverse, GenMA est un modèle plus expressif.
+
+<!-- raisons d'expressivité du modèle -->
 
 Dans le jeu de données Fraction, on souhaite identifier l'état latent de l'apprenant parmi $2^8$ états possibles, en posant des questions qui portent sur peu de CC. Cela explique pourquoi DINA a besoin de beaucoup de questions pour converger. Pour ce jeu de données, le modèle de Rasch est plus prédictif qu'un modèle DINA basé sur une q-matrice qui a été calculée automatiquement.
+
+<!-- DINA -->
 
 \begin{table}
 \centering

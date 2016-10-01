@@ -6,6 +6,8 @@ Les techniques de filtrage collaboratif permettent d'utiliser les préférences 
 
 ## Applications à un contexte éducatif
 
+<!-- KDD Cup -->
+
 Pour le challenge de la KDD Cup 2010, des approches basées sur le filtrage collaboratif avaient obtenu de bons résultats (3\ieme{} du classement). @ThaiNghe2011 voit le problème de prédire le résultat d'un utilisateur sachant ses actions passées comme un problème de filtrage collaboratif. Ils mentionnent le problème du démarrage froid, en disant que ce problème est moins critique dans des contextes éducatifs que dans des contextes de sites e-commerce où de nombreuses œuvres et utilisateurs arrivent chaque jour. Toutefois, depuis l'arrivée des cours en ligne massifs (MOOC) en novembre 2011, ce problème est devenu aussi important que sur les plateformes marchandes.
 
 Plusieurs éléments doivent toutefois être mis en évidence avant d'adapter les systèmes de recommandation à des contextes éducatifs.
@@ -13,6 +15,8 @@ Plusieurs éléments doivent toutefois être mis en évidence avant d'adapter le
 Incertitude des motifs de réponses
 
 :   On ne peut pas accorder une confiance aussi grande dans le fait qu'un utilisateur apprécie une œuvre que dans le fait qu'un utilisateur a réussi à répondre correctement à une question. En effet, on peut répondre correctement à une question par chance, sans avoir maîtrisé ce qui est évalué ; ou inversement faire une erreur d'inattention.
+
+<!-- maîtrise les choses associées -->
 
 Mouvance des connaissances
 

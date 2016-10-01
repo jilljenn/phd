@@ -8,9 +8,11 @@ Tous les modèles de tests adaptatifs reposent sur des caractéristiques des que
 
 Les caractéristiques des questions et des apprenants peuvent être spécifiées à la main par un enseignant, ou bien calculées automatiquement à partir de ce qu'on appelle des *données d'entraînement*. Si le test est administré pour la première fois, il n'y a pas de données d'entraînement, sinon on dispose d'un historique de réponses d'une population $I$ d'apprenants face à des questions d'un ensemble $Q$, sous la forme d'une matrice $|I| \times |Q|$ dont l'élément $m_{ij}$ vaut 1 si l'apprenant $i$ a répondu correctement à la question $j$, 0 sinon.
 
-En général, les valeurs calculées automatiquement conduisent à une erreur du modèle plus faible, car les algorithmes de calibrage sont justement conçus pour minimiser l'erreur le plus possible sur les données d'entraînement, contrairement à un humain dont les valeurs affectées peuvent être subjectives et ne pas correspondre à la réalité.
+En général, les valeurs calculées automatiquement conduisent à une erreur du modèle plus faible, car les algorithmes de calibrage sont justement conçus pour minimiser le taux d'erreur autant que possible sur les données d'entraînement, contrairement à un humain dont les valeurs affectées peuvent être subjectives et ne pas correspondre à la réalité.
 
 Il est également possible de spécifier une partie des caractéristiques et de calculer automatiquement les autres. Lorsqu'il y a plusieurs caractéristiques à optimiser, il est possible d'en optimiser une première en fixant toutes les autres, puis optimiser la deuxième en fixant toutes les autres, et ainsi de suite, jusqu'à obtenir une erreur convenable.
+
+<!-- TODO et itérer plusieurs fois -->
 
 ## Choix de la question initiale
 
@@ -48,6 +50,8 @@ Multidimensionalité
 
 :   Est-ce que le modèle mesure une ou plusieurs dimensions ?
 
+<!-- dimension -->
+
 Interprétabilité
 
 :   Dans les évaluations formatives, il est important de pouvoir nommer les composantes de connaissances dont l'apprenant a dû faire preuve, de façon satisfaisante ou insatisfaisante. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible d'identifier les lacunes de l'apprenant soulignées par le test.
@@ -55,6 +59,8 @@ Interprétabilité
 Explicabilité
 
 :   Un modèle explicable est capable de justifier par quel processus le diagnostic a été obtenu. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Si le modèle prédictif est linéaire ou log-linéaire, il est possible de justifier ses prédictions. S'il est non linéaire, on ne peut pas expliquer les prédictions.
+
+<!-- Ça va pas -->
 
 Besoin d'un historique
 
@@ -70,15 +76,13 @@ Nous allons employer un formalisme qui vient de l'apprentissage automatique pour
 
 ## Apprentissage automatique à partir d'exemples
 
-On distingue deux types d'apprentissage automatique. L'*apprentissage supervisé* consiste à disposer d'échantillons étiquetés, c'est-à-dire appariés avec une variable d'intérêt, et à devoir prédire les étiquettes d'échantillons inédits. L'*apprentissage non supervisé* consiste à ne pas savoir quelle variable prédire, et donc à déterminer des motifs récurrents au sein des échantillons ou à en extraire des caractéristiques pour faire de l'apprentissage.
+On distingue deux types d'apprentissage automatique. L'*apprentissage supervisé* consiste à disposer d'échantillons étiquetés, c'est-à-dire appariés avec une variable d'intérêt, et à devoir prédire les étiquettes d'échantillons inédits. L'*apprentissage non supervisé* consiste à disposer d'échantillons non étiquetés, et donc à déterminer des motifs récurrents au sein des échantillons ou à en extraire des caractéristiques utiles pour expliquer les données.
 
-<!-- TODO pas clair -->
-
-En apprentissage supervisé, on appelle *classifieur* un modèle qui prédit une variable discrète, et régresseur un modèle qui prédit une variable continue. Ainsi, à partir des *caractéristiques* d'un échantillon $\mathbf{x} = (x_1, \ldots, x_d)$, par exemple les couleurs des pixels d'une image, un classifieur peut prédire une variable $y$ dite *étiquette*, par exemple le chiffre 1 si l'image est un chat, 0 sinon. Une fois ce modèle entraîné sur des échantillons de caractéristiques $\mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(e)}$ étiquetées par les variables $y^{(1)}, \ldots, y^{(e)}$ (c'est la *phase d'entraînement*), on peut s'en servir pour prédire les étiquettes d'échantillons inédits $\mathbf{x'}^{(1)}, \ldots, \mathbf{x'}^{(t)}$ (c'est la *phase de test*).
+En apprentissage supervisé, on appelle *classifieur* un modèle qui prédit une variable discrète, et *régresseur* un modèle qui prédit une variable continue. Ainsi, à partir des *caractéristiques* d'un échantillon $\mathbf{x} = (x_1, \ldots, x_d)$, par exemple les couleurs des pixels d'une image, un classifieur peut prédire une variable $y$ dite *étiquette*, par exemple le chiffre 1 si l'image est un chat, 0 sinon. Une fois ce modèle entraîné sur des échantillons de caractéristiques $\mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(e)}$ étiquetées par les variables $y^{(1)}, \ldots, y^{(e)}$ (c'est la *phase d'entraînement*), on peut s'en servir pour prédire les étiquettes d'échantillons inédits $\mathbf{x'}^{(1)}, \ldots, \mathbf{x'}^{(t)}$ (c'est la *phase de test*).
 
 Ainsi on distingue les données d'entraînement $X_{train} = (\mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(e)})$, sous la forme d'une matrice de taille $e \times d$ où $e$ est le nombre d'échantillons et $d$ la dimension des caractéristiques, et leurs étiquettes $\mathbf{y}_{train} = (y^{(1)}, \ldots, y^{(e)})$ des données de test $X_{test} = (\mathbf{x'}^{(1)}, \ldots, \mathbf{x'}^{(t)})$.
 
-En ce qui nous concerne, nous disposons des résultats de plusieurs apprenants sur les questions d'un test, et nous cherchons à prédire les résultats d'un nouvel apprenant alors qu'il passe le test, sous la forme de succès ou échecs à chacune des questions. Notre problème commence par une phase d'apprentissage non supervisé, car à partir du simple historique des résultats au test, il faut extraire des caractéristiques sur les apprenants et les questions qui expliquent ces résultats. Puis, le problème devient supervisé pour un nouvel apprenant car il s'agit d'un problème de classification binaire : on cherche à prédire à partir des réponses que donne l'apprenant ses résultats sur le reste des questions du test. Une particularité est que l'apprentissage du modèle est ici interactif, dans la mesure où c'est le modèle qui choisit les questions à poser (c'est-à-dire, les éléments à faire étiqueter) à l'apprenant afin d'améliorer son apprentissage des caractéristiques de l'apprenant. Cette approche s'appelle apprentissage actif (*active learning*), et dans ce cadre elle comporte du bruit, car l'apprenant peut faire des fautes d'inattention ou deviner la bonne réponse.
+En ce qui nous concerne, nous disposons des résultats de plusieurs apprenants sur les questions d'un test, et nous cherchons à prédire les résultats d'un nouvel apprenant alors qu'il passe ce même test, sous la forme de succès ou échecs à chacune des questions. Notre problème commence par une phase d'apprentissage non supervisé, car à partir du simple historique des résultats au test, il faut extraire des caractéristiques sur les apprenants et les questions qui expliquent ces résultats. Puis, on se ramène à une phase d'apprentissage supervisé pour un nouvel apprenant car il s'agit d'un problème de classification binaire : on cherche à prédire à partir des réponses que donne l'apprenant ses résultats sur le reste des questions du test. Une particularité est que l'apprentissage du modèle est ici interactif, dans la mesure où c'est le modèle qui choisit les questions à poser (c'est-à-dire, les éléments à faire étiqueter) à l'apprenant afin d'améliorer son apprentissage des caractéristiques de l'apprenant. Cette approche s'appelle apprentissage actif (*active learning*), et dans ce cadre elle comporte du bruit, car l'apprenant peut faire des fautes d'inattention ou deviner la bonne réponse.
 
 ## Extraction automatique de q-matrice
 
@@ -119,7 +123,7 @@ Afin d'obtenir une validation plus robuste, il faut s'assurer que la proportion 
 \label{traintest}
 \end{figure}
 
-Dans notre cadre, nous avons deux types de populations : les apprenants de l'historique, pour lesquels nous avons observé les résultats à toutes les questions, et les apprenants pour lesquels on souhaite évaluer le modèle de test adaptatif. Nous faisons donc une validation bicroisée, car nous séparons les apprenants en deux groupes d'entraînement et de test, et également les questions en deux groupes de test et de validation. À la figure \ref{traintest}, un exemple de découpage est présenté. Chaque ligne correspond à un apprenant et pour chaque apprenant de test, seules les questions 1, 2, 4, 6, 7 sont posées, les questions 3, 5, 8 étant conservées pour validation. Pour chaque apprenant du groupe d'entraînement, nous connaissons toutes ses réponses et pouvons entraîner nos modèles à partir de ces données. Pour chaque apprenant du groupe de test, nous simulons un test adaptatif qui choisit les questions à poser parmi les questions de test. Nous vérifions alors, à chaque étape du test adaptatif pour l'apprenant, les prédictions du modèle de son comportement sur l'ensemble des questions de validation.
+Dans notre cadre, nous avons deux types de populations : les apprenants de l'historique, pour lesquels nous avons observé les résultats à toutes les questions, et les apprenants pour lesquels on souhaite évaluer le modèle de test adaptatif. Nous faisons donc une validation bicroisée, car nous séparons les apprenants en deux groupes d'entraînement et de test, et également les questions en deux groupes de test et de validation. À la figure \ref{traintest}, un exemple de découpage est présenté. Chaque ligne correspond à un apprenant et pour chaque apprenant de test, seules les questions 1, 2, 4, 6, 7 sont posées, les questions 3, 5, 8 étant conservées pour validation. Pour chaque apprenant du groupe d'entraînement, nous connaissons toutes ses réponses et pouvons entraîner nos modèles à partir de ces données. Pour chaque apprenant du groupe de test, nous simulons un test adaptatif qui choisit les questions à poser, hors celles de validation. Nous vérifions alors, à chaque étape du test adaptatif pour l'apprenant, les prédictions du modèle de son comportement sur l'ensemble des questions de validation.
 
 Notre comparaison de modèles a deux aspects : qualitatifs en termes d'interprétabilité ou d'explicabilité et quantitatifs en termes de vitesse de convergence de la phase d'entraînement et performance des prédictions.
 
@@ -172,7 +176,7 @@ Par exemple, sur la figure \ref{predict}, après que la question de probabilit�
 Pour chaque modèle testé, nous avons implémenté les routines suivantes :
 
 - **TrainingStep**($I_{train}$) : calibrer le modèle sur l'historique des apprenants $I_{train}$ et renvoyer les paramètres $\alpha$ ;
-- **PriorInitialization**($\alpha$) : initialiser les paramètres de l'apprenant au début de son test et renvoyer ses paramètres $\pi$ ;
+- **PriorInitialization**($\alpha$) : initialiser les paramètres d'un nouvel apprenant au début de son test et renvoyer ses paramètres $\pi$ ;
 - **NextItem**($\{(q_k, r_k)\}_k, \alpha, \pi$) : choisir la question à poser telle que la probabilité que l'apprenant y réponde correctement est la plus proche de 0,5 [@Chang2014], en fonction des réponses précédentes de l'apprenant et de l'estimation en cours de son niveau ;
 - **UpdateParameters**($\{(q_k, r_k)\}_k, \pi$) : mettre à jour les paramètres de l'apprenant en fonction de ses réponses aux questions posées ;
 - **PredictPerformance**($\alpha, \pi$) : calculer pour chacune des questions du test la probabilité que l'apprenant en cours de test y réponde correctement et renvoyer le vecteur de probabilités obtenu ;
@@ -269,17 +273,19 @@ $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
 \label{ecpe-guess}
 \end{table}
 
+<!-- TODO expliquer -->
+
 ## Spécification des modèles
 
-Le code est en Python, et fait appel à des fonctions en R au moyen du package ``RPy2``. Des détails concernant l'implémentation sont donnés dans l'annexe \ref{code}.
+Le code est en Python, un langage lisible pour concevoir des scripts en peu de lignes de code, et fait appel à des fonctions en R au moyen du package ``RPy2``. Des détails concernant l'implémentation sont donnés dans l'annexe \ref{code}.
 
 ### Rasch
 
-Chaque apprenant a un paramètre : son niveau, chaque question a un paramètre de difficulté.
+Chaque apprenant a une unique caractéristique correspondant à son niveau, tandis que chaque question a une unique caractéristique correspondant à sa difficulté.
 
 TrainingStep
 
-:   La phase d'apprentissage consiste à déterminer l'estimateur du maximum de vraisemblance pour les paramètres des apprenants et des questions. Comme le modèle est simple, l'expression de la dérivée de la vraisemblance est simple et le zéro est calculé par la méthode de Newton. Cette partie est effectuée par le package ``ltm``.
+:   La phase d'apprentissage consiste à déterminer l'estimateur du maximum de vraisemblance pour les paramètres des apprenants et des questions. Comme le modèle est simple, l'expression de la dérivée de la vraisemblance est simple et on peut les paramètres qui l'annulent par la méthode de Newton. Cette partie est effectuée par le package ``ltm``.
 
 PriorInitialization
 
@@ -289,9 +295,13 @@ NextItem
 
 :   Comme pour chaque modèle, la question choisie est celle de probabilité la plus proche de 0,5.
 
+<!-- TODO corriger -->
+
 UpdateParameters
 
-:   Après chaque réponse de l'apprenant, l'estimation est faite par le maximum de vraisemblance. Si trop peu de réponses ont été fournies, l'estimation est bayésienne. Cette estimation est faite par le package ``catR``.
+:   Après chaque réponse de l'apprenant, l'estimation ses caractéristiques est faite par le maximum de vraisemblance. Si trop peu de réponses ont été fournies, l'estimation est bayésienne. Cette estimation est faite par le package ``catR``.
+
+<!-- TODO corriger -->
 
 PredictPerformance
 
@@ -301,19 +311,23 @@ $$ Pr(success_{ij}) = \Phi(\theta_i - d_j). $$
 
 ### DINA
 
-Chaque apprenant a une caractéristique qui est son état latent, défini à la section \vref{dina}, et chaque question a pour caractéristiques sa ligne correspondante dans la q-matrice, ainsi qu'un paramètre d'inattention et un paramètre de chance.
+Chaque apprenant a une caractéristique qui est son état latent, défini à la section \vref{dina}, et chaque question a pour caractéristiques la liste des CC qu'elle requiert dans la q-matrice, ainsi qu'un paramètre d'inattention et un paramètre de chance.
 
-Pendant la phase de calibrage, nous calculons, à partir d'une q-matrice et d'une population, les meilleurs paramètres d'inattention et de chance.
+Pendant la phase de calibrage, nous calculons, à partir d'une q-matrice et d'une population, les paramètres d'inattention et de chance expliquant le mieux les données.
 
 Afin d'accélérer la procédure d'entraînement parfois coûteuse, nous utilisons ``pypy`` : il s'agit d'un interpréteur Python qui compile le code à la volée en code machine, afin de fournir une exécution plus rapide de code Python. Pour l'utiliser, il suffit de taper ``pypy fichier.py`` au lieu de ``python fichier.py``.
 
 TrainingStep
 
-:   Si l'on dispose d'une q-matrice, la phase d'apprentissage consiste à déterminer les états latents des apprenants d'entraînement, ainsi que les paramètres d'inattention et de chance des questions les plus vraisemblables. La calibration des paramètres des questions est effectuée par le package R ``CDM`` (pour *cognitive diagnosis modelling*), à partir des motifs de réponse des apprenants d'entraînement et de la q-matrice. Pour déterminer les états latents des apprenants, on simule le fait de leur poser toutes les questions en utilisant le modèle DINA. Si on ne dispose pas de q-matrice, nous la calculons automatiquement en itérant plusieurs phases d'optimisation de la q-matrice via escalade de colline, des paramètres d'inattention et de chance via optimisation convexe, et des états latents des apprenants.\nomenclature{CDM}{\emph{Cognitive Diagnosis Modelling}, modèles de diagnostic cognitif.}
+:   Si l'on dispose d'une q-matrice, la phase d'apprentissage consiste à déterminer les états latents des apprenants d'entraînement, ainsi que les paramètres d'inattention et de chance des questions les plus vraisemblables.
+
+<!-- TODO wtf -->
+
+La calibration des paramètres des questions est effectuée par le package R ``CDM`` (pour *cognitive diagnosis modelling*), à partir des motifs de réponse des apprenants d'entraînement et de la q-matrice. Pour déterminer les états latents des apprenants, on simule le fait de leur poser toutes les questions en utilisant le modèle DINA. Si on ne dispose pas de q-matrice, nous la calculons automatiquement en itérant plusieurs phases d'optimisation de la q-matrice via escalade de colline, des paramètres d'inattention et de chance via optimisation convexe, et des états latents des apprenants.\nomenclature{CDM}{\emph{Cognitive Diagnosis Modelling}, modèles de diagnostic cognitif.}
 
 PriorInitialization
 
-:   Lorsqu'un nouvel apprenant passe le test, on suppose qu'il a une probabilité moyenne d'être dans chaque état latent, étant donné la population d'entraînement. On va maintenir une distribution de probabilité sur les $2^K$ états latents possibles, initialisée à cette distribution a priori.
+:   Lorsqu'un nouvel apprenant passe le test, on suppose qu'il a une probabilité d'être dans chaque état latent, déterminée par la moyenne de la population d'entraînement. On va maintenir cette distribution de probabilité sur les $2^K$ états latents possibles, initialisée à cette distribution a priori.
 
 NextItem
 
@@ -342,7 +356,7 @@ Rasch
 
 DINA
 
-:   Le modèle DINA est multidimensionnel, requiert une q-matrice, fait un retour à l'apprenant sous la forme d'une probabilité de maîtriser chacune des composantes de connaissance. Ainsi, l'apprenant peut se situer vis-à-vis des objectifs du cours. Les paramètres estimés sont les probabilités de répondre correctement aux questions alors qu'on ne maîtrise pas les composantes de connaissances, et inversement. Grâce à la q-matrice, on peut interpréter les différentes dimensions, et les déductions sont faites de façon bayésienne, donc explicables. Si la q-matrice est mal définie, des valeurs aberrantes apparaîtront pour les paramètres d'inattention et de chance. Le modèle DINA peut fonctionner sans historique, en supposant une distribution uniforme a priori sur les états latents possibles.
+:   Le modèle DINA est multidimensionnel, requiert une q-matrice, fait un retour à l'apprenant sous la forme d'une probabilité de maîtriser chacune des composantes de connaissance. Ainsi, l'apprenant peut se situer vis-à-vis des objectifs du cours. Les paramètres estimés sont les probabilités de répondre correctement aux questions alors qu'on ne maîtrise pas les composantes de connaissances, et inversement. Grâce à la q-matrice, on peut interpréter les différentes dimensions, et les déductions sont faites de façon bayésienne. Si la q-matrice est mal définie, des valeurs aberrantes apparaîtront pour les paramètres d'inattention et de chance. Le modèle DINA peut fonctionner sans historique, en supposant une distribution uniforme a priori sur les états latents possibles.
 
 La complexité est calculée selon plusieurs paramètres :
 

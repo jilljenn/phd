@@ -27,6 +27,8 @@ Aléatoire
 
 :   Une première méthode naïve consiste à choisir $k$ questions au hasard.
 
+<!-- un modèle qui donne la probabilité -->
+
 Incertitude maximale
 
 :   Une des méthodes en apprentissage automatique consiste à choisir les questions les plus incertaines, c'est-à-dire celles de probabilité prédite la plus proche de 0,5. Toutefois, cela risque d'apporter de l'information redondante [@Hoi2006].
@@ -37,9 +39,9 @@ Déterminant maximal
 
 # Processus à point déterminantal
 
-Nous allons présenter une loi de probabilité, tirée de la théorie des matrices aléatoires, qui a récemment été appliquée en apprentissage automatique. Cette loi permet, étant donné des objets munis de caractéristiques, d'échantillonner efficacement des éléments \og diversifiés \fg{} pour une certaine mesure de distance. Cela a par exemple des applications en recommandation pour sélectionner des produits diversifiés, dans les moteurs de recherche afin que les résultats en tête de la recherche portent sur des thèmes différents (par exemple, pour une requête « jaguar », l'animal et la voiture) ou encore en génération automatique de résumé, à partir d'un corpus de textes, par exemple des articles de presse dont on souhaiterait sélectionner les thèmes principaux.
+Nous allons présenter une loi de probabilité, tirée de la théorie des matrices aléatoires, qui a récemment été appliquée en apprentissage automatique [@Kulesza2012]. Cette loi permet, étant donné des objets munis de caractéristiques, d'échantillonner efficacement des éléments \og diversifiés \fg{} pour une certaine mesure de distance. Cela a par exemple des applications en recommandation pour sélectionner des produits diversifiés, dans les moteurs de recherche afin que les résultats en tête de la recherche portent sur des thèmes différents (par exemple, pour une requête « jaguar », l'animal et la voiture) ou encore en génération automatique de résumé, à partir d'un corpus de textes, par exemple des articles de presse dont on souhaiterait sélectionner les thèmes principaux.
 
-Implémenter cet échantillonnage requiert la donnée d'une valeur de similarité pour chaque paire d'éléments à échantillonner d'un ensemble $X = \{\mathbf{x_1}, \ldots, \mathbf{x_n}\}$ : une matrice symétrique $L$ telle que $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$ où $K$ est la fonction (noyau, donc symétrique) de similarité. Pour nos usages, nous avons utilisé la simple similarité cosinus du produit scalaire $K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ aussi appelé noyau linéaire, mais il est possible d'utiliser le noyau gaussien :
+Implémenter cet échantillonnage requiert la donnée d'une valeur de similarité pour chaque paire d'éléments à échantillonner d'un ensemble $X = \{\mathbf{x_1}, \ldots, \mathbf{x_n}\}$ : une matrice symétrique $L$ telle que $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$ où $K$ est la fonction (noyau, donc symétrique) de similarité. Pour nos usages, nous avons utilisé le simple noyau linéaire $K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$, mais il est possible d'utiliser le noyau gaussien :
 
 $$ K(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{{||\mathbf{x_i} - \mathbf{x_j}||}^2}{2\sigma^2}\right). $$
 
