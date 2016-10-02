@@ -6,6 +6,8 @@ Tous les modèles de tests adaptatifs reposent sur des caractéristiques des que
 
 ## Calibrage des caractéristiques
 
+\label{training-step}
+
 Les caractéristiques des questions et des apprenants peuvent être spécifiées à la main par un enseignant, ou bien calculées automatiquement à partir de ce qu'on appelle des *données d'entraînement*. Si le test est administré pour la première fois, il n'y a pas de données d'entraînement, sinon on dispose d'un historique de réponses d'une population $I$ d'apprenants face à des questions d'un ensemble $Q$, sous la forme d'une matrice $|I| \times |Q|$ dont l'élément $m_{ij}$ vaut 1 si l'apprenant $i$ a répondu correctement à la question $j$, 0 sinon.
 
 En général, les valeurs calculées automatiquement conduisent à une erreur du modèle plus faible, car les algorithmes de calibrage sont justement conçus pour minimiser le taux d'erreur autant que possible sur les données d'entraînement, contrairement à un humain dont les valeurs affectées peuvent être subjectives et ne pas correspondre à la réalité.
@@ -43,6 +45,8 @@ Le problème d'identification d'une cible en posant la question qui minimise l'e
 Toutefois, on a une borne théorique dans le cas où les apprenants répondent sans erreur. -->
 
 # Évaluation qualitative
+
+\label{quali-comp}
 
 Plusieurs aspects font qu'on peut préférer un modèle de test adaptatif plutôt qu'un autre. Par exemple, la mise en œuvre d'un modèle de test peut requérir la construction d'une q-matrice, ce qui peut être coûteux si l'on a plusieurs milliers de questions à apparier avec une dizaine de composantes de connaissance.
 
