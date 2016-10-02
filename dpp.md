@@ -1,14 +1,14 @@
-# Un prétest non adaptatif
+# Caractérisation d'un bon ensemble de questions
 
-Une variante des tests adaptatifs appelée *test à étapes multiples* consiste à poser un groupe de questions avant de choisir le groupe suivant, et ainsi de suite, plutôt que d'adapter le processus après chaque question. Cela permet d'avoir plus d'information sur l'apprenant avant de réaliser la première estimation de son niveau. De plus, cela permet à l'apprenant d'avoir plus de recul sur les exercices qui lui sont posés et de se relire avant de lancer le processus adaptatif, plutôt que d'obtenir des questions portant sur des CC diverses question après question.
+À la section \vref{mst}, nous avons mentionné les *tests à étapes multiples* qui consistent à poser un groupe de questions à l'apprenant, obtenir ses réponses en bloc, pour ensuite choisir le groupe suivant de questions à poser, plutôt que d'adapter le processus question après question. Cela permet d'avoir plus d'informations sur l'apprenant avant de réaliser la première estimation de son niveau qui permettra de choisir le groupe de questions suivant. De plus, cela permet à l'apprenant d'avoir plus de recul sur les exercices qui lui sont posés et de se relire avant de valider, plutôt que d'obtenir des questions portant sur des composantes de connaissances (CC) diverses question après question.
 
-Ainsi, le problème devient : comment choisir les $k$ premières questions à présenter à un nouveau venu ? Elles doivent porter sur des sujets diversifiés afin de varier le plus possible l'information obtenue.
+Ainsi, le problème devient : comment choisir les $k$ premières questions à présenter à un nouveau venu ? Elles doivent mesurer des CC diversifiées afin d'estimer au mieux le niveau de l'apprenant.
 
 ## Visualisation géométrique d'un test adaptatif
 
 Pour mieux comprendre notre approche, voici une interprétation géométrique de ce qu'il se passe lorsqu'un test adaptatif multidimensionnel est administré.
 
-Pour rappel, la phase d'apprentissage d'un modèle TRIM de dimension $K$ consiste à déterminer un vecteur $\mathbf{d_j} = (d_{j1}, \ldots, d_{jK})$ comme paramètre de chaque question $j$ et un vecteur $\mathbf{\theta_i} = (\theta_{i1}, \ldots, \theta_{iK})$ pour chaque apprenant $i$. La probabilité qu'un apprenant $i$ réponde correctement à une question $j$ est ensuite donnée par l'expression $\Phi(\mathbf{\theta_i} \cdot \mathbf{d_j}))$. Pour visualiser, on peut représenter les questions par des points à coordonnées $(d_{j1}, \ldots, d_{jK})$ pour chaque $j$ et l'apprenant $i$ par le vecteur $\theta_i$. Les questions qui ont le plus de chances d'être résolues par l'apprenant correspondent aux points le plus dans la direction de $\theta_i$, voir la figure \ref{viz-mirt}.
+Pour rappel, la phase d'apprentissage du modèle GenMA de dimension $K$ consiste à déterminer les caractéristiques $\mathbf{d_j} = (d_{j1}, \ldots, d_{jK})$ et $\delta_j$ de chaque question $j$ et les caractéristiques $\mathbf{\theta_i} = (\theta_{i1}, \ldots, \theta_{iK})$ de chaque apprenant $i$. La probabilité qu'un apprenant $i$ réponde correctement à une question $j$ est ensuite donnée par l'expression $\Phi(\mathbf{\theta_i} \cdot \mathbf{d_j})$. Pour visualiser, on peut représenter les questions par des points à coordonnées $(d_{j1}, \ldots, d_{jK})$ pour chaque $j$ et l'apprenant $i$ par le vecteur $\mathbf{\theta_i}$. Les questions qui ont le plus de chances d'être résolues par l'apprenant correspondent aux points qui se trouvent le plus dans la direction de $\mathbf{\theta_i}$, voir la figure \ref{viz-mirt}.
 
 \begin{figure}
 \centering
@@ -35,23 +35,25 @@ Incertitude maximale
 
 Déterminant maximal
 
-:   Une façon de choisir des questions peu corrélées les unes des autres consiste à choisir un ensemble de questions dont le parallélotope forme un grand volume. Le volume d'un parallélotope formé par des vecteurs $V = (\mathbf{v_1}, \ldots, \mathbf{v_n})$ où $\mathbf{v_1}, \ldots, \mathbf{v_n}$ sont les lignes de la matrice $V$, est donné par $Vol(\{\mathbf{v_i}\}_{i = 1, \ldots, n}) = \sqrt{\det V V^T}$.
+:   Une façon de choisir des questions peu corrélées les unes des autres consiste à choisir un ensemble de questions dont le parallélotope[^1] forme un grand volume. Le volume d'un parallélotope formé par des vecteurs $V = (\mathbf{v_1}, \ldots, \mathbf{v_n})$ où $\mathbf{v_1}, \ldots, \mathbf{v_n}$ sont les lignes de la matrice $V$, est donné par $Vol(\{\mathbf{v_i}\}_{i = 1, \ldots, n}) = \sqrt{\det V V^T}$.
+
+ [^1]: Une généralisation du parallélogramme en dimension $n$ quelconque.
 
 # Processus à point déterminantal
 
 Nous allons présenter une loi de probabilité, tirée de la théorie des matrices aléatoires, qui a récemment été appliquée en apprentissage automatique [@Kulesza2012]. Cette loi permet, étant donné des objets munis de caractéristiques, d'échantillonner efficacement des éléments \og diversifiés \fg{} pour une certaine mesure de distance. Cela a par exemple des applications en recommandation pour sélectionner des produits diversifiés, dans les moteurs de recherche afin que les résultats en tête de la recherche portent sur des thèmes différents (par exemple, pour une requête « jaguar », l'animal et la voiture) ou encore en génération automatique de résumé, à partir d'un corpus de textes, par exemple des articles de presse dont on souhaiterait sélectionner les thèmes principaux.
 
-Implémenter cet échantillonnage requiert la donnée d'une valeur de similarité pour chaque paire d'éléments à échantillonner d'un ensemble $X = \{\mathbf{x_1}, \ldots, \mathbf{x_n}\}$ : une matrice symétrique $L$ telle que $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$ où $K$ est la fonction (noyau, donc symétrique) de similarité. Pour nos usages, nous avons utilisé le simple noyau linéaire $K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$, mais il est possible d'utiliser le noyau gaussien :
+Tout d'abord, il nous faut définir la notion de noyau, qui est une généralisation du produit scalaire. Soit $d \geq 1$ un entier, une fonction symétrique $K : \R^d \times \R^d \to \R$ est un *noyau* si pour tout $n$ entier, pour tous $\mathbf{x_1}, \ldots, \mathbf{x_n} \in \R^d$ et pour tous $(c_1, \ldots, c_n) \in \R^d$, $\sum_{i = 1}^n \sum_{j = 1}^n c_i c_j K(\mathbf{x_i}, \mathbf{x_j}) \geq 0.$\bigskip
+
+Pour implémenter cet échantillonnage, il faut :
+
+- un ensemble de $n$ éléments à échantillonner, identifiés par les indices $X = \{1, \ldots, n\}$
+- pour chaque élément $i \in X$, un vecteur $\mathbf{x_i}$ de dimension $d$ correspondant aux caractéristiques de l'élément $i$ ;
+- un noyau $K$ permettant de décrire une valeur de similarité pour chaque paire d'éléments : une matrice symétrique $L$ définie par $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$.\bigskip
+
+Pour nos usages, nous avons utilisé le simple noyau linéaire $K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$, mais il est possible d'utiliser le noyau gaussien :
 
 $$ K(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{{||\mathbf{x_i} - \mathbf{x_j}||}^2}{2\sigma^2}\right). $$
-
-À titre d'exemple, la Figure \ref{dpp-u} montre ce qu'on obtient si l'on échantillonne selon un processus à point déterminantal des points équirépartis sur le cercle unité en dimension 2. On voit que la méthode PPD échantillonne des points plus éloignés les uns des autres qu'un échantillonnage selon une loi uniforme. Les points échantillonnés avec le noyau gaussien sont davantage répulsifs sur cet exemple.
-
-\begin{figure}
-\includegraphics[width=\linewidth]{figures/dpp-u.png}
-\caption{Points échantillonnés sur le cercle unité. À gauche, les points sont choisis aléatoirement, selon une loi uniforme. Au milieu, les points sont échantillons sont tirés selon un PPD avec noyau gaussien. À droite, l'échantillonnage se fait selon un PPD avec noyau linéaire.}
-\label{dpp-u}
-\end{figure}
 
 Formellement, $P$ est un processus à point déterminantal (PPD) s'il vérifie pour tout ensemble $Y \subset \{1, \ldots, n\}$ :\nomenclature{PPD}{processus à point déterminantal}
 
@@ -60,33 +62,39 @@ $$ Pr(Y \subset X) \propto \det L_Y $$
 \noindent
 où $L_Y$ est la sous-matrice carrée de $L$ indexée par les éléments de $Y$ en ligne et colonne.
 
-Dans notre cas, cette loi est intéressante car des éléments seront tirés avec une probabilité proportionnelle au carré du volume du parallélotope qu'ils forment. En effet, chaque élément $\ell_{ij}$ de la matrice $L$ vaut $\ell_{ij} = K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ donc si on note $B$ la matrice ayant pour lignes $\mathbf{x_1}, \ldots, \mathbf{x_n}$, on a $L = B B^T$. Si à présent on note $B_Y$ la matrice ayant pour lignes les $\mathbf{x_i}$ pour $i$ appartenant à $Y$, $L_Y = B_Y B_Y^T$ et donc $Pr(Y \subset X) \propto \det L_Y = \det B_Y B_Y^T = {Vol(\{\mathbf{x_i}\}_{i \in Y})}^2.$
+À titre d'exemple, la Figure \ref{dpp-u} montre ce qu'on obtient si l'on échantillonne selon un processus à point déterminantal des points équirépartis sur le cercle unité en dimension 2. On voit que la méthode PPD échantillonne des points plus éloignés les uns des autres qu'un échantillonnage selon une loi uniforme. Les points échantillonnés avec le noyau gaussien sont davantage répulsifs sur cet exemple.
+
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/dpp-u.png}
+\caption{Points échantillonnés sur le cercle unité. À gauche, tirage uniforme. Au milieu, tirage PPD avec noyau gaussien. À droite, tirage PPD avec noyau linéaire.}
+\label{dpp-u}
+\end{figure}
+
+Dans notre cas, cette loi est intéressante car des éléments seront tirés avec une probabilité proportionnelle au carré du volume du parallélotope qu'ils forment. En effet, chaque élément $L_{ij}$ de la matrice $L$ vaut $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ donc si on note $B$ la matrice ayant pour lignes $\mathbf{x_1}, \ldots, \mathbf{x_n}$, on a $L = B B^T$. Si à présent on note $B_Y$ la matrice ayant pour lignes les vecteurs $\mathbf{x_i}$ pour $i$ appartenant à $Y$, $L_Y = B_Y B_Y^T$ et donc $Pr(Y \subset X) \propto \det L_Y = \det B_Y B_Y^T = {Vol(\{\mathbf{x_i}\}_{i \in Y})}^2.$
 
 Or, plus le volume d'un ensemble de vecteurs est grand, moins ces vecteurs sont corrélés. Ainsi, des éléments diversifiés auront plus de chances d'être tirés par un PPD. On peut encore le voir de la façon suivante : des vecteurs de questions similaires apportent une information similaire. Afin d'avoir le plus d'information possible au début du test il vaut mieux choisir des vecteurs écartés deux à deux.
 
-Il existe des algorithmes efficaces pour échantillonner selon une PPD [@Kulesza2012], y compris lorsqu'on fixe à l'avance le nombre d'éléments qu'on souhaite sélectionner ($k$-PPD) : la complexité de tirage est $O(nk^3)$ où $n$ est le nombre de questions, à condition d'avoir calculé la diagonalisation de la matrice $L$ au préalable, ce qui peut se faire avec une complexité $O(N^3)$ par exemple avec la méthode de Gauss-Jordan. En revanche, le problème de déterminer le mode de cette distribution (c'est-à-dire l'ensemble $X$ de plus grande probabilité a posteriori) est un problème NP-difficile, c'est pourquoi des algorithmes d'approximation ont été développés. Ce n'est que récemment que les PPD sont appliqués à l'apprentissage statistique, mais surtout à des méthodes de diversification et de résumé.
+Il existe des algorithmes efficaces pour échantillonner selon une PPD [@Kulesza2012], y compris lorsqu'on fixe à l'avance le nombre d'éléments qu'on souhaite sélectionner ($k$-PPD) : la complexité de tirage est $O(nk^3)$ où $n$ est le nombre de questions, à condition d'avoir calculé la diagonalisation de la matrice $L$ au préalable, ce qui peut se faire avec une complexité $O(n^3)$ par exemple avec la méthode de Gauss-Jordan. En revanche, le problème de déterminer le mode de cette distribution (c'est-à-dire l'ensemble $X$ de plus grande probabilité a posteriori) est un problème NP-difficile, c'est pourquoi des algorithmes d'approximation ont été développés. Ce n'est que récemment que les PPD sont appliqués à l'apprentissage statistique, mais surtout à des méthodes de diversification et de résumé.
 
-Un autre avantage de cette méthode est que le choix de $k$ questions est probabiliste, ainsi on ne pose pas nécessairement les mêmes $k$ premières questions à tous les apprenants, ce qui présente certains avantages : sécurité, diversification de la banque de questions.
+Un autre avantage de cette méthode est que le choix de $k$ questions est probabiliste, ainsi on ne pose pas nécessairement les mêmes $k$ premières questions à tous les apprenants, ce qui présente certains avantages en termes de sécurité et de diversification de la banque de questions.
 
 # InitialD
 
 Notre contribution consiste à appliquer la méthode de tirage d'éléments diversifiés selon un PPD au choix de questions diversifiées au début d'un test, de façon automatique.
 
-Étant donné un calibrage de type TRIM, et donc une représentation distribuée des $n$ questions du test en dimension $d$, on tire $k$ questions parmi celles-là selon PPD. Nous faisons l'hypothèse que les questions ainsi choisies seront peu redondantes, donc constitueront un bon résumé des questions du test pour l'apprenant.
+Étant donné des données d'apprenants $D$ correspondant à des succès et échecs de $m$ apprenants sur $n$ questions, et une q-matrice de taille $n \times K$, on calibre un modèle GenMA. On extrait donc des caractéristiques en dimension $K$ pour chacune des $n$ questions du test : chaque question $j$ a pour caractéristiques le vecteur $\mathbf{d_j} = (d_{j1}, \ldots, d_{jK})$.
 
-Ainsi, nos éléments à tirer sont les questions qui sont des vecteurs de dimensions $d$ : si TRIM a réalisé la factorisation $M \simeq \Phi(\Theta D^T)$, alors les lignes de $D$ sont les vecteurs $(\mathbf{d_1}, \ldots, \mathbf{d_n})$ correspondant aux questions et $L = D D^T$ est la matrice de similarité dont l'élément $(i, j)$ vaut $\mathbf{d_i} \cdot \mathbf{d_j}$.
+La stratégie InitialD consiste à considérer les questions $X = \{1, \ldots, n\}$ et pour chaque question $j$ les caractéristiques $\mathbf{d_j} = (d_{j1}, \ldots, d_{jK})$. Le noyau choisi est le noyau linéaire : $K(\mathbf{d_i}, \mathbf{d_j}) = \mathbf{d_i} \cdot \mathbf{d_j}$, et nous cherchons à tirer $k$ questions parmi les $n$ selon un PPD. Nous faisons l'hypothèse que les questions ainsi choisies seront peu redondantes, donc constitueront un bon résumé des questions du test pour l'apprenant.
 
-L'algorithme de tirage est tiré de [@Kulesza2012] et est implémenté en Python. Sa complexité est $O(nk^3)$ où $k$ est le nombre de questions sélectionnées et $n$ est le nombre de questions du test, après une coûteuse étape de diagonalisation de complexité $O(n^3)$. Ainsi, cette complexité convient à une grande base de questions comme peut l'être celle sur un MOOC.
+L'algorithme de tirage est tiré de [@Kulesza2012] et est implémenté en Python. Sa complexité est $O(nk^3)$ où $k$ est le nombre de questions sélectionnées et $n$ est le nombre de questions du test, après une coûteuse étape de diagonalisation de complexité $O(n^3)$. Ainsi, cette complexité convient à une grande base de questions comme peut l'être celle sur un MOOC, car l'étape de tirage est linéaire en le nombre de questions de la banque.
 
 # Validation
 
-À partir des données dichotomiques des apprenants, nous allons comparer trois stratégies pour choisir les $k$ premières questions, selon une méthode \textsc{FirstBulk} qui renvoie un ensemble de $k$ questions en fonction du paramètre a priori de l'apprenant.
-
-Comme modèle de l'apprenant, nous choisissons les paramètres calibrés par la première phase de GenMA.
+À partir d'un jeu de données réelles des réponses des apprenants, nous allons comparer quatre stratégies pour choisir les $k$ premières questions. Le modèle de test adaptatif considéré est GenMA.
 
 ## Stratégies comparées
 
-Nous avons comparé quatre stratégies. Les trois premières ne sont pas adaptatives, la quatrième l'est.
+Nous avons comparé quatre stratégies. Les trois premières ne sont pas adaptatives, la quatrième l'est. Chacune des 3 premières correspond donc à une implémentation de la fonction \textsc{FirstBundle}.
 
 Random
 
@@ -94,7 +102,7 @@ Random
 
 Uncertainty
 
-:   On suppose que l'apprenant est du niveau moyen de l'historique et on choisit $k$ questions de probabilité estimée proche de 0,5, c'est-à-dire d'incertitude maximale.
+:   On suppose que l'apprenant est de niveau initial $(0, \ldots, 0)$ et on choisit $k$ questions de probabilité estimée proche de 0,5, c'est-à-dire d'incertitude maximale.
 
 InitialD
 
@@ -102,42 +110,52 @@ InitialD
 
 CAT
 
-:   Enfin, nous ajoutons à ces trois stratégies la sélection adaptative habituelle, question par question, afin de comparer nos trois stratégies non adaptatives à la stratégie adaptative.
+:   Enfin, nous ajoutons à ces trois stratégies la sélection adaptative habituelle, question par question, afin de comparer nos trois stratégies non adaptatives aux métriques obtenues avec la stratégie adaptative.
 
-## Protocole expérimental
-
-La méthode que nous avons utilisée est similaire à celle de validation bicroisée présentée à la section \ref{algo}. Nous séparons les apprenants en deux ensembles d'entraînement et de test (80 % et 20 %) et calibrons le modèle GenMA avec les apprenants d'entraînement. Puis, pour chaque apprenant de test, nous choisissons $k$ premières questions à poser, récoltons ses réponses et estimons son vecteur de niveau, cf. algorithme \ref{simu-pretest}.
-
-Nous mesurons alors les différentes valeurs, pour différentes valeurs du nombre de questions $k$ :
-
-- quelle est la performance des prédictions qui découlent de ce premier groupe de questions : log loss et nombre de prédictions incorrectes ;
-- quelle est la différence entre le paramètre estimé à partir de $k$ questions et le paramètre estimé lorsqu'on a posé toutes les questions ; cette valeur est calculée par @Lan2014 pour comparer les méthodes de sélection de questions.
+## Jeux de données réels
 
 Pour les jeux de données Fraction et TIMSS, grâce aux q-matrices et au modèle GenMA nous obtenons une représentation distribuée des questions de dimension 8, que nous utilisons pour calculer la matrice de similarité et échantillonner les questions.
 
+## Protocole expérimental
+
+Notre protocole est similaire à celui développé pour la comparaison de modèles de tests adaptatifs à la section \vref{comp-cat}, à l'exception d'une méthode \textsc{FirstBundle} qui prend en argument la stratégie $S$ choisie, le nombre de questions à poser $k$, les caractéristiques des questions $\alpha = (\mathbf{d_1}, \ldots, \mathbf{d_j}, \delta_1, \ldots, \delta_j)$, les caractéristiques initiales de l'apprenant $\pi = (0, \ldots, 0) \in \R^K$ et renvoie un ensemble $Y$ de $k$ questions à poser à l'apprenant.
+
+Nous séparons les apprenants en deux ensembles d'entraînement et de test (80 % et 20 %) et calibrons le modèle GenMA avec les apprenants d'entraînement. Puis, pour chaque apprenant de test, nous choisissons $k$ premières questions à poser, récoltons ses réponses et estimons son vecteur de niveau (voir algorithme \ref{simu-pretest}).
+
+Nous mesurons alors deux métriques, pour différentes valeurs du nombre de questions $k$.
+
+### Qualité du diagnostic
+
+Quelle est la performance des prédictions qui découlent de ce premier groupe de questions, en termes de *log loss* et de nombre de prédictions incorrectes ?
+
+### Distance au diagnostic final
+
+Quelle est la différence entre le paramètre estimé à partir de $k$ questions et le paramètre estimé lorsqu'on a posé toutes les questions ? Cette valeur est calculée par @Lan2014 pour comparer les méthodes de sélection de questions.
+
 \begin{algorithm}
 \begin{algorithmic}
-\Procedure{SimulerPretest}{$train, test$}
-\State $\alpha \gets \Call{TrainingStep}{train}$
-\State $t \gets 0$
-\For{tout étudiant $s$ de l'ensemble de $test$}
-    \For{$k$ de 0 à $|Q| - 1$}
+\Procedure{SimulerPretest}{stratégie $S$, $I_{train}$, $I_{test}$}
+\State $\alpha \gets \Call{TrainingStep}{D[I_{train}]}$
+\For{tout étudiant $s$ de l'ensemble $I_{test}$}
+    \For{$k$ de 1 à $|Q|$}
         \State $\pi \gets \Call{PriorInitialization}$
-        \State $S \gets \Call{FirstBulk}{k, \alpha, \pi}$
-        \State Poser les questions $S = (q_i)_{i = 1, \ldots, k}$ à l'apprenant $s$
-        \State Récupérer les valeurs de succès ou échec correspondantes $(r_i)_{i = 1, \ldots, k}$ de sa réponse
-        \State $\pi \gets \Call{EstimateParameters}{\{(q_i, r_i)\}_{i = 1, \ldots, k}, \alpha}$
+        \State $S \gets \Call{FirstBulk}{S, k, \alpha, \pi}$
+        \State Poser les questions $Y$ à l'apprenant $s$
+        \State Récupérer les valeurs de succès ou échec correspondantes $(r_i)_{i \in Y}$ de ses réponses
+        \State $\pi \gets \Call{EstimateParameters}{\{(i, r_i)\}_{i \in Y}, \alpha}$
         \State $p \gets$ \Call{PredictPerformance}{$\alpha, \pi$}
-        \State $\Sigma \gets$ \Call{EvaluatePerformance}{$p$}
+        \State $\Sigma \gets$ \Call{EvaluatePerformance}{$p, D[s], \pi$}
     \EndFor
 \EndFor
 \EndProcedure
 \end{algorithmic}
-\caption{Simulation de prétests non adaptatifs}
+\caption{Simulation de choix des $k$ premières questions}
 \label{simu-pretest}
 \end{algorithm}
 
 ## Résultats
+
+### TIMSS
 
 Les résultats sont donnés dans les figures \ref{initiald-timss-mean} à \ref{initiald-fraction-delta}.
 
@@ -174,6 +192,8 @@ Random & $1.936 \pm 0.052$ & $1.317 \pm 0.048$ & $0.59 \pm 0.043$\\
 \end{figure}
 
 Dans la figure \ref{initiald-timss-delta}, on voit que InitialD converge plus vite vers le vrai paramètre que les autres stratégies.
+
+### Fraciton
 
 \begin{figure}
 \footnotesize
@@ -215,19 +235,17 @@ Il est possible d'incorporer des caractéristiques telles que le contenu des que
 
 Si le nombre de questions à poser $k$, le nombre de questions disponibles $n$ et le nombre de dimensions $d$ sont des petites valeurs, il est possible de simuler tous les choix possibles de $k$ questions parmi $n$. Toutefois, en pratique, les banques de questions sur des plateformes de MOOC seront telles que la complexité de InitialD, $O(nk^3)$ après un précalcul de $O(n^3)$, sera un avantage.
 
-La méthode proposée dans ce chapitre ne cherche pas à déterminer le meilleur ensemble de questions à poser, mais un bon ensemble aléatoire. Ajouter de l'aléa dans cette technique présente plusieurs avantages : les premières questions posées à chaque candidat ne sont pas les mêmes. Si cela constitue une surcharge supplémentaire lorsqu'on doit corriger manuellement les exercices des apprenants, en revanche lorsqu'ils sont administrés automatiquement sur une plateforme, cela permet d'éviter que les apprenants s'échangent les réponses ou que l'apprenant se lasse, ou tout simplement de trop utiliser les mêmes exercices de sa banque.
+La méthode proposée dans ce chapitre ne cherche pas à déterminer le meilleur ensemble de questions à poser, mais un bon ensemble de questions tiré au hasard. Ajouter de l'aléa dans cette technique présente plusieurs avantages : les premières questions posées à chaque candidat ne sont pas les mêmes. Si cela constitue une surcharge supplémentaire lorsqu'on doit corriger manuellement les exercices des apprenants, en revanche lorsqu'ils sont administrés automatiquement sur une plateforme, cela permet d'éviter que les apprenants s'échangent les réponses, ou de trop utiliser les mêmes exercices de sa banque.
 
 La stratégie InitialD peut être améliorée en ne tirant pas un seul ensemble de $k$ questions mais plusieurs, et en conservant le meilleur des échantillons. Tirer $\ell$ fois $k$ questions a une complexité $O(\ell nk^3)$, déterminer le meilleur ensemble a une complexité $O(\ell k^3)$. Faire plusieurs tirages augmente la probabilité de déterminer ainsi le meilleur ensemble de questions.
 
-### Génération de testlets
+### Génération automatique de fiches d'exercices
 
-Le test préalable peut être également appliqué à la génération d'une planche d'exercices \og diversifiée \fg{} étant donné un historique de réponses.
+Le test préalable peut être également appliqué à la génération d'une fiche d'exercices \og diversifiée \fg{} étant donné un historique de réponses.
 
 ### Démarrage à froid de question
 
-Cette méthode pourrait être appliquée au problème de démarrage à froid de la question : lorsqu'une nouvelle question est ajoutée à un test existant, on ne dispose d'aucune information concernant son niveau. Une méthode consiste à, de façon similaire, la poser à des apprenants qui ont des niveaux diversifiés pour estimer son paramètre. C'est l'approche qu'adopte @Anava2015 dans un contexte de filtrage collaboratif. On peut imaginer sur un MOOC repérer le nombre de personnes actuellement connectées et tirer un sous-ensemble d'apprenants à qui poser la question[^1].
-
- [^1]: Cela ressemble un peu à de la publicité ciblée, sauf qu'on ne connaît aucune information personnelle sur les apprenants.
+Cette méthode pourrait être appliquée au problème de démarrage à froid de la question : lorsqu'une nouvelle question est ajoutée à un test existant, on ne dispose d'aucune information concernant son niveau. Une méthode consiste à, de façon similaire, la poser à des apprenants qui ont des niveaux diversifiés pour estimer ses caractéristiques. C'est l'approche qu'adopte @Anava2015 dans un contexte de filtrage collaboratif. On peut imaginer sur un MOOC repérer le nombre de personnes actuellement connectées et tirer un sous-ensemble d'apprenants à qui poser la question.
 
 # Conclusion
 
@@ -237,4 +255,4 @@ Grâce à la complexité de $O(nk^3)$ pour choisir $k$ questions à poser parmi 
 
 Également, nous avons mis en évidence qu'un processus non-adaptatif peut être utile pour les premières questions, tandis qu'une évaluation adaptative peut donner de meilleurs résultats plus loin dans le test. Il serait utile de comparer différentes stratégies de tests à étapes multiples.
 
-Cette méthode peut convenir à un professeur cherchant à tirer un bon ensemble de $k$ questions à poser pour construire une planche d'exercices, pour un cours de travaux dirigés par exemple.
+Cette méthode peut convenir à un professeur cherchant à tirer un bon ensemble de $k$ questions à poser pour construire une fiche d'exercices, pour une séance de travaux dirigés ou une interrogation orale.

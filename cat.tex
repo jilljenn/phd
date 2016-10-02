@@ -2,7 +2,11 @@
 \usepackage[pass]{geometry}
 \usepackage[french]{babel}
 \usepackage{xltxtra}
-\usepackage{algorithm,caption,algpseudocode}
+\usepackage{algorithm}
+\makeatletter
+\renewcommand{\ALG@name}{Algorithme}
+\makeatother
+\usepackage{caption,algpseudocode}
 \DeclareCaptionLabelFormat{bsc}{\textbf{\textsc{#1}\ #2}}
 \captionsetup[figure]{labelformat=bsc}
 \usepackage{graphicx,array,booktabs,multirow}
@@ -85,7 +89,7 @@
 
 \chapter{InitialD : une heuristique pour le démarrage à froid d'un test}
 \input{intro-dpp}
-\input{recommenders}
+%\input{recommenders}
 \input{dpp}
 
 \chapter{Conclusion et perspectives}
