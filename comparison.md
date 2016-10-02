@@ -381,31 +381,37 @@ Par exemple, pour le modèle DINA, le choix de la question suivante coûte $O(K 
 
 Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss}.
 
+\newpage
+
 ### SAT
 
+% results/sat2
 \begin{figure}[h]
+\small
 \centering
 \includegraphics[width=\linewidth]{figures/comp-sat}
-\begin{tabular}{ccc}
-& After 5 questions & After 10 questions\\
-Rasch & $0.415 \pm 0.03$ (80 \%) & $0.409 \pm 0.032$ (81 \%)\\
-DINA auto K = 2 & $0.479 \pm 0.028$ (80 \%) & $0.488 \pm 0.031$ (78 \%)\\
-DINA auto K = 3 & $0.524 \pm 0.034$ (74 \%) & $0.52 \pm 0.034$ (77 \%)\\
-DINA auto K = 5 & $0.496 \pm 0.037$ (77 \%) & $0.519 \pm 0.04$ (74 \%)\\
+\begin{tabular}{cccc}
+& Après 5 questions & Après 10 questions & Après 15 questions\\
+DINA K = 4 & $0.411 \pm 0.029$ (81 \%) & $0.398 \pm 0.031$ (82 \%) & $0.387 \pm 0.028$ (82 \%)\\
+Rasch & $0.381 \pm 0.027$ (82 \%) & $0.363 \pm 0.026$ (83 \%) & $0.362 \pm 0.027$ (84 \%)\\
 \end{tabular}
 \caption{Évolution de l'erreur moyenne sur le jeu de données SAT après qu'un certain nombre de questions ont été posées.}
 \label{comp-sat}
 \end{figure}
 
-Dans la figure \ref{comp-sat}, le modèle de Rasch est un peu meilleur que les modèles DINA avec une q-matrice spécifiée automatiquement.
+Dans la figure \ref{comp-sat}, le modèle de Rasch réalise un diagnostic un peu meilleur que le modèle DINA avec une q-matrice calculée automatiquement.
+
+Le modèle de Rasch converge en 10 questions mais plafonne à 82 % de précision tandis que le modèle DINA augmente légèrement sa précision.
 
 ### ECPE
 
+% results/ecpe
 \begin{figure}[h]
+\small
 \centering
 \includegraphics[width=\linewidth]{figures/comp-ecpe}
 \begin{tabular}{ccc}
-& After 5 questions & After 10 questions\\
+& Après 5 questions & Après 10 questions\\
 Rasch & $0.534 \pm 0.005$ (73 \%) & $0.524 \pm 0.005$ (74 \%)\\
 DINA K = 3 & $0.532 \pm 0.003$ (73 \%) & $0.524 \pm 0.003$ (74 \%)\\
 \end{tabular}
@@ -417,25 +423,27 @@ Dans la figure \ref{comp-ecpe}, les modèles se valent.
 
 ### Fraction
 
+% results/fraction-auto-5
 \begin{figure}[h]
+\small
 \centering
 \includegraphics[width=\linewidth]{figures/comp-fraction}
 \begin{tabular}{ccc}
-& After 4 questions & After 7 questions\\
-Rasch & $0.402 \pm 0.037$ (84 \%) & $0.381 \pm 0.033$ (85 \%)\\
-DINA auto K = 3 & $0.486 \pm 0.06$ (74 \%) & $0.358 \pm 0.042$ (86 \%)\\
-DINA auto K = 5 & $0.44 \pm 0.046$ (78 \%) & $0.413 \pm 0.045$ (81 \%)\\
+& Après 4 questions & Après 7 questions\\
 DINA K = 8 & $0.368 \pm 0.039$ (86 \%) & $0.346 \pm 0.039$ (86 \%)\\
+Rasch & $0.402 \pm 0.037$ (84 \%) & $0.381 \pm 0.033$ (85 \%)\\
 \end{tabular}
 \caption{Évolution de l'erreur moyenne sur le jeu de données Fraction après qu'un certain nombre de questions ont été posées.}
 \label{comp-fraction}
 \end{figure}
 
-Dans la figure \ref{comp-fraction}, le meilleur modèle est le modèle DINA avec la matrice spécifiée par un expert. Le modèle de Rasch est meilleur que les modèles avec des q-matrices qui ont été calculées automatiquement. Après avoir posé 4 questions de façon adaptative, le modèle DINA est capable de prédire en moyenne 86 % de l'ensemble de question de validation correctement, soit 8,6 questions sur 10.
+Dans la figure \ref{comp-fraction}, le meilleur modèle est le modèle DINA avec la matrice spécifiée par un expert. Après avoir posé 4 questions de façon adaptative, le modèle DINA est capable de prédire en moyenne 86 % de l'ensemble de question de validation correctement, soit en moyenne plus de 8 questions sur 10.
 
 ### TIMSS
 
+% results/timss2003
 \begin{figure}[h]
+\small
 \centering
 \includegraphics[width=\linewidth]{figures/comp-timss}
 \begin{tabular}{ccc}

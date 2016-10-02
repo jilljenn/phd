@@ -347,14 +347,34 @@ Il y a une tendance pour des modèles plus fins pour le diagnostic qui considèr
 
 ### Tests adaptatifs et filtrage collaboratif
 
-Les systèmes de recommandation peuvent recommander des nouvelles ressources à un utilisateur en fonction de ses préférences sur d'autres ressources et des préférences d'autres utilisateurs sur ces mêmes ressources. Le but est de prédire le comportement d'un utilisateur face à une ressource inédite, à partir de ses préférences sur une fraction des ressources qu'il a consultées. Deux techniques sont principalement utilisées.
+\label{collaborative-filtering}
+
+Une application de l'apprentissage automatique est l'élaboration de systèmes de recommandation, capables de recommander des ressources à des utilisateurs en fonction d'autres ressources qu'ils ont appréciées. En technologies de l'éducation, de tels systèmes sont appliqués à la recommandation de ressources pédagogiques [@Chatti2012; @Manouselis2011; @Verbert2011].
+
+Le but est de prédire le comportement d'un utilisateur face à une ressource inédite, à partir de ses préférences sur une fraction des ressources qu'il a consultées. Deux techniques sont principalement utilisées.
 
 \begin{enumerate}
-\item Des recommandations basées sur le contenu, qui analysent le contenu des ressources de façon à calculer une mesure de similarité entre ressources, pour recommander des ressources similaires à celles appréciées par l'utilisateur. Ici, la communauté d'utilisateurs n'a pas d'impact sur les recommandations.
-\item Le filtrage collaboratif, où la mesure de similarité entre ressources dépend seulement des préférences des utilisateurs : des produits étant préférés par les mêmes personnes sont supposés proches.
+\item Des recommandations *basées sur le contenu*, qui analysent le contenu des ressources de façon à calculer une mesure de similarité entre ressources, pour recommander des ressources similaires à celles appréciées par l'utilisateur. Ici, la communauté d'utilisateurs n'a pas d'impact sur les recommandations.
+\item Le *filtrage collaboratif*, où la mesure de similarité entre ressources dépend seulement des préférences des utilisateurs : des produits étant préférés par les mêmes personnes sont supposés proches. À partir des données communiquées par les autres internautes (*collaboratif*), il est possible de faire le tri de façon automatique (*filtrage*) pour un nouvel utilisateur, par exemple en identifiant des internautes ayant aimé des produits similaires et en lui suggérant des ressources qui les ont satisfaits.
 \end{enumerate}
 
 Dans notre cas, nous devons prédire la performance d'un apprenant sur une question inédite, en fonction de son comportement sur d'autres questions et du comportement que d'autres apprenants ont eu dans le passé sur le même test. Les techniques de filtrage collaboratif ont été appliquées à deux problèmes issus de la fouille de données éducatives : la recommandation de ressources éducatives à des apprenants [@Manouselis2011; @Verbert2011] et la prédiction de performance d'un apprenant sur un test [@Toscher2010; @ThaiNghe2011; @Bergner2012].
+
+En filtrage collaboratif, on fait l'hypothèse que l'on dispose d'utilisateurs ayant noté certains objets : $m_{ui}$ désigne la note que l'utilisateur $u$ affecte à l'objet $i$. La matrice observée $M = (m_{ui})$ est creuse, c'est-à-dire qu'une faible partie de ses entrées est renseignée. Le problème consiste à déterminer les entrées manquantes de $M$ (voir figure \ref{matrix-completion}). Afin d'accomplir cette tâche, on suppose en général que $M$ a un faible rang, c'est-à-dire que les notes des utilisateurs sont dans un espace de faible dimension, ou encore qu'on peut les exprimer par un faible nombre de composantes.
+
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/cf.jpg}
+\caption{Un exemple de problème de filtrage collaboratif appliqué à la complétion de matrice.}
+\label{matrix-completion}
+\end{figure}
+
+L'historique d'un test peut également être représenté par une matrice $M = (m_{ui})$ où l'élément $m_{ui}$ représente 1 si l'apprenant $u$ a répondu correctement à la question $i$, 0 sinon. Administrer un test adaptatif à un nouvel apprenant revient à ajouter une ligne dans la matrice et choisir les composantes à révéler (les questions à poser) de façon à inférer les composantes restantes (les questions qui n'ont pas été posées, voir figure \ref{test-history}).
+
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/history}
+\caption{Un modèle de test adaptatif vu comme un problème de complétion de matrice.}
+\label{test-history}
+\end{figure}
 
 Un autre élément qui apparaît dans les systèmes de recommandation peut être utile à notre analyse, celui du *démarrage à froid de l'utilisateur* : étant donné un nouvel utilisateur, comment lui recommander des ressources pertinentes ? La seule référence que nous ayons trouvée au problème du démarrage à froid dans un contexte éducatif vient de @ThaiNghe2011 : \og Dans des environnements éducatifs, le problème du démarrage à froid n'est pas aussi dérangeant que dans des environnements commerciaux, où de nouveaux utilisateurs ou produits apparaissent chaque jour ou même chaque heure. Donc, les modèles n'ont pas besoin d'être réentraînés continuellement. \fg{} Toutefois, l'arrivée des MOOC en 2011 a accentué le besoin de mettre à jour fréquemment les modèles de recommandation de ressources.
 

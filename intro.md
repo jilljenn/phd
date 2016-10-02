@@ -24,32 +24,6 @@ En technologies de l'éducation, il existe deux domaines très proches qui sont 
 
 Plus généralement, l'analytique de l'apprentissage consiste à se demander comment utiliser les données récoltées sur les apprenants pour améliorer l'apprentissage, au sens large.
 
-## Systèmes de recommandation
-
-\label{collaborative-filtering}
-
-Une application de l'apprentissage automatique est l'élaboration de systèmes de recommandation, capables de recommander des ressources à des utilisateurs en fonction d'autres ressources qu'ils ont appréciées. En technologies de l'éducation, de tels systèmes sont appliqués à la recommandation de ressources pédagogiques [@Chatti2012; @Manouselis2011; @Verbert2011]. Pour concevoir de tels systèmes, une technique possible est celle du *filtrage collaboratif*. À partir des données communiquées par les autres internautes (*collaboratif*), il est possible de faire le tri de façon automatique (*filtrage*) pour un nouvel utilisateur, par exemple en identifiant des internautes ayant un profil similaire à celui-ci et en lui suggérant des ressources qui les ont satisfaits.
-
-Il y a dans ce domaine de recherche des objectifs similaires au nôtre : en effet, nous cherchons justement à positionner un nouvel apprenant par rapport aux autres en peu de questions, ce qui consiste à faire le tri parmi les questions à poser. Certains services recourent à des tests adaptatifs de façon similaire aujourd'hui, par exemple Facebook suggère à ses utilisateurs des amis à ajouter au moyen de questions de type : « Vous connaissez peut-être… » car le fait qu'ils connaissent certaines personnes implique une forte probabilité qu'ils en connaissent certaines autres.
-
-En filtrage collaboratif, on fait l'hypothèse que l'on dispose d'utilisateurs ayant noté certains objets : $m_{ui}$ désigne la note que l'utilisateur $u$ affecte à l'objet $i$. La matrice observée $M = (m_{ui})$ est creuse, c'est-à-dire qu'une faible partie de ses entrées est renseignée. Le problème consiste à déterminer les entrées manquantes de $M$ (voir figure \ref{matrix-completion}). Afin d'accomplir cette tâche, on suppose en général que $M$ a un faible rang, c'est-à-dire que les notes des utilisateurs sont dans un espace de faible dimension, ou encore qu'on peut les exprimer par un faible nombre de composantes.
-
-\begin{figure}
-\includegraphics[width=\linewidth]{figures/cf.jpg}
-\caption{Un exemple de problème de filtrage collaboratif appliqué à la complétion de matrice.}
-\label{matrix-completion}
-\end{figure}
-
-L'historique d'un test peut également être représenté par une matrice $M = (m_{ui})$ où l'élément $m_{ui}$ représente 1 si l'apprenant $u$ a répondu correctement à la question $i$, 0 sinon. Administrer un test adaptatif à un nouvel apprenant revient à ajouter une ligne dans la matrice et choisir les composantes à révéler (les questions à poser) de façon à inférer les composantes restantes (les questions qui n'ont pas été posées, voir figure \ref{test-history}).
-
-\begin{figure}
-\includegraphics[width=\linewidth]{figures/history}
-\caption{Un modèle de test adaptatif vu comme un problème de complétion de matrice.}
-\label{test-history}
-\end{figure}
-
-On peut citer de nombreuses différences : les connaissances évoluent plus vite que les goûts ; il y aura toujours des discordes entre les goûts des utilisateurs, tandis qu'en éducation, on aimerait que tout le monde puisse passer d'un état où il ne répond pas correctement partout à un état où il répond correctement partout. Mais comme nous le verrons dans cette thèse, plusieurs stratégies issues du filtrage collaboratif pourront être appliquées à notre problème.
-
 <!-- ## Comparaison de méthodes par validation croisée
 
 Une question récurrente est de savoir comment comparer deux algorithmes de filtrage collaboratif. La méthode de *validation croisée* consiste à séparer les notes dont on dispose en deux parties : notes d'entraînement et de test, et de tenter de prédire les notes de test à partir des notes d'entraînement. Ainsi, les notes de test ne sont considérées que pour l'évaluation des algorithmes. Dans cette thèse, nous appliquons cette méthode à l'évaluation de modèles de tests adaptatifs.
@@ -88,17 +62,46 @@ Méthodologie de choix de modèles
 
 # Contributions
 
+## Hypothèses
+
+Dans le cadre de cette thèse, nous avons considéré des réponses correctes ou incorrectes de la part des apprenants, c'est-à-dire des *motifs de réponse dichotomiques*. Ce cadre nous a permis d'analyser des données issues de différents environnements éducatifs : des tests standardisés, des plateformes de jeux sérieux ou des MOOC.
+
+Afin de pouvoir mener nos expériences sur des données de test existantes, nous avons fait la supposition que le niveau de l'apprenant n'évolue pas pendant qu'il passe le test. Aussi nous supposons que l'apprenant répondra de la même façon indépendamment de l'ordre dans lequel nous posons les questions. Celles-ci doivent donc être localement indépendantes. Nous ne supposons aucun profil de l'apprenant autre que ses réponses aux questions posées, ce qui nous permet de proposer des tests anonymes.
+
 ## Système de comparaison de tests adaptatifs
 
-Nous avons conçu un système permettant de comparer la capacité prédictive de plusieurs modèles de tests adaptatifs sur un même jeu de données et nous l'avons mis en œuvre sur différents jeux de données. Cela a permis de mettre en évidence que selon le type de jeu de données, le meilleur modèle n'est pas le même.
+Nous avons identifié plusieurs modèles de tests adaptatifs et les avons comparés selon plusieurs angles qualitatifs :
+
+- capacité à mesurer plusieurs dimensions ;
+- capacité à faire un retour à l'apprenant utile pour qu'il puisse s'améliorer ;
+- capacité à expliquer ses propres déductions ; 
+- besoin de données d'entraînement ou non pour faire fonctionner le test.
+
+Nous les avons également comparés quantitativement sur des données réelles de tests :
+
+- complexité en temps et mémoire pour l'entraînement des modèles ;
+- capacité à requérir peu de questions de l'utilisateur pour converger vers un diagnostic ;
+- capacité à avoir un diagnostic vraisemblable.
+
+Le protocole expérimental que nous avons conçu est générique : il s'appuie sur les composants que l'on retrouve dans tous les modèles de tests adaptatifs, et peut ainsi être mis en œuvre pour de nouveaux modèles, et de nouveaux jeux de données.
+
+Cette analyse nous a permis de faire un état de l'art interdisciplinaire des modèles de tests adaptatifs récents et de concevoir une méthodologie pour étudier les modèles de tests adaptatifs. Nous avons ainsi pu mettre en évidence que selon le type de test, le meilleur modèle n'est pas le même, et de proposer les deux contributions suivantes.
 
 ## GenMA, un modèle explicatif plus prédictif
 
 (General Multidimensional Adaptive) La comparaison que nous avons effectuée a permis de mettre en exergue les limitations des différents modèles : par exemple, un modèle plus explicatif réalise des prédictions moins bonnes. Cela nous a permis de proposer un nouveau modèle hybride pour administrer des tests adaptatifs, plus précis car prenant en compte à la fois la difficulté des questions et une représentation des connaissances qu'évalue le test.\nomenclature{GenMA}{\emph{General Multidimensional Adaptive}}
 
+Certains modèles plus explicatifs sont moins prédictifs. Dans ce chapitre, nous proposons un modèle hybride qui mesure à la fois le niveau de l'apprenant et son degré de maîtrise selon plusieurs composantes de connaissances, afin de lui renvoyer un retour utile pour s'améliorer. Ce modèle est un cas particulier de modèle de théorie de réponse à l'item multidimensionnelle, mais il est plus rapide à calibrer car le nombre de paramètres à déterminer est réduit.
+
+GenMA est meilleur que le modèle existant de diagnostic cognitif sur tous les jeux de données étudiés. Il a été présenté à la conférence EC-TEL 2016.
+
 ## InitialD, tirer les $k$ premières questions pour démarrer
 
 (Initial Determinant) Adapter le processus d'évaluation dès la première question peut conduire à des estimations biaisées du niveau de l'apprenant, car celui-ci peut faire des fautes d'inattention ou deviner la bonne réponse. Une variante des tests adaptatifs nommée tests à étapes multiples consiste à poser plusieurs questions avant d'estimer le niveau de l'apprenant pour minimiser l'erreur du premier diagnostic. Nous proposons une nouvelle approche pour choisir les $k$ premières questions reposant sur une mesure de diversité que l'on retrouve dans les systèmes de recommandation.\nomenclature{InitialD}{\emph{Initial Determinant}}
+
+Avant de démarrer le processus adaptatif, on peut faire un test préalable où l'on choisit un groupe de questions diversifiées pour récolter beaucoup d'information en une seule étape. Nous proposons dans ce chapitre un algorithme de récapitulation basé sur un processus à point déterminantal afin de ne conserver qu'un sous-ensemble de questions du test qui soit informatif, c'est-à-dire qui \og résume \fg{} bien l'ensemble des questions.
+
+Nous montrons ainsi que l'adaptation a elle-même ses limites, puisque parfois poser un petit groupe de $k$ questions est plus informatif pour le modèle de test adaptatif que poser $k$ questions une par une, de façon adaptative.
 
 ## Méthodologie de mise un œuvre d'un test adaptatif dans un MOOC
 

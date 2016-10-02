@@ -30,6 +30,10 @@ Dans cette thèse, nous nous sommes concentrés sur l'évaluation d'un seul appr
 
 # Perspectives
 
+## Utiliser
+
+Noyau gaussien.
+
 ## Progression de l'apprenant pendant le test
 
 La théorie de la réponse à l'item suppose l'indépendance locale entre les questions : sachant le niveau de l'étudiant, ses réponses aux questions sont indépendantes. Cela suppose entre autres que les apprenants répondent de la même manière aux questions peu importe l'ordre dans lequel on les pose, et que le niveau de l'apprenant reste le même tout au long du test. Cette hypothèse est raisonnable dans le cadre d'un test de positionnement au début d'un cours ou d'un test rapide de diagnostic de connaissances en mi-parcours. Toutefois dans les systèmes de tuteurs intelligents on observe plutôt des modèles temporels, où le niveau de l'apprenant peut évoluer alors qu'il accomplit des tâches : bandits à plusieurs bras [@Clement2015], traçage de connaissances bayésien [@Koedinger2012], modèles de Markov cachés. Par exemple, @Clement2015 tente de maximiser le progrès de l'apprenant alors que des questions lui sont posées, avec des méthodes de bandit qui résolvent un compromis entre exploration des connaissances de l'apprenant et exploitation de ces données pour faire progresser l'apprenant. Ces modèles proviennent de l'apprentissage par renforcement, sous-branche de l'apprentissage automatique.
