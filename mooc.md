@@ -10,15 +10,15 @@ Cependant, sur un MOOC, les apprenants ne participent pas à tous les quiz. Ains
 
 À partir de la base de données SQL de ce MOOC, nous avons ainsi pu extraire les tests suivants :
 
-- Quiz 1 topologie : 5770 essais de 3672 étudiants sur 6 questions (5770 x 6).
-- Quiz 2 espaces métriques et normés : 3296 x 7
-- Quiz 3 espaces de Banach et fonctions linéaires continues : 2467 x 7 (dont une réponse ouverte)
-- Quiz 4 espaces de Hilbert : 1807 x 6
-- Quiz 5 lemme de Lax-Milgram : 1624 x 7
-- Quiz 6 espaces $L_p$ : 1504 x 6
-- Quiz 7 distributions et espaces de Sobolev : 1358 x 9
-- Quiz 8 application à la simulation d'une membrane : 1268 x 7
-- Exam : 599 x 10
+- Quiz 1 topologie : 5770 essais de 3672 étudiants sur 6 questions.
+- Quiz 2 espaces métriques et normés : $3296 \times 7$
+- Quiz 3 espaces de Banach et fonctions linéaires continues : $2467 \times 7$ (dont une réponse ouverte)
+- Quiz 4 espaces de Hilbert : $1807 \times 6$
+- Quiz 5 lemme de Lax-Milgram : $1624 \times 7$
+- Quiz 6 espaces $L_p$ : $1504 \times 6$
+- Quiz 7 distributions et espaces de Sobolev : $1358 \times 9$
+- Quiz 8 application à la simulation d'une membrane : $1268 \times 7$
+- Exam : $599 \times 10$
 
 ### Représentation du domaine
 
@@ -30,7 +30,7 @@ Nous souhaitions nous placer dans le cas où un nouvel apprenant apparaît sur u
 Cela nous a permis de construire un modèle de hiérarchie sur les attributs, défini à la section \ref{ahm} et similaire au modèle de théorie des espaces de connaissance. Ainsi, à partir de ce modèle de test adaptatif, pour chaque apprenant qui passe le test, les informations que nous disposons sur lui sont :
 
 - le résultat (vrai ou faux) à chaque question que le système lui a posée ;
-- une distribution de probabilité $\pi$ sur les états latents possibles dans lesquels peut se trouver l'apprenant, c'est-à-dire : quels CC il semble maîtriser et quels CC il semble ne pas maîtriser (voir section \ref{dina}).
+- une distribution de probabilité $\pi$ sur les états latents possibles dans lesquels peut se trouver l'apprenant, c'est-à-dire : quels CC il semble maîtriser et quels CC il semble ne pas maîtriser (voir section \vref{dina}).
 
 ### Spécification des paramètres
 
@@ -79,9 +79,8 @@ Chaque question a été choisie pour couvrir une composante de connaissance (et 
 
 \begin{table}
 \centering
-\begin{tabular}{c|c}
-motif de réponse & nombre d'occurrences\\
-\hline
+\begin{tabular}{cc} \toprule
+motif de réponse & nombre d'occurrences\\ \midrule
 000000010 & 1129 \\
 000000000 & 460 \\
 010110110 & 271 \\
@@ -91,29 +90,9 @@ motif de réponse & nombre d'occurrences\\
 110111011 & 77 \\
 110110110 & 70 \\
 110110010 & 42 \\
-010010010 & 41 \\
-010110000 & 40 \\
-110111110 & 38 \\
-010010110 & 37 \\
-111111011 & 36 \\
-111110110 & 35 \\
-010110100 & 34 \\
-000110010 & 27 \\
-010100010 & 26 \\
-111110010 & 21 \\
-010010000 & 21 \\
-110111001 & 21 \\
-110011111 & 21 \\
-100010001 & 20 \\
-110111101 & 19 \\
-000010000 & 18 \\
-111011111 & 17 \\
-111110011 & 16 \\
-000010010 & 15 \\
-111111101 & 15 \\
-010100110 & 15 \\
+010010010 & 41 \\ \bottomrule
 \end{tabular}
-\caption{Les 30 motifs de réponse les plus fréquents pour le jeu de données extrait du MOOC d'analyse fonctionnelle.}
+\caption{Les 10 motifs de réponse les plus fréquents pour le jeu de données extrait du MOOC d'analyse fonctionnelle.}
 \label{coursera-patterns}
 \end{table}
 
@@ -125,15 +104,14 @@ Pour chaque apprenant de notre jeu de données, nous simulons un test adaptatif 
 
 \begin{table}
 \centering
-\begin{tabular}{c|c|c}
-Valeur de $\varepsilon$ & Temps de convergence moyen & Erreur de prédiction moyenne\\
-\hline
+\begin{tabular}{ccc} \toprule
+Valeur de $\varepsilon$ & Temps de convergence & Erreur de prédiction\\ \midrule
 0 & 5,009 $\pm$ 0,003 & 1,075 $\pm$ 0,04\\
 0,01 & 5,43 $\pm$ 0,016 & 1,086 $\pm$ 0,041\\
 0,02 & 6,879 $\pm$ 0,019 & 1,086 $\pm$ 0,041\\
 0,03 & 7,671 $\pm$ 0,027 & 0,956 $\pm$ 0,037\\
 0,04 & 7,807 $\pm$ 0,023 & 1,086 $\pm$ 0,041\\
-0,05 & 8,671 $\pm$ 0,027 & 0,956 $\pm$ 0,037\\
+0,05 & 8,671 $\pm$ 0,027 & 0,956 $\pm$ 0,037\\ \bottomrule
 \end{tabular}
 \caption{Métriques principales pour la validation du modèle de test adaptatif sur les données du MOOC d'analyse fonctionnelle}
 \label{coursera-results}

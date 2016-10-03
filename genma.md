@@ -111,7 +111,7 @@ Pour cela, on calcule l'estimateur du maximum de vraisemblance, c'est-à-dire le
 
 On suppose que le calibrage des questions a été effectué sur des données d'entraînement, et qu'on dispose des caractéristiques des questions dans une matrice $V$ de taille $m \times d$ dont la ligne $V_j$ correspond aux caractéristiques de la question $j$. À un certain moment du test, on a posé les questions $(q_1, \ldots, q_t)$ de caractéristiques $V_{q_1}, \ldots, V_{q_t}$ pour lesquelles on a observé les réponses $(r_1, \ldots, r_t) \in \{0, 1\}^t$ et on se demande quelle va être la performance de l'apprenant sur une certaine question $j$ de caractéristiques $V_j$.
 
-On cherche donc à estimer les paramètres de l'apprenant $\hat\mathbf{\theta}$ tels que pour chaque $k = 1, \ldots, t$, $\Phi(\hat\mathbf{\theta} \cdot V_{q_k}) = r_k$. Ainsi, on pourra calculer la probabilité que l'apprenant réponde correctement à la question $j$ de caractéristiques $V_j$, donnée par l'expression $\Phi(\hat\mathbf{\theta} \cdot V_j)$.
+On cherche donc à estimer les paramètres de l'apprenant $\hat{\mathbf{\theta}}$ tels que pour chaque $k = 1, \ldots, t$, $\Phi(\hat{\mathbf{\theta}} \cdot V_{q_k}) = r_k$. Ainsi, on pourra calculer la probabilité que l'apprenant réponde correctement à la question $j$ de caractéristiques $V_j$, donnée par l'expression $\Phi(\hat{\mathbf{\theta}} \cdot V_j)$.
 
 Il s'agit d'un problème d'apprentissage automatique, appelé *classification binaire*. Le modèle TRIM permet de résoudre ce problème en faisant une régression logistique.
 
@@ -144,12 +144,12 @@ Comme indiqué à la section \ref{genma-feedback}, le modèle GenMA est interpr
 Cette spécification permet en outre d'accélérer la convergence, car il y a moins de paramètres à estimer que dans un modèle général de type TRIM.
 
 \begin{table}
-\begin{tabular}{ccccccc} \toprule
-& Dimension & Calibrage & Estimation & De zéro & N\textsuperscript{bre} paramètres\\ \midrule
-Rasch & 1 & Auto & Bayes / MV & non & $m + n$\\
-MIRT & $1 \leq K \leq 4$ & Auto & Bayes / MV & non & $d(m + n)$\\
-DINA & $1 \leq K \leq 15$ & Manuel & Bayes & oui & $2n$\\
-GenMA & $1 \leq K \leq 15$ & Semi-auto & Bayes / MV & non & $s + n$\\ \bottomrule
+\begin{tabular}{cccccc} \toprule
+& Dimension & Calibrage & De zéro & N\textsuperscript{bre} de paramètres\\ \midrule
+Rasch & 1 & Automatique & Non & $m + n$\\
+MIRT & $K \leq 4$ & Automatique & Non & $d(m + n)$\\ \midrule
+DINA & $K \leq 15$ & Manuel & Oui & $2n$\\
+GenMA & $K \leq 15$ & Semi-automatique & Non & $s + n$\\ \bottomrule
 \end{tabular}
 \caption{Comparaison qualitative des modèles de tests adaptatifs}
 \end{table}
@@ -192,7 +192,7 @@ TIMSS
 
 ## Implémentation
 
-Pour l'implémentation, nous utilisons le package ``mirt``, voir la section \vref{code} en annexe, qui permet de fixer les entrées non nulles à estimer (au moyen d'une q-matrice). Le package ``mirtCAT`` nous permet de poser les questions. Les résultats sont donnés dans les figures \ref{results-fraction} à \ref{results-timss}.
+Pour l'implémentation, nous utilisons le package ``mirt``, voir la section \vref{code} en annexe, qui permet de fixer les entrées non nulles à estimer (au moyen d'une q-matrice). Le package ``mirtCAT`` nous permet de poser les questions. Les résultats sont donnés dans les figures \ref{genma-fraction} à \ref{genma-timss}. Les valeurs obtenues de la *log loss* sont répertoriées dans les tables \ref{genma-fraction-table} à \ref{genma-timss-table}.
 
 La validation croisée est faite sur 5 paquets d'apprenants et 2 paquets de questions.
 
@@ -203,76 +203,60 @@ Sur chacun des jeux de données testés, GenMA a un plus grand pouvoir prédicti
 ### Fraction
 
 \begin{figure}[h]
-\small
 \centering
 \includegraphics[width=0.8\textwidth]{figures/genma/fraction-mean}
 %\includegraphics[width=0.5\textwidth]{figures/genma/fraction-count}
-\caption{Évolution de l'erreur moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Fraction.}
-\label{results-fraction}
+\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Fraction.}
+\label{genma-fraction}
 \end{figure}
 
 \begin{table}[h]
+\centering
+\small
 \begin{tabular}{cccc} \toprule
 & Après 4 questions & Après 7 questions & Après 10 questions\\ \midrule
 Rasch & $0.469 \pm 0.017$ (79 \%) & $0.457 \pm 0.017$ (79 \%) & $0.446 \pm 0.016$ (79 \%)\\
-DINA K = 8 & $0.441 \pm 0.014$ (80 \%) & $0.41 \pm 0.014$ (82 \%) & $0.406 \pm 0.014$ (82 \%)\\
-MIRT K = 2 & $0.368 \pm 0.014$ (83 \%) & $0.325 \pm 0.012$ (86 \%) & $0.316 \pm 0.011$ (86 \%)\\
-GenMA K = 8 & $0.459 \pm 0.023$ (79 \%) & $0.355 \pm 0.017$ (85 \%) & $0.294 \pm 0.013$ (88 \%)\\ \bottomrule
+DINA & $0.441 \pm 0.014$ (80 \%) & $0.41 \pm 0.014$ (82 \%) & $0.406 \pm 0.014$ (82 \%)\\
+MIRT & $0.368 \pm 0.014$ (83 \%) & $0.325 \pm 0.012$ (86 \%) & $0.316 \pm 0.011$ (86 \%)\\
+GenMA & $0.459 \pm 0.023$ (79 \%) & $0.355 \pm 0.017$ (85 \%) & $0.294 \pm 0.013$ (88 \%)\\ \bottomrule
 \end{tabular}
 \caption{Évolution de la \emph{log loss} en fonction du nombre de questions posées, pour le jeu de données Fraction. Entre parenthèses, le nombre de questions prédites correctement.}
+\label{genma-fraction-table}
 \end{table}
 
-Dans le jeu de données Fraction, 4 questions sur 10 sont suffisantes pour prédire correctement 80 % en moyenne des réponses sur les 10 questions de l'ensemble de validation. À titre d'exemple, pour un des apprenants, après 4 questions, la performance prédite sur l'ensemble de validation est $[0.617, 0.123, 0.418, 0.127, 0.120]$ tandis que sa vraie performance est $[\textnormal{Correct}, \textnormal{Incorrect}, \textnormal{Correct}, \textnormal{Incorrect}, \textnormal{Incorrect}]$, ce qui correspond à une erreur de 0.350.
+Dans le jeu de données Fraction, 4 questions sur 10 sont suffisantes pour prédire correctement 80 % en moyenne des réponses sur les 10 questions de l'ensemble de validation (voir \ref{genma-fraction-table}). À titre d'exemple, pour un des apprenants, après 4 questions, la performance prédite sur l'ensemble de validation est $[0.617, 0.123, 0.418, 0.127, 0.120]$ tandis que sa vraie performance est $[\textnormal{Correct}, \textnormal{Incorrect}, \textnormal{Correct}, \textnormal{Incorrect}, \textnormal{Incorrect}]$, ce qui correspond à une erreur de 0.350.
 
 Les modèles Rasch, MIRT et DINA convergent en 4 ou 5 questions tandis que GenMA continue à apprendre car c'est un modèle de plus grande dimension que les autres. DINA est de dimension 8 comme GenMA mais c'est un modèle discret.
 
 ### ECPE
 
 \begin{figure}[h]
-\small
 \centering
 \includegraphics[width=0.8\textwidth]{figures/genma/ecpe-mean}
 %\includegraphics[width=0.5\textwidth]{figures/genma/ecpe-count}
-\begin{tabular}{cccc}
-& Après 4 questions & Après 8 questions & Après 12 questions\\
+\caption{Évolution de la \emph{log loss} en fonction du nombre de questions posées, pour le jeu de données ECPE.}
+\label{genma-ecpe}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{cccc} \toprule
+& Après 4 questions & Après 8 questions & Après 12 questions\\ \midrule
 DINA & $0.535 \pm 0.003$ (73 \%) & $0.526 \pm 0.003$ (74 \%) & $0.523 \pm 0.003$ (74 \%)\\
 MIRT & $0.509 \pm 0.005$ (76 \%) & $0.496 \pm 0.005$ (76 \%) & $0.489 \pm 0.005$ (77 \%)\\
 GenMA & $0.532 \pm 0.005$ (73 \%) & $0.507 \pm 0.004$ (75 \%) & $0.498 \pm 0.004$ (76 \%)\\
-Rasch & $0.537 \pm 0.005$ (73 \%) & $0.527 \pm 0.005$ (74 \%) & $0.522 \pm 0.005$ (74 \%)\\
+Rasch & $0.537 \pm 0.005$ (73 \%) & $0.527 \pm 0.005$ (74 \%) & $0.522 \pm 0.005$ (74 \%)\\ \bottomrule
 \end{tabular}
-\caption{Évolution de l'erreur moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données ECPE.}
-\label{results-ecpe}
-\end{figure}
+\caption{Valeurs obtenues pour le jeu de données ECPE.}
+\label{genma-ecpe-table}
+\end{table}
 
-Dans le jeu de données ECPE, DINA et Rasch ont une performance similaire, ce qui est surprenant étant donné que Rasch ne requiert aucune connaissance du domaine. Nous supposons que cela apparaît car il n'y a que 3 CC décrites dans la q-matrice, donc le nombre d'états possibles pour un apprenant est $2^3 = 8$ pour $2^{28}$ motifs de réponse possibles. Ainsi, les paramètres d'inattention et de chance sont très hauts, voir la table \ref{guess}, ce qui explique pourquoi l'information gagnée à chaque question est basse. Par exemple, la question qui requiert les CC 2 et 3 a un grand taux de succès de 88 %, ce qui rend cette question plus facile à résoudre que des questions qui ne requièrent que la CC 2 ou 3, donc le seul moyen pour le modèle DINA d'exprimer ce comportement est d'accroître le paramètre de chance. À l'inverse, GenMA est un modèle plus expressif.
+Dans la figure \ref{genma-ecpe}, DINA et Rasch ont une performance similaire, ce qui est surprenant étant donné que Rasch ne requiert aucune connaissance du domaine. Nous supposons que cela apparaît car il n'y a que 3 CC décrites dans la q-matrice, donc le nombre d'états possibles pour un apprenant est $2^3 = 8$ pour $2^{28}$ motifs de réponse possibles. Ainsi, les paramètres d'inattention et de chance sont très hauts (voir la table \ref{guess}), ce qui explique pourquoi l'information gagnée à chaque question est basse. Par exemple, la question qui requiert les CC 2 et 3 a un grand taux de succès de 88 %, ce qui rend cette question plus facile à résoudre que des questions qui ne requièrent que la CC 2 ou 3, donc le seul moyen pour le modèle DINA d'exprimer ce comportement est d'accroître le paramètre de chance. À l'inverse, GenMA est un modèle plus expressif.
 
-MIRT à 2 dimensions se débrouille mieux que GenMA, ce qui laisse entendre qu'un modèle prédictif n'est pas nécessairement explicatif. Toutefois afin de faire un retour à l'utilisateur, notre modèle fait un feedback correspondant davantage à la réalité qu'un modèle DINA basé sur les q-matrices.
+MIRT à 2 dimensions a un taux d'erreur plus faible que GenMA, ce qui laisse entendre qu'un modèle prédictif n'est pas nécessairement explicatif. Toutefois afin de faire un retour à l'utilisateur, notre modèle fait un diagnostic correspondant davantage à la réalité qu'un modèle DINA basé sur les q-matrices.
 
 Nous faisons l'hypothèse que la q-matrice a été mal spécifiée.
-
-### TIMSS
-
-\begin{figure}[h]
-\small
-\centering
-\includegraphics[width=0.8\textwidth]{figures/genma/timss-mean}
-%\includegraphics[width=0.5\textwidth]{figures/genma/timss-count}
-\begin{tabular}{cccc}
-& Après 4 questions & Après 8 questions & Après 11 questions\\
-Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%) & $0.555 \pm 0.008$ (71 \%)\\
-DINA K = 13 & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%) & $0.566 \pm 0.006$ (70 \%)\\
-GenMA K = 13 & $0.537 \pm 0.006$ (72 \%) & $0.505 \pm 0.006$ (75 \%) & $0.487 \pm 0.006$ (77 \%)\\
-MIRT K = 2 & $0.53 \pm 0.008$ (73 \%) & $0.509 \pm 0.008$ (75 \%) & $0.503 \pm 0.008$ (75 \%)\\
-\end{tabular}
-\caption{Évolution de l'erreur moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données TIMSS.}
-\label{results-timss}
-\end{figure}
-
-Rasch a une erreur plus faible que DINA. Dès 4 questions, GenMA a une erreur beaucoup plus faible, comparable à celle obtenue par MIRT.
-
-Les modèles Rasch, DINA et MIRT convergent en 4 questions, tandis que GenMA continue à affiner son diagnostic : à la 11\ieme{} question, GenMA est le modèle le plus précis, car il prédit correctement 77 % des réponses sur l'ensemble de validation.
-
-MIRT a une bonne propriété de généralisation à partir de peu de questions mais le diagnostic en deux dimensions qu'il crée n'est pas formatif, car ses dimensions ne sont pas interprétables sans intervention d'un expert. En revanche, les 13 dimensions du modèle GenMA correspondent chacune à une composante de connaissance de la matrice.
 
 <!-- raisons d'expressivité du modèle -->
 
@@ -316,6 +300,36 @@ MIRT a une bonne propriété de généralisation à partir de peu de questions m
 \caption{Paramètres d'inattention et de chance pour la q-matrice du jeu de données ECPE. Les valeurs les plus hautes sont indiquées en gras.}
 \label{guess}
 \end{table}
+
+### TIMSS
+
+\begin{figure}[h]
+\small
+\centering
+\includegraphics[width=0.8\textwidth]{figures/genma/timss-mean}
+%\includegraphics[width=0.5\textwidth]{figures/genma/timss-count}
+\caption{Évolution de la \emph{log loss} en fonction du nombre de questions posées, pour le jeu de données TIMSS.}
+\label{genma-timss}
+\end{figure}
+
+\begin{table}[h]
+\small
+\begin{tabular}{cccc} \toprule
+& Après 4 questions & Après 8 questions & Après 11 questions\\ \midrule
+Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%) & $0.555 \pm 0.008$ (71 \%)\\
+DINA & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%) & $0.566 \pm 0.006$ (70 \%)\\
+GenMA & $0.537 \pm 0.006$ (72 \%) & $0.505 \pm 0.006$ (75 \%) & $0.487 \pm 0.006$ (77 \%)\\
+MIRT & $0.53 \pm 0.008$ (73 \%) & $0.509 \pm 0.008$ (75 \%) & $0.503 \pm 0.008$ (75 \%)\\ \bottomrule
+\end{tabular}
+\caption{Valeurs obtenues sur le jeu de données TIMSS.}
+\label{genma-timss-table}
+\end{table}
+
+Rasch a une erreur plus faible que DINA. Dès 4 questions, GenMA a une erreur beaucoup plus faible, comparable à celle obtenue par MIRT.
+
+Les modèles Rasch, DINA et MIRT convergent en 4 questions, tandis que GenMA continue à affiner son diagnostic : à la 11\ieme{} question, GenMA est le modèle le plus précis, car il prédit correctement 77 % des réponses sur l'ensemble de validation.
+
+MIRT a une bonne propriété de généralisation à partir de peu de questions mais le diagnostic en deux dimensions qu'il crée n'est pas formatif, car ses dimensions ne sont pas interprétables sans intervention d'un expert. En revanche, les 13 dimensions du modèle GenMA correspondent chacune à une composante de connaissance de la matrice.
 
 <!-- ## Autres applications
 

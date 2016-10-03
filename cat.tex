@@ -9,6 +9,7 @@
 \usepackage{caption,algpseudocode}
 \DeclareCaptionLabelFormat{bsc}{\textbf{\textsc{#1}\ #2}}
 \captionsetup[figure]{labelformat=bsc}
+\captionsetup[table]{labelformat=bsc}
 \usepackage{graphicx,array,booktabs,multirow}
 \usepackage[french]{varioref}
 \usepackage{multicol}
@@ -18,6 +19,7 @@
 \DeclareLanguageMapping{french}{french-apa}
 \DefineBibliographyExtras{french}{\restorecommand\mkbibnamelast}
 \usepackage[refpage]{nomencl}
+\usepackage[acronym]{glossaries}
 \addbibresource{biblio.bib}
 \setcounter{tocdepth}{2}
 \newfontfamily{\J}{Hiragino Sans GB}
@@ -53,6 +55,7 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
+\makeglossaries
 \makenomenclature
 
 \title{Modèles de tests adaptatifs pour le diagnostic de connaissances dans un cadre d'apprentissage à grande échelle}
@@ -65,9 +68,10 @@
 \input{style-pagedegarde}
 \restoregeometry
 
-\chapter*{Remerciements}
-\input{merci}
+%\chapter*{Remerciements}
+%\input{merci}
 
+\printglossaries
 \printnomenclature
 
 \clearpage
@@ -96,8 +100,8 @@
 \chapter{Conclusion et perspectives}
 \input{perspectives}
 
-\chapter*{Résumé}
-\input{summary}
+%\chapter*{Résumé}
+%\input{summary}
 
 \clearpage
 \listoffigures
@@ -108,7 +112,7 @@
 \chapter{Implémentation des modèles}
 \input{code}
 
-%\nocite{*}
+\nocite{*}
 \printbibliography
 
 \end{document}

@@ -74,6 +74,21 @@ Complexité
 
 :   Quelle est la complexité de chacun des composants modulables ?
 
+\begin{table}
+\begin{tabular}{ccccc} \toprule
+& Dimension & Calibrage & De zéro & Nombre de paramètres\\ \midrule
+Rasch & 1 & Auto & Non & $m + n$\\
+MIRT & $K \leq 4$ & Auto & Non & $d(m + n) + n$\\
+SPARFA & $K \leq 16$ & Auto & Non & $d(m + n) + n$\\ \midrule
+DINA & $K \leq 15$ & Manuel & Oui & $2n$\\
+AHM & $K \leq 90$ & Manuel & Oui & $2n$\\
+KS & $K \leq 90$ & Manuel & Oui & 0\\ \midrule
+Bandits & $K \leq 7$ & Manuel & Oui & $s + n$\\ \bottomrule
+\end{tabular}
+
+\caption{Comparaison qualitative des modèles présentés}
+\end{table}
+
 # Méthodologie de comparaison quantitative de modèles
 
 Nous allons employer un formalisme qui vient de l'apprentissage automatique pour définir notre problème.
@@ -157,7 +172,7 @@ Par exemple, sur la figure \ref{predict}, après que la question de probabilit�
 
 \begin{figure}
 \centering
-\includegraphics[width=0.8\linewidth]{figures/predict}
+\includegraphics{figures/predict}
 \caption{Exemple de phase de test. La question de probabilité la plus proche de 0,5 est posée à chaque étape.}
 \label{predict}
 \end{figure}
@@ -213,7 +228,7 @@ Lors de chaque expérience $(i, j)$, on enregistre pour chaque apprenant $t$ val
 ## Jeux de données
 \label{datasets}
 
-Pour nos expériences, nous avons utilisé les quatre jeux de données réelles suivants.
+Pour nos expériences, nous avons utilisé les jeux de données réelles suivants.
 
 ### SAT
 
@@ -222,8 +237,6 @@ Le SAT est un test standardisé aux États-Unis. Il est multidisciplinaire, car 
 ### ECPE
 
 Il s'agit d'une matrice $2922 \times 28$ représentant les résultats de 2922 apprenants sur 28 questions d'anglais de l'examen ECPE (*Examination for the Certificate of Proficiency in English*). Ce test standardisé cherche à mesurer trois attributs, c'est pourquoi la q-matrice correspondante a 3 CC : règles morphosyntaxiques, règles cohésives, règles lexicales.\nomenclature{ECPE}{\emph{Examination for the Certificate of Proficiency in English}}
-
-À titre d'exemple, les paramètres d'inattention et de chance déterminés lors de l'entraînement ont été répertoriés dans la figure \ref{ecpe-guess}.
 
 ### Fraction
 
@@ -246,6 +259,7 @@ Le Castor est un concours d'informatique où les candidats, collégiens ou lycé
 \end{figure}
 -->
 
+<!--
 \begin{table}
 $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
 \multicolumn{3}{c|}{\textnormal{q-matrice}} & \textnormal{chance} & \textnormal{inattention} & \textnormal{taux de succès}\\
@@ -282,6 +296,7 @@ $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
 \caption{La q-matrice utilisée pour le jeu de données ECPE, ainsi que les paramètres d'inattention et de chance, et le taux de succès de chaque question. En gras, la ligne ayant la plus grande valeur de chance.}
 \label{ecpe-guess}
 \end{table}
+-->
 
 <!-- TODO expliquer -->
 
@@ -289,13 +304,13 @@ $$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
 
 Le code est en Python, un langage lisible pour concevoir des scripts en peu de lignes de code, et fait appel à des fonctions en R au moyen du package ``RPy2``. Des détails concernant l'implémentation sont donnés dans l'annexe \ref{code}.
 
-### Rasch
+### Modèle de Rasch
 
 Chaque apprenant a une unique caractéristique correspondant à son niveau, tandis que chaque question a une unique caractéristique correspondant à sa difficulté.
 
 TrainingStep
 
-:   La phase d'apprentissage consiste à déterminer l'estimateur du maximum de vraisemblance pour les paramètres des apprenants et des questions. Comme le modèle est simple, l'expression de la dérivée de la vraisemblance est simple et on peut les paramètres qui l'annulent par la méthode de Newton. Cette partie est effectuée par le package ``ltm``.
+:   La phase d'apprentissage consiste à déterminer l'estimateur du maximum de vraisemblance pour les paramètres des apprenants et des questions. Comme le modèle est simple, l'expression de la dérivée de la vraisemblance est simple et on peut déterminer les paramètres qui l'annulent par la méthode de Newton.
 
 PriorInitialization
 
@@ -317,15 +332,15 @@ PredictPerformance
 
 :   Pour rappel, la formule est donnée par l'expression :
 
-$$ Pr(success_{ij}) = \Phi(\theta_i - d_j). $$
+\begin{equation}
+Pr(D_{ij} = 1) = \Phi(\theta_i - d_j).
+\end{equation}
 
-### DINA
+### Modèle DINA
 
 Chaque apprenant a une caractéristique qui est son état latent, défini à la section \vref{dina}, et chaque question a pour caractéristiques la liste des CC qu'elle requiert dans la q-matrice, ainsi qu'un paramètre d'inattention et un paramètre de chance.
 
 Pendant la phase de calibrage, nous calculons, à partir d'une q-matrice et d'une population, les paramètres d'inattention et de chance expliquant le mieux les données.
-
-Afin d'accélérer la procédure d'entraînement parfois coûteuse, nous utilisons ``pypy`` : il s'agit d'un interpréteur Python qui compile le code à la volée en code machine, afin de fournir une exécution plus rapide de code Python. Pour l'utiliser, il suffit de taper ``pypy fichier.py`` au lieu de ``python fichier.py``.
 
 TrainingStep
 
@@ -333,7 +348,7 @@ TrainingStep
 
 <!-- TODO wtf -->
 
-La calibration des paramètres des questions est effectuée par le package R ``CDM`` (pour *cognitive diagnosis modelling*), à partir des motifs de réponse des apprenants d'entraînement et de la q-matrice. Pour déterminer les états latents des apprenants, on simule le fait de leur poser toutes les questions en utilisant le modèle DINA. Si on ne dispose pas de q-matrice, nous la calculons automatiquement en itérant plusieurs phases d'optimisation de la q-matrice via escalade de colline, des paramètres d'inattention et de chance via optimisation convexe, et des états latents des apprenants.\nomenclature{CDM}{\emph{Cognitive Diagnosis Modelling}, modèles de diagnostic cognitif.}
+Pour déterminer les états latents des apprenants, on simule le fait de leur poser toutes les questions en utilisant le modèle DINA. Si on ne dispose pas de q-matrice, nous la calculons automatiquement en itérant plusieurs phases d'optimisation de la q-matrice via escalade de colline, des paramètres d'inattention et de chance via optimisation convexe, et des états latents des apprenants.
 
 PriorInitialization
 
@@ -352,8 +367,8 @@ PredictPerformance
 :   Pour rappel, la formule est donnée par l'expression :
 
 $$ Pr(success_{ij}) = \left\{\begin{array}{ll}
-1 - s_j & \textnormal{ si l'apprenant $i$ maîtrise toutes les CC requises par $j$}\\
-g_j & \textnormal{ sinon.}
+1 - s_j & \parbox[t]{0.6\textwidth}{si l'apprenant $i$ maîtrise toutes les CC requises \newline pour répondre correctement à la question $j$}\\
+g_j & \textnormal{sinon.}
 \end{array}\right. $$
 
 # Résultats
@@ -370,100 +385,127 @@ DINA
 
 La complexité est calculée selon plusieurs paramètres :
 
-- le nombre d'apprenants $N_A$ ;
-- le nombre de questions $N_Q$ ;
-- le nombre de CC $K$ ;
-- le nombre de valeurs non nulles de la q-matrice $|Q|$.
+- le nombre d'apprenants $m$ ;
+- le nombre de questions $n$ ;
+- le nombre de CC $K$.
 
-Par exemple, pour le modèle DINA, le choix de la question suivante coûte $O(K 2^K N_Q)$ opérations. La phase d'entraînement de DINA a une complexité $O(|I_{train}| N_Q^2 K 2^K)$ tandis que la phase de test $O(|I_{test}| \cdot |Q \setminus Q_{val}|^2 K 2^K)$.
+Complexité du modèle de Rasch
+
+:   Il est difficile de calculer la complexité de la phase de calibrage, car il s'agit d'une méthode numérique. Toutefois, de tous les modèles testés, il a été le plus rapide à estimer. Le choix de la question suivante coûte $O(n)$ car connaissant une estimation du niveau de l'apprenant, calculer la probabilité de chaque question s'effectue en temps constant. Si l'on note $A$ le temps passé à déterminer les caractéristiques de l'apprenant, la complexité de la phase de test est $O(m n (n + A))$.
+
+Complexité du modèle DINA
+
+:   Le choix de la question suivante coûte $O(K 2^K n)$ opérations. L'estimation des paramètres de l'apprenant s'effectue en $O(K 2^K)$. Les phases d'entraînement et de test de DINA ont une complexité $O(m n^2 K 2^K)$. C'est pourquoi $K$ est généralement choisi inférieur à 10 [@Su2013].
 
 ## Évaluation quantitative
 
-Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss}.
-
-\newpage
+Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss}. Les valeurs du taux d'erreur (*log loss*) sont répertoriées dans les tables \ref{comp-sat-table} à \ref{comp-castor-table}. Entre parenthèses, la précision des prédictions sur l'ensemble de validation.
 
 ### SAT
 
 <!-- results/sat2 -->
 \begin{figure}[h]
-\small
 \centering
 \includegraphics[width=\linewidth]{figures/comp/sat-mean}
-\begin{tabular}{cccc}
-& Après 5 questions & Après 10 questions & Après 15 questions\\
-DINA K = 4 & $0.411 \pm 0.029$ (81 \%) & $0.398 \pm 0.031$ (82 \%) & $0.387 \pm 0.028$ (82 \%)\\
-Rasch & $0.381 \pm 0.027$ (82 \%) & $0.363 \pm 0.026$ (83 \%) & $0.362 \pm 0.027$ (84 \%)\\
-\end{tabular}
-\caption{Évolution de l'erreur moyenne sur le jeu de données SAT après qu'un certain nombre de questions ont été posées.}
+\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données SAT.}
 \label{comp-sat}
 \end{figure}
 
-Dans la figure \ref{comp-sat}, le modèle de Rasch réalise un diagnostic un peu meilleur que le modèle DINA avec une q-matrice calculée automatiquement. Comme dans @Desmarais2011, notre extraction de q-matrice a réussi à identifier que les questions 1 à 10 partageaient une CC (mathématiques) ainsi que les questions 31 à 40 (français) mais a eu plus de mal à identifier les questions de biologie et d'histoire.
+\begin{table}[h]
+\centering
+\begin{tabular}{cccc} \toprule
+& Après 10 questions & Après 15 questions\\ \midrule
+DINA & $0.398 \pm 0.031$ (82 \%) & $0.387 \pm 0.028$ (82 \%)\\
+Rasch & $0.363 \pm 0.026$ (83 \%) & $0.362 \pm 0.027$ (84 \%)\\ \bottomrule
+\end{tabular}
+\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données SAT.}
+\label{comp-sat-table}
+\end{table}
 
-Le modèle de Rasch converge en 10 questions mais plafonne à 82 % de précision tandis que le modèle DINA continue à augmenter légèrement sa précision.
+Dans la figure \ref{comp-sat}, le modèle de Rasch réalise un diagnostic un peu meilleur que le modèle DINA avec une q-matrice calculée automatiquement. Comme @Desmarais2011, notre extraction de q-matrice a réussi à identifier que les questions 1 à 10 partageaient une CC (mathématiques) ainsi que les questions 31 à 40 (français) mais a eu plus de mal à identifier les questions de biologie et d'histoire.
 
-Nous faisons l'hypothèse que comme ce jeu de données est multidisciplinaire et que les questions portent principalement sur une CC, poser une question de mathématiques ne va pas apporter beaucoup d'information sur les CC en français ; c'est pourquoi le modèle de Rasch peut en quelques questions avoir une bonne information sur l'ensemble du test, tandis que le modèle DINA en récolte que de l'information sur la maîtrise ou non maîtrise de la CC sur laquelle porte la question qu'elle pose.
+Le modèle de Rasch converge en 10 questions mais plafonne à 82 % de précision tandis que le modèle DINA continue à augmenter légèrement sa précision (voir table \ref{comp-sat-table}).
+
+Nous faisons l'hypothèse que comme ce jeu de données est multidisciplinaire et que la plupart des questions portent sur une unique CC, poser une question de mathématiques ne va pas apporter beaucoup d'information sur les CC en français ; c'est pourquoi le modèle de Rasch peut en quelques questions avoir une bonne information sur l'ensemble du test, tandis que le modèle DINA récolte de l'information seulement sur la maîtrise ou non maîtrise de la CC sur laquelle porte chaque question posée.
 
 ### ECPE
 
-<!-- % results/ecpe -->
+<!-- results/ecpe -->
 \begin{figure}[h]
-\small
 \centering
 \includegraphics[width=\linewidth]{figures/comp/ecpe-mean}
-\begin{tabular}{ccc}
-& Après 5 questions & Après 10 questions\\
-Rasch & $0.534 \pm 0.005$ (73 \%) & $0.524 \pm 0.005$ (74 \%)\\
-DINA K = 3 & $0.532 \pm 0.003$ (73 \%) & $0.524 \pm 0.003$ (74 \%)\\
-\end{tabular}
-\caption{Évolution de l'erreur moyenne sur le jeu de données ECPE après qu'un certain nombre de questions ont été posées.}
+\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données ECPE.}
 \label{comp-ecpe}
 \end{figure}
 
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc} \toprule
+& Après 5 questions & Après 10 questions\\ \midrule
+Rasch & $0.534 \pm 0.005$ (73 \%) & $0.524 \pm 0.005$ (74 \%)\\
+DINA & $0.532 \pm 0.003$ (73 \%) & $0.524 \pm 0.003$ (74 \%)\\ \bottomrule
+\end{tabular}
+\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données ECPE.}
+\label{comp-ecpe-table}
+\end{table}
+
 Dans la figure \ref{comp-ecpe}, les modèles se valent. DINA est en moyenne très légèrement meilleur.
 
-Nous faisons l'hypothèse que comme le jeu de données a beaucoup de motifs de réponse différents, les prédictions sont erronées.
+Après 10 questions, les deux modèles plafonnent à 74 % de précision (voir table \ref{comp-ecpe-table}).
+
+Nous faisons l'hypothèse que comme le jeu de données a beaucoup de motifs de réponse différents, les questions sont indépendantes donc les modèles ont du mal à prédire le comportement des apprenants sur les questions restantes du test.
 
 ### Fraction
 
 <!-- % results/fraction-auto-5 -->
 \begin{figure}[h]
-\small
 \centering
 \includegraphics[width=\linewidth]{figures/comp/fraction-mean}
-\begin{tabular}{ccc}
-& Après 4 questions & Après 7 questions\\
-DINA K = 8 & $0.368 \pm 0.039$ (86 \%) & $0.346 \pm 0.039$ (86 \%)\\
-Rasch & $0.402 \pm 0.037$ (84 \%) & $0.381 \pm 0.033$ (85 \%)\\
-\end{tabular}
-\caption{Évolution de l'erreur moyenne sur le jeu de données Fraction après qu'un certain nombre de questions ont été posées.}
+\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Fraction.}
 \label{comp-fraction}
 \end{figure}
 
-Dans la figure \ref{comp-fraction}, le meilleur modèle en moyenne est le modèle DINA dont la q-matrice a été spécifiée par un expert. Après avoir posé 4 questions de façon adaptative, le modèle DINA est capable de prédire en moyenne 86 % de l'ensemble de question de validation correctement, soit en moyenne plus de 8 questions sur 10.
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc} \toprule
+& Après 4 questions & Après 7 questions\\ \midrule
+Rasch & $0.402 \pm 0.037$ (84 \%) & $0.381 \pm 0.033$ (85 \%)\\
+DINA & $0.368 \pm 0.039$ (86 \%) & $0.346 \pm 0.039$ (86 \%)\\ \bottomrule
+\end{tabular}
+\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction.}
+\label{comp-fraction-table}
+\end{table}
 
-Nous faisons l'hypothèse que comme il s'agit d'un jeu de données de soustraction de fraction, l'information que l'apprenant maîtrise ou non le fait de mettre au même dénominateur est suffisant pour prédire son comportement sur des questions qui ne lui ont pas été posées.
+Dans la figure \ref{comp-fraction}, le meilleur modèle en moyenne est le modèle DINA dont la q-matrice a été spécifiée par un expert. Après avoir posé 4 questions de façon adaptative, le modèle DINA est capable de prédire en moyenne 86 % de l'ensemble de question de validation correctement, soit en moyenne plus de 8 questions sur 10 (voir table \ref{comp-fraction-table}).
+
+Nous faisons l'hypothèse que comme il s'agit d'un jeu de données de soustraction de fractions, l'information que l'apprenant maîtrise ou non le fait de mettre au même dénominateur est suffisant pour prédire son comportement sur des questions qui ne lui ont pas été posées. Il n'y a pas besoin de considérer des valeurs de niveau. De plus, comme les questions font souvent appel à plusieurs CC, peu de questions sont nécessaires pour converger.
 
 ### TIMSS
 
 <!-- results/timss2003 -->
 \begin{figure}[h]
-\small
 \centering
 \includegraphics[width=\linewidth]{figures/comp/timss-mean}
-\begin{tabular}{ccc}
-& After 4 questions & After 8 questions\\
-Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%)\\
-DINA K = 13 & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%)\\
-\end{tabular}
-\caption{Évolution de l'erreur moyenne sur le jeu de données TIMSS après qu'un certain nombre de questions ont été posées.}
+\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données TIMSS.}
 \label{comp-timss}
 \end{figure}
 
-Dans la figure \ref{comp-timss}, les deux modèles se valent. 
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc} \toprule
+& After 4 questions & After 8 questions\\ \midrule
+DINA & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%)\\
+Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%)\\ \bottomrule
+\end{tabular}
+\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS.}
+\label{comp-timss-table}
+\end{table}
 
-Les intervalles de confiance de la *log loss* des modèles sont, comme dans le jeu de données ECPE, très serrés. Et les modèles ne parviennent pas à augmenter leur précision. Nous faisons l'hypothèse que ces jeux de données se ressemblent : il y a beaucoup de motifs de réponse possibles.
+Dans la figure \ref{comp-timss}, Rasch est meilleur que DINA.
+
+Après 8 questions, les prédictions plafonnent à 71 % et les intervalles de confiance de la *log loss* des modèles sont, comme dans le jeu de données ECPE, très serrés (voir \ref{comp-timss-table}).
+
+Nous faisons l'hypothèse que ces jeux de données se ressemblent : il y a beaucoup de motifs de réponse possibles, donc les questions semblent indépendantes.
 
 ### Castor
 
@@ -471,18 +513,26 @@ Les intervalles de confiance de la *log loss* des modèles sont, comme dans le j
 \begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{figures/comp/castor-mean}
-\begin{tabular}{ccc}
-& Après 4 questions & Après 8 questions\\
-DINA K = 3 & $0.504 \pm 0.004$ (78 \%) & $0.512 \pm 0.004$ (77 \%)\\
-Rasch & $0.493 \pm 0.004$ (78 \%) & $0.485 \pm 0.004$ (79 \%)\\
-\end{tabular}
-\caption{Évolution de l'erreur moyenne sur le jeu de données Castor après qu'un certain nombre de questions ont été posées.}
+\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Castor.}
 \label{comp-castor}
 \end{figure}
 
-Dans la figure \ref{comp-castor}, les deux modèles se valent. 
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc} \toprule
+& Après 4 questions & Après 8 questions\\ \midrule
+DINA & $0.504 \pm 0.004$ (78 \%) & $0.512 \pm 0.004$ (77 \%)\\
+Rasch & $0.493 \pm 0.004$ (78 \%) & $0.485 \pm 0.004$ (79 \%)\\ \bottomrule
+\end{tabular}
+\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données Castor.}
+\label{comp-castor-table}
+\end{table}
 
-## Vitesse
+Dans la figure \ref{comp-castor}, Rasch est bien meilleur que DINA avec une q-matrice de taille $K = 3$ calculée automatiquement.
+
+Nous faisons l'hypothèse que la q-matrice a été mal spécifiée, ce qui a conduit à des erreurs de diagnostic.
+
+<!-- ## Vitesse
 
 \begin{table}[H]
 \centering\begin{tabular}{@{}c|cc@{}}
@@ -498,13 +548,13 @@ Q $K = 6$ & 1 h 45 min 3 s & 3 min 14 s %0.482 $\pm$ 0.015 & \textbf{0.425 $\pm$
 \end{tabular}
 \caption{Temps de calcul des phases d'entraînement et de test pour chaque modèle, sur le jeu de données Fraction.}
 \label{tab:time}
-\end{table}
+\end{table} -->
 
 ## Discussion
 
 \label{discu-comp}
 
-Selon le jeu de données, le meilleur modèle n'est pas le même. Par exemple, pour des tâches procédurales telles que le test Fraction, le modèle DINA a une haute précision en prédiction de performance. Le modèle de Rasch a de bonnes performances tout en étant très simple.
+Selon le jeu de données, le meilleur modèle n'est pas le même. Par exemple, pour des tâches procédurales telles que le test Fraction, le modèle DINA a une haute précision en prédiction de performance. Pour tous les jeux de données, le modèle de Rasch a de bonnes performances tout en étant très simple. L'avantage du modèle DINA est qu'il est formatif : la q-matrice spécifiée par un expert permet de faire un retour à l'apprenant à l'issue de test pour lui indiquer ce qu'il semble ne pas avoir maîtrisé.
 
 Il est utile de remarquer que pour le modèle DINA avec $K = 1$, l'apprenant peut être modélisé par une probabilité d'avoir l'unique CC ou non. Si la question ne requiert aucune CC, il a une probabilité constante $1 - s_i$ d'y répondre. Sinon, sa probabilité est $(1 - p) g_i + p (1 - s_i) = g_i + p (1 - s_i - g_i)$ soit une valeur qui croît entre $g_i$ et $1 - s_i$ de façon linéaire avec $p$. On retrouve les paramètres de chance et d'inattention du modèle logistique à 4 paramètres. Cela donne une interprétation géométrique du modèle de Rasch comparé au modèle DINA.
 

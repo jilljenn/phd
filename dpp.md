@@ -10,12 +10,12 @@ Pour mieux comprendre notre approche, voici une interprétation géométrique de
 
 Pour rappel, la phase d'apprentissage du modèle GenMA de dimension $K$ consiste à déterminer les caractéristiques $\mathbf{d_j} = (d_{j1}, \ldots, d_{jK})$ et $\delta_j$ de chaque question $j$ et les caractéristiques $\mathbf{\theta_i} = (\theta_{i1}, \ldots, \theta_{iK})$ de chaque apprenant $i$. La probabilité qu'un apprenant $i$ réponde correctement à une question $j$ est ensuite donnée par l'expression $\Phi(\mathbf{\theta_i} \cdot \mathbf{d_j})$. Pour visualiser, on peut représenter les questions par des points à coordonnées $(d_{j1}, \ldots, d_{jK})$ pour chaque $j$ et l'apprenant $i$ par le vecteur $\mathbf{\theta_i}$. Les questions qui ont le plus de chances d'être résolues par l'apprenant correspondent aux points qui se trouvent le plus dans la direction de $\mathbf{\theta_i}$, voir la figure \ref{viz-mirt}.
 
-\begin{figure}
+<!-- \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figures/2d}
 \caption{Test adaptatif en 2 dimensions}
 \label{viz-mirt}
-\end{figure}
+\end{figure} -->
 
 Ainsi, poser un jeu de $k$ questions revient à choisir $k$ points de l'espace à présenter à l'apprenant, ce qui permettra après étiquetage par succès/échec en fonction de ses réponses de déterminer une première estimation de son vecteur de niveau $\mathbf{\theta}$.
 
@@ -141,7 +141,7 @@ Quelle est la différence entre le paramètre estimé à partir de $k$ questions
 \For{tout étudiant $s$ de l'ensemble $I_{test}$}
     \For{$k$ de 1 à $|Q|$}
         \State $\pi \gets \Call{PriorInitialization}$
-        \State $S \gets \Call{FirstBulk}{S, k, \alpha, \pi}$
+        \State $S \gets \Call{FirstBundle}{S, k, \alpha, \pi}$
         \State Poser les questions $Y$ à l'apprenant $s$
         \State Récupérer les valeurs de succès ou échec correspondantes $(r_i)_{i \in Y}$ de ses réponses
         \State $\pi \gets \Call{EstimateParameters}{\{(i, r_i)\}_{i \in Y}, \alpha}$
