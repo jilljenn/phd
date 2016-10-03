@@ -41,6 +41,8 @@ Déterminant maximal
 
 # Processus à point déterminantal
 
+\label{dpp}
+
 Nous allons présenter une loi de probabilité, tirée de la théorie des matrices aléatoires, qui a récemment été appliquée en apprentissage automatique [@Kulesza2012]. Cette loi permet, étant donné des objets munis de caractéristiques, d'échantillonner efficacement des éléments \og diversifiés \fg{} pour une certaine mesure de distance. Cela a par exemple des applications en recommandation pour sélectionner des produits diversifiés, dans les moteurs de recherche afin que les résultats en tête de la recherche portent sur des thèmes différents (par exemple, pour une requête « jaguar », l'animal et la voiture) ou encore en génération automatique de résumé, à partir d'un corpus de textes, par exemple des articles de presse dont on souhaiterait sélectionner les thèmes principaux.
 
 Tout d'abord, il nous faut définir la notion de noyau, qui est une généralisation du produit scalaire. Soit $d \geq 1$ un entier, une fonction symétrique $K : \R^d \times \R^d \to \R$ est un *noyau* si pour tout $n$ entier, pour tous $\mathbf{x_1}, \ldots, \mathbf{x_n} \in \R^d$ et pour tous $(c_1, \ldots, c_n) \in \R^d$, $\sum_{i = 1}^n \sum_{j = 1}^n c_i c_j K(\mathbf{x_i}, \mathbf{x_j}) \geq 0.$\bigskip
@@ -176,7 +178,9 @@ Random & $1.019 \pm 0.05$ (58 \%) & $0.705 \pm 0.035$ (68 \%) & $\mathbf{0.512 \
 
 Dans la figure \ref{initiald-timss-mean}, InitialD est bien meilleur que Random, bien meilleur que CAT, bien meilleur que Uncertainty. Dans les premières questions, CAT a une erreur comparable à celle de Uncertainty, car les deux modèles choisissent la question de probabilité la plus proche de 0,5. Mais InitialD explore davantage en choisissant un groupe de questions diversifiées.
 
-\begin{figure}
+Dès la première question, InitialD a une meilleure performance. C'est parce que choisir la question de plus grand \og volume \fg{} correspond à choisir la question dont le vecteur caractéristique a la plus grande norme, ou encore : la question la plus discriminante.
+
+\begin{figure}[h]
 \footnotesize
 \centering
 \includegraphics[width=\linewidth]{figures/initiald-timss-delta}
@@ -193,9 +197,9 @@ Random & $1.936 \pm 0.052$ & $1.317 \pm 0.048$ & $0.59 \pm 0.043$\\
 
 Dans la figure \ref{initiald-timss-delta}, on voit que InitialD converge plus vite vers le vrai paramètre que les autres stratégies.
 
-### Fraciton
+### Fraction
 
-\begin{figure}
+\begin{figure}[h]
 \footnotesize
 \centering
 \includegraphics[width=\linewidth]{figures/initiald-fraction-mean}

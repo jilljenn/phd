@@ -30,9 +30,25 @@ Dans cette thèse, nous nous sommes concentrés sur l'évaluation d'un seul appr
 
 # Perspectives
 
-## Utiliser
+## Extraction de q-matrice automatique
 
-Noyau gaussien.
+Pour nos expériences, nous avons dû extraire des q-matrices automatiquement. La méthode que nous avons testée a fourni de bons résultats, mais ce domaine reste à explorer : en effet, les q-matrices que nous avons obtenues n'ont aucune garantie d'être les meilleures q-matrices possibles.
+
+## Tester différentes initialisations des modèles de tests adaptatifs
+
+Nous nous sommes rendus compte qu'entre considérer un a priori dans le modèle DINA (par exemple, 86 % des apprenants ont pour état latent ``0010``) fournissait de moins bons résultats qu'un a priori uniforme. C'est une piste de recherche à explorer.
+
+De même, dans GenMA nous considérons que l'apprenant est de niveau 0. Il serait intéressant de supposer qu'il est de niveau moyen au sein de la population.
+
+## Différents noyaux pour DPP
+
+Dans notre expérience menée à la section \vref{dpp}, nous avons considéré un noyau linéaire. Il serait intéressant de tester d'autres noyaux : noyau gaussien, ou d'autres noyaux.
+
+## Généralisation de la théorie de la réponse à l'item multidimensionnelle
+
+La théorie de la réponse à l'item est basée sur un produit scalaire entre les caractéristiques de l'apprenant $\mathbf{\theta_i}$ et les caractéristiques des questions $\mathbf{\delta_j}$. Or, on pourrait généraliser cela en appliquant la méthode du noyau, comme dans les machines à vecteur de support.
+
+Faire cela aurait sans doute un meilleur pouvoir prédictif, mais l'on perdrait l'interprétation du diagnostic, car les caractéristiques estimées de l'apprenant ne correspondraient plus à des degrés de maîtrise ou des lacunes. Ainsi, on pourrait repérer des apprenants susceptibles d'avoir des lacunes, mais on ne pourrait pas leur expliquer pourquoi. Cela peut être utile dans certaines applications où un enseignant doit détecter les apprenants qui ont besoin d'aide.
 
 ## Progression de l'apprenant pendant le test
 

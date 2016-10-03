@@ -385,11 +385,11 @@ Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss}.
 
 ### SAT
 
-% results/sat2
+<!-- results/sat2 -->
 \begin{figure}[h]
 \small
 \centering
-\includegraphics[width=\linewidth]{figures/comp-sat}
+\includegraphics[width=\linewidth]{figures/comp/sat-mean}
 \begin{tabular}{cccc}
 & Après 5 questions & Après 10 questions & Après 15 questions\\
 DINA K = 4 & $0.411 \pm 0.029$ (81 \%) & $0.398 \pm 0.031$ (82 \%) & $0.387 \pm 0.028$ (82 \%)\\
@@ -399,17 +399,19 @@ Rasch & $0.381 \pm 0.027$ (82 \%) & $0.363 \pm 0.026$ (83 \%) & $0.362 \pm 0.027
 \label{comp-sat}
 \end{figure}
 
-Dans la figure \ref{comp-sat}, le modèle de Rasch réalise un diagnostic un peu meilleur que le modèle DINA avec une q-matrice calculée automatiquement.
+Dans la figure \ref{comp-sat}, le modèle de Rasch réalise un diagnostic un peu meilleur que le modèle DINA avec une q-matrice calculée automatiquement. Comme dans @Desmarais2011, notre extraction de q-matrice a réussi à identifier que les questions 1 à 10 partageaient une CC (mathématiques) ainsi que les questions 31 à 40 (français) mais a eu plus de mal à identifier les questions de biologie et d'histoire.
 
-Le modèle de Rasch converge en 10 questions mais plafonne à 82 % de précision tandis que le modèle DINA augmente légèrement sa précision.
+Le modèle de Rasch converge en 10 questions mais plafonne à 82 % de précision tandis que le modèle DINA continue à augmenter légèrement sa précision.
+
+Nous faisons l'hypothèse que comme ce jeu de données est multidisciplinaire et que les questions portent principalement sur une CC, poser une question de mathématiques ne va pas apporter beaucoup d'information sur les CC en français ; c'est pourquoi le modèle de Rasch peut en quelques questions avoir une bonne information sur l'ensemble du test, tandis que le modèle DINA en récolte que de l'information sur la maîtrise ou non maîtrise de la CC sur laquelle porte la question qu'elle pose.
 
 ### ECPE
 
-% results/ecpe
+<!-- % results/ecpe -->
 \begin{figure}[h]
 \small
 \centering
-\includegraphics[width=\linewidth]{figures/comp-ecpe}
+\includegraphics[width=\linewidth]{figures/comp/ecpe-mean}
 \begin{tabular}{ccc}
 & Après 5 questions & Après 10 questions\\
 Rasch & $0.534 \pm 0.005$ (73 \%) & $0.524 \pm 0.005$ (74 \%)\\
@@ -419,15 +421,17 @@ DINA K = 3 & $0.532 \pm 0.003$ (73 \%) & $0.524 \pm 0.003$ (74 \%)\\
 \label{comp-ecpe}
 \end{figure}
 
-Dans la figure \ref{comp-ecpe}, les modèles se valent.
+Dans la figure \ref{comp-ecpe}, les modèles se valent. DINA est en moyenne très légèrement meilleur.
+
+Nous faisons l'hypothèse que comme le jeu de données a beaucoup de motifs de réponse différents, les prédictions sont erronées.
 
 ### Fraction
 
-% results/fraction-auto-5
+<!-- % results/fraction-auto-5 -->
 \begin{figure}[h]
 \small
 \centering
-\includegraphics[width=\linewidth]{figures/comp-fraction}
+\includegraphics[width=\linewidth]{figures/comp/fraction-mean}
 \begin{tabular}{ccc}
 & Après 4 questions & Après 7 questions\\
 DINA K = 8 & $0.368 \pm 0.039$ (86 \%) & $0.346 \pm 0.039$ (86 \%)\\
@@ -437,15 +441,17 @@ Rasch & $0.402 \pm 0.037$ (84 \%) & $0.381 \pm 0.033$ (85 \%)\\
 \label{comp-fraction}
 \end{figure}
 
-Dans la figure \ref{comp-fraction}, le meilleur modèle est le modèle DINA avec la matrice spécifiée par un expert. Après avoir posé 4 questions de façon adaptative, le modèle DINA est capable de prédire en moyenne 86 % de l'ensemble de question de validation correctement, soit en moyenne plus de 8 questions sur 10.
+Dans la figure \ref{comp-fraction}, le meilleur modèle en moyenne est le modèle DINA dont la q-matrice a été spécifiée par un expert. Après avoir posé 4 questions de façon adaptative, le modèle DINA est capable de prédire en moyenne 86 % de l'ensemble de question de validation correctement, soit en moyenne plus de 8 questions sur 10.
+
+Nous faisons l'hypothèse que comme il s'agit d'un jeu de données de soustraction de fraction, l'information que l'apprenant maîtrise ou non le fait de mettre au même dénominateur est suffisant pour prédire son comportement sur des questions qui ne lui ont pas été posées.
 
 ### TIMSS
 
-% results/timss2003
+<!-- results/timss2003 -->
 \begin{figure}[h]
 \small
 \centering
-\includegraphics[width=\linewidth]{figures/comp-timss}
+\includegraphics[width=\linewidth]{figures/comp/timss-mean}
 \begin{tabular}{ccc}
 & After 4 questions & After 8 questions\\
 Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%)\\
@@ -457,15 +463,18 @@ DINA K = 13 & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%)\\
 
 Dans la figure \ref{comp-timss}, les deux modèles se valent. 
 
+Les intervalles de confiance de la *log loss* des modèles sont, comme dans le jeu de données ECPE, très serrés. Et les modèles ne parviennent pas à augmenter leur précision. Nous faisons l'hypothèse que ces jeux de données se ressemblent : il y a beaucoup de motifs de réponse possibles.
+
 ### Castor
 
+<!-- results/castor -->
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/comp-castor}
+\includegraphics[width=\linewidth]{figures/comp/castor-mean}
 \begin{tabular}{ccc}
-& After 4 questions & After 8 questions\\
-Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%)\\
-DINA K = 13 & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%)\\
+& Après 4 questions & Après 8 questions\\
+DINA K = 3 & $0.504 \pm 0.004$ (78 \%) & $0.512 \pm 0.004$ (77 \%)\\
+Rasch & $0.493 \pm 0.004$ (78 \%) & $0.485 \pm 0.004$ (79 \%)\\
 \end{tabular}
 \caption{Évolution de l'erreur moyenne sur le jeu de données Castor après qu'un certain nombre de questions ont été posées.}
 \label{comp-castor}

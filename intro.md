@@ -1,10 +1,12 @@
-# Tests adaptatifs
+# Évaluation adaptative à grande échelle
 
 La personnalisation de l'enseignement et de l'évaluation est un fort enjeu de notre siècle. Donner la même feuille d'exercices à tous les élèves d'une classe conduit à des situations où certains élèves finissent très vite et demandent d'autres exercices, tandis que d'autres peinent à résoudre un exercice. Il serait plus profitable pour les élèves d'avoir des feuilles d'exercices personnalisées. Mais le travail consistant à piocher des exercices dans une banque de façon à maintenir un certain équilibre pour une unique feuille universelle est déjà difficile pour un professeur, alors concevoir des feuilles d'exercices différentes pour chaque étudiant peut sembler complexe à gérer. Heureusement, les progrès en traitement de l'information rendent cela possible. On voit ainsi aujourd'hui des professeurs d'université distribuer des énoncés différents à tous leurs étudiants lors d'un examen [@Zeileis2012], ce qui pose toutefois des questions d'impartialité de l'évaluation. Personnaliser l'évaluation permet également de poser moins de questions à chaque apprenant [@Chang2014], ce qui est d'autant plus utile que les apprenants passent aujourd'hui trop de temps à être testés [@Zernike2015].
 
 Avec l'arrivée des cours en ligne ouverts massifs (MOOC), ce besoin en évaluation adaptative s'est accentué. Des cours de nombreuses universités à travers le monde peuvent être suivis par des centaines de milliers d'étudiants. Mais la pluralité des profils de ces apprenants, notamment leurs âges et leurs parcours, fait qu'il devient crucial d'identifier les connaissances que les apprenants ont accumulées dans le passé, afin de personnaliser leur expérience d'apprentissage et d'aider le professeur à mieux connaître sa classe pour améliorer son cours. Or, répondre à de nombreuses questions d'un test de positionnement au début d'un cours risque de paraître fastidieux pour les apprenants [@Desmarais2012]. Il est alors encouragé de ne poser des questions que lorsque c'est nécessaire, par exemple ne pas poser des questions trop difficiles tant que l'apprenant n'a pas répondu à des questions faciles, et ne pas poser des questions requérant des compétences que l'apprenant semble déjà maîtriser, au vu de ses réponses précédentes [@Chang2014].
 
 Cette réduction du nombre de questions d'un test a été étudiée depuis longtemps en psychométrie. La théorie de la réponse à l'item suppose qu'un faible nombre de variables peut expliquer les réponses d'un étudiant à plusieurs questions, et cherche à déterminer les questions les plus informatives pour dévoiler les facteurs latents de l'étudiant [@Hambleton1985]. Cette théorie a ainsi permis de développer des modèles de tests *adaptatifs*, qui posent une question à un apprenant, évaluent sa réponse et choisissent en fonction de celle-ci la question suivante à lui poser. Alors que la théorie de la réponse à l'item remonte aux années 50, ces tests sont aujourd'hui utilisés en pratique par le GMAT, une certification administrée à des centaines de milliers d'étudiants chaque année. Toutefois, les enjeux de ces tests sont davantage liés à l'évaluation qu'à la formation : leur objectif est de mesurer les apprenants afin de leur remettre ou non un certificat, plutôt que de leur faire un retour sur leur lacunes. Un tel retour leur serait plus utile pour s'améliorer, et également renforcerait leur engagement. Ainsi, les organismes de certification se placent davantage du côté des institutions, qui décident d'une barre d'admissibilité et d'un quota d'entrants, tandis qu'une plateforme de MOOC se place davantage du côté de ses utilisateurs, les apprenants.
+
+# Diagnostic de connaissances
 
 On distingue deux types de tests adaptatifs. Des tests adaptatifs *sommatifs* mesurent l'apprenant et lui renvoient un simple score, tandis que des tests adaptatifs *formatifs* font un diagnostic des connaissances de l'apprenant afin qu'il puisse s'améliorer, par exemple sous la forme de points à retravailler.
 
@@ -13,16 +15,6 @@ Les tests adaptatifs qui se contentent de mesurer l'apprenant opèrent de façon
 Dans cette thèse, nous avons répertorié des modèles de tests adaptatifs issus de différents pans de la littérature. Nous les avons comparés de façon qualitative et quantitative. Nous avons donc proposé un protocole expérimental, que nous avons implémenté pour comparer les principaux modèles de tests adaptatifs sur plusieurs jeux de données réelles. Cela nous a amenés à proposer un modèle hybride de diagnostic de connaissances adaptatif. Enfin, nous avons élaboré une stratégie pour poser plusieurs questions au tout début du test afin de réaliser une meilleure première estimation des connaissances de l'apprenant.
 
 Nous avons souhaité adopter un point de vue venant de l'apprentissage automatique, plus précisément du filtrage collaboratif, pour attaquer le problème du choix des questions à poser pour réaliser un diagnostic. En filtrage collaboratif, on se demande comment s'aider d'une communauté active pour avoir une idée des préférences d'un utilisateur en fonction des préférences des autres utilisateurs. En évaluation adaptative, on se demande comment s'aider d'un historique de passage d'un test pour avoir une idée de la performance d'un utilisateur en fonction de la performance des autres utilisateurs. Il n'est pas question ici de faire un analogue direct entre l'apprentissage et la consommation de culture, mais plutôt de s'inspirer des techniques étudiées dans cet autre domaine : il est indéniable que les plateformes de consommation de biens culturels sont davantage préparées que les MOOC à recevoir des milliers d'utilisateurs, traiter les grandes quantités de données qu'ils récoltent et adapter leur contenu en conséquence. Ainsi, les algorithmes qu'on y retrouve ne reposent pas seulement sur une solide théorie statistique mais également sur un souci de mise en pratique efficace en grande dimension.
-
-# Analytique de l'apprentissage
-
-En technologies de l'éducation, il existe deux domaines très proches qui sont celui de la fouille de données éducatives[^1] et l'analytique de l'apprentissage[^2]. La première consiste à se demander comment extraire de l'information à partir de données éducatives, en utilisant les modèles mathématiques adéquats. La deuxième se veut plus holistique et s'intéresse aux effets que les systèmes éducatifs ont sur l'apprentissage, et comment représenter les informations récoltées sur les apprenants de façon à ce qu'elles puissent être utilisées par des apprenants, des professeurs ou des administrateurs et législateurs.
-
- [^1]: En anglais, *educational data mining*.
-
- [^2]: En anglais, *learning analytics*.
-
-Plus généralement, l'analytique de l'apprentissage consiste à se demander comment utiliser les données récoltées sur les apprenants pour améliorer l'apprentissage, au sens large.
 
 <!-- ## Comparaison de méthodes par validation croisée
 
@@ -42,29 +34,31 @@ Ce problème de récapitulation des items pour l'utilisateur est analogue à not
 
 # Problèmes
 
-Nous nous sommes intéressés aux problèmes suivants.
+Dans cette thèse, nous nous sommes intéressés aux problèmes suivants liés aux modèles de tests adaptatifs.
 
-Réduction du nombre de questions d'un test
+### Réduction du nombre de questions d'un test
 
-:   Si un intervenant ne peut poser que $k$ questions d'une banque de $n$ questions (où $k < n$) à un apprenant, lesquelles choisir ? Pour ce problème, nous avons considéré des tests adaptatifs ainsi que des tests non adaptatifs. Laquelle de ces approches fournit les meilleurs résultats en fonction de $k$ ?
+Si un intervenant ne peut poser que $k$ questions d'une banque de $n$ questions (où $k < n$) à un apprenant, lesquelles choisir ? Pour ce problème, nous avons considéré différents modèles de tests adaptatifs ainsi que différentes stratégies du choix des premières questions. Laquelle de ces approches fournit les meilleurs résultats en fonction de $k$ ?
 
-Méthodologie de comparaison de modèles
+### Méthodologie de comparaison de modèles
 
-:   Comment comparer des modèles de tests adaptatifs différents sur un même jeu de données ? Quels critères considérer pour la comparaison ? Quels sont les avantages et limitations des modèles de tests adaptatifs ?
+Comment comparer des modèles de tests adaptatifs différents sur un même jeu de données ? Quels critères considérer pour la comparaison ? Quels sont les avantages et limitations des modèles de tests adaptatifs ?
 
-Méthodologie de choix de modèles
+Également, comment comparer différentes stratégies de choix d'un ensemble de questions ?
 
-:   Dans une situation donnée, en fonction des données dont un intervenant dispose et de ses objectifs, quel modèle de test adaptatif a-t-il intérêt à choisir ?
+### Méthodologie de choix de modèles
 
-Élaboration d'un test adaptatif dans un MOOC
+Dans une situation donnée, en fonction des données dont un intervenant dispose et de ses objectifs, quel modèle de test adaptatif a-t-il intérêt à choisir ?
 
-:   Dans le cas pratique d'une utilisation d'un test adaptatif dans un MOOC, comment pourrait-on procéder ?
+### Élaboration d'un test adaptatif dans un MOOC
+
+Dans le cas pratique d'une utilisation d'un test adaptatif dans un MOOC, comment pourrait-on procéder ?
 
 # Contributions
 
 ## Hypothèses
 
-Dans le cadre de cette thèse, nous avons considéré des réponses correctes ou incorrectes de la part des apprenants, c'est-à-dire des *motifs de réponse dichotomiques*. Ce cadre nous a permis d'analyser des données issues de différents environnements éducatifs : des tests standardisés, des plateformes de jeux sérieux ou des MOOC.
+Dans le cadre de cette thèse, nous avons considéré que les réponses de l'apprenant pouvaient être correctes ou incorrectes, c'est-à-dire qu'ils produisent des *motifs de réponse dichotomiques*. Ce cadre nous a permis d'analyser des données issues de différents environnements éducatifs : des tests standardisés, des plateformes de jeux sérieux ou des MOOC.
 
 Afin de pouvoir mener nos expériences sur des données de test existantes, nous avons fait la supposition que le niveau de l'apprenant n'évolue pas pendant qu'il passe le test. Aussi nous supposons que l'apprenant répondra de la même façon indépendamment de l'ordre dans lequel nous posons les questions. Celles-ci doivent donc être localement indépendantes. Nous ne supposons aucun profil de l'apprenant autre que ses réponses aux questions posées, ce qui nous permet de proposer des tests anonymes.
 
@@ -76,12 +70,21 @@ Nous avons identifié plusieurs modèles de tests adaptatifs et les avons compar
 - capacité à faire un retour à l'apprenant utile pour qu'il puisse s'améliorer ;
 - capacité à expliquer ses propres déductions ; 
 - besoin de données d'entraînement ou non pour faire fonctionner le test.
-
-Nous les avons également comparés quantitativement sur des données réelles de tests :
-
 - complexité en temps et mémoire pour l'entraînement des modèles ;
+
+Nous les avons également comparés selon plusieurs angles quantitatifs :
+
 - capacité à requérir peu de questions de l'utilisateur pour converger vers un diagnostic ;
 - capacité à avoir un diagnostic vraisemblable.
+
+Ce cadre nous a permis d'évaluer des modèles de tests adaptatifs sur plusieurs jeux de données réelles :
+
+- un test multidisciplinaire SAT
+- un examen d'anglais ECPE
+- un test de soustraction de fractions
+- un test standardisé de mathématiques
+- un concours d'initiation à l'informatique Castor
+- les données d'un MOOC de Coursera
 
 Le protocole expérimental que nous avons conçu est générique : il s'appuie sur les composants que l'on retrouve dans tous les modèles de tests adaptatifs, et peut ainsi être mis en œuvre pour de nouveaux modèles, et de nouveaux jeux de données.
 
@@ -103,31 +106,31 @@ Avant de démarrer le processus adaptatif, on peut faire un test préalable où 
 
 Nous montrons ainsi que l'adaptation a elle-même ses limites, puisque parfois poser un petit groupe de $k$ questions est plus informatif pour le modèle de test adaptatif que poser $k$ questions une par une, de façon adaptative.
 
-## Méthodologie de mise un œuvre d'un test adaptatif dans un MOOC
+<!-- ## Méthodologie de mise un œuvre d'un test adaptatif dans un MOOC
 
-Afin de montrer ce qu'il est possible de faire à partir des données d'un véritable MOOC, nous avons mis en pratique les approches proposées, et l'avons illustré par une simulation d'un test adaptatif sur les données d'un MOOC de Coursera.
+Afin de montrer ce qu'il est possible de faire à partir des données d'un véritable MOOC, nous avons mis en pratique les approches proposées, et l'avons illustré par une simulation d'un test adaptatif sur les données d'un MOOC de Coursera. -->
 
 # Publications
 
 ### Poster à EDM 2015
 
-\fullcite{Vie2015}.
+Jill-Jênn Vie, Fabrice Popineau, Éric Bruillard et Yolaine Bourda (2015a). "Predicting Performance over Dichotomous Questions : Comparing Models for Large-Scale Adaptive Testing". In : *8th International Conference on Educational Data Mining (EDM 2015)*.
 
-### Workshop à EAEI 2015
+### Workshop EAEI 2015 à EIAH 2015
 
-\fullcite{Vie2015b}.
+Jill-Jênn Vie, Fabrice Popineau, Jean-Bastien Grill, Éric Bruillard et Yolaine Bourda (2015b). "Prédiction de performance sur des questions dichotomiques : comparaison de modèles pour des tests adaptatifs à grande échelle". In : *Atelier Évaluation des Apprentissages et Environnements Informatiques, EIAH 2015*.
 
 ### Conférence à EC-TEL 2016
 
-\fullcite{Vie2016}.
+Jill-Jênn Vie, Fabrice Popineau, Yolaine Bourda et Éric Bruillard (2016b). "Adaptive Testing Using a General Diagnostic Model". In : *European Conference on Technology Enhanced Learning*. Springer, p. 331--339.
 
 ### Chapitre de journal Springer 2016
 
-\fullcite{Vie2016b}.
+Jill-Jênn Vie, Fabrice Popineau, Éric Bruillard et Yolaine Bourda (2016a). "A review of recent advances in adaptive assessment". In : *Learning analytics: Fundaments, applications, and trends: A view of the current state of the art*. Springer, in press.
 
 ### Revue STICEF 2016
 
-\fullcite{Vie2016c}.
+Jill-Jênn Vie, Fabrice Popineau, Éric Bruillard et Yolaine Bourda (2016). "Utilisation de tests adaptatifs dans les MOOC dans un cadre de crowdsourcing". In : STICEF, in review.
 
 # Plan
 

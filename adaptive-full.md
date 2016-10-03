@@ -14,7 +14,13 @@ Ce chapitre est organisé de la façon suivante. Nous commençons par décrire p
 
 # Analytique de l'apprentissage pour l'évaluation
 
-En ce qui concerne l'évaluation, @Chatti2012 décrivent différents objectifs de l'analytique de l'apprentissage : le besoin d'un retour intelligent dans les évaluations, le problème de déterminer l'activité suivante à présenter à l'apprenant. Les méthodes utilisées sont regroupées en plusieurs classes : statistiques, visualisation d'information, fouille de données (dont les méthodes d'apprentissage automatique), et analyse de réseaux sociaux.\nomenclature{LA}{\emph{Learning Analytics}}
+En technologies de l'éducation, il existe deux domaines très proches qui sont celui de la fouille de données éducatives[^1] et l'analytique de l'apprentissage. La première consiste à se demander comment extraire de l'information à partir de données éducatives, en utilisant les modèles mathématiques adéquats. La deuxième se veut plus holistique et s'intéresse aux effets que les systèmes éducatifs ont sur l'apprentissage, et comment représenter les informations récoltées sur les apprenants de façon à ce qu'elles puissent être utilisées par des apprenants, des professeurs ou des administrateurs et législateurs.
+
+ [^1]: En anglais, *educational data mining*.
+
+Plus généralement, l'analytique de l'apprentissage consiste à se demander comment utiliser les données récoltées sur les apprenants pour améliorer l'apprentissage, au sens large.
+
+En ce qui concerne l'évaluation, @Chatti2012 décrivent différents objectifs de l'analytique de l'apprentissage : le besoin d'un retour intelligent dans les évaluations, le problème de déterminer l'activité suivante à présenter à l'apprenant. Les méthodes utilisées sont regroupées en plusieurs classes : statistiques, visualisation d'information, fouille de données (dont les méthodes d'apprentissage automatique), et analyse de réseaux sociaux.
 
 Comme le disent @Desmarais2012, « Le ratio entre la quantité de faits observés et la largeur de l'évaluation est particulièrement critique pour des systèmes qui couvrent un large nombre de compétences, dans la mesure où il serait inacceptable de poser des questions pendant plusieurs heures avant de faire une évaluation utilisable. » Ils décrivent donc l'importance de réduire la longueur des tests lorsqu'on cherche à évaluer beaucoup de compétences.
 
@@ -97,7 +103,7 @@ Incorrect !\\
 On pose la question 7 à l'apprenant.\\
 Incorrect.\\
 Le niveau estimé de l'apprenant est 6.\\
-\columnbreak
+\vfill \columnbreak
 On pose la question 5 à l'apprenant.\\
 Incorrect.\\
 On pose la question 3 à l'apprenant.\\
