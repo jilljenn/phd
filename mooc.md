@@ -1,4 +1,4 @@
-Nous avons testé un modèle de test adaptatif sur de véritables données de MOOC issues d'un cours d'analyse fonctionnelle donné par Jean Cagnol, professeur à CentraleSupélec, sur la plateforme Coursera en 2014.
+Nous avons simulé un modèle de test adaptatif sur de véritables données de MOOC issues d'un cours d'analyse fonctionnelle donné par John Cagnol, professeur à CentraleSupélec, sur la plateforme Coursera en 2014.
 
 Le cours a accueilli 25354 inscrits et était composé de 8 leçons, à la fin de chacune un quiz, plus un examen final.
 

@@ -1,4 +1,4 @@
-# GenMA, un modèle confirmatoire interprétable
+# Description du modèle GenMA
 
 \label{genma}
 
@@ -30,7 +30,7 @@ Retour
 
 :   Un retour fait à la fin du test.
 
-## Modèle de la probabilité de répondre correctement à chaque question
+## Modèle de réponse de l'apprenant sur une question
 
 ### Caractéristiques de l'apprenant
 
@@ -99,7 +99,7 @@ Au début du test, on suppose que l'apprenant est de niveau nul : $\mathbf\theta
 
 ## Choix de la question suivante
 
-Pour le choix de la question suivante dans le modèle GenMA, nous choisissons de maximiser le déterminant de l'information de Fisher à chaque étape. Il s'agit de la règle D spécifiée à la section \ref{mirt}.
+Pour le choix de la question suivante dans le modèle GenMA, nous choisissons de maximiser le déterminant de l'information de Fisher à chaque étape. Il s'agit de la règle D spécifiée à la section \vref{mirt}.
 
 Cela correspond à choisir la question qui va le plus réduire la variance sur le paramètre à estimer, c'est-à-dire les caractéristiques $\mathbf\theta$ de l'apprenant qui passe le test.
 
@@ -224,7 +224,7 @@ GenMA & $0.459 \pm 0.023$ (79 \%) & $0.355 \pm 0.017$ (85 \%) & $0.294 \pm 0.013
 \label{genma-fraction-table}
 \end{table}
 
-Dans le jeu de données Fraction, 4 questions sur 10 sont suffisantes pour prédire correctement 80 % en moyenne des réponses sur les 10 questions de l'ensemble de validation (voir \ref{genma-fraction-table}). À titre d'exemple, pour un des apprenants, après 4 questions, la performance prédite sur l'ensemble de validation est $[0.617, 0.123, 0.418, 0.127, 0.120]$ tandis que sa vraie performance est $[\textnormal{Correct}, \textnormal{Incorrect}, \textnormal{Correct}, \textnormal{Incorrect}, \textnormal{Incorrect}]$, ce qui correspond à une erreur de 0.350.
+Dans le jeu de données Fraction, 4 questions sur 10 sont suffisantes pour prédire correctement 80 % en moyenne des réponses sur les 10 questions de l'ensemble de validation (voir \ref{genma-fraction-table}).
 
 Les modèles Rasch, MIRT et DINA convergent en 4 ou 5 questions tandis que GenMA continue à apprendre car c'est un modèle de plus grande dimension que les autres. DINA est de dimension 8 comme GenMA mais c'est un modèle discret.
 
@@ -339,8 +339,8 @@ Un apprenant peut demandé à être évalué sur seulement une partie des CC. --
 
 # Conclusion
 
-Dans ce chapitre, nous avons proposé un modèle hybride de tests adaptatifs, que nous avons validé en utilisant plusieurs jeux de données réelles.
+Dans ce chapitre, nous avons proposé un modèle hybride de tests adaptatifs, que nous avons validé en utilisant plusieurs jeux de données réelles, au moyen de notre système de comparaison défini à la section \vref{comp-cat}.
 
-Comme indiqué dans la comparaison qualitative, le modèle MIRT ne peut pas facilement converger lorsqu'on le lance sur plus de 5 dimensions. GenMA en revanche se limite à estimer les paramètres utiles, qui font le lien entre les questions et les composantes de connaissances (CC), grâce à la q-matrice. C'est pourquoi il est possible de calibrer un modèle à 13 dimensions, à partir de la q-matrice, qui permet de faire un diagnostic utile à l'apprenant pour s'améliorer. GenMA est ainsi un modèle semi-automatique : un expert peut spécifier une q-matrice pour orienter la calibration des paramètres.
+Comme indiqué dans la comparaison qualitative, le modèle MIRT ne peut pas facilement converger lorsqu'on le lance sur un grand nombre de dimensions. GenMA en revanche estime un nombre plus faible de paramètres, seulement ceux qui font le lien entre les questions et les composantes de connaissances (CC). C'est pourquoi il est possible de calibrer un modèle de plus grande dimension et faire un diagnostic plus riche à l'apprenant pour s'améliorer. GenMA est ainsi un modèle semi-automatique : un expert peut spécifier une q-matrice pour orienter la calibration des paramètres.
 
 À présent que nous avons identifié un bon modèle pour faire du diagnostic adaptatif de connaissances, nous allons comparer différentes stratégies pour choisir les premières questions à poser dans un test.

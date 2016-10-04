@@ -1,4 +1,4 @@
-# Caractérisation d'un bon ensemble de questions
+# Caractérisation de la qualité d'un ensemble de questions
 
 À la section \vref{mst}, nous avons mentionné les *tests à étapes multiples* qui consistent à poser un groupe de questions à l'apprenant, obtenir ses réponses en bloc, pour ensuite choisir le groupe suivant de questions à poser, plutôt que d'adapter le processus question après question. Cela permet d'avoir plus d'informations sur l'apprenant avant de réaliser la première estimation de son niveau qui permettra de choisir le groupe de questions suivant. De plus, cela permet à l'apprenant d'avoir plus de recul sur les exercices qui lui sont posés et de se relire avant de valider, plutôt que d'obtenir des questions portant sur des composantes de connaissances (CC) diverses question après question.
 
@@ -31,7 +31,7 @@ Aléatoire
 
 Incertitude maximale
 
-:   Une des méthodes en apprentissage automatique consiste à choisir les questions les plus incertaines, c'est-à-dire celles de probabilité prédite la plus proche de 0,5. Toutefois, cela risque d'apporter de l'information redondante [@Hoi2006].
+:   Une des méthodes en apprentissage automatique consiste à choisir les questions les plus incertaines, c'est-à-dire celles pour lesquelles la probabilité que l'apprenant réponde correctement est la plus proche de 0,5. Toutefois, cela risque d'apporter de l'information redondante [@Hoi2006].
 
 Déterminant maximal
 
@@ -80,7 +80,7 @@ Il existe des algorithmes efficaces pour échantillonner selon une PPD [@Kulesza
 
 Un autre avantage de cette méthode est que le choix de $k$ questions est probabiliste, ainsi on ne pose pas nécessairement les mêmes $k$ premières questions à tous les apprenants, ce qui présente certains avantages en termes de sécurité et de diversification de la banque de questions.
 
-# InitialD
+# Description de la stratégie InitialD
 
 Notre contribution consiste à appliquer la méthode de tirage d'éléments diversifiés selon un PPD au choix de questions diversifiées au début d'un test, de façon automatique.
 
@@ -120,7 +120,7 @@ Pour les jeux de données Fraction et TIMSS, grâce aux q-matrices et au modèle
 
 ## Protocole expérimental
 
-Notre protocole est similaire à celui développé pour la comparaison de modèles de tests adaptatifs à la section \vref{comp-cat}, à l'exception d'une méthode \textsc{FirstBundle} qui prend en argument la stratégie $S$ choisie, le nombre de questions à poser $k$, les caractéristiques des questions $\alpha = (\mathbf{d_1}, \ldots, \mathbf{d_j}, \delta_1, \ldots, \delta_j)$, les caractéristiques initiales de l'apprenant $\pi = (0, \ldots, 0) \in \R^K$ et renvoie un ensemble $Y$ de $k$ questions à poser à l'apprenant.
+Notre protocole est similaire à celui développé pour la comparaison de modèles de tests adaptatifs à la section \vref{comp-cat}, à l'exception d'une méthode \textsc{FirstBundle} qui prend en argument la stratégie $S$ choisie, le nombre de questions à poser $k$, les caractéristiques des questions $\alpha = (\mathbf{d_1}, \ldots, \mathbf{d_j}, \delta_1, \ldots, \delta_j)$, les caractéristiques initiales de l'apprenant $\pi = (0, \ldots, 0) \in \R^K$ et renvoie un ensemble $Y$ de $k$ questions à poser à l'apprenant. Contrairement au chapitre précédent, ici nous ne comparons plus des modèles différents mais des stratégies différentes pour le même modèle GenMA.
 
 Nous séparons les apprenants en deux ensembles d'entraînement et de test (80 % et 20 %) et calibrons le modèle GenMA avec les apprenants d'entraînement. Puis, pour chaque apprenant de test, nous choisissons $k$ premières questions à poser, récoltons ses réponses et estimons son vecteur de niveau (voir algorithme \ref{simu-pretest}).
 
@@ -161,10 +161,15 @@ Quelle est la différence entre le paramètre estimé à partir de $k$ questions
 
 Les résultats sont donnés dans les figures \ref{initiald-timss-mean} à \ref{initiald-fraction-delta}.
 
-\begin{figure}
-\footnotesize
+\begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/initiald-timss-mean}
+\includegraphics[width=\linewidth]{figures/initiald/timss-mean}
+\caption{\emph{Log loss} du modèle GenMA après qu'un groupe de questions a été posé selon certaines stratégies pour le jeu de données TIMSS.}
+\label{initiald-timss-mean}
+\end{figure}
+
+\begin{table}[h]
+\centering
 \begin{tabular}{cccc}
 & Après 3 questions & Après 12 questions & Après 20 questions\\
 CAT & $1.081 \pm 0.047$ (62 \%) & $0.875 \pm 0.05$ (66 \%) & $0.603 \pm 0.041$ (75 \%)\\
@@ -172,18 +177,23 @@ Uncertainty & $1.098 \pm 0.048$ (58 \%) & $0.981 \pm 0.046$ (68 \%) & $0.714 \pm
 InitialD & $\mathbf{0.793 \pm 0.034}$ (61 \%) & $\mathbf{0.582 \pm 0.023}$ (70 \%) & $\mathbf{0.494 \pm 0.015}$ (74 \%)\\
 Random & $1.019 \pm 0.05$ (58 \%) & $0.705 \pm 0.035$ (68 \%) & $\mathbf{0.512 \pm 0.017}$ (74 \%)\\
 \end{tabular}
-\caption{Évolution de l'erreur moyenne du modèle GenMA après qu'un certain nombre de questions ont été posées selon certaines stratégies pour le jeu de données TIMSS. Entre parenthèses, le nombre de prédictions incorrectes.}
-\label{initiald-timss-mean}
-\end{figure}
+\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS.}
+\label{initiald-timss-mean-table}
+\end{table}
 
 Dans la figure \ref{initiald-timss-mean}, InitialD est bien meilleur que Random, bien meilleur que CAT, bien meilleur que Uncertainty. Dans les premières questions, CAT a une erreur comparable à celle de Uncertainty, car les deux modèles choisissent la question de probabilité la plus proche de 0,5. Mais InitialD explore davantage en choisissant un groupe de questions diversifiées.
 
 Dès la première question, InitialD a une meilleure performance. C'est parce que choisir la question de plus grand \og volume \fg{} correspond à choisir la question dont le vecteur caractéristique a la plus grande norme, ou encore : la question la plus discriminante.
 
 \begin{figure}[h]
-\footnotesize
 \centering
-\includegraphics[width=\linewidth]{figures/initiald-timss-delta}
+\includegraphics[width=\linewidth]{figures/initiald/timss-delta}
+\caption{Distance au diagnostic final après qu'un groupe de questions a été posée selon certaines stratégies pour le jeu de données TIMSS.}
+\label{initiald-timss-delta}
+\end{figure}
+
+\begin{table}[h]
+\centering
 \begin{tabular}{cccc}
 & Après 3 questions & Après 12 questions & Après 20 questions\\
 CAT & $1.894 \pm 0.05$ & $1.224 \pm 0.046$ & $\mathbf{0.464 \pm 0.055}$\\
@@ -191,18 +201,23 @@ Uncertainty & $1.937 \pm 0.049$ & $1.48 \pm 0.047$ & $0.629 \pm 0.062$\\
 InitialD & $1.845 \pm 0.051$ & $\mathbf{0.972 \pm 0.039}$ & $\mathbf{0.465 \pm 0.034}$\\
 Random & $1.936 \pm 0.052$ & $1.317 \pm 0.048$ & $0.59 \pm 0.043$\\
 \end{tabular}
-\caption{Évolution de la distance au vrai paramètre après qu'un certain nombre de questions ont été posées selon certaines stratégies pour le jeu de données TIMSS.}
-\label{initiald-timss-delta}
-\end{figure}
+\caption{Distances au diagnostic final obtenues pour le jeu de données TIMSS.}
+\label{initiald-timss-delta-table}
+\end{table}
 
 Dans la figure \ref{initiald-timss-delta}, on voit que InitialD converge plus vite vers le vrai paramètre que les autres stratégies.
 
 ### Fraction
 
 \begin{figure}[h]
-\footnotesize
 \centering
-\includegraphics[width=\linewidth]{figures/initiald-fraction-mean}
+\includegraphics[width=\linewidth]{figures/initiald/fraction-mean}
+\caption{\emph{Log loss} du modèle GenMA après qu'un groupe de questions a été posé selon certaines stratégies pour le jeu de données Fraction.}
+\label{initiald-fraction-mean}
+\end{figure}
+
+\begin{table}[h]
+\centering
 \begin{tabular}{cccc}
 & Après 3 questions & Après 8 questions & Après 15 questions\\
 CAT & $0.757 \pm 0.082$ (67 \%) & $0.515 \pm 0.06$ (82 \%) & $\mathbf{0.355 \pm 0.05}$ (88 \%)\\
@@ -210,16 +225,21 @@ Uncertainty & $0.882 \pm 0.095$ (72 \%) & $0.761 \pm 0.086$ (76 \%) & $0.517 \pm
 InitialD & $\mathbf{0.608 \pm 0.055}$ (74 \%) & $\mathbf{0.376 \pm 0.027}$ (82 \%) & $\mathbf{0.302 \pm 0.023}$ (86 \%)\\
 Random & $0.842 \pm 0.09$ (70 \%) & $0.543 \pm 0.07$ (80 \%) & $\mathbf{0.387 \pm 0.051}$ (86 \%)\\
 \end{tabular}
-\caption{Évolution de l'erreur moyenne du modèle GenMA après qu'un certain nombre de questions ont été posées selon certaines stratégies pour le jeu de données Fraction. Entre parenthèses, le nombre de prédictions incorrectes.}
-\label{initiald-fraction-mean}
-\end{figure}
+\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction.}
+\label{initiald-fraction-mean-table}
+\end{table}
 
 Dans la figure \ref{initiald-fraction-mean}, InitialD est meilleur que les autres stratégies. Uncertainty est la stratégie de plus grande variance, tandis que Random a une erreur comparable à CAT.
 
-\begin{figure}
-\footnotesize
+\begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/initiald-fraction-delta}
+\includegraphics[width=\linewidth]{figures/initiald/fraction-delta}
+\caption{Distance au diagnostic final après qu'un groupe de questions a été posée selon certaines stratégies pour le jeu de données Fraction.}
+\label{initiald-fraction-delta}
+\end{figure}
+
+\begin{table}[h]
+\centering
 \begin{tabular}{cccc}
 & Après 3 questions & Après 8 questions & Après 15 questions\\
 CAT & $1.446 \pm 0.094$ & $1.015 \pm 0.101$ & $\mathbf{0.355 \pm 0.103}$\\
@@ -227,9 +247,9 @@ Uncertainty & $1.495 \pm 0.103$ & $1.19 \pm 0.112$ & $0.638 \pm 0.119$\\
 InitialD & $1.355 \pm 0.08$ & $\mathbf{0.859 \pm 0.058}$ & $0.502 \pm 0.047$\\
 Random & $1.467 \pm 0.095$ & $1.075 \pm 0.089$ & $0.62 \pm 0.083$\\
 \end{tabular}
-\caption{Évolution de la distance au vrai paramètre après qu'un certain nombre de questions ont été posées selon certaines stratégies pour le jeu de données Fraction.}
-\label{initiald-fraction-delta}
-\end{figure}
+\caption{Distances au diagnostic final obtenues pour le jeu de données TIMSS.}
+\label{initiald-fraction-delta-table}
+\end{table}
 
 Dans la figure \ref{initiald-fraction-delta}, le modèle qui converge le plus vite vers le vrai paramètre est InitialD pour la première moitié des questions, et CAT pour la deuxième moitié des questions, ce qui semble être un compromis entre choisir un groupe de questions avant de faire la première estimation, et adapter pour converger plus vite vers le vrai paramètre à estimer.
 
@@ -253,10 +273,6 @@ Cette méthode pourrait être appliquée au problème de démarrage à froid de 
 
 # Conclusion
 
-Dans ce chapitre, nous avons présenté une nouvelle manière de choisir les $k$ premières questions à administrer à un nouvel apprenant, via un algorithme probabiliste efficace tiré de la littérature en apprentissage automatique.
+Dans ce chapitre, nous avons présenté une nouvelle manière de choisir les $k$ premières questions à administrer à un nouvel apprenant, via InitialD, un algorithme probabiliste efficace inspiré de la littérature en apprentissage automatique. Grâce à la complexité de $O(nk^3)$ pour choisir $k$ questions à poser parmi $n$ (après un précalcul de complexité $O(n^3)$ qui peut être parallélisé car il s'agit d'une diagonalisation de matrice), notre méthode peut être appliquée à des grandes banques de questions, telles que celles que peut contenir un cours en ligne.
 
-Grâce à la complexité de $O(nk^3)$ pour choisir $k$ questions à poser parmi $n$ (après un précalcul de complexité $O(n^3)$ qui peut être parallélisé car il s'agit d'une diagonalisation de matrice), notre méthode peut être appliquée à des grandes banques de questions, telles que celles que peut contenir un cours en ligne.
-
-Également, nous avons mis en évidence qu'un processus non-adaptatif peut être utile pour les premières questions, tandis qu'une évaluation adaptative peut donner de meilleurs résultats plus loin dans le test. Il serait utile de comparer différentes stratégies de tests à étapes multiples.
-
-Cette méthode peut convenir à un professeur cherchant à tirer un bon ensemble de $k$ questions à poser pour construire une fiche d'exercices, pour une séance de travaux dirigés ou une interrogation orale.
+Nous avons également mis en évidence qu'un processus non adaptatif peut être utile pour les toutes premières questions, tandis qu'une évaluation adaptative peut donner de meilleurs résultats plus loin dans le test.
