@@ -61,7 +61,7 @@ Lien avec TRIM
 $$ Pr(D_{ij} = 1) = \Phi\left(\sum_{k = 1}^K \theta_{ik} q_{jk} d_{jk} + \delta_j\right) = \Phi\left(\mathbf{\theta_i} \cdot \mathbf{d_j} + \delta_j\right) $$
 
 \noindent
-qui est la loi de probabilité qui régit le modèle TRIM, voir section \ref{mirt}. 
+qui est la loi de probabilité qui régit le modèle TRIM, voir section \vref{mirt}. 
 
 Lien avec le modèle de Rasch
 

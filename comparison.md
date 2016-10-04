@@ -1,6 +1,6 @@
 # Composants modulables d'un test adaptatif
 
-## Modèle de réponse de l'apprenant sur une question
+## Modèle de réponse de l'apprenant
 
 Tous les modèles de tests adaptatifs reposent sur des caractéristiques des questions et des apprenants, spécifiés par un expert ou déterminés automatiquement au moyen d'algorithmes. Ils reposent sur une expression de la probabilité qu'un certain apprenant réponde à une certaine question, en fonction de leurs caractéristiques.
 
@@ -66,9 +66,9 @@ Interprétabilité
 
 :   Dans les évaluations formatives, il est important de pouvoir nommer les composantes de connaissances dont l'apprenant a dû faire preuve, de façon satisfaisante ou insatisfaisante. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible d'identifier les lacunes de l'apprenant soulignées par le test.
 
-Explicabilité
+<!-- Explicabilité
 
-:   Un modèle explicable est capable de justifier par quel processus le diagnostic a été obtenu. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Si le modèle prédictif est linéaire ou log-linéaire, il est possible de justifier ses prédictions. S'il est non linéaire, on ne peut pas expliquer les prédictions.
+:   Un modèle explicable est capable de justifier par quel processus le diagnostic a été obtenu. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Si le modèle prédictif est linéaire ou log-linéaire, il est possible de justifier ses prédictions. S'il est non linéaire, on ne peut pas expliquer les prédictions. -->
 
 De zéro
 
@@ -83,7 +83,7 @@ Complexité
 \begin{tabular}{ccccc} \toprule
 & Dimension & Calibrage & De zéro & Nombre de paramètres\\ \midrule
 Rasch & 1 & Auto & Non & $n$\\
-MIRT & $K \leq 4$ & Auto & Non & $(d + 1)n$\\
+MIRT & $K \leq 4$ & Auto & Non & $(K + 1)n$\\
 SPARFA & $K \leq 16$ & Auto & Non & $(k + 1)n$\\ \midrule
 DINA & $K \leq 15$ & Manuel & Oui & $2n$\\
 AHM & $K \leq 90$ & Manuel & Oui & $2n$\\
@@ -94,11 +94,11 @@ Bandits & $K \leq 7$ & Manuel & Oui & 0\\ \bottomrule
 \label{comp-quali-table}
 \end{table}
 
-Nous avons ainsi comparé les modèles présentés au chapitre précédent : Rasch, MIRT (théorie de la réponse à l'item multidimensionnelle), SPARFA (*Sparse Factor Analysis*), DINA, AHM (modèle de hiérarchie sur les attributs), KS (théorie des espaces de connaissances) et enfin Bandits (le modèle de bandits dans les systèmes de tuteurs intelligents). Les résultats sont répertoriés dans la table \ref{comp-quali-table}.
+Nous avons ainsi comparé les modèles présentés au chapitre précédent : Rasch, MIRT (théorie de la réponse à l'item multidimensionnelle), SPARFA (*Sparse Factor Analysis*), DINA, AHM (modèle de hiérarchie sur les attributs), KS (théorie des espaces de connaissances) et enfin Bandits (le modèle de bandits dans les systèmes de tuteurs intelligents). Les résultats sont répertoriés dans la table \ref{comp-quali-table}. En l'occurrence, tous les modèles automatiques ne sont pas interprétables sans intervention d'un expert a posteriori. $n$ désigne le nombre de questions, $K$ la dimension du modèle et dans le cas de SPARFA, $k$ désigne le nombre moyen de composantes de connaissances par question.
 
 Les modèles issus de la théorie de la réponse à l'item Rasch, MIRT et SPARFA ont une calibration de leurs paramètres qui est automatique. C'est pourquoi ils nécessitent des données existantes d'apprenants sur les questions d'un test pour être calibrés. Pour MIRT, nous supposons $K \leq 4$ car nous ne sommes pas parvenus à faire converger un modèle MIRT de dimension 5 sur nos jeux de données comportant 20 questions et moins de 1000 apprenants après 2000 itérations. Pour SPARFA, nous n'avons pas accès à l'implémentation mais dans [@Lan2014b], les auteurs en calibrent une instance de dimensions $K = 16$.
 
-Les modèles basés sur les composantes de connaissances nécessitent de préciser une q-matrice voire un graphe de prérequis sur les CC (KS, AHM). En contrepartie, le test peut être administré sans donnée préalable. La seule chose qui diffère entre les modèles KS et AHM, c'est que KS ne considère pas de paramètres d'inattention et de chance.
+Les modèles basés sur les composantes de connaissances nécessitent de préciser une q-matrice voire un graphe de prérequis sur les CC (KS, AHM). En contrepartie, le test peut être administré sans donnée préalable. La seule chose qui diffère entre les modèles KS et AHM, c'est que KS ne considère pas de paramètres d'inattention et de chance. DINA et KS ont deux paramètres d'inattention et de chance à fixer à la main ou estimer automatiquement par question, ce qui fait $2n$ paramètres en tout.
 
 Enfin, le modèle de bandit requiert une q-matrice, et de façon optionnelle un graphe de prérequis sur les activités à présenter à l'apprenant. Dans leur expérience, @Clement2015 considèrent une q-matrice de $K = 7$. Ils n'ont aucun paramètre à estimer pour administrer un test, donc le test peut être administré de zéro.
 
@@ -161,7 +161,7 @@ Afin d'obtenir une validation plus robuste, il faut s'assurer que la proportion 
 \label{traintest}
 \end{figure}
 
-Dans notre cadre, nous avons deux types de populations : les apprenants de l'historique, pour lesquels nous avons observé les résultats à toutes les questions, et les apprenants pour lesquels on souhaite évaluer le modèle de test adaptatif. Nous faisons donc une validation bicroisée, car nous séparons les apprenants en deux groupes d'entraînement et de test, et également les questions en deux groupes de test et de validation. À la figure \ref{traintest}, un exemple de découpage est présenté. Chaque ligne correspond à un apprenant et pour chaque apprenant de test, seules les questions 1, 2, 4, 6, 7 sont posées, les questions 3, 5, 8 étant conservées pour validation. Pour chaque apprenant du groupe d'entraînement, nous connaissons toutes ses réponses et pouvons entraîner nos modèles à partir de ces données. Pour chaque apprenant du groupe de test, nous simulons un test adaptatif qui choisit les questions à poser, hors celles de validation. Nous vérifions alors, à chaque étape du test adaptatif pour l'apprenant, les prédictions du modèle de son comportement sur l'ensemble des questions de validation.
+Dans notre cadre, nous avons deux types de populations : les apprenants de l'historique, pour lesquels nous avons observé les résultats à toutes les questions, et les apprenants pour lesquels on souhaite évaluer le modèle de test adaptatif. Nous faisons donc une validation bicroisée, car nous séparons les apprenants en deux groupes d'entraînement et de test, et également les questions en deux groupes de test et de validation. À la figure \ref{traintest}, un exemple de découpage est présenté. Chaque ligne correspond à un apprenant et pour chaque apprenant de test, seules les questions 1, 2, 4, 6, 7 sont posées, les questions 3, 5, 8 étant conservées pour validation (en grisé). Pour chaque apprenant du groupe d'entraînement, nous connaissons toutes ses réponses et pouvons entraîner nos modèles à partir de ces données. Pour chaque apprenant du groupe de test, nous simulons un test adaptatif qui choisit les questions à poser, hors celles de validation. Nous vérifions alors, à chaque étape du test adaptatif pour l'apprenant, les prédictions du modèle de son comportement sur l'ensemble des questions de validation.
 
 Notre comparaison de modèles a deux aspects : qualitatifs en termes d'interprétabilité ou d'explicabilité et quantitatifs en termes de vitesse de convergence de la phase d'entraînement et performance des prédictions.
 
@@ -179,7 +179,7 @@ Pouvoir prédictif
 Nous cherchons à comparer le pouvoir prédictif de différents modèles de tests adaptatifs qui modélisent la probabilité qu'un certain apprenant résolve une certaine question d'un test. Ces modèles sont comparés sur un jeu de données réel $D$ de taille $|I| \times |Q|$ où $D_{iq}$ vaut 1 si l'apprenant $i$ a répondu correctement à la question $q$, 0 sinon. Pour faire une validation bicroisée, nous séparons les apprenants de l'ensemble $I$ en $U$ paquets et les questions de l'ensemble $Q$ en $V$ paquets. Ainsi, si on numérote les paquets d'apprenants $I_i$ pour $i = 1, \ldots, U$  et les paquets de questions $Q_j$ pour $j = 1, \ldots, V$, l'expérience $(i, j)$ consiste à, pour chaque modèle $T$ :
 
 1. entraîner le modèle $T$ sur tous les paquets d'apprenants sauf le $i$-ième (l'ensemble d'apprenants d'entraînement $I_{train} = I \setminus I_i$) ;
-2. simuler des tests adaptatifs sur les apprenants du $i$-ème paquet (l'ensemble d'apprenants de test $I_{test} = I_i$) en utilisant les questions de tous les paquets sauf le $j$-ième, et après chaque réponse de l'apprenant, en évaluant l'erreur du modèle $T$ sur le $j$-ème paquet de questions (l'ensemble de questions de validation $Q_{val} = Q_j$). On fait donc un appel à \textsc{Simuler}($train, test$), voir l'algorithme \ref{algo}.
+2. simuler des tests adaptatifs sur les apprenants du $i$-ème paquet (l'ensemble d'apprenants de test $I_{test} = I_i$) en utilisant les questions de tous les paquets sauf le $j$-ième, et après chaque réponse de l'apprenant, en évaluant l'erreur du modèle $T$ sur le $j$-ème paquet de questions (l'ensemble de questions de validation $Q_{val} = Q_j$). On fait donc un appel à \textsc{Simulate}(modèle $M$, $I_{train}$, $I_{test}$), voir l'algorithme \ref{algo}.
 
 Par exemple, sur la figure \ref{predict}, après que la question la plus informative a été choisie puis posée, les paramètres de l'apprenant sont mis à jour, une prédiction est faite sur l'ensemble de questions de validation et cette prédiction est évaluée étant donné le vrai motif de réponse de l'apprenant.
 
@@ -190,19 +190,30 @@ Par exemple, sur la figure \ref{predict}, après que la question la plus inform
 \label{predict}
 \end{figure}
 
+Les variables qui apparaissent dans l'algorithme sont les suivantes :
+
+- $D$ représente le jeu de données, ainsi $D[I_{train}]$ correspond aux motifs de réponse des apprenants de l'ensemble d'entraînement et $D[s][Q_{val}]$ correspond aux motifs de réponse de l'apprenant $s$ sur l'ensemble de questions de validation $Q_{val}$ ;
+- $\alpha$ représente les caractéristiques des apprenants de l'ensemble d'entraînement ;
+- $\kappa$ représente les caractéristiques des questions de l'ensemble d'entraînement ;
+- $\pi_t$ représente les caractéristiques d'un apprenant qui passe le test, à l'instant $t$ ;
+- $q_t$ est la question posée à l'apprenant au temps $t$ ;
+- $r_t$ le succès ou échec de l'apprenant sur la question $q_t$ ;
+- $p$ désigne la probabilité de succès de l'apprenant en cours sur chaque question de l'ensemble de validation $Q_{val}$ ;
+- enfin, $\sigma_t$ désigne la performance du modèle $M$ à l'instant $t$, c'est-à-dire après avoir posé $t$ questions.
+
 \begin{algorithm}
 \begin{algorithmic}
-\Procedure{Simuler}{modèle $M$, $I_{train}$, $I_{test}$}
-\State $\alpha \gets \Call{TrainingStep}{M, D[I_{train}]}$
+\Procedure{Simulate}{modèle $M$, $I_{train}$, $I_{test}$}
+\State $\alpha, \kappa \gets \Call{TrainingStep}{M, D[I_{train}]}$
 \For{tout étudiant $s$ de l'ensemble $I_{test}$}
-    \State $\pi_0 \gets \Call{PriorInitialization}{D[I_{train}]}$
+    \State $\pi_0 \gets \Call{PriorInitialization}{\alpha}$
     \For{$t$ de 0 à $|Q \setminus Q_{val}| - 1$}
-        \State $q_{t + 1} \gets \Call{NextItem}{\{(q_k, r_k)\}_{k = 1, \ldots, t}, \alpha, \pi_t}$
+        \State $q_{t + 1} \gets \Call{NextItem}{\{(q_k, r_k)\}_{k = 1, \ldots, t}, \kappa, \pi_t}$
         \State Poser la question $q_{t + 1}$ à l'apprenant $s$
         \State Récupérer la valeur de succès ou échec $r_{t + 1}$ de sa réponse
-        \State $\pi_{t + 1} \gets \Call{EstimateParameters}{\{(q_k, r_k)\}_{k = 1, \ldots, t + 1}, \alpha}$
-        \State $p \gets$ \Call{PredictPerformance}{$\alpha, \pi_t, Q_{val}$}
-        \State $\sigma_t \gets$ \Call{EvaluatePerformance}{$p, D[s][Q_{val}]$}
+        \State $\pi_{t + 1} \gets \Call{EstimateParameters}{\{(q_k, r_k)\}_{k = 1, \ldots, t + 1}, \kappa}$
+        \State $p \gets$ \Call{PredictPerformance}{$\kappa, \pi_t, Q_{val}$}
+        \State $\sigma_{t + 1} \gets$ \Call{EvaluatePerformance}{$p, D[s][Q_{val}]$}
     \EndFor
 \EndFor
 \EndProcedure
@@ -213,12 +224,12 @@ Par exemple, sur la figure \ref{predict}, après que la question la plus inform
 
 Pour chaque modèle testé, nous avons implémenté les routines suivantes :
 
-- **TrainingStep**($I_{train}$) : calibrer le modèle sur l'historique des apprenants $I_{train}$ et renvoyer les paramètres $\alpha$ ;
-- **PriorInitialization**($\alpha$) : initialiser les paramètres d'un nouvel apprenant au début de son test et renvoyer ses paramètres $\pi$ ;
-- **NextItem**($\{(q_k, r_k)\}_k, \alpha, \pi$) : choisir la question à poser telle que la probabilité que l'apprenant y réponde correctement est la plus proche de 0,5 [@Chang2014], en fonction des réponses précédentes de l'apprenant et de l'estimation en cours de son niveau ;
-- **UpdateParameters**($\{(q_k, r_k)\}_k, \pi$) : mettre à jour les paramètres de l'apprenant en fonction de ses réponses aux questions posées ;
-- **PredictPerformance**($\alpha, \pi$) : calculer pour chacune des questions du test la probabilité que l'apprenant en cours de test y réponde correctement et renvoyer le vecteur de probabilités obtenu ;
-- **EvaluatePerformance**($p$) : comparer la performance prédite à la vraie performance de l'apprenant sur l'ensemble de questions de validation, de façon à évaluer le modèle. La fonction d'erreur peut être la *log loss* ou le nombre de prédictions incorrectes.
+- **TrainingStep**($M$, $D[I_{train}]$) : calibrer le modèle sur les motifs de réponse des apprenants $D[I_{train}]$ et renvoyer les caractéristiques $\alpha$ des apprenants et $\kappa$ des questions ;
+- **PriorInitialization**($\alpha$) : initialiser les caractéristiques $\pi_0$ d'un nouvel apprenant au début de son test, éventuellement en fonction des caractéristiques des apprenants de l'ensemble d'entraînement ;
+- **NextItem**($\{(q_k, r_k)\}_k, \kappa, \pi_t$) : choisir la question à poser telle que la probabilité que l'apprenant y réponde correctement est la plus proche de 0,5 [@Chang2014], en fonction des réponses précédentes de l'apprenant et de l'estimation en cours de son niveau ;
+- **EstimateParameters**($\{(q_k, r_k)\}_k, \kappa$) : mettre à jour les paramètres de l'apprenant en fonction de ses réponses aux questions posées ;
+- **PredictPerformance**($\kappa, \pi_t, Q_{val}$) : calculer pour chacune des questions du test la probabilité que l'apprenant en cours de test y réponde correctement et renvoyer le vecteur de probabilités obtenu ;
+- **EvaluatePerformance**($p, D[s][Q_{val}]$) : comparer la performance prédite à la vraie performance de l'apprenant sur l'ensemble de questions de validation D[s][Q_{val}], de façon à évaluer le modèle. La fonction d'erreur peut être la *log loss* ou le nombre de prédictions incorrectes.
 
 De façon à visualiser les questions posées par un modèle de tests adaptatifs, on peut construire l'arbre binaire de décision correspondant. La racine est la première question posée, puis chaque réponse fausse renvoie vers le nœud gauche, chaque réponse vraie renvoie vers le nœud droit [@Ueno2010; @Yan2014]. En chaque nœud on peut calculer l'erreur en cours du modèle sur l'ensemble des questions de validation, et le meilleur modèle est celui dont l'erreur moyenne est minimale.
 
@@ -227,7 +238,7 @@ Pour calculer l'erreur, nous avons choisi la *log loss*, courante pour les probl
 $$ e(p, a) = \frac1{|Q_{val}|} \sum_{k \in Q_{val}} a_k \log p_k + (1 - a_k) \log (1 - p_k) $$
 
 \noindent
-où $p$ est la performance prédite sur les $|Q_{val}|$ questions et $a$ est le vrai motif de réponse de l'apprenant en cours. Notez que si $p = a$, on a bien $e(p, a) = 0$. À titre d'exemple, si pour un des apprenants, après 4 questions, la performance prédite sur l'ensemble de questions de validation est $[0.617, 0.123, 0.418, 0.127, 0.120]$ tandis que sa vraie performance est $[\textnormal{Correct}, \textnormal{Incorrect}, \textnormal{Correct}, \textnormal{Incorrect}, \textnormal{Incorrect}]$, la *log loss* obtenue est 0.350.
+où $p$ est la performance prédite sur les $|Q_{val}|$ questions et $a$ est le vrai motif de réponse de l'apprenant en cours. Notez que si $p = a$, on a bien $e(p, a) = 0$. À titre d'exemple, si pour un des apprenants, après 4 questions, la performance prédite sur l'ensemble de questions de validation est $[0.617, 0.123, 0.418, 0.127, 0.120]$ tandis que sa vraie performance est $[1, 0, 1, 0, 0]$ (c'est-à-dire, [*correct*, *incorrect*, *correct*, *incorrect*, *incorrect*]), la *log loss* obtenue est 0.350.
 
 Ainsi, \textsc{EvaluatePerformance} calcule la *log loss* et le nombre de prédictions incorrectes entre la performance prédite $p$ et $a$ qui vaut $D[s][Q_{val}]$ pour l'apprenant $s$.
 
@@ -235,7 +246,7 @@ Lors de chaque expérience $(i, j)$, on enregistre pour chaque apprenant $t$ val
 
 \begin{figure}
 \centering
-\includegraphics{figures/crossval.pdf}
+\includegraphics[width=6cm]{figures/crossval.pdf}
 \caption{Validation bicroisée selon 6 paquets d'apprenants et 4 paquets de questions.}
 \label{crossval}
 \end{figure}
@@ -259,7 +270,9 @@ Ce jeu de données regroupe les résultats de 536 collégiens sur 20 questions d
 
 ### TIMSS
 
-Le TIMSS (*Trends in International Mathematics and Science Study*) effectue un test standardisé de mathématiques. Les données sont librement disponibles sur leur site pour les chercheurs. En l'occurrence, ce jeu de données provient de l'édition 2003 du TIMSS. C'est une matrice binaire de taille $757 \times 23$ qui regroupe les résultats de 757 apprenants du grade 8 sur 23 questions de mathématiques. La q-matrice a été définie par des experts du TIMSS et comporte 13 des 15 composantes de connaissances décrites dans @Su2013.
+\newacronym{timss}{TIMSS}{\emph{Trends in International Mathematics and Science Study}}
+
+Le \gls{timss} effectue un test standardisé de mathématiques. Les données sont librement disponibles sur leur site pour les chercheurs. En l'occurrence, ce jeu de données provient de l'édition 2003 du TIMSS. C'est une matrice binaire de taille $757 \times 23$ qui regroupe les résultats de 757 apprenants du grade 8 sur 23 questions de mathématiques. La q-matrice a été définie par des experts du TIMSS et comporte 13 des 15 composantes de connaissances décrites dans @Su2013.
 
 ### Castor
 
@@ -383,10 +396,12 @@ PredictPerformance
 
 :   Pour rappel, la formule est donnée par l'expression :
 
-$$ Pr(success_{ij}) = \left\{\begin{array}{ll}
-1 - s_j & \parbox[t]{0.6\textwidth}{si l'apprenant $i$ maîtrise toutes les CC requises \newline pour répondre correctement à la question $j$}\\
+\begin{equation}
+Pr(D_{ij} = 1) = \left\{\begin{array}{ll}
+1 - s_j & \parbox[t]{0.6\textwidth}{si l'apprenant $i$ maîtrise toutes les CC requises \newline pour répondre correctement à la question $j$}\\[6mm]
 g_j & \textnormal{sinon.}
-\end{array}\right. $$
+\end{array}\right.
+\end{equation}
 
 # Résultats
 
@@ -420,10 +435,12 @@ Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss}.
 
 ### SAT
 
+\def\reducefigs{0.8}
+
 <!-- results/sat2 -->
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/comp/sat-mean}
+\includegraphics[width=\reducefigs\linewidth]{figures/comp/sat-mean}
 \caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données SAT.}
 \label{comp-sat}
 \end{figure}
@@ -450,7 +467,7 @@ Nous faisons l'hypothèse que comme ce jeu de données est multidisciplinaire et
 <!-- results/ecpe -->
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/comp/ecpe-mean}
+\includegraphics[width=\reducefigs\linewidth]{figures/comp/ecpe-mean}
 \caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données ECPE.}
 \label{comp-ecpe}
 \end{figure}
@@ -477,7 +494,7 @@ Nous faisons l'hypothèse que comme le jeu de données a beaucoup de motifs de r
 <!-- % results/fraction-auto-5 -->
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/comp/fraction-mean}
+\includegraphics[width=\reducefigs\linewidth]{figures/comp/fraction-mean}
 \caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Fraction.}
 \label{comp-fraction}
 \end{figure}
@@ -502,7 +519,7 @@ Nous faisons l'hypothèse que comme il s'agit d'un jeu de données de soustracti
 <!-- results/timss2003 -->
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/comp/timss-mean}
+\includegraphics[width=\reducefigs\linewidth]{figures/comp/timss-mean}
 \caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données TIMSS.}
 \label{comp-timss}
 \end{figure}
@@ -529,7 +546,7 @@ Nous faisons l'hypothèse que ces jeux de données se ressemblent : il y a beauc
 <!-- results/castor -->
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/comp/castor-mean}
+\includegraphics[width=\reducefigs\linewidth]{figures/comp/castor-mean}
 \caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Castor.}
 \label{comp-castor}
 \end{figure}

@@ -163,19 +163,20 @@ Les résultats sont donnés dans les figures \ref{initiald-timss-mean} à \ref{
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/initiald/timss-mean}
+\includegraphics[width=\reducefigs\linewidth]{figures/initiald/timss-mean}
 \caption{\emph{Log loss} du modèle GenMA après qu'un groupe de questions a été posé selon certaines stratégies pour le jeu de données TIMSS.}
 \label{initiald-timss-mean}
 \end{figure}
 
 \begin{table}[h]
+\footnotesize
 \centering
-\begin{tabular}{cccc}
-& Après 3 questions & Après 12 questions & Après 20 questions\\
+\begin{tabular}{cccc} \toprule
+& Après 3 questions & Après 12 questions & Après 20 questions\\ \midrule
 CAT & $1.081 \pm 0.047$ (62 \%) & $0.875 \pm 0.05$ (66 \%) & $0.603 \pm 0.041$ (75 \%)\\
 Uncertainty & $1.098 \pm 0.048$ (58 \%) & $0.981 \pm 0.046$ (68 \%) & $0.714 \pm 0.048$ (72 \%)\\
 InitialD & $\mathbf{0.793 \pm 0.034}$ (61 \%) & $\mathbf{0.582 \pm 0.023}$ (70 \%) & $\mathbf{0.494 \pm 0.015}$ (74 \%)\\
-Random & $1.019 \pm 0.05$ (58 \%) & $0.705 \pm 0.035$ (68 \%) & $\mathbf{0.512 \pm 0.017}$ (74 \%)\\
+Random & $1.019 \pm 0.05$ (58 \%) & $0.705 \pm 0.035$ (68 \%) & $\mathbf{0.512 \pm 0.017}$ (74 \%)\\ \bottomrule
 \end{tabular}
 \caption{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS.}
 \label{initiald-timss-mean-table}
@@ -187,19 +188,20 @@ Dès la première question, InitialD a une meilleure performance. C'est parce qu
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/initiald/timss-delta}
+\includegraphics[width=\reducefigs\linewidth]{figures/initiald/timss-delta}
 \caption{Distance au diagnostic final après qu'un groupe de questions a été posée selon certaines stratégies pour le jeu de données TIMSS.}
 \label{initiald-timss-delta}
 \end{figure}
 
 \begin{table}[h]
+\footnotesize
 \centering
-\begin{tabular}{cccc}
-& Après 3 questions & Après 12 questions & Après 20 questions\\
+\begin{tabular}{cccc} \toprule
+& Après 3 questions & Après 12 questions & Après 20 questions\\ \midrule
 CAT & $1.894 \pm 0.05$ & $1.224 \pm 0.046$ & $\mathbf{0.464 \pm 0.055}$\\
 Uncertainty & $1.937 \pm 0.049$ & $1.48 \pm 0.047$ & $0.629 \pm 0.062$\\
 InitialD & $1.845 \pm 0.051$ & $\mathbf{0.972 \pm 0.039}$ & $\mathbf{0.465 \pm 0.034}$\\
-Random & $1.936 \pm 0.052$ & $1.317 \pm 0.048$ & $0.59 \pm 0.043$\\
+Random & $1.936 \pm 0.052$ & $1.317 \pm 0.048$ & $0.59 \pm 0.043$\\ \bottomrule
 \end{tabular}
 \caption{Distances au diagnostic final obtenues pour le jeu de données TIMSS.}
 \label{initiald-timss-delta-table}
@@ -211,19 +213,20 @@ Dans la figure \ref{initiald-timss-delta}, on voit que InitialD converge plus v
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/initiald/fraction-mean}
+\includegraphics[width=\reducefigs\linewidth]{figures/initiald/fraction-mean}
 \caption{\emph{Log loss} du modèle GenMA après qu'un groupe de questions a été posé selon certaines stratégies pour le jeu de données Fraction.}
 \label{initiald-fraction-mean}
 \end{figure}
 
 \begin{table}[h]
+\footnotesize
 \centering
-\begin{tabular}{cccc}
-& Après 3 questions & Après 8 questions & Après 15 questions\\
+\begin{tabular}{cccc} \toprule
+& Après 3 questions & Après 8 questions & Après 15 questions\\ \midrule
 CAT & $0.757 \pm 0.082$ (67 \%) & $0.515 \pm 0.06$ (82 \%) & $\mathbf{0.355 \pm 0.05}$ (88 \%)\\
 Uncertainty & $0.882 \pm 0.095$ (72 \%) & $0.761 \pm 0.086$ (76 \%) & $0.517 \pm 0.067$ (86 \%)\\
 InitialD & $\mathbf{0.608 \pm 0.055}$ (74 \%) & $\mathbf{0.376 \pm 0.027}$ (82 \%) & $\mathbf{0.302 \pm 0.023}$ (86 \%)\\
-Random & $0.842 \pm 0.09$ (70 \%) & $0.543 \pm 0.07$ (80 \%) & $\mathbf{0.387 \pm 0.051}$ (86 \%)\\
+Random & $0.842 \pm 0.09$ (70 \%) & $0.543 \pm 0.07$ (80 \%) & $\mathbf{0.387 \pm 0.051}$ (86 \%)\\ \bottomrule
 \end{tabular}
 \caption{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction.}
 \label{initiald-fraction-mean-table}
@@ -233,19 +236,20 @@ Dans la figure \ref{initiald-fraction-mean}, InitialD est meilleur que les autr
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{figures/initiald/fraction-delta}
+\includegraphics[width=\reducefigs\linewidth]{figures/initiald/fraction-delta}
 \caption{Distance au diagnostic final après qu'un groupe de questions a été posée selon certaines stratégies pour le jeu de données Fraction.}
 \label{initiald-fraction-delta}
 \end{figure}
 
 \begin{table}[h]
+\footnotesize
 \centering
-\begin{tabular}{cccc}
-& Après 3 questions & Après 8 questions & Après 15 questions\\
+\begin{tabular}{cccc} \toprule
+& Après 3 questions & Après 8 questions & Après 15 questions\\ \midrule
 CAT & $1.446 \pm 0.094$ & $1.015 \pm 0.101$ & $\mathbf{0.355 \pm 0.103}$\\
 Uncertainty & $1.495 \pm 0.103$ & $1.19 \pm 0.112$ & $0.638 \pm 0.119$\\
 InitialD & $1.355 \pm 0.08$ & $\mathbf{0.859 \pm 0.058}$ & $0.502 \pm 0.047$\\
-Random & $1.467 \pm 0.095$ & $1.075 \pm 0.089$ & $0.62 \pm 0.083$\\
+Random & $1.467 \pm 0.095$ & $1.075 \pm 0.089$ & $0.62 \pm 0.083$\\ \bottomrule
 \end{tabular}
 \caption{Distances au diagnostic final obtenues pour le jeu de données TIMSS.}
 \label{initiald-fraction-delta-table}
