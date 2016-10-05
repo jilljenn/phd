@@ -9,6 +9,7 @@ cat:
 	biber cat
 	xelatex cat
 	xelatex cat
+	xelatex cat
 
 %.tex: %.md
 	pandoc --biblatex --bibliography biblio.bib -N $< -o $@
