@@ -24,35 +24,33 @@ En ce qui concerne l'évaluation, @Chatti2012 décrivent différents objectifs d
 
 Comme le disent @Desmarais2012, « Le ratio entre la quantité de faits observés et la largeur de l'évaluation est particulièrement critique pour des systèmes qui couvrent un large nombre de compétences, dans la mesure où il serait inacceptable de poser des questions pendant plusieurs heures avant de faire une évaluation utilisable. » Ils décrivent donc l'importance de réduire la longueur des tests lorsqu'on cherche à évaluer beaucoup de compétences.
 
-Dans les systèmes éducatifs, il y a une différence entre l'*adaptativité*, la capacité à modifier les contenus des cours en fonction de différents paramètres et d'un ensemble de règles préétablies, et l'*adaptabilité*, qui consiste à permettre aux apprenants de personnaliser les contenus de cours par eux-mêmes. @Chatti2012 précise que « des travaux récents en apprentissage adaptatif personnalisé ont critiqué le fait que les approches traditionnelles soient dans une hiérarchie descendante et ignorent le rôle crucial des apprenants dans le processus d'apprentissage. » Il devrait y avoir un meilleur équilibre entre donner à l'apprenant ce qu'il a besoin d'apprendre (adaptativité) et lui donner ce qu'il souhaite apprendre (adaptabilité), de la façon qu'il souhaite l'apprendre (s'il préfère plus d'exemples, ou plus d'exercices). Dans tous les cas, construire un profil des connaissances de l'apprenant est une tâche cruciale.
+Dans les systèmes éducatifs, il y a une différence entre l'*adaptativité*, la capacité à modifier les contenus des cours en fonction de différents paramètres et d'un ensemble de règles préétablies, et l'*adaptabilité*, qui consiste à permettre aux apprenants de personnaliser les contenus de cours par eux-mêmes. @Chatti2012 précisent que « des travaux récents en apprentissage adaptatif personnalisé ont critiqué le fait que les approches traditionnelles soient dans une hiérarchie descendante et ignorent le rôle crucial des apprenants dans le processus d'apprentissage. » Il devrait y avoir un meilleur équilibre entre donner à l'apprenant ce qu'il a besoin d'apprendre (adaptativité) et lui donner ce qu'il souhaite apprendre (adaptabilité), de la façon qu'il souhaite l'apprendre (s'il préfère plus d'exemples, ou plus d'exercices). Dans tous les cas, construire un profil des connaissances de l'apprenant est une tâche cruciale.
 
 Comme cas d'utilisation, considérons un nouvel arrivant sur un MOOC. Celui-ci ayant acquis des connaissances de différents domaines, certains prérequis du cours peuvent ne pas être maîtrisés tandis que d'autres leçons pourraient être sautées. Ainsi, il serait utile de pouvoir évaluer ses besoins et préférences de façon adaptative, pour filtrer le contenu du cours en conséquence et minimiser la surcharge d'information. @Lynch2014 décrivent un tel algorithme qui identifie l'état des connaissances d'un apprenant en posant quelques questions au début d'un cours.
 
 En analytique de l'apprentissage, parmi les méthodes employées pour construire des modèles prédictifs, on trouve l'apprentissage automatique[^4]. Une application populaire consiste à prédire si un apprenant sur un MOOC va obtenir son certificat à partir de différentes variables liées aux traces de l'apprenant : le nombre d'heures passées à consulter les cours, à regarder les vidéos, le nombre de messages postés sur le forum, entre autres. Cela permet de détecter les apprenants en difficulté à un instant donné du cours, pour les inviter à se rendre sur le forum, ou leur indiquer des ressources utiles pour les motiver à continuer. La majorité de ces modèles prédictifs s'attaquent à prédire une certaine variable objectif à partir d'un nombre fixé de variables, mais à notre connaissance, peu de modèles interrogent l'apprenant sur ses besoins et préférences. Nous estimons qu'il reste encore beaucoup de recherche à faire vers des modèles d'analytique de l'apprentissage plus interactifs, et les travaux de cette thèse vont dans ce sens.
 
-<!-- TODO nombre fixé -->
-
  [^4]: En anglais, *machine learning*.
 
-Deux éléments issus des systèmes de recommandation peuvent être transposés au cadre éducatif de l'analytique de l'apprentissage. Le premier est la technique du filtrage collaboratif (cf. section \vref{collaborative-filtering}), qui permet de concevoir un système de recommandation de ressources pédagogiques [@Chatti2012; @Manouselis2011; @Verbert2011]. Le second est le problème du démarrage à froid de l'utilisateur, dans la mesure où lorsqu'un nouvel utilisateur utilise un système de recommandation, le système n'a que peu d'information sur lui et doit donc lui poser des questions de façon à éliciter ses préférences.
+Deux éléments issus des systèmes de recommandation peuvent être transposés au cadre éducatif de l'analytique de l'apprentissage. Le premier est la technique du filtrage collaboratif (cf. section \vref{collaborative-filtering}), qui permet de concevoir un système de recommandation de ressources pédagogiques [@Chatti2012; @Manouselis2011; @Verbert2011]. Le second est le problème du démarrage à froid de l'utilisateur, dans la mesure où lorsqu'un nouvel utilisateur utilise un système de recommandation, le système n'a que peu d'information sur lui et doit donc lui poser des questions de façon à éliciter ses préférences.
 
 Le temps de réponse lors d'une évaluation a été étudié en psychologie cognitive, car le temps qu'un apprenant met pour répondre à une question peut indiquer quelques aspects sur le processus cognitif [@Chang2014] et joue un rôle dans la performance [@Papamitsiou2014]. Cela requiert des modèles statistiques spécifiques que nous ne considérons pas ici.
 
 # Modèles de tests adaptatifs
 
-<!-- TODO lien filtrer -->
-
-Dans notre cas, nous cherchons à filtrer et ordonner les questions à poser à un apprenant. Plutôt que de poser les mêmes questions à tout le monde, les tests adaptatifs [@VDL2010] choisissent la question suivante à poser à un certain apprenant en fonction des réponses qu'il a données depuis le début du test. Cela permet une adaptation à chaque étape de la séquence de questions. Leur conception repose sur deux critères : un critère de *terminaison* et un critère de *choix de la question suivante*. Tant que le critère de terminaison n'est pas satisfait (par exemple, poser un nombre de questions fixé à l'avance), les questions sont posées selon le critère de choix de la question suivante (par exemple, poser la question la plus informative pour déterminer les connaissances de l'apprenant). @Lan2014 ont prouvé que de tels tests adaptatifs pouvaient permettre, sur certains jeux de données de tests en mathématiques, d'obtenir une mesure aussi précise que des tests non adaptatifs, tout en requérant moins de questions.
+Dans notre cas, nous cherchons à filtrer et à ordonner les questions à poser à un apprenant. Plutôt que de poser les mêmes questions à tout le monde, les tests adaptatifs [@VDL2010] choisissent la question suivante à poser à un certain apprenant en fonction des réponses qu'il a données depuis le début du test. Cela permet une adaptation à chaque étape de la séquence de questions. Leur conception repose sur deux critères : un critère de *terminaison* et un critère de *choix de la question suivante*. Tant que le critère de terminaison n'est pas satisfait (par exemple, poser un nombre de questions fixé à l'avance), les questions sont posées selon le critère de choix de la question suivante (par exemple, poser la question la plus informative pour déterminer les connaissances de l'apprenant). @Lan2014 ont prouvé que de tels tests adaptatifs pouvaient permettre, sur certains jeux de données de tests en mathématiques, d'obtenir une mesure aussi précise que des tests non adaptatifs, tout en requérant moins de questions.
 
 Raccourcir la taille des tests est utile à la fois pour le système, qui doit équilibrer la charge du serveur, et pour les apprenants, qui risqueraient de se lasser de devoir fournir trop de réponses [@Lynch2014; @Chen2015]. Ainsi, les tests adaptatifs deviennent de plus en plus utiles dans l'ère actuelle des MOOC, où la motivation des apprenants joue un rôle important sur leur apprentissage [@Lynch2014]. Lorsqu'on implémente ces tests pour une utilisation réelle, des contraintes supplémentaires s'appliquent : pour qu'un apprenant n'ait pas à patienter longuement entre deux questions du test, le calcul du critère du choix de la question suivante doit se faire dans un temps raisonnable, ainsi la complexité en temps de ce calcul est importante. De même, lorsqu'on évalue des connaissances, un certain degré d'incertitude est à prendre en compte : un apprenant risque de faire des fautes d'inattention ou de deviner une bonne réponse alors qu'il n'a pas compris la question. C'est pourquoi une simple dichotomie sur le niveau de l'apprenant, c'est-à-dire poser des questions plus difficiles lorsqu'un apprenant réussit une question ou poser des questions plus faciles lorsqu'il échoue, n'est pas suffisant. Il faut considérer des méthodes plus robustes, tels que des modèles probabilistes pour l'évaluation des compétences.
 
-Les tests adaptatifs ont été étudiés au cours des dernières années et ont été développés en pratique. Par exemple, 238 536 tests de ce type ont été administrés via le Graduate Admission Management Test (GMAT), développé par le Graduate Management Admission Council (GMAC) entre 2012 et 2013. Étant donné un modèle de l'apprenant [@Pena2014], l'objectif est de fournir une mesure précise des caractéristiques d'un nouvel apprenant tout en minimisant le nombre de questions posées. Ce problème s'appelle la *réduction de longueur d'un test* [@Lan2014] et est également lié à la prédiction de performance future [@Bergner2012; @ThaiNghe2011]. En apprentissage automatique, ce problème est connu sous le nom d'apprentissage actif : choisir les éléments à étiqueter de façon adaptative afin de maximiser l'information récoltée à chaque pas.\nomenclature{GMAT}{Graduate Admission Management Test}
+\newacronym{gmat}{GMAT}{\emph{Graduate Admission Management Test}}
+
+Les tests adaptatifs ont été étudiés au cours des dernières années et ont été développés en pratique. Par exemple, 238 536 tests de ce type ont été administrés via le \gls{gmat}, développé par le Graduate Management Admission Council (GMAC) entre 2012 et 2013. Étant donné un modèle de l'apprenant [@Pena2014], l'objectif est de fournir une mesure précise des caractéristiques d'un nouvel apprenant tout en minimisant le nombre de questions posées. Ce problème s'appelle la *réduction de longueur d'un test* [@Lan2014] et est également lié à la prédiction de performance future [@Bergner2012; @ThaiNghe2011]. En apprentissage automatique, ce problème est connu sous le nom d'apprentissage actif : choisir les éléments à étiqueter de façon adaptative afin de maximiser l'information récoltée à chaque pas.
 
 Dans ce qui suit, nous ne permettons pas à l'apprenant de revenir en arrière pour corriger ses réponses, mais certaines variantes de modèles de tests adaptatifs le permettent [@Han2013; @Wang2015].
 
-En fonction du but de l'évaluation, plusieurs modèles peuvent être utilisés, selon si l'on souhaite estimer un niveau général de connaissance, faire un diagnostic détaillé, ou identifier les connaissances maîtrisées par l'apprenant [@Mislevy2012]. Dans ce qui suit, nous proposons une répartition de ces modèles dans les trois catégories suivantes : théorie de la réponse à l'item pour des tests sommatifs, modèles de diagnostic cognitif pour des tests formatifs basés sur des composantes de connaissances, et enfin apprentissage automatique.
+En fonction du but de l'évaluation, plusieurs modèles peuvent être utilisés, selon si l'on souhaite estimer un niveau général de connaissances, faire un diagnostic détaillé, ou identifier les connaissances maîtrisées par l'apprenant [@Mislevy2012]. Dans ce qui suit, nous proposons une répartition de ces modèles dans les trois catégories suivantes : théorie de la réponse à l'item pour des tests sommatifs, modèles de diagnostic cognitif pour des tests formatifs basés sur des composantes de connaissances, et enfin apprentissage automatique.
 
-Dans ce qui suit, on suppose que $D$ désigne la matrice $m \times n$ des succès (1) ou échecs (0) des $m$ apprenants sur les $n$ questions d'un test. Ainsi \og $D_{ij} = 1$ \fg{} désigne l'événement \og L'apprenant $i$ a répondu correctement à la question $j$ \fg.
+Dans ce qui suit, on suppose que $D$ désigne la matrice binaire $m \times n$ des succès (1) ou échecs (0) des $m$ apprenants sur les $n$ questions d'un test. Ainsi \og $D_{ij} = 1$ \fg{} désigne l'événement \og L'apprenant $i$ a répondu correctement à la question $j$ \fg.\nomenclature{$D$}{données des apprenants}
 
 ## Théorie de la réponse à l'item
 
@@ -60,7 +58,7 @@ La *théorie de la réponse à l'item* consiste à supposer que les réponses d'
 
 ### Modèle de Rasch
 
-Le modèle le plus simple de tests adaptatifs est le *modèle de Rasch*, aussi connu sous le nom de modèle logistique à un paramètre. Il modélise un apprenant par une valeur unique de niveau, et les questions ou tâches à résoudre par une valeur de difficulté. La propension d'un apprenant à résoudre une tâche ne dépend que de la différence entre la difficulté de la tâche et le niveau de l'apprenant. Ainsi, si un apprenant $i$ a un niveau $\theta_i$ et souhaite résoudre une question $j$ de difficulté $d_j$ :
+Le modèle le plus simple de tests adaptatifs est le *modèle de Rasch*, aussi connu sous le nom de modèle logistique à un paramètre. Il modélise un apprenant par une valeur unique de niveau, et les questions ou tâches à résoudre par une valeur de difficulté. La propension d'un apprenant à résoudre une tâche ne dépend que de la différence entre la difficulté de la tâche et le niveau de l'apprenant. Ainsi, si un apprenant $i$ a un niveau $\theta_i$ et souhaite résoudre une question $j$ de difficulté $d_j$ :\nomenclature{$\theta_i$}{valeur de niveau de l'apprenant $i$ pour le modèle de Rasch}\nomenclature{$d_j$}{valeur de difficulté de la question $j$ pour le modèle de Rasch}
 
 \begin{equation}
 Pr(D_{ij} = 1) = \Phi(\theta_i - d_j)
@@ -68,15 +66,6 @@ Pr(D_{ij} = 1) = \Phi(\theta_i - d_j)
 
 \noindent
 où $\Phi : x \mapsto 1 / (1 + e^{-x})$ est la fonction logistique. Ainsi, plus l'apprenant a un haut niveau, plus grande est sa chance de répondre correctement à chacune des questions et plus une question a une difficulté basse, plus grande est la chance de n'importe quel apprenant d'y répondre correctement.\nomenclature{$\Phi$}{fonction logistique}
-
-<!-- \begin{figure}
-\includegraphics[width=\linewidth]{figures/irt}
-\caption{Courbes pour différentes valeurs du paramètre de difficulté $d$ du modèle de Rasch.}
-\end{figure} -->
-
-<!-- TODO nouvelle courbe -->
-
-<!-- (Exemple de produit de matrices.) -->
 
 Spécifier toutes les valeurs de difficulté à la main serait coûteux pour un expert, et fournirait des valeurs subjectives qui risquent de ne pas correspondre aux données observées. Ce modèle est suffisamment simple pour qu'il soit possible de calibrer automatiquement et de façon efficace les paramètres de niveau et difficulté, à partir d'un historique de réponses. En particulier, aucune connaissance du domaine n'est prise en compte.
 
@@ -89,9 +78,9 @@ I_j(\theta) = E_{X_j}\left[{\left(\frac\partial{\partial\theta} \log f(X_j, \the
 - $\theta$ est le niveau de l'apprenant qui passe le test en cours ;
 - $d_j$ est la difficulté de la question $j$ ;
 - $X_j$ est la variable correspondant au succès/échec de l'apprenant sur la question $j$ : elle vaut 1 si $i$ a répondu correctement à $j$ et 0 sinon ;
-- et $f(X_j, \theta, d_j)$ est la fonction de probabilité que $X_j$ vaille 1, qui dépend de $\theta$ comme indiqué plus haut : $f(X_j, \theta, d_j) = Pr(X_j = 1|\theta) = \Phi(\theta - d_j)$.
+- et $f(X_j, \theta, d_j)$ est la fonction de probabilité que $X_j$ vaille 1, qui dépend de $\theta$ comme indiqué plus haut : $f(X_j, \theta, d_j) = \Phi(\theta - d_j)$.
 
-Ainsi, un test adaptatif peut être conçu de la façon suivante : étant donné l'estimation actuelle du niveau de l'apprenant, choisir la question qui va apporter le plus d'information sur son niveau, mettre à jour l'estimation en fonction du résultat (succès ou échec), et ainsi de suite. À la fin du test, on peut visualiser le processus comme dans les figures \ref{irt} et \ref{irt-output} : l'intervalle de confiance sur le niveau de l'apprenant est réduit après chaque résultat, et les questions sont choisies de façon adaptative.
+Ainsi, un test adaptatif peut être conçu de la façon suivante : étant donné l'estimation actuelle du niveau de l'apprenant, choisir la question qui va apporter le plus d'information sur son niveau, mettre à jour l'estimation en fonction du résultat (succès ou échec), et ainsi de suite. À la fin du test, on peut visualiser le processus comme dans les figures \ref{irt} et \ref{irt-output} : l'intervalle de confiance sur le niveau de l'apprenant est réduit après chaque résultat, et les questions sont choisies de façon adaptative.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{figures/irt.pdf}
@@ -128,8 +117,6 @@ Le niveau de l'apprenant est 3.
 
 Le modèle de Rasch est unidimensionnel, donc il ne permet pas d'effectuer un diagnostic cognitif. Il reste pourtant populaire pour sa simplicité, sa généricité [@Desmarais2012; @Bergner2012] et sa robustesse [@Bartholomew2008]. @Verhelst2012 a montré qu'avec la simple donnée supplémentaire d'une répartition des questions en catégories, il est possible de renvoyer à l'examiné un profil utile à la fin du test, spécifiant quels sous-scores de catégorie sont plus bas ou plus haut que la moyenne.
 
-<!-- Plus précisément, si l'on considère que dans chaque catégorie, une réponse donne 1 point si elle est correcte, 0 point sinon, on peut calculer le nombre de points obtenus par l'apprenant dans chaque catégorie. À partir du modèle de Rasch, il est alors possible de calculer l'espérance du sous-score dans chaque catégorie, étant donné le score total. Enfin, le profil de déviation, défini comme la différence entre le sous-score obtenu et le sous-score moyen, fournit une bonne visualisation des catégories qui requièrent un approfondissement, voir la figure \ref{deviation}. De tels profils de déviation peuvent être agrégés de façon à mettre en évidence les points forts et faibles des apprenants au niveau d'un pays, pour identifier d'éventuelles carences dans le programme scolaire de ce pays. En effet, des évaluations internationales telles que PISA ou \gls{timss} permettent des comparaisons à l'échelle des pays. À partir des données de l'édition 2011 du test TIMSS, @Verhelst2012 a pu construire le diagramme à la figure \ref{deviation-country}, où l'on peut observer que la Roumanie est plus forte en algèbre qu'attendu, tandis que la Norvège est plus faible en algèbre qu'attendu. Ceci est un remarquable exemple de visualisation d'information basé sur le plus simple modèle psychométrique, le modèle de Rasch, et avec une répartition des questions en 4 catégories : numération, géométrie, probabilité, algèbre. -->
-
 ### Théorie de la réponse à l'item multidimensionnelle
 
 \label{mirt}
@@ -139,7 +126,7 @@ Il est naturel d'étendre le modèle de Rasch à des compétences multidimension
 
 \def\R{\textbf{R}}
 
-Ainsi, si l'apprenant $i \in \{1, \ldots, m\}$ est modélisé par le vecteur $\mathbf{\theta_i} \in \R^d$ et la question $j \in \{1, \ldots, n\}$ par le vecteur $\mathbf{d_j} \in \R^d$ et le paramètre de facilité $\delta_j \in \R$ :
+Ainsi, si l'apprenant $i \in \{1, \ldots, m\}$ est modélisé par le vecteur $\mathbf{\theta_i} \in \R^d$ et la question $j \in \{1, \ldots, n\}$ par le vecteur $\mathbf{d_j} \in \R^d$ et le paramètre de facilité $\delta_j \in \R$ :\nomenclature{$\mathbf{\theta_i}$}{caractéristiques de l'apprenant $i$ dans MIRT, GenMA}\nomenclature{$\mathbf{d_j}$}{paramètres de discrimination de la question $j$ dans MIRT, GenMA}\nomenclature{$\delta_j$}{paramètre de facilité de la question $j$ dans MIRT, GenMA}
 
 \begin{equation}
 Pr(D_{ij} = 1) = \Phi(\mathbf{\theta_i} \cdot \mathbf{d_j} + \delta_j).
@@ -149,13 +136,15 @@ Pr(D_{ij} = 1) = \Phi(\mathbf{\theta_i} \cdot \mathbf{d_j} + \delta_j).
 
 Notez qu'on retrouve le modèle de Rasch lorsque $d = 1$ et $d_{j1} = 1$, avec un paramètre de facilité $\delta_j$ à la place d'un paramètre de difficulté $d_j$.
 
-Lorsqu'on considère un modèle de type TRIM, l'apprenant et les questions ont des caractéristiques selon plusieurs dimensions. l'information de Fisher qu'apporte une question n'est plus un scalaire mais une matrice, dont on cherche habituellement à maximiser soit le déterminant (règle D), soit la trace (règle T). Choisir la question avec la règle D apporte la plus grande réduction de volume dans la variance de l'estimation du niveau, tandis que choisir la question avec la règle T augmente l'information moyenne de chaque dimension du niveau, en ignorant la covariance entre composantes.
+Lorsqu'on considère un modèle de type MIRT, l'apprenant et les questions ont des caractéristiques selon plusieurs dimensions. l'information de Fisher qu'apporte une question n'est plus un scalaire mais une matrice, dont on cherche habituellement à maximiser soit le déterminant (règle D), soit la trace (règle T). Choisir la question avec la règle D apporte la plus grande réduction de volume dans la variance de l'estimation du niveau, tandis que choisir la question avec la règle T augmente l'information moyenne de chaque dimension du niveau, en ignorant la covariance entre composantes.
 
 Ce modèle plus riche a beaucoup plus de paramètres : $d$ paramètres doivent être estimés pour chacun des $m$ apprenants et $d + 1$ paramètres pour chacune des $m$ questions, soit $d(n + m)$ paramètres au total. Ayant de nombreux paramètres, ce modèle est plus difficile à calibrer que le modèle de Rasch [@Desmarais2012; @Lan2014].
 
 ### SPARFA
 
-@Lan2014 ont défini un nouveau modèle de tests adaptatifs appelé SPARFA (Sparse Factor Analysis). Leur probabilité que l'apprenant réponde correctement à une certaine question repose sur un produit scalaire, ce qui est semblable au modèle MIRT, avec des contraintes supplémentaires.
+\newacronym{sparfa}{SPARFA}{\emph{Sparse Factor Analysis}}
+
+@Lan2014 ont défini un nouveau modèle de tests adaptatifs appelé \gls{sparfa}. Leur probabilité que l'apprenant réponde correctement à une certaine question repose sur un produit scalaire, ce qui est semblable au modèle MIRT, avec des contraintes supplémentaires.
 
 Si l'apprenant $i \in \{1, \ldots, m\}$ est modélisé par le vecteur $\mathbf{\theta_i} \in \R^d$ et la question $j \in \{1, \ldots, n\}$ par le vecteur $\mathbf{d_j} \in \R^d$ et le paramètre de facilité $\delta_j \in \R$ :
 
@@ -167,7 +156,7 @@ Si l'on note $V$ la matrice ayant pour lignes les vecteurs $\mathbf{d_j}$, SPARF
 
 En ajoutant la contrainte que $V$ est creuse, @Lan2014 font la supposition que chaque question fait appel à peu de caractéristiques de l'apprenant : en effet, le calcul de la probabilité que l'apprenant $i$ réponde correctement à la question $j$ dépend seulement de $\mathbf{\theta_i} \cdot \mathbf{d_j} + \delta_j$. Ainsi, pour chaque $k$ tel que $d_{jk}$ vaut 0, ce qui arrive souvent puisque $V$ est creuse, le niveau de l'apprenant $\theta_{ik}$ ne sera pas pris en compte dans le calcul de ses chances de succès pour répondre à la question $j$.
 
-En ajoutant la contrainte que les entrées de $V$ sont positives, @Lan2014 suppose que le fait que l'apprenant ait un grand niveau dans une dimension ne peut pas diminuer ses chances de répondre correctement à une question.
+En ajoutant la contrainte que les entrées de $V$ sont positives, @Lan2014 supposent que le fait que l'apprenant ait un grand niveau dans une dimension ne peut pas diminuer ses chances de répondre correctement à une question.
 
 Nous aurions voulu intégrer le modèle SPARFA dans notre comparaison de modèles au chapitre suivant, mais leur code n'est pas en accès libre. De plus, le test ainsi considéré est sommatif selon plusieurs dimensions, mais pas formatif, car les caractéristiques extraites par SPARFA ne sont pas facilement interprétables. @Lan2014 essaient d'interpréter a posteriori les colonnes de la matrice $V$, en utilisant des tags spécifiés par des experts sur les questions, mais ce n'est pas toujours possible.
 
@@ -188,14 +177,14 @@ Il y a ainsi un compromis entre adapter le processus de façon séquentielle, ap
 
 \newacronym{cc}{CC}{composantes de connaissances}
 
-Les *modèles de diagnostic cognitif* font l'hypothèse que la résolution des questions ou tâches d'apprentissage peut être expliquée par la maîtrise ou non-maîtrise de certaines \gls{cc}, ce qui permet de transférer de l'information d'une question à l'autre. Par exemple, pour calculer $1/7 + 8/9$ correctement, un apprenant est censé maîtriser l'addition, et la mise au même dénominateur. En revanche, pour calculer $1/7 + 8/7$, il suffit de savoir additionner deux fractions de même dénominateur. Ces modèles cognitifs requièrent la spécification des CC impliqués dans la résolution de chacune des questions du test, sous la forme d'une matrice binaire appelée *q-matrice*, qui fait le lien entre les questions et les CC : c'est ce qu'on appelle un modèle de transfert. Voir Table \ref{fraction-qmatrix} pour un exemple de q-matrice construit pour un test de 20 questions de soustraction de fractions comportant 8 composantes de connaissances. Le jeu de données de test correspondant est étudié dans [@DeCarlo2010] et à la section \ref{datasets} de cette thèse.
+Les *modèles de diagnostic cognitif* font l'hypothèse que la résolution des questions ou tâches d'apprentissage peut être expliquée par la maîtrise ou non-maîtrise de certaines \gls{cc}, ce qui permet de transférer de l'information d'une question à l'autre. Par exemple, pour calculer $1/7 + 8/9$ correctement, un apprenant est censé maîtriser l'addition, et la mise au même dénominateur. En revanche, pour calculer $1/7 + 8/7$, il suffit de savoir additionner deux fractions de même dénominateur. Ces modèles cognitifs requièrent la spécification des CC impliqués dans la résolution de chacune des questions du test, sous la forme d'une matrice binaire appelée *q-matrice*, qui fait le lien entre les questions et les CC : c'est ce qu'on appelle un modèle de transfert. Voir table \ref{fraction-qmatrix} pour un exemple de q-matrice construite pour un test de 20 questions de soustraction de fractions comportant 8 composantes de connaissances. Le jeu de données de test correspondant est étudié dans [@DeCarlo2010] et à la section \vref{datasets} de cette thèse.
 
 \begin{table}
 \centering
 \begin{minipage}{0.49\textwidth}
 \small
 \begin{tabular}{c@{\hspace{5mm}}cccccccc} \toprule
-& \multicolumn{8}{c}{Comp. de connaissance}\\
+& \multicolumn{8}{c}{Comp. de connaissances}\\
 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\ \midrule
 Q1 & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 0\\
 Q2 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 0\\
@@ -221,7 +210,7 @@ Q20 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0\\ \bottomrule
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
 \small
-Description des huit composantes de connaissance :
+Description des huit composantes de connaissances :
 \begin{enumerate}
 \item convertir un nombre entier en fraction
 \item séparer un nombre entier d'une fraction
@@ -242,7 +231,7 @@ Description des huit composantes de connaissance :
 \label{dina}
 \newacronym{dina}{DINA}{\emph{Deterministic Input, Noisy And}}
 
-Le modèle \gls{dina}, qui signifie \og entrée déterministe avec un *et* bruité \fg, suppose que l'apprenant résoudra une certaine question $i$ avec probabilité $1 - s_i$ s'il maîtrise toutes les CC impliquées dans sa résolution, sinon avec probabilité $g_i$. Le paramètre $g_i$ est le paramètre de chance de la question $i$, c'est-à-dire la probabilité de deviner la bonne réponse alors que l'on ne maîtrise pas les CC nécessaires, tandis que $s_i$ est le paramètre d'inattention, c'est-à-dire la probabilité de se tromper alors qu'on maîtrise les CC associées. Il existe d'autres variantes de modèles cognitifs tels que le modèle DINO (*Deterministic Input, Noisy Or*, c'est-à-dire entrée déterministe, avec un « ou » avec bruit) où ne maîtriser qu'une seule des CC impliquées dans une question $i$ suffit à la résoudre avec probabilité $1 - s_i$, et si en revanche aucune CC impliquée n'est maîtrisée, la probabilité d'y répondre correctement est $g_i$.
+Le modèle \gls{dina}, qui signifie \og entrée déterministe avec un *et* bruité \fg, suppose que l'apprenant résoudra une certaine question $i$ avec probabilité $1 - s_i$ s'il maîtrise toutes les CC impliquées dans sa résolution, sinon avec probabilité $g_i$. Le paramètre $g_i$ est le paramètre de chance de la question $i$, c'est-à-dire la probabilité de deviner la bonne réponse alors que l'on ne maîtrise pas les CC nécessaires, tandis que $s_i$ est le paramètre d'inattention, c'est-à-dire la probabilité de se tromper alors qu'on maîtrise les CC associées. Il existe d'autres variantes de modèles cognitifs tels que le modèle DINO (*Deterministic Input, Noisy Or*, c'est-à-dire entrée déterministe, avec un « ou » avec bruit) où ne maîtriser qu'une seule des CC impliquées dans une question $i$ suffit à la résoudre avec probabilité $1 - s_i$, et si en revanche aucune CC impliquée n'est maîtrisée, la probabilité d'y répondre correctement est $g_i$.\nomenclature{$g_i$}{paramètre de chance pour le modèle DINA}\nomenclature{$s_i$}{paramètre d'inattention pour le modèle DINA}\nomenclature{$K$}{nombre de composantes de connaissances}
 
 \newacronym{cdcat}{CD-CAT}{\emph{Cognitive Diagnostic Computerized Adaptive Tests}}
 
@@ -263,21 +252,9 @@ Nous présentons un exemple de test adaptatif basé sur le modèle DINA, à part
 \label{example-dina}
 \end{figure}
 
-<!-- \begin{figure}
-\includegraphics{figures/compnum}
-\caption{Exemple de q-matrice.}
-\label{example-dina}
-\end{figure}
-
-\begin{figure}
-\includegraphics{figures/hierarchy}
-\caption{Exemple de relations de prérequis.}
-\label{example-dina}
-\end{figure} -->
-
 Comme le dit @Chang2014, \og Une étude conduite à Zhengzhou indique que CD-CAT encourage la pensée critique, en rendant les étudiants plus autonomes en résolution de problèmes, et offre de la remédiation personnalisée facile à suivre, ce qui rend l'apprentissage plus intéressant. \fg{} En effet, une fois que l'état mental de l'apprenant a été identifié, on peut l'orienter vers des ressources utiles pour combler ses lacunes.
 
-Comme l'espace des états latents possibles est discret, on peut maintenir une distribution de probabilité $(\pi_i)_{i \in \mathbf{N}}$ sur les vecteurs de compétences possibles, mise à jour après chaque réponse de l'apprenant. Connaissant la réponse de l'apprenant à la $i$-ème question, la mise à jour de $\pi_{i - 1}$ est faite par la règle de Bayes. Soit $x$ un état latent, $s_i$ et $g_i$ les paramètres d'inattention et de chance associés à la $i$-ième question et soit $a_i$ une variable qui vaut 1 si la réponse de l'apprenant est correcte, 0 sinon. Si les CC associées à $x$ sont suffisantes pour répondre à la question correctement,
+Comme l'espace des états latents possibles est discret, on peut maintenir une distribution de probabilité $(\pi_i)_{i \in \mathbf{N}}$ sur les vecteurs de compétences possibles, mise à jour après chaque réponse de l'apprenant. Connaissant la réponse de l'apprenant à la $i$-ème question, la mise à jour de $\pi_{i - 1}$ est faite par la règle de Bayes. Soit $x$ un état latent, $s_i$ et $g_i$ les paramètres d'inattention et de chance associés à la $i$-ème question et soit $a_i$ une variable qui vaut 1 si la réponse de l'apprenant est correcte, 0 sinon. Si les CC associées à $x$ sont suffisantes pour répondre à la question correctement,
 
 \label{dina-update}
 
@@ -292,19 +269,19 @@ sinon
 \pi_i(x) \propto \pi_{i - 1}(x) \cdot [a_i \cdot g_i + (1-a_i)\cdot(1-g_i)].
 \end{equation}
 
-\nomenclature{$\propto$}{Proportionnel à}
+\nomenclature{$\propto$}{proportionnel à}
 
 En effet : si $x$ a bien les compétences requises, il peut soit donner la bonne réponse en ne faisant pas d'erreur d'inattention (résultat $a_i = 1$ avec probabilité $1 - s_i$), soit faire une erreur d'inattention (résultat $a_i = 0$ avec probabilité $s_i$).
 
 La complexité du choix de la question suivante est $O(2^K K |Q|)$, ce qui est impraticable pour de larges valeurs de $K$. C'est pourquoi en pratique $K \leq 10$ [@Su2013].
+
+\label{auto-q-matrix}
 
 La q-matrice peut être coûteuse à construire. Ainsi, calculer une q-matrice automatiquement est un sujet de recherche à part entière. @Barnes2005 utilise une technique d'escalade de colline[^5] (qui consiste à modifier un bit de la q-matrice, regarder si le taux d'erreur du modèle diminue, et itérer le processus) tandis que @Winters2005 et @Desmarais2011 ont essayé des méthodes de factorisation de matrice pour recouvrer des q-matrices à partir de données d'apprenants. Ils ont découvert que pour des domaines bien distincts comme le français et les mathématiques, ces techniques permettent de séparer les questions qui portent sur ces domaines. Une critique est que même si l'on obtient via ces méthodes automatiques des matrices qui correspondent bien aux données, les colonnes risquent de ne plus être interprétables. @Koedinger2012 ont réussi à combiner des q-matrices de différents experts par externalisation ouverte (*crowdsourcing*) de façon à obtenir des q-matrices plus riches, toujours interprétables, et qui correspondent davantage aux données.
 
  [^5]: En anglais, *hill-climbing technique*.
 
 Un avantage du modèle DINA est qu'il n'a pas besoin de données de test pour être déjà adaptatif. La q-matrice suffit à administrer des tests, où l'on suppose alors que les apprenants ont autant de chance de maîtriser une composante que de ne pas la maîtriser. À l'aide d'un historique des réponses des apprenants, on peut avoir un a priori sur les composantes qu'un nouvel apprenant maîtrisera ou non, et améliorer l'adaptation.
-
-<!-- TODO peut être plus clair -->
 
 ### Modèle de hiérarchie sur les attributs
 
@@ -315,7 +292,7 @@ Nous allons à présent présenter la théorie des espaces de connaissances, dé
 ### Théorie des espaces de connaissances basés sur les compétences
 \label{knowledge-space}
 
-@Doignon2012 ont développé la théorie des espaces de connaissances, qui repose sur une représentation abstraite atomique des connaissances, similaire aux composantes de connaissances (CC) qui apparaissent dans les q-matrices considérées par le modèle DINA. Ainsi, *l'état des connaissances* d'un apprenant peut être modélisé par l'ensemble des CC qu'il maîtrise. Supposons qu'il existe un certain nombre de CC à apprendre, pour lesquelles on connaît des relations de prérequis, c'est-à-dire quelles CC doivent être maîtrisées avant d'apprendre une certaine CC (voir figure \ref{dependency}). À partir de ce graphe, on peut calculer les états de connaissances dans lesquels peut se trouver. Par exemple, dans la figure \ref{dependency}, $\{a, c\}$ est un état des connaissances possible tandis que $\{c\}$ ne l'est pas, car $a$ doit être maîtrisé avant $c$. Donc pour cet exemple, il y a 10 états de connaissance possibles pour l'apprenant : $\emptyset$, $\{a\}$, $\{b\}$, $\{a, b\}$, $\{a, c\}$, $\{a, b, c\}$, $\{a, b, c, d\}$, $\{a, b, c, e\}$, $\{a, b, c, d, e\}$ et $\{a, b, c, d, e, f\}$. Un test adaptatif peut donc déterminer l'état des connaissances de l'apprenant d'une façon similaire au modèle de hiérarchie sur les attributs décrit plus haut dans cette section. Une fois que l'état des connaissances de l'apprenant a été identifié, le modèle peut lui suggérer les prochaines CC à apprendre pour progresser, à travers ce que l'on appelle un parcours d'apprentissage (voir figure \ref{dependency}). Par exemple, si l'apprenant a pour état de connaissances $\{a\}$, il peut choisir d'apprendre $b$ ou $c$.
+@Doignon2012 ont développé la théorie des espaces de connaissances, qui repose sur une représentation abstraite des connaissances similaire aux composantes de connaissances (CC) qui apparaissent dans les q-matrices considérées par le modèle DINA. Ainsi, *l'état des connaissances* d'un apprenant peut être modélisé par l'ensemble des CC qu'il maîtrise. Supposons qu'il existe un certain nombre de CC à apprendre, pour lesquelles on connaît des relations de prérequis, c'est-à-dire quelles CC doivent être maîtrisées avant d'apprendre une certaine CC (voir figure \ref{dependency}). À partir de ce graphe, on peut calculer les états de connaissances dans lesquels peut se trouver. Par exemple, dans la figure \ref{dependency}, $\{a, c\}$ est un état des connaissances possible tandis que $\{c\}$ ne l'est pas, car $a$ doit être maîtrisé avant $c$. Donc pour cet exemple, il y a 10 états de connaissances possibles pour l'apprenant : $\emptyset$, $\{a\}$, $\{b\}$, $\{a, b\}$, $\{a, c\}$, $\{a, b, c\}$, $\{a, b, c, d\}$, $\{a, b, c, e\}$, $\{a, b, c, d, e\}$ et $\{a, b, c, d, e, f\}$. Un test adaptatif peut donc déterminer l'état des connaissances de l'apprenant d'une façon similaire au modèle de hiérarchie sur les attributs décrit plus haut dans cette section. Une fois que l'état des connaissances de l'apprenant a été identifié, le modèle peut lui suggérer les prochaines CC à apprendre pour progresser, à travers ce que l'on appelle un parcours d'apprentissage (voir figure \ref{dependency}). Par exemple, si l'apprenant a pour état de connaissances $\{a\}$, il peut choisir d'apprendre $b$ ou $c$.
 
 @Falmagne2006 proposent un test adaptatif pour deviner de façon efficace l'état des connaissances de l'apprenant en minimisant l'entropie de la distribution sur les états des connaissances possibles de l'apprenant, mais leur méthode n'est pas robuste aux erreurs d'inattention. Ce modèle a été implémenté dans le système ALEKS, qui appartient désormais à McGraw-Hill Education et est utilisé par des millions de personnes aujourd'hui [@Kickmeier2015; @Desmarais2012].
 
@@ -347,13 +324,20 @@ Le but est de prédire le comportement d'un utilisateur face à une ressource in
 
 Dans notre cas, nous devons prédire la performance d'un apprenant sur une question inédite, en fonction de son comportement sur d'autres questions et du comportement que d'autres apprenants ont eu dans le passé sur le même test. Les techniques de filtrage collaboratif ont été appliquées à deux problèmes issus de la fouille de données éducatives : la recommandation de ressources éducatives à des apprenants [@Manouselis2011; @Verbert2011] et la prédiction de performance d'un apprenant sur un test [@Toscher2010; @ThaiNghe2011; @Bergner2012].
 
-En filtrage collaboratif, on fait l'hypothèse que l'on dispose d'utilisateurs ayant noté certains objets : $m_{ui}$ désigne la note que l'utilisateur $u$ affecte à l'objet $i$. La matrice observée $M = (m_{ui})$ est creuse, c'est-à-dire qu'une faible partie de ses entrées est renseignée. Le problème consiste à déterminer les entrées manquantes de $M$ (voir figure \ref{matrix-completion}). Afin d'accomplir cette tâche, on suppose en général que $M$ a un faible rang, c'est-à-dire que les notes des utilisateurs sont dans un espace de faible dimension, ou encore qu'on peut les exprimer par un faible nombre de composantes.
+En filtrage collaboratif, on fait l'hypothèse que l'on dispose d'utilisateurs ayant noté certains objets : $m_{ui}$ désigne la note que l'utilisateur $u$ affecte à l'objet $i$. La matrice observée $M = (m_{ui})$ est creuse, c'est-à-dire qu'une faible partie de ses entrées est renseignée. Le problème consiste à déterminer les entrées manquantes de $M$ (voir table \ref{matrix-completion}). Afin d'accomplir cette tâche, on suppose en général que $M$ a un faible rang, c'est-à-dire que les notes des utilisateurs sont dans un espace de faible dimension, ou encore qu'on peut les exprimer par un faible nombre de composantes.
 
-\begin{figure}
-\includegraphics[width=\linewidth]{figures/cf.jpg}
-\caption{Un exemple de problème de filtrage collaboratif appliqué à la complétion de matrice.}
+\begin{table}
+\centering
+\begin{tabular}{ccccc} \toprule
+& Zootopie & 12 Monkeys & Oldboy & Paprika\\ \midrule
+Sacha & $?$ & 5 & $2$ & $?$\\
+Ondine & 4 & 1 & $?$ & 5\\
+Pierre & 3 & 3 & 1 & 4\\
+Joëlle & 5 & $?$ & 2 & $?$\\ \bottomrule
+\end{tabular}
+\caption{Un exemple de problème de complétion de matrice.}
 \label{matrix-completion}
-\end{figure}
+\end{table}
 
 L'historique d'un test peut également être représenté par une matrice $M = (m_{ui})$ où l'élément $m_{ui}$ représente 1 si l'apprenant $u$ a répondu correctement à la question $i$, 0 sinon. Administrer un test adaptatif à un nouvel apprenant revient à ajouter une ligne dans la matrice et choisir les composantes à révéler (les questions à poser) de façon à inférer les composantes restantes (les questions qui n'ont pas été posées).
 
@@ -361,12 +345,10 @@ Un autre élément qui apparaît dans les systèmes de recommandation peut être
 
 Parmi les techniques les plus populaires pour s'attaquer au problème du démarrage à froid de l'utilisateur, une méthode qui nous intéresse particulièrement est un test adaptatif qui présente certaines ressources à l'apprenant et lui demande de les noter. @Golbandi2011 construisent un arbre de décision qui pose des questions à un nouvel utilisateur et choisit en fonction de ses réponses la meilleure question à lui poser de façon à identifier rapidement un groupe d'utilisateurs qui lui sont proches. Les meilleures questions sont celles qui séparent la population en trois parties de taille similaire, selon si l'utilisateur a apprécié la ressource, n'a pas apprécié la ressource, ou ne connaît pas la ressource. La différence principale avec notre cadre éducatif est que les apprenants risquent de moins coopérer avec un système d'évaluation qu'avec un système de recommandations commercial, car leur objectif n'est pas d'obtenir des bonnes recommandations mais un bon score. Ainsi, leurs réponses risquent de ne pas refléter les compétences qu'ils maîtrisent vraiment. C'est pourquoi les modèles que l'on considère pour les tests adaptatifs doivent prendre en compte le fait que l'apprenant puisse faire des fautes d'inattention, ou deviner la bonne réponse.
 
-<!-- TODO en dire plus -->
-
 ### Stratégies adaptatives pour le compromis exploration-exploitation
 \label{bandits}
 
-Dans certaines applications de tests adaptatifs, on souhaite maximiser une fonction objectif pendant qu'on pose les questions. Par exemple, supposons qu'un site commercial cherche à maximiser le nombre de clics sur ses publicités. Il y a un compromis entre explorer l'espace des publicités en présentant à l'utilisateur des publicités plus risquées, et exploiter la connaissance sur l'utilisateur en lui présentant des publicités sur des domaines susceptibles de lui plaire.
+Dans certaines applications de tests adaptatifs, on souhaite maximiser une fonction objectif pendant qu'on pose les questions. Par exemple, supposons qu'un site commercial cherche à maximiser le nombre de clics sur ses publicités. Il y a un compromis entre explorer l'espace des publicités en présentant à l'utilisateur des publicités plus risquées, et exploiter la connaissance de l'utilisateur en lui présentant des publicités sur des domaines susceptibles de lui plaire.
 
 Dans un contexte éducatif, on peut se demander quelle serait la tâche qui permettrait de maximiser la progression de l'apprenant, tout en cherchant à identifier ce qu'il maîtrise ou non. C'est la technique que @Clement2015 adoptent pour les systèmes de tuteurs intelligents : ils personnalisent les séquences d'activités d'apprentissage de façon à identifier les CC de l'apprenant tout en maximisant son progrès, défini comme la performance sur les dernières activités.
 
@@ -382,9 +364,7 @@ Comme le disent @Desmarais2012 : \og Les modèles de tests adaptatifs doivent ê
 
 Habituellement, on compare pour un même modèle plusieurs stratégies de choix de la question suivante. @Cheng2009 compare ainsi plusieurs critères de sélection de la question suivante pour le modèle DINA utilisé dans un cadre de tests adaptatifs. Pour ses expériences, elle considère des données simulées.
 
-@Lalle2013 utilise une technique de validation croisée pour comparer des modèles de diagnostic de connaissances, mais pas dans le cadre de tests adaptatifs. <!-- TODO -->
-
-Plus rarement, certaines recherches comparent des modèles de tests adaptatifs différents sur de mêmes données de test [@Lan2014; @Bergner2012]. Cependant, ces comparaisons portent sur peu de modèles, et des peuvent être vus comme des modèles de théorie de réponse à l'item.
+@Lalle2013 utilise une technique de validation croisée pour comparer des modèles de diagnostic de connaissances, mais pas dans le cadre de tests adaptatifs. Plus rarement, certaines recherches comparent des modèles de tests adaptatifs différents sur de mêmes données de test : @Lan2014 comparent SPARFA et le modèle de Rasch, @Bergner2012 comparent des algorithmes de filtrage collaboratif au modèle de Rasch. Toutefois, nous n'avons pas observé de comparaison de modèles sommatifs avec des modèles formatifs.
 
 # Conclusion
 

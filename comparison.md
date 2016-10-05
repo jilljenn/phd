@@ -14,15 +14,11 @@ En général, les valeurs calculées automatiquement conduisent à une erreur du
 
 Il est également possible de spécifier une partie des caractéristiques et de calculer automatiquement les autres. Lorsqu'il y a plusieurs caractéristiques à optimiser, il est possible d'en optimiser une première en fixant toutes les autres, puis optimiser la deuxième en fixant toutes les autres, et ainsi de suite, puis itérer plusieurs fois cette optimisation séquentielle de toutes les caractéristiques jusqu'à obtenir un taux d'erreur suffisamment faible.
 
-<!-- TODO et itérer plusieurs fois -->
+## Initialisation des paramètres d'un nouvel apprenant
 
-## Choix de la question initiale
+Au début d'un test adaptatif, le système n'a aucune information sur l'apprenant, car il n'a fourni aucune réponse et nous ne considérons aucune donnée sur l'apprenant nous permettant de l'identifier, notamment des données démographiques comme son âge ou son pays.
 
-Au début d'un test adaptatif, le système n'a aucune information sur l'apprenant, car il n'a fourni aucune réponse et nous ne considérons aucune donnée sur l'apprenant nous permettant de l'identifier, telles que des données démographiques comme son âge ou son pays.
-
-Le système peut choisir la première question à poser au hasard, ou bien initialiser les caractéristiques de l'apprenant à une certaine valeur qui peut dépendre des éventuellement données d'entraînement à disposition. Par exemple, le système peut supposer que l'apprenant est de niveau moyen au sein de la population.
-
-<!-- Nous avons fait ce dernier choix afin d'avoir un processus déterministe qui utilise toute l'information à disposition. -->
+Le système peut supposer que l'apprenant est de niveau nul, ou de niveau moyen au sein de la population.
 
 ## Choix de la question suivante
 
@@ -34,21 +30,11 @@ L'apprenant obtient à la fin du test ses caractéristiques qui ont été calcul
 
 Pour visualiser cette information, diverses méthodes peuvent être employées. Pour le modèle de Rasch, on peut indiquer à l'apprenant où il se trouve au sein de la population (par exemple, dans les 10 % meilleurs). Pour le modèle DINA, on peut tracer des jauges de maîtrise des différentes compétences, à partir de sa probabilité de les maîtriser.
 
-<!-- # Bornes théoriques de problèmes similaires
-
-## Recherche binaire généralisée
-
-Le problème d'identification d'une cible en posant la question qui minimise l'entropie à chaque tour s'appelle la recherche dichotomique généralisée. On peut considérer des erreurs iid mais pour des erreurs persistantes, ce problème est peu connu théoriquement.
-
-## Sous-modularité
-
-Toutefois, on a une borne théorique dans le cas où les apprenants répondent sans erreur. -->
-
 # Évaluation qualitative
 
 \label{quali-comp}
 
-Plusieurs aspects font qu'on peut préférer un modèle de test adaptatif plutôt qu'un autre. Par exemple, la mise en œuvre d'un modèle de test peut requérir la construction d'une représentation des connaissances, ce qui peut être coûteux si l'on a plusieurs milliers de questions à apparier avec une centaine de composantes de connaissance.
+Plusieurs aspects font qu'on peut préférer un modèle de test adaptatif plutôt qu'un autre. Par exemple, la mise en œuvre d'un modèle de test peut requérir la construction d'une représentation des connaissances, ce qui peut être coûteux si l'on a plusieurs milliers de questions à apparier avec une centaine de composantes de connaissances.
 
 Dimension
 
@@ -65,10 +51,6 @@ Calibrage
 Interprétabilité
 
 :   Dans les évaluations formatives, il est important de pouvoir nommer les composantes de connaissances dont l'apprenant a dû faire preuve, de façon satisfaisante ou insatisfaisante. Disposer d'une q-matrice spécifiée par un humain permet d'accroître l'interprétabilité du système, car il est alors possible d'identifier les lacunes de l'apprenant soulignées par le test.
-
-<!-- Explicabilité
-
-:   Un modèle explicable est capable de justifier par quel processus le diagnostic a été obtenu. On reproche parfois aux modèles d'apprentissage statistique de faire des prédictions correctes sans pouvoir les expliquer (on parle de modèles \og boîte noire \fg). Si le modèle prédictif est linéaire ou log-linéaire, il est possible de justifier ses prédictions. S'il est non linéaire, on ne peut pas expliquer les prédictions. -->
 
 De zéro
 
@@ -87,18 +69,18 @@ MIRT & $K \leq 4$ & Auto & Non & $(K + 1)n$\\
 SPARFA & $K \leq 16$ & Auto & Non & $(k + 1)n$\\ \midrule
 DINA & $K \leq 15$ & Manuel & Oui & $2n$\\
 AHM & $K \leq 90$ & Manuel & Oui & $2n$\\
-KS & $K \leq 90$ & Manuel & Oui & 0\\ \midrule
+KST & $K \leq 90$ & Manuel & Oui & 0\\ \midrule
 Bandits & $K \leq 7$ & Manuel & Oui & 0\\ \bottomrule
 \end{tabular}
 \caption{Comparaison qualitative des modèles présentés}
 \label{comp-quali-table}
 \end{table}
 
-Nous avons ainsi comparé les modèles présentés au chapitre précédent : Rasch, MIRT (théorie de la réponse à l'item multidimensionnelle), SPARFA (*Sparse Factor Analysis*), DINA, AHM (modèle de hiérarchie sur les attributs), KS (théorie des espaces de connaissances) et enfin Bandits (le modèle de bandits dans les systèmes de tuteurs intelligents). Les résultats sont répertoriés dans la table \ref{comp-quali-table}. En l'occurrence, tous les modèles automatiques ne sont pas interprétables sans intervention d'un expert a posteriori. $n$ désigne le nombre de questions, $K$ la dimension du modèle et dans le cas de SPARFA, $k$ désigne le nombre moyen de composantes de connaissances par question.
+Nous avons ainsi comparé les modèles présentés au chapitre précédent : Rasch, MIRT (théorie de la réponse à l'item multidimensionnelle), SPARFA (*Sparse Factor Analysis*), DINA, AHM (modèle de hiérarchie sur les attributs), KST (théorie des espaces de connaissances) et enfin Bandits (le modèle de bandits dans les systèmes de tuteurs intelligents). Les résultats sont répertoriés dans la table \ref{comp-quali-table}. En l'occurrence, tous les modèles automatiques ne sont pas interprétables sans intervention d'un expert a posteriori. $n$ désigne le nombre de questions, $K$ la dimension du modèle et dans le cas de SPARFA, $k$ désigne le nombre moyen de composantes de connaissances par question.\nomenclature{$k$}{nombre moyen de composantes de connaissances par question pour SPARFA, GenMA}
 
-Les modèles issus de la théorie de la réponse à l'item Rasch, MIRT et SPARFA ont une calibration de leurs paramètres qui est automatique. C'est pourquoi ils nécessitent des données existantes d'apprenants sur les questions d'un test pour être calibrés. Pour MIRT, nous supposons $K \leq 4$ car nous ne sommes pas parvenus à faire converger un modèle MIRT de dimension 5 sur nos jeux de données comportant 20 questions et moins de 1000 apprenants après 2000 itérations. Pour SPARFA, nous n'avons pas accès à l'implémentation mais dans [@Lan2014b], les auteurs en calibrent une instance de dimensions $K = 16$.
+Les modèles issus de la théorie de la réponse à l'item Rasch, MIRT et SPARFA ont une calibration de leurs paramètres qui est automatique. C'est pourquoi ils nécessitent des données existantes d'apprenants sur les questions d'un test pour être calibrés. Pour MIRT, nous supposons $K \leq 4$ car nous ne sommes pas parvenus à faire converger un modèle MIRT de dimension 5 sur nos jeux de données comportant 20 questions et moins de 1000 apprenants après 2000 itérations. Pour SPARFA, nous n'avons pas accès à l'implémentation mais dans [@Lan2014b], les auteurs en calibrent une instance de dimensions $K = 16$. Comme $k < K$, leur méthode peut estimer des modèles de plus grande dimension que MIRT.
 
-Les modèles basés sur les composantes de connaissances nécessitent de préciser une q-matrice voire un graphe de prérequis sur les CC (KS, AHM). En contrepartie, le test peut être administré sans donnée préalable. La seule chose qui diffère entre les modèles KS et AHM, c'est que KS ne considère pas de paramètres d'inattention et de chance. DINA et KS ont deux paramètres d'inattention et de chance à fixer à la main ou estimer automatiquement par question, ce qui fait $2n$ paramètres en tout.
+Les modèles basés sur les composantes de connaissances nécessitent de préciser une q-matrice voire un graphe de prérequis sur les CC (KST, AHM). En contrepartie, le test peut être administré sans donnée préalable. La seule chose qui diffère entre les modèles KST et AHM, c'est que KST ne considère pas de paramètres d'inattention et de chance. DINA et KST ont deux paramètres d'inattention et de chance à fixer à la main ou estimer automatiquement par question, ce qui fait $2n$ paramètres en tout.
 
 Enfin, le modèle de bandit requiert une q-matrice, et de façon optionnelle un graphe de prérequis sur les activités à présenter à l'apprenant. Dans leur expérience, @Clement2015 considèrent une q-matrice de $K = 7$. Ils n'ont aucun paramètre à estimer pour administrer un test, donc le test peut être administré de zéro.
 
@@ -124,33 +106,43 @@ En ce qui nous concerne, nous disposons des résultats de plusieurs apprenants s
 
 ## Extraction automatique de q-matrice
 
-Il peut arriver que pour un test donné, on ne dispose pas de q-matrice. Certaines approches en fouille de données pour l'éducation consistent à la calculer automatiquement pour ensuite en interpréter les CC correspondant aux colonnes. @Barnes2005 fait ainsi une escalade de colline[^1], mais la complexité de cette opération est grande. @Desmarais2011 fait une factorisation de matrices positives.
+Il peut arriver que pour un test donné, on ne dispose pas de q-matrice. Nous avons mentionné à la section \vref{auto-q-matrix} diverses méthodes utilisées pour en extraire automatiquement à partir de données d'apprenants.
 
- [^1]: En anglais, *hill-climbing technique*.
+\label{new-auto-q-matrix}
 
 Nous avons testé des approches plus génériques. @Zou2006 présentent un algorithme pour l'analyse de composantes principales creuses, qui détermine deux matrices $W$ et $H$ tels que :
 
-$$M \simeq WH \textnormal{ et } H \textnormal{ est creuse}. $$
+\begin{equation}
+M \simeq WH \textnormal{ et } H \textnormal{ est creuse}.
+\end{equation}
 
 @Lee2010 proposent une analyse de composantes principales creuses avec une fonction de lien logistique, ce qui est plus approprié pour notre problème pour lequel la matrice que nous cherchons à approximer est binaire.
 
-$$M \simeq \Phi(WH) \textnormal{ et } H \textnormal{ est creuse}. $$
+\begin{equation}
+M \simeq \Phi(WH) \textnormal{ et } H \textnormal{ est creuse}.
+\end{equation}
 
 Dans ces deux cas, $H$ est composée majoritairement de 0. Pour en extraire une q-matrice, nous fixons à 1 les entrées non nulles.
 
 ## Validation bicroisée
 
+\label{bcv}
+
 Pour valider un modèle d'apprentissage supervisé, une méthode courante consiste à estimer ses paramètres à partir d'une fraction des données et leurs étiquettes, calculer les prédictions faites sur les données restantes et les comparer avec les vraies étiquettes. Cette méthode s'appelle *validation croisée*. Ainsi, le jeu de données $X$ est divisé en deux parties $X_{train}$ et $X_{test}$, le modèle est entraîné sur $X_{train}$ et ses étiquettes $\mathbf{y}_{train}$ et fait une prédiction sur les données $X_{test}$ appelée $\mathbf{y}_{pred}$, qui est ensuite comparée aux vraies valeurs $\mathbf{y}_{test}$ pour validation. S'il s'agit d'un problème de régression, on peut utiliser par exemple la fonction de coût RMSE (*root mean squared error*) :
 
-$$ RMSE(\mathbf{y}_{test}, \mathbf{y}_{pred}) = \sqrt{\frac1n \sum_{k = 1}^n (y^*_i - y_i)^2} $$
+\begin{equation}
+\textrm{RMSE}(\mathbf{y}_{test}, \mathbf{y}_{pred}) = \sqrt{\frac1n \sum_{k = 1}^n (y^*_i - y_i)^2}
+\end{equation}
 
 où $\mathbf{y}_{pred} = (y_1, \ldots, y_n)$ et $\mathbf{y}_{test} = (y^*_1, \ldots, y^*_n)$.\bigskip
 
 S'il s'agit d'un problème de classification binaire, on utilise habituellement la fonction de coût *log-loss* (aussi appelée coût logistique ou perte d'entropie mutuelle) :
 
-$$ logloss(\mathbf{y}_{test}, \mathbf{y}_{pred}) = \frac1n \sum_{k = 1}^n \log (1 - |y^*_k - y_k|). $$
+\begin{equation}
+\textrm{logloss}(\mathbf{y}_{test}, \mathbf{y}_{pred}) = \frac1n \sum_{k = 1}^n \log (1 - |y^*_k - y_k|).
+\end{equation}
 
-Toutes les valeurs prédites étant comprises entre 0 et 1, cette fonction pénalise beaucoup plus une grosse différence entre valeur prédite (comprise entre 0 ou 1) et valeur réelle (égale à 0 ou 1) que la RMSE. <!-- TODO, voir Figure \ref{rmse-ll}. -->
+Toutes les valeurs prédites étant comprises entre 0 et 1, cette fonction pénalise beaucoup plus une grosse différence entre valeur prédite (comprise entre 0 ou 1) et valeur réelle (égale à 0 ou 1) que la RMSE.
 
 Afin d'obtenir une validation plus robuste, il faut s'assurer que la proportion de 0 et de 1 soit la même dans les étiquettes d'entraînement et dans les étiquettes d'évaluation. Pour une validation encore meilleure, on peut recourir à une validation croisée à $k$ paquets : le jeu de données $X$ est divisé en $k$ paquets, et $k$ validations croisées sont faites en utilisant $k - 1$ paquets parmi les $k$ pour entraîner le modèle et le paquet restant pour l'évaluer.
 
@@ -170,7 +162,7 @@ Notre comparaison de modèles a deux aspects : qualitatifs en termes d'interpré
 
 Rapidité de convergence vers un diagnostic
 
-:   Combien faut-il de questions pour que le diagnostic converge ?
+:   Combien de questions sont nécessaires pour faire converger le diagnostic ?
 
 Pouvoir prédictif
 
@@ -178,10 +170,10 @@ Pouvoir prédictif
 
 Nous cherchons à comparer le pouvoir prédictif de différents modèles de tests adaptatifs qui modélisent la probabilité qu'un certain apprenant résolve une certaine question d'un test. Ces modèles sont comparés sur un jeu de données réel $D$ de taille $|I| \times |Q|$ où $D_{iq}$ vaut 1 si l'apprenant $i$ a répondu correctement à la question $q$, 0 sinon. Pour faire une validation bicroisée, nous séparons les apprenants de l'ensemble $I$ en $U$ paquets et les questions de l'ensemble $Q$ en $V$ paquets. Ainsi, si on numérote les paquets d'apprenants $I_i$ pour $i = 1, \ldots, U$  et les paquets de questions $Q_j$ pour $j = 1, \ldots, V$, l'expérience $(i, j)$ consiste à, pour chaque modèle $T$ :
 
-1. entraîner le modèle $T$ sur tous les paquets d'apprenants sauf le $i$-ième (l'ensemble d'apprenants d'entraînement $I_{train} = I \setminus I_i$) ;
-2. simuler des tests adaptatifs sur les apprenants du $i$-ème paquet (l'ensemble d'apprenants de test $I_{test} = I_i$) en utilisant les questions de tous les paquets sauf le $j$-ième, et après chaque réponse de l'apprenant, en évaluant l'erreur du modèle $T$ sur le $j$-ème paquet de questions (l'ensemble de questions de validation $Q_{val} = Q_j$). On fait donc un appel à \textsc{Simulate}(modèle $M$, $I_{train}$, $I_{test}$), voir l'algorithme \ref{algo}.
+1. entraîner le modèle $T$ sur tous les paquets d'apprenants sauf le $i$-ème (l'ensemble d'apprenants d'entraînement $I_{train} = I \setminus I_i$) ;
+2. simuler des tests adaptatifs sur les apprenants du $i$-ème paquet (l'ensemble d'apprenants de test $I_{test} = I_i$) en utilisant les questions de tous les paquets sauf le $j$-ème, et après chaque réponse de l'apprenant, en évaluant le taux d'erreur du modèle $T$ sur le $j$-ème paquet de questions (l'ensemble de questions de validation $Q_{val} = Q_j$). On fait donc un appel à \textsc{Simulate}(modèle $M$, $I_{train}$, $I_{test}$), voir l'algorithme \ref{algo}.
 
-Par exemple, sur la figure \ref{predict}, après que la question la plus informative a été choisie puis posée, les paramètres de l'apprenant sont mis à jour, une prédiction est faite sur l'ensemble de questions de validation et cette prédiction est évaluée étant donné le vrai motif de réponse de l'apprenant.
+Par exemple, sur la figure \ref{predict}, après que la question la plus informative a été choisie puis posée, les caractéristiques de l'apprenant sont mises à jour, une prédiction est faite sur l'ensemble de questions de validation et cette prédiction est évaluée étant donné le vrai motif de réponse de l'apprenant.
 
 \begin{figure}
 \centering
@@ -205,7 +197,7 @@ Les variables qui apparaissent dans l'algorithme sont les suivantes :
 \begin{algorithmic}
 \Procedure{Simulate}{modèle $M$, $I_{train}$, $I_{test}$}
 \State $\alpha, \kappa \gets \Call{TrainingStep}{M, D[I_{train}]}$
-\For{tout étudiant $s$ de l'ensemble $I_{test}$}
+\For{tout apprenant $s$ de l'ensemble $I_{test}$}
     \State $\pi_0 \gets \Call{PriorInitialization}{\alpha}$
     \For{$t$ de 0 à $|Q \setminus Q_{val}| - 1$}
         \State $q_{t + 1} \gets \Call{NextItem}{\{(q_k, r_k)\}_{k = 1, \ldots, t}, \kappa, \pi_t}$
@@ -227,26 +219,28 @@ Pour chaque modèle testé, nous avons implémenté les routines suivantes :
 - **TrainingStep**($M$, $D[I_{train}]$) : calibrer le modèle sur les motifs de réponse des apprenants $D[I_{train}]$ et renvoyer les caractéristiques $\alpha$ des apprenants et $\kappa$ des questions ;
 - **PriorInitialization**($\alpha$) : initialiser les caractéristiques $\pi_0$ d'un nouvel apprenant au début de son test, éventuellement en fonction des caractéristiques des apprenants de l'ensemble d'entraînement ;
 - **NextItem**($\{(q_k, r_k)\}_k, \kappa, \pi_t$) : choisir la question à poser telle que la probabilité que l'apprenant y réponde correctement est la plus proche de 0,5 [@Chang2014], en fonction des réponses précédentes de l'apprenant et de l'estimation en cours de son niveau ;
-- **EstimateParameters**($\{(q_k, r_k)\}_k, \kappa$) : mettre à jour les paramètres de l'apprenant en fonction de ses réponses aux questions posées ;
+- **EstimateParameters**($\{(q_k, r_k)\}_k, \kappa$) : mettre à jour les caractéristiques de l'apprenant en fonction de ses réponses aux questions posées ;
 - **PredictPerformance**($\kappa, \pi_t, Q_{val}$) : calculer pour chacune des questions du test la probabilité que l'apprenant en cours de test y réponde correctement et renvoyer le vecteur de probabilités obtenu ;
 - **EvaluatePerformance**($p, D[s][Q_{val}]$) : comparer la performance prédite à la vraie performance de l'apprenant sur l'ensemble de questions de validation D[s][Q_{val}], de façon à évaluer le modèle. La fonction d'erreur peut être la *log loss* ou le nombre de prédictions incorrectes.
 
-De façon à visualiser les questions posées par un modèle de tests adaptatifs, on peut construire l'arbre binaire de décision correspondant. La racine est la première question posée, puis chaque réponse fausse renvoie vers le nœud gauche, chaque réponse vraie renvoie vers le nœud droit [@Ueno2010; @Yan2014]. En chaque nœud on peut calculer l'erreur en cours du modèle sur l'ensemble des questions de validation, et le meilleur modèle est celui dont l'erreur moyenne est minimale.
+De façon à visualiser les questions posées par un modèle de tests adaptatifs, on peut construire l'arbre binaire de décision correspondant. La racine est la première question posée, puis chaque réponse fausse renvoie vers le nœud gauche, chaque réponse vraie renvoie vers le nœud droit [@Ueno2010; @Yan2014]. En chaque nœud on peut calculer le taux d'erreur en cours du modèle sur l'ensemble des questions de validation, et le meilleur modèle est celui dont le taux d'erreur moyen est minimal.
 
-Pour calculer l'erreur, nous avons choisi la *log loss*, courante pour les problèmes de classification binaire :
+Pour calculer le taux d'erreur, nous avons choisi la *log loss*, courante pour les problèmes de classification binaire :
 
-$$ e(p, a) = \frac1{|Q_{val}|} \sum_{k \in Q_{val}} a_k \log p_k + (1 - a_k) \log (1 - p_k) $$
+\begin{equation}
+e(p, a) = \frac1{|Q_{val}|} \sum_{k \in Q_{val}} a_k \log p_k + (1 - a_k) \log (1 - p_k)
+\end{equation}
 
 \noindent
-où $p$ est la performance prédite sur les $|Q_{val}|$ questions et $a$ est le vrai motif de réponse de l'apprenant en cours. Notez que si $p = a$, on a bien $e(p, a) = 0$. À titre d'exemple, si pour un des apprenants, après 4 questions, la performance prédite sur l'ensemble de questions de validation est $[0.617, 0.123, 0.418, 0.127, 0.120]$ tandis que sa vraie performance est $[1, 0, 1, 0, 0]$ (c'est-à-dire, [*correct*, *incorrect*, *correct*, *incorrect*, *incorrect*]), la *log loss* obtenue est 0.350.
+où $p$ est la performance prédite sur les $|Q_{val}|$ questions et $a$ est le vrai motif de réponse de l'apprenant en cours. Notez que si $p = a$, on a bien $e(p, a) = 0$. À titre d'exemple, si pour un des apprenants, après 4 questions, la performance prédite sur l'ensemble de questions de validation est $[0.617, 0.123, 0.418, 0.127, 0.120]$ tandis que son véritable motif de réponse est $[1, 0, 1, 0, 0]$ (c'est-à-dire, [*correct*, *incorrect*, *correct*, *incorrect*, *incorrect*]), la *log loss* obtenue est 0.350.
 
 Ainsi, \textsc{EvaluatePerformance} calcule la *log loss* et le nombre de prédictions incorrectes entre la performance prédite $p$ et $a$ qui vaut $D[s][Q_{val}]$ pour l'apprenant $s$.
 
-Lors de chaque expérience $(i, j)$, on enregistre pour chaque apprenant $t$ valeurs d'erreurs où $t$ est le nombre de questions posées, soit $|Q \setminus Q_{val}|$. Ainsi, on peut déterminer l'erreur moyenne que chaque modèle a obtenu après avoir posé un certain nombre de questions. Ces valeurs sont stockées dans une matrice de taille $U \times V$ dont chaque case correspond à l'expérience $(i, j)$ correspondant à un ensemble d'apprenants d'entraînement $I_{test} = I_i$ et un ensemble de questions de validation $Q_{val} = Q_j$ (voir figure \ref{crossval}). En calculant l'erreur moyenne selon chaque colonne, on peut visualiser comment les modèles se comportent pour chaque ensemble de question de validation. On calcule la moyenne de toutes les cases pour tracer les courbes correspondant à chaque modèle.
+Lors de chaque expérience $(i, j)$, on enregistre pour chaque apprenant $t$ valeurs d'erreurs où $t$ est le nombre de questions posées, soit $|Q \setminus Q_{val}|$. Ainsi, on peut déterminer le taux d'erreur moyen que chaque modèle a obtenu après avoir posé un certain nombre de questions. Ces valeurs sont stockées dans une matrice de taille $U \times V$ dont chaque case correspond à l'expérience $(i, j)$ correspondant à un ensemble d'apprenants d'entraînement $I_{test} = I_i$ et un ensemble de questions de validation $Q_{val} = Q_j$ (voir figure \ref{crossval}). En calculant le taux d'erreur moyen selon chaque colonne, on peut visualiser comment les modèles se comportent pour chaque ensemble de question de validation. On calcule la moyenne de toutes les cases pour tracer les courbes correspondant à chaque modèle.
 
 \begin{figure}
 \centering
-\includegraphics[width=6cm]{figures/crossval.pdf}
+\includegraphics[width=5cm]{figures/crossval.pdf}
 \caption{Validation bicroisée selon 6 paquets d'apprenants et 4 paquets de questions.}
 \label{crossval}
 \end{figure}
@@ -262,71 +256,23 @@ Le SAT est un test standardisé aux États-Unis. Il est multidisciplinaire, car 
 
 ### ECPE
 
-Il s'agit d'une matrice $2922 \times 28$ représentant les résultats de 2922 apprenants sur 28 questions d'anglais de l'examen ECPE (*Examination for the Certificate of Proficiency in English*). Ce test standardisé cherche à mesurer trois attributs, c'est pourquoi la q-matrice correspondante a 3 CC : règles morphosyntaxiques, règles cohésives, règles lexicales.\nomenclature{ECPE}{\emph{Examination for the Certificate of Proficiency in English}}
+\newacronym{ecpe}{ECPE}{\emph{Examination for the Certificate of Proficiency in English}}
+
+Il s'agit d'une matrice $2922 \times 28$ représentant les résultats de 2922 apprenants sur 28 questions d'anglais de l'examen \gls{ecpe}. Ce test standardisé cherche à mesurer trois attributs, c'est pourquoi la q-matrice correspondante a 3 CC : règles morphosyntaxiques, règles cohésives, règles lexicales.
 
 ### Fraction
 
-Ce jeu de données regroupe les résultats de 536 collégiens sur 20 questions de soustraction de fractions. Les items et la q-matrice correspondante sont décrits dans @DeCarlo2010.
+Ce jeu de données regroupe les résultats de 536 collégiens sur 20 questions de soustraction de fractions. Les items et la q-matrice correspondante sont décrits dans @DeCarlo2010. La q-matrice est également décrite à la figure \vref{fraction-qmatrix}.
 
 ### TIMSS
 
 \newacronym{timss}{TIMSS}{\emph{Trends in International Mathematics and Science Study}}
 
-Le \gls{timss} effectue un test standardisé de mathématiques. Les données sont librement disponibles sur leur site pour les chercheurs. En l'occurrence, ce jeu de données provient de l'édition 2003 du TIMSS. C'est une matrice binaire de taille $757 \times 23$ qui regroupe les résultats de 757 apprenants du grade 8 sur 23 questions de mathématiques. La q-matrice a été définie par des experts du TIMSS et comporte 13 des 15 composantes de connaissances décrites dans @Su2013.
+Le \gls{timss} effectue un test standardisé de mathématiques. Les données sont librement disponibles sur leur site pour les chercheurs. En l'occurrence, ce jeu de données provient de l'édition 2003 du TIMSS. C'est une matrice binaire de taille $757 \times 23$ qui regroupe les résultats de 757 apprenants de 4\ieme{} sur 23 questions de mathématiques. La q-matrice a été définie par des experts du TIMSS et comporte 13 des 15 composantes de connaissances décrites dans @Su2013.
 
 ### Castor
 
 Le Castor est un concours d'informatique où les candidats, collégiens ou lycéens, doivent résoudre des problèmes d'algorithmique déguisés au moyen d'interfaces. Le jeu de données provient de l'édition 2013, où 58 939 élèves de 6\ieme{} et 5\ieme{} ont dû résoudre 17 problèmes. La matrice est encore dichotomique, c'est-à-dire que son entrée $(i, j)$ vaut 1 si l'apprenant $i$ a eu le score parfait sur la question $j$, 0 sinon.
-
-<!--
-\begin{figure}
-\includegraphics[width=\textwidth]{plot-ecpe.png}\\
-\includegraphics[width=\textwidth]{plot-fraction.png}
-\caption{Mean error (negative log-likelihood) after a certain number of questions have been asked.}
-\label{curves}
-\end{figure}
--->
-
-<!--
-\begin{table}
-$$ \begin{array}{C{5mm}C{5mm}C{5mm}|cc|c}
-\multicolumn{3}{c|}{\textnormal{q-matrice}} & \textnormal{chance} & \textnormal{inattention} & \textnormal{taux de succès}\\
-\hline
-1 & 1 & 0 & 0.705 & 0.085 & 80 \%\\
-0 & 1 & 0 & 0.724 & 0.101 & 83 \%\\
-1 & 0 & 1 & 0.438 & 0.266 & 57 \%\\
-0 & 0 & 1 & 0.480 & 0.162 & 70 \%\\
-0 & 0 & 1 & 0.764 & 0.040 & 88 \%\\
-0 & 0 & 1 & 0.717 & 0.066 & 85 \%\\
-1 & 0 & 1 & 0.544 & 0.085 & 72 \%\\
-0 & 1 & 0 & 0.802 & 0.040 & 89 \%\\
-0 & 0 & 1 & 0.534 & 0.199 & 70 \%\\
-1 & 0 & 0 & 0.483 & 0.163 & 65 \%\\
-1 & 0 & 1 & 0.556 & 0.099 & 72 \%\\
-1 & 0 & 1 & 0.195 & 0.305 & 43 \%\\
-1 & 0 & 0 & 0.633 & 0.122 & 75 \%\\
-1 & 0 & 0 & 0.517 & 0.212 & 65 \%\\
-0 & 0 & 1 & 0.749 & 0.040 & 88 \%\\
-1 & 0 & 1 & 0.549 & 0.126 & 70 \%\\
-\textbf0 & \textbf1 & \textbf1 & \textbf{0.816} & \textbf{0.058} & \textbf{88 \%}\\
-0 & 0 & 1 & 0.729 & 0.086 & 84 \%\\
-0 & 0 & 1 & 0.473 & 0.150 & 71 \%\\
-1 & 0 & 1 & 0.239 & 0.295 & 46 \%\\
-1 & 0 & 1 & 0.621 & 0.097 & 75 \%\\
-0 & 0 & 1 & 0.322 & 0.188 & 63 \%\\
-0 & 1 & 0 & 0.637 & 0.075 & 81 \%\\
-0 & 1 & 0 & 0.313 & 0.322 & 53 \%\\
-1 & 0 & 0 & 0.512 & 0.272 & 61 \%\\
-0 & 0 & 1 & 0.555 & 0.211 & 70 \%\\
-1 & 0 & 0 & 0.265 & 0.369 & 44 \%\\
-0 & 0 & 1 & 0.659 & 0.086 & 81 \%\\
-\end{array} $$
-\caption{La q-matrice utilisée pour le jeu de données ECPE, ainsi que les paramètres d'inattention et de chance, et le taux de succès de chaque question. En gras, la ligne ayant la plus grande valeur de chance.}
-\label{ecpe-guess}
-\end{table}
--->
-
-<!-- TODO expliquer -->
 
 ## Spécification des modèles
 
@@ -348,13 +294,9 @@ NextItem
 
 :   Comme pour chaque modèle, la question choisie est celle pour laquelle la probabilité que l'apprenant y réponde correctement est la plus proche de 0,5.
 
-<!-- TODO corriger -->
-
 UpdateParameters
 
-:   Après chaque réponse de l'apprenant, l'estimation ses caractéristiques est faite par le maximum de vraisemblance. Si trop peu de réponses ont été fournies, l'estimation est bayésienne [@Chalmers2012].
-
-<!-- TODO corriger -->
+:   Après chaque réponse de l'apprenant, l'estimation ses caractéristiques est faite par le maximum de vraisemblance. Si trop peu de réponses ont été fournies, l'estimation est faite selon une approche bayésienne [@Chalmers2012].
 
 PredictPerformance
 
@@ -374,15 +316,11 @@ TrainingStep
 
 :   Si l'on dispose d'une q-matrice, la phase d'apprentissage consiste à déterminer les états latents des apprenants d'entraînement, ainsi que les paramètres d'inattention et de chance minimisant le taux d'erreur du modèle, pour chaque question.
 
-<!-- TODO wtf -->
-
-Pour déterminer les états latents des apprenants, on simule le fait de leur poser toutes les questions en utilisant le modèle DINA. Si on ne dispose pas de q-matrice, nous la calculons automatiquement en itérant plusieurs phases d'optimisation de la q-matrice via escalade de colline, des paramètres d'inattention et de chance via optimisation convexe, et des états latents des apprenants.
+Pour déterminer les états latents des apprenants, on simule le fait de leur poser toutes les questions en utilisant le modèle DINA. Si on ne dispose pas de q-matrice, nous l'extrayons automatiquement en utilisant la méthode décrite à la section \vref{new-auto-q-matrix}. Nous estimons ensuite les paramètres d'inattention et de chance de chaque question via optimisation convexe.
 
 PriorInitialization
 
 :   Lorsqu'un nouvel apprenant passe le test, on suppose qu'il a autant de chance d'être dans chacun des $2^K$ états latents possibles. On va maintenir cette distribution de probabilité sur les $2^K$ états latents possibles, initialisée à cette distribution uniforme : pour tout $c \in \{0, 1\}^K$, $\pi(c) = 1 / 2^K$.
-
-<!-- Lorsqu'un nouvel apprenant passe le test, on suppose qu'il a une probabilité d'être dans chaque état latent, déterminée par la moyenne de la population d'entraînement. On va maintenir cette distribution de probabilité sur les $2^K$ états latents possibles, initialisée à cette distribution a priori. -->
 
 NextItem
 
@@ -390,7 +328,7 @@ NextItem
 
 UpdateParameters
 
-:   Après chaque réponse de l'apprenant, une mise à jour de la distribution de probabilité est faite, de façon bayésienne. Voir la section \ref{dina-update} pour les formules utilisées.
+:   Après chaque réponse de l'apprenant, une mise à jour de la distribution de probabilité est faite, de façon bayésienne. Voir la section \vref{dina-update} pour les formules utilisées.
 
 PredictPerformance
 
@@ -413,13 +351,9 @@ Rasch
 
 DINA
 
-:   Le modèle DINA est multidimensionnel, requiert une q-matrice, fait un retour à l'apprenant sous la forme d'une probabilité de maîtriser chacune des composantes de connaissance. Ainsi, l'apprenant peut se situer vis-à-vis des objectifs du cours. Les paramètres estimés sont les probabilités de répondre correctement aux questions alors qu'on ne maîtrise pas les composantes de connaissances, et inversement. Grâce à la q-matrice, on peut interpréter les différentes dimensions, et les déductions sont faites de façon bayésienne. Si la q-matrice est mal définie, des valeurs aberrantes apparaîtront pour les paramètres d'inattention et de chance. Le modèle DINA peut fonctionner sans historique, en supposant une distribution uniforme a priori sur les états latents possibles.
+:   Le modèle DINA est multidimensionnel, requiert une q-matrice, fait un retour à l'apprenant sous la forme d'une probabilité de maîtriser chacune des composantes de connaissances. Grâce à la q-matrice, on peut interpréter les différentes dimensions. Si la q-matrice est mal définie, des valeurs aberrantes apparaîtront pour les paramètres d'inattention et de chance. Le modèle DINA peut fonctionner sans historique, en supposant une distribution uniforme a priori sur les états latents possibles.
 
-La complexité est calculée selon plusieurs paramètres :
-
-- le nombre d'apprenants $m$ ;
-- le nombre de questions $n$ ;
-- le nombre de CC $K$.
+Dans ce qui suit, $m$ désigne le nombre d'apprenants, $n$ le nombre de questions et $K$ le nombre de CC.
 
 Complexité du modèle de Rasch
 
@@ -427,11 +361,11 @@ Complexité du modèle de Rasch
 
 Complexité du modèle DINA
 
-:   Le choix de la question suivante coûte $O(K 2^K n)$ opérations. L'estimation des paramètres de l'apprenant s'effectue en $O(K 2^K)$. Les phases d'entraînement et de test de DINA ont une complexité $O(m n^2 K 2^K)$. C'est pourquoi $K$ est généralement choisi inférieur à 10 [@Su2013].
+:   Le choix de la question suivante coûte $O(K 2^K n)$ opérations. L'estimation des caractéristiques de l'apprenant s'effectue en $O(K 2^K)$. Les phases d'entraînement et de test de DINA ont une complexité $O(m n^2 K 2^K)$. C'est pourquoi $K$ est généralement choisi inférieur à 10 [@Su2013].
 
 ## Évaluation quantitative
 
-Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss}. Les valeurs du taux d'erreur (*log loss*) sont répertoriées dans les tables \ref{comp-sat-table} à \ref{comp-castor-table}. Entre parenthèses, la précision des prédictions sur l'ensemble de validation.
+Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss}. Les valeurs du taux d'erreur (*log loss*) sont répertoriées dans les tables \ref{comp-sat-table} à \ref{comp-castor-table}. Entre parenthèses, la précision des prédictions sur l'ensemble de validation.
 
 ### SAT
 
@@ -456,7 +390,7 @@ Rasch & $0.363 \pm 0.026$ (83 \%) & $0.362 \pm 0.027$ (84 \%)\\ \bottomrule
 \label{comp-sat-table}
 \end{table}
 
-Dans la figure \ref{comp-sat}, le modèle de Rasch réalise un diagnostic un peu meilleur que le modèle DINA avec une q-matrice calculée automatiquement. Comme @Desmarais2011, notre extraction de q-matrice a réussi à identifier que les questions 1 à 10 partageaient une CC (mathématiques) ainsi que les questions 31 à 40 (français) mais a eu plus de mal à identifier les questions de biologie et d'histoire.
+Dans la figure \ref{comp-sat}, le modèle de Rasch réalise un diagnostic légèrement meilleur que le modèle DINA avec une q-matrice calculée automatiquement. Comme @Desmarais2011, notre extraction de q-matrice a réussi à identifier que les questions 1 à 10 partageaient une CC (mathématiques) ainsi que les questions 31 à 40 (français) mais a eu plus de mal à identifier les questions de biologie et d'histoire.
 
 Le modèle de Rasch converge en 10 questions mais plafonne à 82 % de précision tandis que le modèle DINA continue à augmenter légèrement sa précision (voir table \ref{comp-sat-table}).
 
@@ -491,7 +425,7 @@ Nous faisons l'hypothèse que comme le jeu de données a beaucoup de motifs de r
 
 ### Fraction
 
-<!-- % results/fraction-auto-5 -->
+<!-- results/fraction-auto-5 -->
 \begin{figure}[h]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/comp/fraction-mean}
@@ -537,7 +471,7 @@ Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%)\\ \bottomrule
 
 Dans la figure \ref{comp-timss}, Rasch est meilleur que DINA.
 
-Après 8 questions, les prédictions plafonnent à 71 % et les intervalles de confiance de la *log loss* des modèles sont, comme dans le jeu de données ECPE, très serrés (voir \ref{comp-timss-table}).
+Après 8 questions, les prédictions plafonnent à 71 % et les intervalles de confiance de la *log loss* des modèles sont, comme dans le jeu de données ECPE, très serrés (voir table \ref{comp-timss-table}).
 
 Nous faisons l'hypothèse que ces jeux de données se ressemblent : il y a beaucoup de motifs de réponse possibles, donc les questions semblent indépendantes.
 
@@ -566,33 +500,15 @@ Dans la figure \ref{comp-castor}, Rasch est bien meilleur que DINA avec une q-m
 
 Nous faisons l'hypothèse que la q-matrice a été mal spécifiée, ce qui a conduit à des erreurs de diagnostic.
 
-<!-- ## Vitesse
-
-\begin{table}[H]
-\centering\begin{tabular}{@{}c|cc@{}}
-& Train phase & Test phase\\
-\hline
-IRT & 1 min 49 s & 4 min 20 s\\%0.499 $\pm$ 0.024 & 0.469 $\pm$ 0.020 & 0.446 $\pm$ 0.015\\
-Q $K = 1$ & 2 min 32 s & 7 s\\
-Q $K = 2$ & 5 min 24 s & 14 s\\
-Q $K = 3$ & 10 min 57 s & 25 s\\ %0.517 $\pm$ 0.016 & 0.470 $\pm$ 0.012 & 0.444 $\pm$ 0.012\\
-Q $K = 4$ & 23 min 29 s & 49 s\\ %0.494 $\pm$ 0.015 & 0.459 $\pm$ 0.011 & 0.417 $\pm$ 0.011\\
-Q $K = 5$ & 48 min 42 s & 1 min 35 s\\ %\textbf{0.474 $\pm$ 0.014} & 0.433 $\pm$ 0.011 & 0.415 $\pm$ 0.011\\
-Q $K = 6$ & 1 h 45 min 3 s & 3 min 14 s %0.482 $\pm$ 0.015 & \textbf{0.425 $\pm$ 0.012} & \textbf{0.403 $\pm$ 0.011}\\
-\end{tabular}
-\caption{Temps de calcul des phases d'entraînement et de test pour chaque modèle, sur le jeu de données Fraction.}
-\label{tab:time}
-\end{table} -->
-
 ## Discussion
 
 \label{discu-comp}
 
 Selon le jeu de données, le meilleur modèle n'est pas le même. Par exemple, pour des tâches procédurales telles que le test Fraction, le modèle DINA a une haute précision en prédiction de performance. Pour tous les jeux de données, le modèle de Rasch a de bonnes performances tout en étant très simple. L'avantage du modèle DINA est qu'il est formatif : la q-matrice spécifiée par un expert permet de faire un retour à l'apprenant à l'issue de test pour lui indiquer ce qu'il semble ne pas avoir maîtrisé.
 
-Il est utile de remarquer que pour le modèle DINA avec $K = 1$, l'apprenant peut être modélisé par une probabilité d'avoir l'unique CC ou non. Si la question ne requiert aucune CC, il a une probabilité constante $1 - s_i$ d'y répondre. Sinon, sa probabilité est $(1 - p) g_i + p (1 - s_i) = g_i + p (1 - s_i - g_i)$ soit une valeur qui croît entre $g_i$ et $1 - s_i$ de façon linéaire avec $p$. Cela donne une interprétation géométrique du modèle de Rasch comparé au modèle DINA, et indique peut-être une limitation du modèle : le meilleur élève possible a une probabilité de répondre à chaque question $i$ plafonnée par $1 - s_i$, tandis que Rasch n'est pas limité. Ainsi, le modèle de DINA est plus prudent que le modèle Rasch, ce qui peut expliquer pourquoi la log loss du modèle DINA est souvent plus faible que celle de Rasch.
+Il est utile de remarquer que pour le modèle DINA avec $K = 1$, l'apprenant peut être modélisé par une probabilité d'avoir l'unique CC ou non. Si la question ne requiert aucune CC, il a une probabilité constante $1 - s_i$ d'y répondre. Sinon, sa probabilité est $(1 - p) g_i + p (1 - s_i) = g_i + p (1 - s_i - g_i)$ soit une valeur qui croît entre $g_i$ et $1 - s_i$ de façon linéaire avec $p$. Cela donne une interprétation géométrique du modèle de Rasch comparé au modèle DINA, et indique peut-être une limitation du modèle : le meilleur élève possible a une probabilité de répondre à chaque question $i$ plafonnée par $1 - s_i$, tandis que Rasch n'est pas limité. Ainsi, le modèle de DINA est plus prudent que le modèle Rasch, ce qui peut expliquer pourquoi la *log loss* du modèle DINA est souvent plus faible que celle de Rasch.
 
-Le calcul automatique d'une q-matrice est un problème difficile : s'il y a $|Q|$ questions et $K$ composantes de connaissance, il y a $|Q|K$ bits donc $2^{|Q|K}$ q-matrices possibles. Pour chacune, le calcul des paramètres d'inattention et de chance est un problème d'optimisation convexe.
+Le calcul automatique d'une q-matrice est un problème difficile : s'il y a $|Q|$ questions et $K$ composantes de connaissances, il y a $|Q|K$ bits donc $2^{|Q|K}$ q-matrices possibles. Pour chacune, le calcul des paramètres d'inattention et de chance est un problème d'optimisation convexe.
 
 Notre calcul a conduit à des résultats peu satisfaisants, sachant que la méthode de calibration du modèle de Rasch est efficace tandis que si l'on souhaite calculer une distribution a priori sur les apprenants du modèle DINA, la complexité est grande dans la mesure où il faut simuler l'administration de chaque question à chaque apprenant de l'ensemble d'entraînement, or chaque fois qu'un apprenant répond à une question, il faut mettre à jour la distribution de probabilité sur les états possibles ce qui a une complexité $O(2^K K)$, ce qui donne une complexité totale de $N M 2^K K$ où $N$ est le nombre d'apprenants de l'ensemble d'entraînement et $M$ le nombre de questions.
 
@@ -608,19 +524,19 @@ Forts de la description des modèles de tests adaptatifs au chapitre précédent
 
 ### Test adaptatif au début d'un MOOC
 
-Au début d'un cours, il faut identifier les connaissances de l'apprenant avec le moins de questions possible. C'est un problème de démarrage à froid de l'apprenant, où il faut identifier si celui-ci a bien les prérequis du cours. Si un graphe de prérequis entre composantes de connaissances (CC) est disponible, nous suggérons d'utiliser le modèle de @Falmagne2006, décrit à la section \ref{knowledge-space}, ou son analogue composé de paramètres d'inattention et de chance, le modèle de hiérarchie sur les attributs. Si une q-matrice est disponible, nous suggérons d'utiliser le modèle DINA, décrit à la section \ref{dina}. Sinon, le modèle de Rasch permet au moins de classer les apprenants. Si aucun historique sur le test n'est disponible, par exemple parce qu'il s'agit de la première édition du cours, les seuls modèles envisageables parmi ceux présentés sont celui de @Falmagne2006 qui nécessite un graphe de prérequis, ou le modèle DINA qui nécessite une q-matrice.
+Au début d'un cours, il faut identifier les connaissances de l'apprenant avec le moins de questions possible. C'est un problème de démarrage à froid de l'apprenant, où il faut identifier si celui-ci a bien les prérequis du cours. Si un graphe de prérequis entre composantes de connaissances (CC) est disponible, nous suggérons d'utiliser le modèle de @Falmagne2006, décrit à la section \vref{knowledge-space}, ou son analogue composé de paramètres d'inattention et de chance, le modèle de hiérarchie sur les attributs. Si une q-matrice est disponible, nous suggérons d'utiliser le modèle DINA, décrit à la section \vref{dina}. Sinon, le modèle de Rasch permet au moins de classer les apprenants. Si aucun historique sur le test n'est disponible, par exemple parce qu'il s'agit de la première édition du cours, les seuls modèles envisageables parmi ceux présentés sont celui de @Falmagne2006 qui nécessite un graphe de prérequis, ou le modèle DINA qui nécessite une q-matrice.
 
 Une autre application consiste à faire un test adaptatif à partir du graphe de prérequis sur les CC développées dans le cours. Ainsi, il sera possible d'indiquer à l'apprenant s'il peut se passer de suivre certaines parties du cours.
 
 ### Test adaptatif au milieu d'un MOOC
 
-Les apprenants aiment pouvoir savoir sur quoi ils vont être testés, sous la forme d'une autoévaluation qui \og ne compte pas \fg. Cet entraînement de passage de tests a un effet bénéfique sur leur apprentissage [@Dunlosky2013]. Il y a toutefois plusieurs scénarios à considérer. Si les apprenants ont accès au cours alors qu'ils passent ce test à faible enjeu, le modèle de test adaptatif doit prendre en compte le fait que le niveau de l'apprenant puisse changer alors qu'il passe le test, par exemple parce qu'il consulte son cours avant de répondre à chaque question. Dans ce cas, les modèles qui tentent de faire progresser le plus les élèves, tel que celui proposé par @Clement2015 décrit à la section \ref{bandits}, sont appropriés. Ils requièrent soit un graphe de prérequis, soit une q-matrice. Si les apprenants n'ont pas accès au cours pendant le test, le modèle DINA convient, à condition qu'une q-matrice soit spécifiée.
+Les apprenants aiment pouvoir savoir sur quoi ils vont être testés, sous la forme d'une autoévaluation qui \og ne compte pas \fg. Cet entraînement de passage de tests a un effet bénéfique sur leur apprentissage [@Dunlosky2013]. Il y a toutefois plusieurs scénarios à considérer. Si les apprenants ont accès au cours alors qu'ils passent ce test à faible enjeu, le modèle de test adaptatif doit prendre en compte le fait que le niveau de l'apprenant puisse changer alors qu'il passe le test, par exemple parce qu'il consulte son cours avant de répondre à chaque question. Dans ce cas, les modèles qui tentent de faire progresser le plus les élèves, tel que celui proposé par @Clement2015 décrit à la section \vref{bandits}, sont appropriés. Ils requièrent soit un graphe de prérequis, soit une q-matrice. Si les apprenants n'ont pas accès au cours pendant le test, le modèle DINA convient, à condition qu'une q-matrice soit spécifiée.
 
 ### Test adaptatif à la fin d'un MOOC
 
 Un test d'évaluation à la fin d'un cours peut se baser sur les modèles de tests adaptatifs usuels, de façon à mesurer les apprenants efficacement et leur attribuer une note. Pour ce dernier examen, nous supposons que le retour peut se limiter à un score, ainsi le modèle de Rasch est le plus simple à mettre en place.
 
-## Simulation d'un test adaptatif à partir d'un graphe de prérequis
+## Simulation d'un test adaptatif
 
 \label{mooc}
 \input{mooc}

@@ -16,7 +16,9 @@ Dans cette section, on note $D$ la matrice des réponses succès / échecs des a
 
 Formellement, le problème de la factorisation de matrice consiste à résoudre l'équation :
 
-$$ D \simeq UV^T $$
+\begin{equation}
+D \simeq UV^T
+\end{equation}
 
 - $d$ est un entier compris entre 1 et $n$ ;
 - $U$ est une matrice de taille $m \times d$, qui ici correspondrait aux caractéristiques de l'apprenant ;
@@ -33,9 +35,11 @@ Les caractéristiques des questions ainsi extraites sont les lignes de $V$.
 
 L'analyse en composantes principales est une méthode descriptive qui consiste à déterminer par une factorisation de matrice les composantes qui expliquent le plus la variance des données. Pour procéder à cette analyse, on fait habituellement une décomposition en valeurs singulières, qui décompose la matrice $D$ de la façon suivante :
 
-$$ D = U \Sigma W^T $$
+\begin{equation}
+D = U \Sigma W^T
+\end{equation}
 
-- $r$ est un entier compris entre 1 et $n$ correspondant au rang de la matrice $D$ ;
+- $r$ est un entier compris entre 1 et $n$ correspondant au rang de la matrice $D$ des motifs de réponse des apprenants ;
 - $U$ est une matrice unitaire de taille $m \times r$, c'est-à-dire que $U^T U = I$ et donc que les lignes de $U$ sont deux à deux orthogonales ;
 - $\Sigma$ est une matrice diagonale de taille $r \times r$ dont les éléments diagonaux $\sigma_1, \ldots, \sigma_r$ sont classés par ordre décroissant : $\sigma_1 \geq \cdots \geq \sigma_r$ ;
 - $W$ est une matrice unitaire de taille $n \times r$ ;
@@ -47,7 +51,9 @@ La première ligne de $W^T$ est alors la composante expliquant le plus la varian
 
 Une méthode de réduction de dimension consiste ensuite à calculer l'approximation de rang $d$ de la matrice $D$ pour une valeur de $d$ choisie entre 1 et $n$, donnée par :
 
-$$ D_d = U_d \Sigma_d W_d^T \simeq D $$
+\begin{equation}
+D_d = U_d \Sigma_d W_d^T \simeq D
+\end{equation}
 
 - $U_d$ est la matrice $U$ tronquée aux $d$ premières colonnes ;
 - $\Sigma_d$ est la matrice diagonale $\Sigma$ dont on n'a conservé que les $d$ éléments les plus grands, c'est-à-dire les $d$ premiers : $\sigma_1 \geq \cdots \geq \sigma_d$ ;
@@ -63,7 +69,9 @@ Une limitation de cette méthode est que si les données que l'on souhaite déco
 
 Faire une analyse de facteurs consiste à supposer que les données sont issues d'un modèle vérifiant :
 
-$$ D = UV^T + E $$
+\begin{equation}
+D = UV^T + E
+\end{equation}
 
 - $d$ est un entier compris entre 1 et $n - 1$ ;
 - $U$ est une matrice de taille $m \times d$, qui ici correspondrait aux caractéristiques de l'apprenant ;
@@ -79,32 +87,28 @@ Les composantes ne sont alors plus orthogonales comme dans une analyse en compos
 
 Dans notre cas, la matrice $D$ des données des apprenants ne comporte que des 1 et des 0, correspondant respectivement aux succès et échecs des apprenants sur des questions du test.
 
-Ainsi, si l'on modélise l'apprenant d'après la théorie de la réponse à l'item multidimensionnelle (TRIM) de dimension $d$, si l'apprenant a un grand facteur selon une dimension impliquée dans la résolution d'une question, il aura simplement plus de chances de répondre correctement à la question. Pour rappel, la probabilité que l'apprenant $i$ réponde correctement à la question $j$ est donnée par l'expression :
+Ainsi, si l'on modélise l'apprenant d'après la théorie de la réponse à l'item multidimensionnelle (MIRT) de dimension $d$, si l'apprenant a un grand facteur selon une dimension impliquée dans la résolution d'une question, il aura simplement plus de chances de répondre correctement à la question. Pour rappel, la probabilité que l'apprenant $i$ réponde correctement à la question $j$ est donnée par l'expression :
 
 \begin{equation}
 Pr(D_{ij} = 1) = \Phi(\mathbf{\theta_i} \cdot \mathbf{d_j} + \delta_j)
 \end{equation}
 
-- $\Phi$ est la fonction logistique définie sur les réels : $\Phi(x) = \frac1{1 + e^{-x}}$, qui tend vers 0 en $-\infty$ et vers 1 en $+\infty$ ;
+- $\Phi$ est la fonction logistique définie sur les réels : $\Phi(x) = 1/(1 + e^{-x})$, qui tend vers 0 en $-\infty$ et vers 1 en $+\infty$ ;
 - $\mathbf{\theta_i}$ est le vecteur des caractéristiques de l'apprenant $i$ ;
 - $\mathbf{d_j}$ est le vecteur des caractéristiques de la question $j$ ;
 - $\delta_j$ est un paramètre de facilité de la question $j$.
 
-Écrit sous forme matricielle, le modèle TRIM devient, à la fonction logistique près, une analyse de facteurs :
+Écrit sous forme matricielle, le modèle MIRT devient, à la fonction logistique près, une analyse de facteurs :
 
-$$ D \simeq \Phi(\Theta V^T) $$
+\begin{equation}
+D \simeq \Phi(\Theta V^T)
+\end{equation}
 
 - $d$ est un entier compris entre 1 et $n - 1$ ;
-- $\Theta$ est une matrice de taille $m \times (d + 1)$ dont la ligne $i$ est $(\theta_{i1}, \ldots, \theta_{id}, 1)$ ;
-- $V$ est une matrice de taille $n \times (d + 1)$ dont la ligne $j$ est $(d_{j1}, \ldots, d_{jd}, \delta_j)$ ;
+- $\Theta$ est de taille $m \times (d + 1)$, sa ligne $i$ est $(\theta_{i1}, \ldots, \theta_{id}, 1)$ ;
+- $V$ est de taille $n \times (d + 1)$, sa ligne $j$ est $(d_{j1}, \ldots, d_{jd}, \delta_j)$ ;
 - $V^T$ indique la matrice transposée de $V$.
 
 L'estimation ne peut jamais être exacte, car $\Phi$ tend vers 0 et 1 en $\pm \infty$. Toutefois, $\Phi$ tend vite vers ses limites, par exemple $\Phi(4)$ vaut déjà environ 0,982.
 
 Cette estimation revient à faire une phase d'apprentissage non supervisé, car les caractéristiques des questions sont directement extraites des données des apprenants $D$, elles ne sont pas spécifiées par un expert. Il y a $d(m + n)$ paramètres à estimer, donc la calibration des paramètres peine à converger lorsqu'on doit traiter des données de beaucoup d'apprenants.
-
-<!-- ## Extraction de q-matrice via factorisation de matrices positives
-
-As a recall, non-negative matrix factorization tries to devise matrices with non-negative coefficients $W$ and $Q$ such that the original matrix $M$ verifies $M \simeq WQ^T$. But other matrix factorization techniques can be tried such as sparse PCA [@Zou2006], which tries to devise a factorization under the form $M \simeq WQ^T$ where $Q$ is sparse, the intuition being: only few knowledge components are involved in the resolution of one task. On the datasets we tried, the expert-specified q-matrix fit better than a q-matrix devised automatically using sparse PCA.
-
-Ici on s'intéresse à écrire $M = WH$ où $W$ et $H$ n'ont que des coefficients positifs ou nuls et la norme de Frobenius $||M - WH||$ est minimisée. Ainsi il n'y a pas de compensation entre les composantes et les poids peuvent être facilement interprétés. -->

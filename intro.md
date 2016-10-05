@@ -2,7 +2,7 @@
 
 L'individualisation de l'enseignement et de l'évaluation est un enjeu fort de notre siècle. Donner la même feuille d'exercices à tous les élèves d'une classe conduit à des situations où certains élèves finissent très vite et demandent d'autres exercices, tandis que d'autres peinent à résoudre un exercice. Il serait plus profitable pour les élèves d'avoir des feuilles d'exercices personnalisées. Mais le travail consistant à piocher des exercices dans une banque de façon à maintenir un certain équilibre pour une unique feuille universelle est déjà difficile pour un professeur, alors concevoir des feuilles d'exercices différentes pour chaque étudiant peut sembler complexe à gérer. Heureusement, les progrès en traitement de l'information rendent cela possible. On voit ainsi aujourd'hui des professeurs d'université distribuer des énoncés différents à tous leurs étudiants lors d'un examen [@Zeileis2012], ce qui pose toutefois des questions d'impartialité de l'évaluation. Personnaliser l'évaluation permet également de poser moins de questions à chaque apprenant [@Chang2014], ce qui est d'autant plus utile que les apprenants passent aujourd'hui trop de temps à être testés [@Zernike2015].
 
-\newacronym{mooc}{MOOC}{\emph{Massive Online Open Courses}, cours en ligne ouverts massifs}
+\newacronym{mooc}{MOOC}{\emph{Massive Online Open Courses}}
 
 Avec l'arrivée des \gls{mooc}, ce besoin en évaluation adaptative s'est accentué. Des cours de nombreuses universités à travers le monde peuvent être suivis par des centaines de milliers d'étudiants. Mais la pluralité des profils de ces apprenants, notamment leurs âges et leurs parcours, fait qu'il devient crucial d'identifier les connaissances que les apprenants ont accumulées dans le passé, afin de personnaliser leurs expériences d'apprentissage et d'aider le professeur à mieux connaître sa classe pour améliorer son cours. Or, répondre à de nombreuses questions d'un test de positionnement au début d'un cours risque de paraître fastidieux pour les apprenants [@Desmarais2012]. Il est alors encouragé de ne poser des questions que lorsque c'est nécessaire, par exemple ne pas poser des questions trop difficiles tant que l'apprenant n'a pas répondu à des questions faciles, et ne pas poser des questions requérant des compétences que l'apprenant semble déjà maîtriser, au vu de ses réponses précédentes [@Chang2014].
 
@@ -17,22 +17,6 @@ Les tests adaptatifs qui se contentent de mesurer l'apprenant opèrent de façon
 Dans cette thèse, nous avons répertorié des modèles de tests adaptatifs issus de différents pans de la littérature. Nous les avons comparés de façon qualitative et quantitative. Nous avons ainsi proposé et implémenté un protocole expérimental pour comparer les principaux modèles de tests adaptatifs sur plusieurs jeux de données réelles. Cela nous a amenés à proposer un modèle hybride de diagnostic de connaissances adaptatif. Enfin, nous avons élaboré une stratégie pour poser plusieurs questions au tout début du test afin de réaliser une meilleure estimation initiale des connaissances de l'apprenant.
 
 Nous avons souhaité adopter un point de vue venant de l'apprentissage automatique, plus précisément du filtrage collaboratif, pour attaquer le problème du choix des questions à poser pour réaliser un diagnostic. En filtrage collaboratif, on se demande comment s'aider d'une communauté active pour avoir une idée des préférences d'un utilisateur en fonction des préférences des autres utilisateurs. En évaluation adaptative, on se demande comment s'aider d'un historique de passage d'un test pour avoir une idée de la performance d'un apprenant en fonction de la performance des autres apprenants. Il n'est pas question ici de faire une analogie directe entre l'apprentissage et la consommation de culture, mais plutôt de s'inspirer des techniques étudiées dans cet autre domaine : il est indéniable que les plateformes de consommation de biens culturels sont davantage préparées que les MOOC à recevoir des milliers d'utilisateurs, traiter les grandes quantités de données qu'ils récoltent et adapter leur contenu en conséquence. Ainsi, les algorithmes qu'on y retrouve ne reposent pas seulement sur une solide théorie statistique mais également sur un souci de mise en pratique efficace en grande dimension.
-
-<!-- ## Comparaison de méthodes par validation croisée
-
-Une question récurrente est de savoir comment comparer deux algorithmes de filtrage collaboratif. La méthode de *validation croisée* consiste à séparer les notes dont on dispose en deux parties : notes d'entraînement et de test, et de tenter de prédire les notes de test à partir des notes d'entraînement. Ainsi, les notes de test ne sont considérées que pour l'évaluation des algorithmes. Dans cette thèse, nous appliquons cette méthode à l'évaluation de modèles de tests adaptatifs.
-
-## Démarrage à froid
-
-Lorsqu'un nouvel utilisateur se rend sur un site de recommandation, le système n'a aucune information sur ses goûts et doit donc solliciter l'utilisateur afin d'obtenir ces informations : c'est le problème du *démarrage à froid* de l'utilisateur. Afin que le processus soit efficace, il est préférable de poser un minimum de questions, donc tout l'enjeu est de déterminer des œuvres discriminantes permettant au système d'avoir une idée précise des goûts de l'utilisateur. @Golbandi2011 construit ainsi un arbre de décision qui vise à répartir les utilisateurs dans des groupes au sein desquels le taux d'erreur des prédictions est faible. Il est également possible d'incorporer des informations supplémentaires sur les produits (descriptions, auteurs, thèmes, etc.) afin de calculer des valeurs de similarité entre œuvres et pouvoir déterminer par inférence des œuvres susceptibles de plaire à l'utilisateur.
-
-Ce problème du démarrage à froid pour l'utilisateur est analogue à notre problème de choisir les meilleures questions à poser à un apprenant.
-
-## Obtenir des recommandations diversifiées
-
-Enfin, dans les systèmes de recommandation on cherche parfois à déterminer un ensemble diversifié de recommandations : plutôt que de trier les résultats par pertinence, un moteur de recherche, qui n'est autre qu'un système de recommandation de pages Web, a plutôt intérêt à présenter des éléments diversifiés. Si l'on trie par pertinence les résultats associés à la recherche \og jaguar \fg, on risque de se retrouver avec seulement des liens associés à l'animal, ou seulement des liens à la marque de voiture, alors qu'on aimerait pouvoir récapituler les résultats de recherche à ces deux catégories, afin de maximiser les chances que l'internaute trouve ce qu'il recherche.
-
-Ce problème de récapitulation des items pour l'utilisateur est analogue à notre recherche de la réduction du nombre des questions à présenter à un apprenant. -->
 
 # Problèmes
 
@@ -54,7 +38,7 @@ Dans une situation donnée, en fonction des données dont un enseignant dispose 
 
 ### Élaboration d'un test adaptatif dans un MOOC
 
-Dans le cas pratique d'une utilisation d'un test adaptatif dans un MOOC, comment pourrait-on procéder ?
+Dans le cas pratique d'une utilisation d'un test adaptatif dans un MOOC, comment pourrait-on procéder ? [@Vie2015b]
 
 # Contributions
 
@@ -93,21 +77,25 @@ Ce cadre nous a permis d'évaluer des modèles de tests adaptatifs sur plusieurs
 
 Le protocole expérimental que nous avons conçu est générique : il s'appuie sur les composants que l'on retrouve dans tous les modèles de tests adaptatifs, et peut ainsi être réutilisé pour de nouveaux modèles, et de nouveaux jeux de données.
 
-Cette première analyse nous a permis de faire un état de l'art intercommunautaire des modèles de tests adaptatifs récents que nous avons publiée dans un livre sur l'analytique de l'apprentissage [@Vie2016b], et de concevoir une méthodologie pour étudier les modèles de tests adaptatifs. Nous avons ainsi pu mettre en évidence que selon le type de test, le meilleur modèle n'est pas le même, et proposer les deux autres contributions suivantes.
+Cette première analyse [@Vie2015] nous a permis de faire un état de l'art intercommunautaire des modèles de tests adaptatifs récents que nous avons publiée dans un livre sur l'analytique de l'apprentissage [@Vie2016b], et de concevoir une méthodologie pour étudier les modèles de tests adaptatifs. Nous avons ainsi pu mettre en évidence que selon le type de test, le meilleur modèle n'est pas le même, et proposer les deux autres contributions suivantes.
 
 ## GenMA, un modèle hybride adaptatif de diagnostic de connaissances
 
+\newacronym{genma}{GenMA}{\emph{General Multidimensional Adaptive}}
+
 La comparaison que nous avons effectuée a permis de mettre en exergue les limitations des différents modèles : par exemple, un modèle sommatif basé sur la théorie de la réponse à l'item est généralement plus prédictif qu'un modèle formatif basé sur un modèle de diagnostic cognitif.
 
-Afin de pallier les limitations des deux types de modèles, nous avons proposé un nouveau modèle adaptatif (\og GenMA \fg, pour *General Multidimensional Adaptive*) de diagnostic de connaissances qui mesure à la fois le niveau de l'apprenant et son degré de maîtrise selon plusieurs composantes de connaissances pour lui faire un diagnostic utile pour s'améliorer. GenMA est donc un modèle hybride car il s'appuie sur une représentation des composantes de connaissances, et sur la théorie de la réponse à l'item.
+Afin de pallier les limitations des deux types de modèles, nous avons proposé un nouveau modèle adaptatif de diagnostic de connaissances appelé \gls{genma} qui mesure à la fois le niveau de l'apprenant et son degré de maîtrise selon plusieurs composantes de connaissances pour lui faire un diagnostic utile pour s'améliorer. GenMA est donc un modèle hybride car il s'appuie sur une représentation des composantes de connaissances, et sur la théorie de la réponse à l'item.
 
 GenMA est plus rapide à calibrer qu'un modèle de théorie de la réponse à l'item de même dimension. De plus, il est meilleur que le modèle existant de diagnostic cognitif sur tous les jeux de données étudiés. Nous l'avons présenté à la conférence EC-TEL 2016 [@Vie2016].
 
 ## InitialD, tirer les $k$ premières questions pour démarrer
 
+\newacronym{initiald}{InitialD}{\emph{Initial Determinant}}
+
 Pour l'utilisation du modèle GenMA, nous avons comparé différentes stratégies du choix des $k$ premières questions à poser à un nouvel apprenant. Adapter le processus d'évaluation dès la première question peut conduire à des estimations imprécises du niveau de l'apprenant, car celui-ci peut faire des fautes d'inattention ou deviner la bonne réponse. Une variante des tests adaptatifs nommée tests à étapes multiples consiste à poser plusieurs questions avant d'estimer le niveau de l'apprenant pour minimiser le taux d'erreur du premier diagnostic.
 
-Nous avons proposé une nouvelle stratégie (\og InitialD \fg, pour *Initial Determinant*) pour choisir les $k$ premières questions, qui repose sur une mesure de diversité inspirée par les systèmes de recommandation. Ainsi, InitialD cherche à sélectionner $k$ questions diversifiées, afin de minimiser la redondance de ce qui est mesuré.
+Nous avons proposé une nouvelle stratégie appelée \gls{initiald} pour choisir les $k$ premières questions, qui repose sur une mesure de diversité inspirée par les systèmes de recommandation. Ainsi, InitialD cherche à sélectionner $k$ questions diversifiées, afin de minimiser la redondance de ce qui est mesuré.
 
 Nous montrons ainsi que l'adaptation a ses limites, puisque parfois poser un petit groupe de $k$ questions est plus informatif pour le modèle de test adaptatif que poser $k$ questions une par une, de façon adaptative. De façon théorique, la meilleure stratégie adaptative réalise un diagnostic plus fin que la meilleure stratégie non adaptative, mais nous avons mis en évidence que certaines stratégies adaptatives habituellement utilisées dans les tests adaptatifs se comportent moins bien que les stratégies non adaptatives que nous avons proposées.
 

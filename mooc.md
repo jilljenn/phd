@@ -24,13 +24,13 @@ Cependant, sur un MOOC, les apprenants ne participent pas à tous les quiz. Ains
 
 Nous souhaitions nous placer dans le cas où un nouvel apprenant apparaît sur un MOOC et souhaite tester ses connaissances afin de déterminer s'il peut se passer de certaines parties du cours. Pour ce faire, il nous a fallu construire :
 
-- une représentation des connaissances mises en œuvre dans le cours, sous la forme d'un graphe de prérequis $G = (V, E)$ où $V$ est l'ensemble des composantes de connaissance et une arête $u \rightarrow v$ désigne la relation de prérequis : \og $u$ doit être maîtrisé pour maîtriser $v$ \fg ;
+- une représentation des connaissances mises en œuvre dans le cours, sous la forme d'un graphe de prérequis $G = (V, E)$ où $V$ est l'ensemble des composantes de connaissances et une arête $u \rightarrow v$ désigne la relation de prérequis : \og $u$ doit être maîtrisé pour maîtriser $v$ \fg ;
 - un lien entre chaque question et les composantes de connaissances (CC) qu'elle requiert. Pour simplifier, nous avons considéré que chaque question requérait une CC principale, et le graphe de prérequis permet d'indiquer quels sont les CC qu'il faut avoir maîtrisé pour maîtriser cette CC principale.
 
-Cela nous a permis de construire un modèle de hiérarchie sur les attributs, défini à la section \ref{ahm} et similaire au modèle de théorie des espaces de connaissance. Ainsi, à partir de ce modèle de test adaptatif, pour chaque apprenant qui passe le test, les informations que nous disposons sur lui sont :
+Cela nous a permis de construire un modèle de hiérarchie sur les attributs, défini à la section \vref{ahm} et similaire au modèle de théorie des espaces de connaissances. Ainsi, à partir de ce modèle de test adaptatif, pour chaque apprenant qui passe le test, les informations que nous disposons sur lui sont :
 
 - le résultat (vrai ou faux) à chaque question que le système lui a posée ;
-- une distribution de probabilité $\pi$ sur les états latents possibles dans lesquels peut se trouver l'apprenant, c'est-à-dire : quels CC il semble maîtriser et quels CC il semble ne pas maîtriser (voir section \vref{dina}).
+- une distribution de probabilité $\pi$ sur les états latents possibles dans lesquels peut se trouver l'apprenant, c'est-à-dire : quels CC il semble maîtriser et quels CC il semble ne pas maîtriser (voir section \vref{dina}).
 
 ### Spécification des paramètres
 
@@ -49,7 +49,9 @@ Au fur et à mesure que l'apprenant répond à des questions, le système peut m
 
 Certaines questions sont plus informatives que d'autres. Par exemple, poser une question reliée à une composante qui n'a pas d'arc sortant est peu avantageux car la probabilité que l'étudiant la maîtrise est faible, or une réponse fausse n'apportera pas beaucoup d'information. Il est possible de quantifier plus formellement l'information que chaque question peut apporter. En théorie de l'information, une manière de représenter l'incertitude est l'entropie. Pour une variable $X$ pouvant prendre des valeurs avec des probabilités $(p_i)_{1 \leq i \leq n}$ :
 
-$$ H(X) = - \sum_{i = 1}^n p_i \log_2 p_i. $$
+\begin{equation}
+H(X) = - \sum_{i = 1}^n p_i \log_2 p_i.
+\end{equation}
 
 Par exemple, une pièce parfaitement équilibrée peut prendre la valeur Pile avec probabilité 50 % et Face avec la même probabilité, ainsi son entropie est de 1, tandis qu'une pièce pouvant prendre la valeur Pile avec probabilité 90 % a une entropie de 0,470. La pièce équilibrée est donc celle d'incertitude maximale. Dans notre cas, en choisissant la question faisant le plus abaisser l'entropie, on vise à converger rapidement vers l'état latent de l'apprenant.
 
@@ -73,14 +75,14 @@ Ainsi, 5 questions ont été posées au lieu de 9 afin de déterminer l'état me
 
 ### Protocole expérimental
 
-Afin de simplifier l'étude tout en conservant un grand nombre de réponses, nous avons considéré le graphe de prérequis à la figure \ref{coursera-graph} et avons choisi un sous-ensemble de 9 questions tirées des quiz 1 à 4 du MOOC. Cela nous a permis de construire une matrice de motifs de réponse binaires de 3713 étudiants sur ces 9 questions portant sur les 9 composantes de connaissance Banach, Complétude, Convergence, Distance, Espace métrique, Hilbert, Norme, Ouvert et fermé, Produit scalaire.
+Afin de simplifier l'étude tout en conservant un grand nombre de réponses, nous avons considéré le graphe de prérequis à la figure \ref{coursera-graph} et avons choisi un sous-ensemble de 9 questions tirées des quiz 1 à 4 du MOOC. Cela nous a permis de construire une matrice de motifs de réponse binaires de 3713 étudiants sur ces 9 questions portant sur les 9 composantes de connaissances Banach, Complétude, Convergence, Distance, Espace métrique, Hilbert, Norme, Ouvert et fermé, Produit scalaire.
 
-Chaque question a été choisie pour couvrir une composante de connaissance (et toutes celles qui sont nécessaires à sa maîtrise), ainsi chaque question correspond à un nœud du graphe de prérequis. Le nombre de motifs de réponse de chaque type est donné dans la table \ref{coursera-patterns} et sa non-uniformité laisse entendre qu'il existe des corrélations entre les réponses aux questions (sinon, le nombre d'occurrences serait le même d'un motif de réponse à un autre).
+Chaque question a été choisie pour couvrir une composante de connaissances (et toutes celles qui sont nécessaires à sa maîtrise), ainsi chaque question correspond à un nœud du graphe de prérequis. Le nombre de motifs de réponse de chaque type est donné dans la table \ref{coursera-patterns} et sa non-uniformité laisse entendre qu'il existe des corrélations entre les réponses aux questions (sinon, le nombre d'occurrences serait le même d'un motif de réponse à un autre).
 
 \begin{table}
 \centering
 \begin{tabular}{cc} \toprule
-motif de réponse & nombre d'occurrences\\ \midrule
+Motif de réponse & Nombre d'occurrences\\ \midrule
 000000010 & 1129 \\
 000000000 & 460 \\
 010110110 & 271 \\
@@ -119,6 +121,6 @@ Valeur de $\varepsilon$ & Temps de convergence & Erreur de prédiction\\ \midrul
 
 ### Discussion
 
-La valeur de robustesse $\varepsilon = 0$ correspond à un test où l'on suppose que si l'apprenant répond correctement à une question, alors il maîtrise la composante de connaissance correspondante. Un tel test converge en 5 questions en moyenne, et prédit correctement 8 des 9 réponses du motif de réponse. Ainsi, en ne posant que 55 % des questions du test en fonction des réponses précédentes, il obtient un succès de 89 %.
+La valeur de robustesse $\varepsilon = 0$ correspond à un test où l'on suppose que si l'apprenant répond correctement à une question, alors il maîtrise la composante de connaissances correspondante. Un tel test converge en 5 questions en moyenne, et prédit correctement 8 des 9 réponses du motif de réponse. Ainsi, en ne posant que 55 % des questions du test en fonction des réponses précédentes, il obtient un succès de 89 %.
 
 Une plus grande valeur de robustesse $\varepsilon$ n'améliore pas tellement les prédictions, ce qui peut être expliqué par le faible nombre d'états possibles (35). Le graphe des prérequis à la figure \ref{coursera-graph} est rudimentaire, ce qui ne lui permet pas d'exprimer les connaissances d'un tel domaine des mathématiques. Toutefois, cet exemple minimal de test adaptatif réduit le nombre de questions posées de façon satisfaisante, tout en garantissant la fiabilité du test. Ce modèle est à préférer au modèle de Rasch car il permet d'indiquer à l'apprenant les composantes de connaissances qu'il semble maîtriser. Cela requiert toutefois un graphe de prérequis qui peut être coûteux à construire selon la discipline dans laquelle l'apprenant est évalué.

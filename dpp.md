@@ -1,4 +1,4 @@
-# Caractérisation de la qualité d'un ensemble de questions
+Caractérisation de la qualité d'un ensemble de questions
 
 À la section \vref{mst}, nous avons mentionné les *tests à étapes multiples* qui consistent à poser un groupe de questions à l'apprenant, obtenir ses réponses en bloc, pour ensuite choisir le groupe suivant de questions à poser, plutôt que d'adapter le processus question après question. Cela permet d'avoir plus d'informations sur l'apprenant avant de réaliser la première estimation de son niveau qui permettra de choisir le groupe de questions suivant. De plus, cela permet à l'apprenant d'avoir plus de recul sur les exercices qui lui sont posés et de se relire avant de valider, plutôt que d'obtenir des questions portant sur des composantes de connaissances (CC) diverses question après question.
 
@@ -10,24 +10,15 @@ Pour mieux comprendre notre approche, voici une interprétation géométrique de
 
 Pour rappel, la phase d'apprentissage du modèle GenMA de dimension $K$ consiste à déterminer les caractéristiques $\mathbf{d_j} = (d_{j1}, \ldots, d_{jK})$ et $\delta_j$ de chaque question $j$ et les caractéristiques $\mathbf{\theta_i} = (\theta_{i1}, \ldots, \theta_{iK})$ de chaque apprenant $i$. La probabilité qu'un apprenant $i$ réponde correctement à une question $j$ est ensuite donnée par l'expression $\Phi(\mathbf{\theta_i} \cdot \mathbf{d_j})$. Pour visualiser, on peut représenter les questions par des points à coordonnées $(d_{j1}, \ldots, d_{jK})$ pour chaque $j$ et l'apprenant $i$ par le vecteur $\mathbf{\theta_i}$. Les questions qui ont le plus de chances d'être résolues par l'apprenant correspondent aux points qui se trouvent le plus dans la direction de $\mathbf{\theta_i}$, voir la figure \ref{viz-mirt}.
 
-<!-- \begin{figure}
-\centering
-\includegraphics[width=\linewidth]{figures/2d}
-\caption{Test adaptatif en 2 dimensions}
-\label{viz-mirt}
-\end{figure} -->
-
 Ainsi, poser un jeu de $k$ questions revient à choisir $k$ points de l'espace à présenter à l'apprenant, ce qui permettra après étiquetage par succès/échec en fonction de ses réponses de déterminer une première estimation de son vecteur de niveau $\mathbf{\theta}$.
 
-Pour estimer les paramètres de l'apprenant, on souhaite choisir l'estimateur du maximum de vraisemblance. Mais si les réponses que l'apprenant a faites jusque-là sont toutes correctes ou toutes incorrectes, l'estimateur tend vers $\pm \infty$ et il faut choisir un autre estimateur. Ce problème avait déjà été mis en évidence par @Lan2014 et par @Magis2015.
+Pour estimer les caractéristiques de l'apprenant, on souhaite choisir l'estimateur du maximum de vraisemblance. Mais si les réponses que l'apprenant a faites jusque-là sont toutes correctes ou toutes incorrectes, l'estimateur tend vers $\pm \infty$ et il faut choisir un autre estimateur. Ce problème avait déjà été mis en évidence par @Lan2014 et par @Magis2015.
 
 ## Stratégies de choix de $k$ questions
 
 Aléatoire
 
 :   Une première méthode naïve consiste à choisir $k$ questions au hasard.
-
-<!-- un modèle qui donne la probabilité -->
 
 Incertitude maximale
 
@@ -51,26 +42,24 @@ Pour implémenter cet échantillonnage, il faut :
 
 - un ensemble de $n$ éléments à échantillonner, identifiés par les indices $X = \{1, \ldots, n\}$
 - pour chaque élément $i \in X$, un vecteur $\mathbf{x_i}$ de dimension $d$ correspondant aux caractéristiques de l'élément $i$ ;
-- un noyau $K$ permettant de décrire une valeur de similarité pour chaque paire d'éléments : une matrice symétrique $L$ définie par $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$.\bigskip
+- un noyau $K$ permettant de décrire une valeur de similarité pour chaque paire d'éléments. Ce noyau permet de définir une matrice symétrique $L$ telle que $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$.\bigskip
 
 Pour nos usages, nous avons utilisé le simple noyau linéaire $K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$, mais il est possible d'utiliser le noyau gaussien :
 
-$$ K(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{{||\mathbf{x_i} - \mathbf{x_j}||}^2}{2\sigma^2}\right). $$
+\begin{equation}
+K(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{{||\mathbf{x_i} - \mathbf{x_j}||}^2}{2\sigma^2}\right).
+\end{equation}
 
-Formellement, $P$ est un processus à point déterminantal (PPD) s'il vérifie pour tout ensemble $Y \subset \{1, \ldots, n\}$ :\nomenclature{PPD}{processus à point déterminantal}
+\newacronym{ppd}{PPD}{processus à point déterminantal}
 
-$$ Pr(Y \subset X) \propto \det L_Y $$
+Formellement, $P$ est un \gls{ppd} s'il vérifie pour tout ensemble $Y \subset \{1, \ldots, n\}$ :
+
+\begin{equation}
+Pr(Y \subset X) \propto \det L_Y
+\end{equation}
 
 \noindent
 où $L_Y$ est la sous-matrice carrée de $L$ indexée par les éléments de $Y$ en ligne et colonne.
-
-À titre d'exemple, la Figure \ref{dpp-u} montre ce qu'on obtient si l'on échantillonne selon un processus à point déterminantal des points équirépartis sur le cercle unité en dimension 2. On voit que la méthode PPD échantillonne des points plus éloignés les uns des autres qu'un échantillonnage selon une loi uniforme. Les points échantillonnés avec le noyau gaussien sont davantage répulsifs sur cet exemple.
-
-\begin{figure}
-\includegraphics[width=\linewidth]{figures/dpp-u.png}
-\caption{Points échantillonnés sur le cercle unité. À gauche, tirage uniforme. Au milieu, tirage PPD avec noyau gaussien. À droite, tirage PPD avec noyau linéaire.}
-\label{dpp-u}
-\end{figure}
 
 Dans notre cas, cette loi est intéressante car des éléments seront tirés avec une probabilité proportionnelle au carré du volume du parallélotope qu'ils forment. En effet, chaque élément $L_{ij}$ de la matrice $L$ vaut $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ donc si on note $B$ la matrice ayant pour lignes $\mathbf{x_1}, \ldots, \mathbf{x_n}$, on a $L = B B^T$. Si à présent on note $B_Y$ la matrice ayant pour lignes les vecteurs $\mathbf{x_i}$ pour $i$ appartenant à $Y$, $L_Y = B_Y B_Y^T$ et donc $Pr(Y \subset X) \propto \det L_Y = \det B_Y B_Y^T = {Vol(\{\mathbf{x_i}\}_{i \in Y})}^2.$
 
@@ -114,13 +103,13 @@ CAT
 
 :   Enfin, nous ajoutons à ces trois stratégies la sélection adaptative habituelle, question par question, afin de comparer nos trois stratégies non adaptatives aux métriques obtenues avec la stratégie adaptative.
 
-## Jeux de données réels
+## Jeux de données réelles
 
 Pour les jeux de données Fraction et TIMSS, grâce aux q-matrices et au modèle GenMA nous obtenons une représentation distribuée des questions de dimension 8, que nous utilisons pour calculer la matrice de similarité et échantillonner les questions.
 
 ## Protocole expérimental
 
-Notre protocole est similaire à celui développé pour la comparaison de modèles de tests adaptatifs à la section \vref{comp-cat}, à l'exception d'une méthode \textsc{FirstBundle} qui prend en argument la stratégie $S$ choisie, le nombre de questions à poser $k$, les caractéristiques des questions $\alpha = (\mathbf{d_1}, \ldots, \mathbf{d_j}, \delta_1, \ldots, \delta_j)$, les caractéristiques initiales de l'apprenant $\pi = (0, \ldots, 0) \in \R^K$ et renvoie un ensemble $Y$ de $k$ questions à poser à l'apprenant. Contrairement au chapitre précédent, ici nous ne comparons plus des modèles différents mais des stratégies différentes pour le même modèle GenMA.
+Notre protocole est similaire à celui développé pour la comparaison de modèles de tests adaptatifs à la section \vref{comp-cat}, à l'exception d'une méthode \textsc{FirstBundle} qui prend en argument la stratégie $S$ choisie, le nombre de questions à poser $k$, les caractéristiques des questions $(\mathbf{d_j})_{j = 1, \ldots, n}$ et $(\delta_j)_{j = 1, \ldots, n}$, les caractéristiques initiales de l'apprenant $\mathbf{\theta} = (0, \ldots, 0) \in \R^K$ et renvoie un ensemble $Y$ de $k$ questions à poser à l'apprenant. Contrairement au chapitre précédent, ici nous ne comparons plus des modèles différents mais des stratégies différentes pour le même modèle GenMA.
 
 Nous séparons les apprenants en deux ensembles d'entraînement et de test (80 % et 20 %) et calibrons le modèle GenMA avec les apprenants d'entraînement. Puis, pour chaque apprenant de test, nous choisissons $k$ premières questions à poser, récoltons ses réponses et estimons son vecteur de niveau (voir algorithme \ref{simu-pretest}).
 
@@ -132,21 +121,23 @@ Quelle est la performance des prédictions qui découlent de ce premier groupe d
 
 ### Distance au diagnostic final
 
+\label{delta}
+
 Quelle est la différence entre le paramètre estimé à partir de $k$ questions et le paramètre estimé lorsqu'on a posé toutes les questions ? Cette valeur est calculée par @Lan2014 pour comparer les méthodes de sélection de questions.
 
 \begin{algorithm}
 \begin{algorithmic}
-\Procedure{SimulerPretest}{stratégie $S$, $I_{train}$, $I_{test}$}
-\State $\alpha \gets \Call{TrainingStep}{D[I_{train}]}$
-\For{tout étudiant $s$ de l'ensemble $I_{test}$}
-    \For{$k$ de 1 à $|Q|$}
-        \State $\pi \gets \Call{PriorInitialization}$
-        \State $S \gets \Call{FirstBundle}{S, k, \alpha, \pi}$
+\Procedure{SimulatePretest}{stratégie $S$, $I_{train}$, $I_{test}$}
+\State $(\mathbf{d_j})_j, (\delta_j)_j \gets \Call{TrainingStep}{D[I_{train}]}$
+\For{tout apprenant $s$ de l'ensemble $I_{test}$}
+    \For{$k$ de 1 à $n$}
+        \State $\theta \gets \Call{PriorInitialization}$
+        \State $Y \gets \Call{FirstBundle}{S, k, (\mathbf{d_j})_j, (\delta_j)_j, \theta}$
         \State Poser les questions $Y$ à l'apprenant $s$
         \State Récupérer les valeurs de succès ou échec correspondantes $(r_i)_{i \in Y}$ de ses réponses
-        \State $\pi \gets \Call{EstimateParameters}{\{(i, r_i)\}_{i \in Y}, \alpha}$
-        \State $p \gets$ \Call{PredictPerformance}{$\alpha, \pi$}
-        \State $\Sigma \gets$ \Call{EvaluatePerformance}{$p, D[s], \pi$}
+        \State $\theta \gets \Call{EstimateParameters}{\{(i, r_i)\}_{i \in Y}, \theta}$
+        \State $p \gets$ \Call{PredictPerformance}{$\theta, (\mathbf{d_j})_{j}$}
+        \State $\sigma_k \gets$ \Call{EvaluatePerformance}{$p, D[s], \theta$}
     \EndFor
 \EndFor
 \EndProcedure
@@ -159,7 +150,7 @@ Quelle est la différence entre le paramètre estimé à partir de $k$ questions
 
 ### TIMSS
 
-Les résultats sont donnés dans les figures \ref{initiald-timss-mean} à \ref{initiald-fraction-delta}.
+Les résultats sont donnés dans les figures \ref{initiald-timss-mean} à \ref{initiald-fraction-delta}.
 
 \begin{figure}[h]
 \centering
@@ -182,7 +173,7 @@ Random & $1.019 \pm 0.05$ (58 \%) & $0.705 \pm 0.035$ (68 \%) & $\mathbf{0.512 \
 \label{initiald-timss-mean-table}
 \end{table}
 
-Dans la figure \ref{initiald-timss-mean}, InitialD est bien meilleur que Random, bien meilleur que CAT, bien meilleur que Uncertainty. Dans les premières questions, CAT a une erreur comparable à celle de Uncertainty, car les deux modèles choisissent la question de probabilité la plus proche de 0,5. Mais InitialD explore davantage en choisissant un groupe de questions diversifiées.
+Dans la figure \ref{initiald-timss-mean}, InitialD est bien meilleur que Random, bien meilleur que CAT, bien meilleur que Uncertainty (voir \ref{initiald-timss-mean-table}). Dans les premières questions, CAT a une erreur comparable à celle de Uncertainty, car les deux modèles choisissent la question pour laquelle la probabilité que l'apprenant y réponde correctement est la plus proche de 0,5. Mais InitialD explore davantage en choisissant un groupe de questions diversifiées.
 
 Dès la première question, InitialD a une meilleure performance. C'est parce que choisir la question de plus grand \og volume \fg{} correspond à choisir la question dont le vecteur caractéristique a la plus grande norme, ou encore : la question la plus discriminante.
 
@@ -207,7 +198,7 @@ Random & $1.936 \pm 0.052$ & $1.317 \pm 0.048$ & $0.59 \pm 0.043$\\ \bottomrule
 \label{initiald-timss-delta-table}
 \end{table}
 
-Dans la figure \ref{initiald-timss-delta}, on voit que InitialD converge plus vite vers le vrai paramètre que les autres stratégies.
+Dans la figure \ref{initiald-timss-delta}, on voit que InitialD converge plus vite vers le vrai paramètre que les autres stratégies (voir \ref{initiald-timss-delta-table}).
 
 ### Fraction
 
@@ -232,7 +223,7 @@ Random & $0.842 \pm 0.09$ (70 \%) & $0.543 \pm 0.07$ (80 \%) & $\mathbf{0.387 \p
 \label{initiald-fraction-mean-table}
 \end{table}
 
-Dans la figure \ref{initiald-fraction-mean}, InitialD est meilleur que les autres stratégies. Uncertainty est la stratégie de plus grande variance, tandis que Random a une erreur comparable à CAT.
+Dans la figure \ref{initiald-fraction-mean}, InitialD est meilleur que les autres stratégies. Uncertainty est la stratégie de plus grande variance, tandis que Random a une erreur comparable à CAT (voir \ref{initiald-fraction-mean-table}).
 
 \begin{figure}[h]
 \centering
@@ -251,15 +242,13 @@ Uncertainty & $1.495 \pm 0.103$ & $1.19 \pm 0.112$ & $0.638 \pm 0.119$\\
 InitialD & $1.355 \pm 0.08$ & $\mathbf{0.859 \pm 0.058}$ & $0.502 \pm 0.047$\\
 Random & $1.467 \pm 0.095$ & $1.075 \pm 0.089$ & $0.62 \pm 0.083$\\ \bottomrule
 \end{tabular}
-\caption{Distances au diagnostic final obtenues pour le jeu de données TIMSS.}
+\caption{Distances au diagnostic final obtenues pour le jeu de données Fraction.}
 \label{initiald-fraction-delta-table}
 \end{table}
 
-Dans la figure \ref{initiald-fraction-delta}, le modèle qui converge le plus vite vers le vrai paramètre est InitialD pour la première moitié des questions, et CAT pour la deuxième moitié des questions, ce qui semble être un compromis entre choisir un groupe de questions avant de faire la première estimation, et adapter pour converger plus vite vers le vrai paramètre à estimer.
+Dans la figure \ref{initiald-fraction-delta}, le modèle qui converge le plus vite vers le vrai paramètre est InitialD pour la première moitié des questions, et CAT pour la deuxième moitié des questions, ce qui semble être un compromis entre choisir un groupe de questions avant de faire la première estimation, et adapter pour converger plus vite vers le vrai paramètre à estimer (voir \ref{initiald-fraction-delta-table}).
 
 ## Discussion et applications
-
-Il est possible d'incorporer des caractéristiques telles que le contenu des questions pour avoir des vecteurs plus précis, en plus grande dimension. En filtrage collaboratif, c'est l'approche qu'adopte @Van2013 pour résoudre le problème du démarrage à froid de l'utilisateur. Pour leur système de recommandation de musiques, ils intègrent des informations supplémentaires telles que le contenu de la musique pour obtenir de meilleures représentations distribuées des musiques.
 
 Si le nombre de questions à poser $k$, le nombre de questions disponibles $n$ et le nombre de dimensions $d$ sont des petites valeurs, il est possible de simuler tous les choix possibles de $k$ questions parmi $n$. Toutefois, en pratique, les banques de questions sur des plateformes de MOOC seront telles que la complexité de InitialD, $O(nk^3)$ après un précalcul de $O(n^3)$, sera un avantage.
 
@@ -273,7 +262,7 @@ Le test préalable peut être également appliqué à la génération d'une fich
 
 ### Démarrage à froid de question
 
-Cette méthode pourrait être appliquée au problème de démarrage à froid de la question : lorsqu'une nouvelle question est ajoutée à un test existant, on ne dispose d'aucune information concernant son niveau. Une méthode consiste à, de façon similaire, la poser à des apprenants qui ont des niveaux diversifiés pour estimer ses caractéristiques. C'est l'approche qu'adopte @Anava2015 dans un contexte de filtrage collaboratif. On peut imaginer sur un MOOC repérer le nombre de personnes actuellement connectées et tirer un sous-ensemble d'apprenants à qui poser la question.
+Cette méthode pourrait être appliquée au problème de démarrage à froid de la question : lorsqu'une nouvelle question est ajoutée à un test existant, on ne dispose d'aucune information concernant son niveau. Une méthode consiste à, de façon similaire, la poser à des apprenants qui ont des niveaux diversifiés pour estimer ses caractéristiques. C'est l'approche qu'adoptent @Anava2015 dans un contexte de filtrage collaboratif. On peut imaginer sur un MOOC repérer le nombre de personnes actuellement connectées et tirer un sous-ensemble d'apprenants à qui poser la question.
 
 # Conclusion
 
