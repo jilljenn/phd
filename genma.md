@@ -2,7 +2,7 @@
 
 \label{genma}
 
-Nous proposons un nouveau modèle de test adaptatif basé sur un modèle de diagnostic cognitif. GenMA est hybride dans la mesure où il tire son inspiration d'un modèle de la théorie de la réponse à l'item, et requiert la spécification d'une q-matrice : on suppose que l'on connaisse les composantes de connaissances (CC) mises en œuvre pour chaque question, sous la forme d'une q-matrice, dont l'élément $q_{jk}$ vaut 1 si la CC $k$ est impliquée dans la résolution de la question $j$, 0 sinon.
+Nous proposons un nouveau modèle de test adaptatif basé sur un modèle de diagnostic cognitif. GenMA est hybride dans la mesure où il tire son inspiration d'un modèle de la théorie de la réponse à l'item, et requiert la spécification d'une q-matrice : on suppose que l'on connaît les composantes de connaissances (CC) mises en œuvre pour chaque question, sous la forme d'une q-matrice, dont l'élément $q_{jk}$ vaut 1 si la CC $k$ est impliquée dans la résolution de la question $j$, 0 sinon.
 
 Comme pour chaque modèle de test adaptatif, il nous faut spécifier les points suivants.
 

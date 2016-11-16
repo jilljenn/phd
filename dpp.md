@@ -1,4 +1,4 @@
-Caractérisation de la qualité d'un ensemble de questions
+## Caractérisation de la qualité d'un ensemble de questions
 
 À la section \vref{mst}, nous avons mentionné les *tests à étapes multiples* qui consistent à poser un groupe de questions à l'apprenant, obtenir ses réponses en bloc, pour ensuite choisir le groupe suivant de questions à poser, plutôt que d'adapter le processus question après question. Cela permet d'avoir plus d'informations sur l'apprenant avant de réaliser la première estimation de son niveau qui permettra de choisir le groupe de questions suivant. De plus, cela permet à l'apprenant d'avoir plus de recul sur les exercices qui lui sont posés et de se relire avant de valider, plutôt que d'obtenir des questions portant sur des composantes de connaissances (CC) diverses question après question.
 
@@ -8,7 +8,7 @@ Ainsi, le problème devient : comment choisir les $k$ premières questions à pr
 
 Pour mieux comprendre notre approche, voici une interprétation géométrique de ce qu'il se passe lorsqu'un test adaptatif multidimensionnel est administré.
 
-Pour rappel, la phase d'apprentissage du modèle GenMA de dimension $K$ consiste à déterminer les caractéristiques $\mathbf{d_j} = (d_{j1}, \ldots, d_{jK})$ et $\delta_j$ de chaque question $j$ et les caractéristiques $\mathbf{\theta_i} = (\theta_{i1}, \ldots, \theta_{iK})$ de chaque apprenant $i$. La probabilité qu'un apprenant $i$ réponde correctement à une question $j$ est ensuite donnée par l'expression $\Phi(\mathbf{\theta_i} \cdot \mathbf{d_j})$. Pour visualiser, on peut représenter les questions par des points à coordonnées $(d_{j1}, \ldots, d_{jK})$ pour chaque $j$ et l'apprenant $i$ par le vecteur $\mathbf{\theta_i}$. Les questions qui ont le plus de chances d'être résolues par l'apprenant correspondent aux points qui se trouvent le plus dans la direction de $\mathbf{\theta_i}$, voir la figure \ref{viz-mirt}.
+Pour rappel, la phase d'apprentissage du modèle GenMA de dimension $K$ consiste à déterminer les caractéristiques $\mathbf{d_j} = (d_{j1}, \ldots, d_{jK})$ et $\delta_j$ de chaque question $j$ et les caractéristiques $\mathbf{\theta_i} = (\theta_{i1}, \ldots, \theta_{iK})$ de chaque apprenant $i$. La probabilité qu'un apprenant $i$ réponde correctement à une question $j$ est ensuite donnée par l'expression $\Phi(\mathbf{\theta_i} \cdot \mathbf{d_j})$. Pour visualiser, on peut représenter les questions par des points à coordonnées $(d_{j1}, \ldots, d_{jK})$ pour chaque $j$ et l'apprenant $i$ par le vecteur $\mathbf{\theta_i}$. Les questions qui ont le plus de chances d'être résolues par l'apprenant correspondent aux points qui se trouvent le plus dans la direction de $\mathbf{\theta_i}$.
 
 Ainsi, poser un jeu de $k$ questions revient à choisir $k$ points de l'espace à présenter à l'apprenant, ce qui permettra après étiquetage par succès/échec en fonction de ses réponses de déterminer une première estimation de son vecteur de niveau $\mathbf{\theta}$.
 
@@ -148,9 +148,9 @@ Quelle est la différence entre le paramètre estimé à partir de $k$ questions
 
 ## Résultats
 
-### TIMSS
-
 Les résultats sont donnés dans les figures \ref{initiald-timss-mean} à \ref{initiald-fraction-delta}.
+
+### TIMSS
 
 \begin{figure}[h]
 \centering
@@ -252,7 +252,7 @@ Dans la figure \ref{initiald-fraction-delta}, le modèle qui converge le plus v
 
 Si le nombre de questions à poser $k$, le nombre de questions disponibles $n$ et le nombre de dimensions $d$ sont des petites valeurs, il est possible de simuler tous les choix possibles de $k$ questions parmi $n$. Toutefois, en pratique, les banques de questions sur des plateformes de MOOC seront telles que la complexité de InitialD, $O(nk^3)$ après un précalcul de $O(n^3)$, sera un avantage.
 
-La méthode proposée dans ce chapitre ne cherche pas à déterminer le meilleur ensemble de questions à poser, mais un bon ensemble de questions tiré au hasard. Ajouter de l'aléa dans cette technique présente plusieurs avantages : les premières questions posées à chaque candidat ne sont pas les mêmes. Si cela constitue une surcharge supplémentaire lorsqu'on doit corriger manuellement les exercices des apprenants, en revanche lorsqu'ils sont administrés automatiquement sur une plateforme, cela permet d'éviter que les apprenants s'échangent les réponses, ou de trop utiliser les mêmes exercices de sa banque.
+La méthode proposée dans ce chapitre ne cherche pas à déterminer le meilleur ensemble de questions à poser, mais un bon ensemble de questions tiré au hasard. Ajouter de l'aléa dans cette technique présente plusieurs avantages : les premières questions posées à chaque candidat ne sont pas les mêmes. Si cela constitue une surcharge supplémentaire lorsqu'on doit corriger manuellement les exercices des apprenants, en revanche lorsqu'ils sont administrés automatiquement sur une plateforme, cela permet d'éviter que les apprenants ne s'échangent les réponses, ou de trop utiliser les mêmes exercices de sa banque.
 
 La stratégie InitialD peut être améliorée en ne tirant pas un seul ensemble de $k$ questions mais plusieurs, et en conservant le meilleur des échantillons. Tirer $\ell$ fois $k$ questions a une complexité $O(\ell nk^3)$, déterminer le meilleur ensemble a une complexité $O(\ell k^3)$. Faire plusieurs tirages augmente la probabilité de déterminer ainsi le meilleur ensemble de questions.
 

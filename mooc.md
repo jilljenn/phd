@@ -6,7 +6,7 @@ Le cours a accueilli 25354 inscrits et était composé de 8 leçons, à la fin d
 
 Nous avons tenté d'extraire un maximum de données de test, à l'exception des QCM qui se trouvaient au sein de chaque vidéo car elles avaient trop peu de réponses possibles. Ainsi, pour chaque test il nous fallait récupérer les succès et échecs des apprenants sur la plateforme : un ensemble de motifs de réponse binaires (vrai ou faux), sous la forme $(r_1, \ldots, r_n)$ où $n$ est le nombre de questions posées dans un test.
 
-Cependant, sur un MOOC, les apprenants ne participent pas à tous les quiz. Ainsi, il faut se demander considérer les entrées manquantes. De plus, parfois les apprenants tentent plusieurs fois de répondre à un quiz. Ainsi, il faut choisir quel essai considérer, le premier ou celui de score maximum [@Bergner2015]. Dans notre cas, nous avons considéré à chaque fois le premier essai, le dernier ayant de grandes chances d'être un succès.
+Cependant, sur un MOOC, les apprenants ne participent pas à tous les quiz. Ainsi, il faut se demander comment considérer les entrées manquantes. De plus, parfois les apprenants tentent plusieurs fois de répondre à un quiz. Ainsi, il faut choisir quel essai considérer, le premier ou celui de score maximum [@Bergner2015]. Dans notre cas, nous avons considéré à chaque fois le premier essai, le dernier ayant de grandes chances d'être un succès.
 
 À partir de la base de données SQL de ce MOOC, nous avons ainsi pu extraire les tests suivants :
 
@@ -27,7 +27,7 @@ Nous souhaitions nous placer dans le cas où un nouvel apprenant apparaît sur u
 - une représentation des connaissances mises en œuvre dans le cours, sous la forme d'un graphe de prérequis $G = (V, E)$ où $V$ est l'ensemble des composantes de connaissances et une arête $u \rightarrow v$ désigne la relation de prérequis : \og $u$ doit être maîtrisé pour maîtriser $v$ \fg ;
 - un lien entre chaque question et les composantes de connaissances (CC) qu'elle requiert. Pour simplifier, nous avons considéré que chaque question requérait une CC principale, et le graphe de prérequis permet d'indiquer quels sont les CC qu'il faut avoir maîtrisé pour maîtriser cette CC principale.
 
-Cela nous a permis de construire un modèle de hiérarchie sur les attributs, défini à la section \vref{ahm} et similaire au modèle de théorie des espaces de connaissances. Ainsi, à partir de ce modèle de test adaptatif, pour chaque apprenant qui passe le test, les informations que nous disposons sur lui sont :
+Cela nous a permis de construire un modèle de hiérarchie sur les attributs, défini à la section \vref{ahm} et similaire au modèle de théorie des espaces de connaissances. Ainsi, à partir de ce modèle de test adaptatif, pour chaque apprenant qui passe le test, les informations dont nous disposons sur lui sont :
 
 - le résultat (vrai ou faux) à chaque question que le système lui a posée ;
 - une distribution de probabilité $\pi$ sur les états latents possibles dans lesquels peut se trouver l'apprenant, c'est-à-dire : quels CC il semble maîtriser et quels CC il semble ne pas maîtriser (voir section \vref{dina}).
@@ -38,7 +38,7 @@ Les réponses des candidats à un QCM ne reflètent pas nécessairement leur ma�
 
 ### Déroulement du test adaptatif
 
-Au fur et à mesure que l'apprenant répond à des questions, le système peut mettre à jour l'estimation qu'il se fait de son état latent. Chaque réponse à une question posée à l'apprenant permet à mettre à jour une information a priori sur ses états latents possibles, de façon bayésienne.
+Au fur et à mesure que l'apprenant répond à des questions, le système peut mettre à jour l'estimation qu'il se fait de son état latent. Chaque réponse à une question posée à l'apprenant permet de mettre à jour une information a priori sur ses états latents possibles, de façon bayésienne.
 
 \begin{figure}[h]
 \centering

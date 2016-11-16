@@ -10,7 +10,7 @@ Toutes les méthodes que nous décrivons dans cette section consistent à tenter
 
 Il est intéressant de tenter d'interpréter les dimensions des caractéristiques des questions a posteriori : ainsi, on pourra par exemple identifier que telle composante évalue la capacité de la question à mesurer la capacité de l'apprenant à savoir additionner, tandis que telle autre évalue la capacité de l'apprenant à savoir multiplier.
 
-Dans cette section, on note $D$ la matrice des réponses succès / échecs des apprenants aux questions d'un test. Cette matrice est de taille $m \times n$, où $m$ est le nombre d'apprenants et $n$ le nombre de questions du test. Nous commençons par présenter le problème général de la factorisation de matrice, puis l'analyse en composantes principales, l'analyse de facteurs et enfin la théorie de la réponse à l'item multidimensionnelles.
+Dans cette section, on note $D$ la matrice des réponses succès / échecs des apprenants aux questions d'un test. Cette matrice est de taille $m \times n$, où $m$ est le nombre d'apprenants et $n$ le nombre de questions du test. Nous commençons par présenter le problème général de la factorisation de matrice, puis l'analyse en composantes principales, l'analyse de facteurs et enfin la théorie de la réponse à l'item multidimensionnelle.
 
 ## Factorisation de matrice pour la réduction de dimension
 
