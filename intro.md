@@ -77,7 +77,7 @@ Ce cadre nous a permis d'évaluer des modèles de tests adaptatifs sur plusieurs
 
 Le protocole expérimental que nous avons conçu est générique : il s'appuie sur les composants que l'on retrouve dans tous les modèles de tests adaptatifs, et peut ainsi être réutilisé pour de nouveaux modèles, et de nouveaux jeux de données.
 
-Cette première analyse [@Vie2015] nous a permis de faire un état de l'art intercommunautaire des modèles de tests adaptatifs récents que nous avons publiée dans un livre sur l'analytique de l'apprentissage [@Vie2016b], et de concevoir une méthodologie pour étudier les modèles de tests adaptatifs. Nous avons ainsi pu mettre en évidence que selon le type de test, le meilleur modèle n'est pas le même, et proposer les deux autres contributions suivantes.
+Cette première analyse [@Vie2015] nous a permis de faire un état de l'art intercommunautaire des modèles de tests adaptatifs récents que nous avons publié dans un livre sur l'analytique de l'apprentissage [@Vie2016b], et de concevoir une méthodologie pour étudier les modèles de tests adaptatifs. Nous avons ainsi pu mettre en évidence que selon le type de test, le meilleur modèle n'est pas le même, et proposer les deux autres contributions suivantes.
 
 ## GenMA, un modèle hybride adaptatif de diagnostic de connaissances
 
