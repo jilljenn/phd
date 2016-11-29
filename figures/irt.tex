@@ -1,0 +1,36 @@
+\documentclass[12pt]{standalone}
+\usepackage{tikz}
+\usepackage{xltxtra}
+%\setromanfont{Times}
+
+\begin{document}
+\begin{tikzpicture}
+\draw[->] (0,0) -- ++(10,0) node[above] {nombre de questions posées};
+\draw[->] (0,-4) -- ++(0,9) node[above] {estimation du niveau de l'apprenant};
+
+\foreach \i in {1,...,8}{
+    \draw (\i,-3pt) -- (\i,3pt) node[below=4pt] {\i};
+}
+
+\draw[<->,dashed] (1.000000,-3.000000) -- (1.000000,3.000000);
+\filldraw[green!50!black] (1.000000,0.000000) circle (2pt);
+\draw[<->,dashed] (2.000000,-0.100000) -- (2.000000,4.100000);
+\filldraw[green!50!black] (2.000000,2.000000) circle (2pt);
+\draw[<->,dashed] (3.000000,1.930000) -- (3.000000,4.870000);
+%\filldraw[black!50] (3.000000,3.400000) circle (2pt);
+\node[black!50] at (3.000000,3.400000) {$\times$};
+\draw[<->,dashed] (4.000000,1.391000) -- (4.000000,3.449000);
+\filldraw[green!50!black] (4.000000,2.420000) circle (2pt);
+\draw[<->,dashed] (5.000000,2.385700) -- (5.000000,3.826300);
+%\filldraw[black!50] (5.000000,3.106000) circle (2pt);
+\node[black!50] at (5.000000,3.106000) {$\times$};
+\draw[<->,dashed] (6.000000,2.121590) -- (6.000000,3.130010);
+\filldraw[green!50!black] (6.000000,2.625800) circle (2pt);
+\draw[<->,dashed] (7.000000,2.608993) -- (7.000000,3.314887);
+%\filldraw[black!50] (7.000000,2.961940) circle (2pt);
+\node[black!50] at (7.000000,2.961940) {$\times$};
+\draw[<->,dashed] (8.000000,2.479579) -- (8.000000,2.973705);
+%\filldraw[black!50] (8.000000,2.726642) circle (2pt);
+\node[black!50] at (8.000000,2.726642) {$\times$};
+\end{tikzpicture}
+\end{document}

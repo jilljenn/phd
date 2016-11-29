@@ -1,0 +1,8 @@
+digraph G {
+    Q5 -> Q3 [style=dashed];
+    Q5 -> Q12;
+    Q12 -> Q7 [style=dashed];
+    Q12 -> Q14;
+    Q3 -> Q1 [style=dashed];
+    Q3 -> Q4;
+}

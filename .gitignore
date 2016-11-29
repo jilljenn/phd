@@ -1,14 +1,13 @@
 .DS_Store
+cat.pdf
 *.aux
 *.bbl
 *.bcf
 *.blg
 *.log
 *.out
-*.pdf
 *.toc
 *.xml
-figures
 tables
 logo
                                                                                                                         

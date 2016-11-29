@@ -1,0 +1,11 @@
+digraph G {
+    rankdir=UD
+    "Distance" -> "Norme";
+    "Norme" -> "Espace métrique";
+    "Ouvert, fermé" -> "Convergence";
+    "Convergence" -> "Complétude";
+    "Espace métrique" -> "Banach";
+    "Complétude" -> "Banach";
+    "Produit scalaire" -> "Hilbert";
+    "Banach" -> "Hilbert";
+}

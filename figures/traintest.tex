@@ -1,0 +1,23 @@
+\documentclass{standalone}
+\usepackage{tikz,booktabs,multicol,multirow,xltxtra}
+%\setromanfont{CMU Sans Serif}
+
+\newcommand\validation[1]{\textcolor{black!30}{#1}}
+
+\begin{document}
+\begin{tabular}{clcccccccc} \toprule
+& & \multicolumn{8}{c}{Questions}\\
+& & 1 & 2 & \validation3 & 4 & \validation5 & 6 & 7 & \validation8\\ \midrule
+\multirow{7}{*}{Entraînement} & Alice & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 1\\
+& Bob & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 1\\
+& Charles & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+& Daisy & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 1\\
+& Everett & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 1\\
+& Filipe & 0 & 1 & 0 & 1 & 1 & 1 & 1 & 1\\
+& Gwen & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 1\\ \midrule
+\multirow{4}{*}{Test} & Henry & 0 & 0 & \validation0 & 0 & \validation1 & 0 & 0 & \validation1\\
+& Ian & 1 & 1 & \validation1 & 1 & \validation0 & 1 & 1 & \validation0\\
+& Jill & 0 & 1 & \validation1 & 1 & \validation0 & 0 & 1 & \validation0\\
+& Ken & 1 & 1 & \validation1 & 0 & \validation1 & 1 & 0 & \validation1\\ \bottomrule
+\end{tabular}
+\end{document}

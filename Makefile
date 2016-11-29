@@ -1,8 +1,12 @@
-all:
-	make adaptive-full.tex code.tex comparison.tex dpp.tex factorization.tex genma.tex intro.tex intro-dpp.tex intro-framework.tex intro-genma.tex intro-mooc.tex merci.tex mooc.tex perspectives.tex summary.tex
-	make cat && open cat.pdf
+CONTENT_MD=$(wildcard *.md)
+CONTENT_TEX=$(CONTENT_MD:.md=.tex)
+FIGURES_TEX=$(wildcard figures/*.tex)
+FIGURES_DOT=$(wildcard figures/*.dot)
+FIGURES_PDF=$(FIGURES_TEX:.tex=.pdf) $(FIGURES_DOT:.dot=.pdf)
 
-cat:
+.PHONY: all clean
+
+all: $(FIGURES_PDF) $(CONTENT_TEX)
 	xelatex cat
 	makeindex -s nomencl.ist -t cat.lng -o cat.nls cat.nlo
 	makeglossaries cat
@@ -10,9 +14,17 @@ cat:
 	xelatex cat
 	xelatex cat
 	xelatex cat
+	open cat.pdf
 
 %.tex: %.md
 	pandoc --biblatex --bibliography biblio.bib -N $< -o $@
 
+figures/%.pdf: figures/%.tex
+	xelatex -output-directory=figures $<
+
+figures/%.pdf: figures/%.dot
+	dot -Tpdf $< -o $@
+
 clean:
-	rm cat.aux cat.bbl cat.bcf cat.blg cat.acn cat.acr cat.alg cat.glg cat.glo cat.gls cat.glsdefs cat.ist cat.lng cat.lof cat.log cat.lot cat.nlo cat.out cat.nls cat.run.xml cat.toc missfont.log adaptive-full.tex code.tex comparison.tex dpp.tex factorization.tex genma.tex intro.tex intro-dpp.tex intro-framework.tex intro-genma.tex intro-mooc.tex merci.tex mooc.tex perspectives.tex summary.tex
+	rm -f $(CONTENT_TEX) $(FIGURES_PDF) figures/*.aux figures/*.log
+	rm -f cat.aux cat.bbl cat.bcf cat.blg cat.acn cat.acr cat.alg cat.glg cat.glo cat.gls cat.glsdefs cat.ist cat.lng cat.lof cat.log cat.lot cat.nlo cat.out cat.nls cat.run.xml cat.toc missfont.log
