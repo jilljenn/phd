@@ -1,7 +1,13 @@
 \documentclass[12pt,a4paper]{book}
+\usepackage{ifpdf,ifxetex,ifluatex}
 \usepackage[pass]{geometry}
 \usepackage[english,french]{babel}
+\ifxetex
 \usepackage{xltxtra}
+\fi
+\ifluatex
+\usepackage{fontspec}
+\fi
 \usepackage{algorithm}
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}
@@ -36,6 +42,8 @@
 \fancyhead[LO]{\nouppercase{\rightmark}}
 \fancyhead[RE]{\nouppercase{\leftmark}}
 \renewcommand{\headrulewidth}{0pt}
+
+\usepackage[a-1b]{pdfx}
 
 \newtheorem{algo}[equation]{Algorithme}
 \algtext*{EndProcedure}
