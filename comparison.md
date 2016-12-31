@@ -232,7 +232,7 @@ e(p, a) = \frac1{|Q_{val}|} \sum_{k \in Q_{val}} a_k \log p_k + (1 - a_k) \log (
 \end{equation}
 
 \noindent
-où $p$ est la performance prédite sur les $|Q_{val}|$ questions et $a$ est le vrai motif de réponse de l'apprenant en cours. Notez que si $p = a$, on a bien $e(p, a) = 0$. À titre d'exemple, si pour un des apprenants, après 4 questions, la performance prédite sur l'ensemble de questions de validation est $[0.617, 0.123, 0.418, 0.127, 0.120]$ tandis que son véritable motif de réponse est $[1, 0, 1, 0, 0]$ (c'est-à-dire, [*correct*, *incorrect*, *correct*, *incorrect*, *incorrect*]), la *log loss* obtenue est 0.350.
+où $p$ est la performance prédite sur les $|Q_{val}|$ questions et $a$ est le vrai motif de réponse de l'apprenant en cours. Notez que si $p = a$, on a bien $e(p, a) = 0$. À titre d'exemple, si pour un des apprenants, après 4 questions, la performance prédite sur l'ensemble de questions de validation est $[0,617; 0,123; 0,418; 0,127; 0,120]$ tandis que son véritable motif de réponse est $[1, 0, 1, 0, 0]$ (c'est-à-dire, [*correct*, *incorrect*, *correct*, *incorrect*, *incorrect*]), la *log loss* obtenue est 0,350.
 
 Ainsi, \textsc{EvaluatePerformance} calcule la *log loss* et le nombre de prédictions incorrectes entre la performance prédite $p$ et $a$ qui vaut $D[s][Q_{val}]$ pour l'apprenant $s$.
 
@@ -383,8 +383,8 @@ Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss
 \centering
 \begin{tabular}{cccc} \toprule
 & Après 10 questions & Après 15 questions\\ \midrule
-DINA & $0.398 \pm 0.031$ (82 \%) & $0.387 \pm 0.028$ (82 \%)\\
-Rasch & $0.363 \pm 0.026$ (83 \%) & $0.362 \pm 0.027$ (84 \%)\\ \bottomrule
+DINA & $0,398 \pm 0,031$ (82 \%) & $0,387 \pm 0,028$ (82 \%)\\
+Rasch & $0,363 \pm 0,026$ (83 \%) & $0,362 \pm 0,027$ (84 \%)\\ \bottomrule
 \end{tabular}
 \caption{Valeurs de \emph{log loss} obtenues pour le jeu de données SAT.}
 \label{comp-sat-table}
@@ -410,8 +410,8 @@ Nous faisons l'hypothèse que comme ce jeu de données est multidisciplinaire et
 \centering
 \begin{tabular}{ccc} \toprule
 & Après 5 questions & Après 10 questions\\ \midrule
-Rasch & $0.534 \pm 0.005$ (73 \%) & $0.524 \pm 0.005$ (74 \%)\\
-DINA & $0.532 \pm 0.003$ (73 \%) & $0.524 \pm 0.003$ (74 \%)\\ \bottomrule
+Rasch & $0,534 \pm 0,005$ (73 \%) & $0,524 \pm 0,005$ (74 \%)\\
+DINA & $0,532 \pm 0,003$ (73 \%) & $0,524 \pm 0,003$ (74 \%)\\ \bottomrule
 \end{tabular}
 \caption{Valeurs de \emph{log loss} obtenues pour le jeu de données ECPE.}
 \label{comp-ecpe-table}
@@ -437,8 +437,8 @@ Nous faisons l'hypothèse que comme le jeu de données a beaucoup de motifs de r
 \centering
 \begin{tabular}{ccc} \toprule
 & Après 4 questions & Après 7 questions\\ \midrule
-Rasch & $0.402 \pm 0.037$ (84 \%) & $0.381 \pm 0.033$ (85 \%)\\
-DINA & $0.368 \pm 0.039$ (86 \%) & $0.346 \pm 0.039$ (86 \%)\\ \bottomrule
+Rasch & $0,402 \pm 0,037$ (84 \%) & $0,381 \pm 0,033$ (85 \%)\\
+DINA & $0,368 \pm 0,039$ (86 \%) & $0,346 \pm 0,039$ (86 \%)\\ \bottomrule
 \end{tabular}
 \caption{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction.}
 \label{comp-fraction-table}
@@ -462,8 +462,8 @@ Nous faisons l'hypothèse que comme il s'agit d'un jeu de données de soustracti
 \centering
 \begin{tabular}{ccc} \toprule
 & After 4 questions & After 8 questions\\ \midrule
-DINA & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%)\\
-Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%)\\ \bottomrule
+DINA & $0,588 \pm 0,005$ (68 \%) & $0,57 \pm 0,006$ (70 \%)\\
+Rasch & $0,576 \pm 0,008$ (70 \%) & $0,559 \pm 0,008$ (71 \%)\\ \bottomrule
 \end{tabular}
 \caption{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS.}
 \label{comp-timss-table}
@@ -489,8 +489,8 @@ Nous faisons l'hypothèse que ces jeux de données se ressemblent : il y a beauc
 \centering
 \begin{tabular}{ccc} \toprule
 & Après 4 questions & Après 8 questions\\ \midrule
-DINA & $0.504 \pm 0.004$ (78 \%) & $0.512 \pm 0.004$ (77 \%)\\
-Rasch & $0.493 \pm 0.004$ (78 \%) & $0.485 \pm 0.004$ (79 \%)\\ \bottomrule
+DINA & $0,504 \pm 0,004$ (78 \%) & $0,512 \pm 0,004$ (77 \%)\\
+Rasch & $0,493 \pm 0,004$ (78 \%) & $0,485 \pm 0,004$ (79 \%)\\ \bottomrule
 \end{tabular}
 \caption{Valeurs de \emph{log loss} obtenues pour le jeu de données Castor.}
 \label{comp-castor-table}

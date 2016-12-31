@@ -224,10 +224,10 @@ Sur chacun des jeux de données testés, GenMA a un plus grand pouvoir prédicti
 \small
 \begin{tabular}{cccc} \toprule
 & Après 4 questions & Après 7 questions & Après 10 questions\\ \midrule
-Rasch & $0.469 \pm 0.017$ (79 \%) & $0.457 \pm 0.017$ (79 \%) & $0.446 \pm 0.016$ (79 \%)\\
-DINA & $0.441 \pm 0.014$ (80 \%) & $0.41 \pm 0.014$ (82 \%) & $0.406 \pm 0.014$ (82 \%)\\
-MIRT & $0.368 \pm 0.014$ (83 \%) & $0.325 \pm 0.012$ (86 \%) & $0.316 \pm 0.011$ (86 \%)\\
-GenMA & $0.459 \pm 0.023$ (79 \%) & $0.355 \pm 0.017$ (85 \%) & $0.294 \pm 0.013$ (88 \%)\\ \bottomrule
+Rasch & $0,469 \pm 0,017$ (79 \%) & $0,457 \pm 0,017$ (79 \%) & $0,446 \pm 0,016$ (79 \%)\\
+DINA & $0,441 \pm 0,014$ (80 \%) & $0,41 \pm 0,014$ (82 \%) & $0,406 \pm 0,014$ (82 \%)\\
+MIRT & $0,368 \pm 0,014$ (83 \%) & $0,325 \pm 0,012$ (86 \%) & $0,316 \pm 0,011$ (86 \%)\\
+GenMA & $0,459 \pm 0,023$ (79 \%) & $0,355 \pm 0,017$ (85 \%) & $0,294 \pm 0,013$ (88 \%)\\ \bottomrule
 \end{tabular}
 \caption{Évolution de la \emph{log loss} en fonction du nombre de questions posées, pour le jeu de données Fraction. Entre parenthèses, le nombre de questions prédites correctement.}
 \label{genma-fraction-table}
@@ -252,10 +252,10 @@ Les modèles Rasch, MIRT et DINA convergent en 4 ou 5 questions tandis que GenMA
 \small
 \begin{tabular}{cccc} \toprule
 & Après 4 questions & Après 8 questions & Après 12 questions\\ \midrule
-DINA & $0.535 \pm 0.003$ (73 \%) & $0.526 \pm 0.003$ (74 \%) & $0.523 \pm 0.003$ (74 \%)\\
-MIRT & $0.509 \pm 0.005$ (76 \%) & $0.496 \pm 0.005$ (76 \%) & $0.489 \pm 0.005$ (77 \%)\\
-GenMA & $0.532 \pm 0.005$ (73 \%) & $0.507 \pm 0.004$ (75 \%) & $0.498 \pm 0.004$ (76 \%)\\
-Rasch & $0.537 \pm 0.005$ (73 \%) & $0.527 \pm 0.005$ (74 \%) & $0.522 \pm 0.005$ (74 \%)\\ \bottomrule
+DINA & $0,535 \pm 0,003$ (73 \%) & $0,526 \pm 0,003$ (74 \%) & $0,523 \pm 0,003$ (74 \%)\\
+MIRT & $0,509 \pm 0,005$ (76 \%) & $0,496 \pm 0,005$ (76 \%) & $0,489 \pm 0,005$ (77 \%)\\
+GenMA & $0,532 \pm 0,005$ (73 \%) & $0,507 \pm 0,004$ (75 \%) & $0,498 \pm 0,004$ (76 \%)\\
+Rasch & $0,537 \pm 0,005$ (73 \%) & $0,527 \pm 0,005$ (74 \%) & $0,522 \pm 0,005$ (74 \%)\\ \bottomrule
 \end{tabular}
 \caption{Valeurs obtenues pour le jeu de données ECPE.}
 \label{genma-ecpe-table}
@@ -273,34 +273,34 @@ Nous faisons l'hypothèse que la q-matrice a été mal spécifiée.
 \multicolumn{5}{c}{\textnormal{q-matrice}} & \multirow{2}{*}{\textnormal{taux de succès}} \\ \cmidrule(r){1-5}
 \multicolumn{3}{c}{\textnormal{entrées}} & \textnormal{chance} & \multicolumn{1}{c}{\textnormal{inattention}} & \\ \midrule
 %\hline
-1 & 1 & 0 & 0.705 & 0.085 & 80 \%\\
-0 & 1 & 0 & 0.724 & 0.101 & 83 \%\\
-1 & 0 & 1 & 0.438 & 0.266 & 57 \%\\
-0 & 0 & 1 & 0.480 & 0.162 & 70 \%\\
-0 & 0 & 1 & 0.764 & 0.040 & 88 \%\\
-0 & 0 & 1 & 0.717 & 0.066 & 85 \%\\
-1 & 0 & 1 & 0.544 & 0.085 & 72 \%\\
-0 & 1 & 0 & 0.802 & 0.040 & 89 \%\\
-0 & 0 & 1 & 0.534 & 0.199 & 70 \%\\
-1 & 0 & 0 & 0.483 & 0.163 & 65 \%\\
-1 & 0 & 1 & 0.556 & 0.099 & 72 \%\\
-1 & 0 & 1 & 0.195 & 0.305 & 43 \%\\
-1 & 0 & 0 & 0.633 & 0.122 & 75 \%\\
-1 & 0 & 0 & 0.517 & 0.212 & 65 \%\\
-0 & 0 & 1 & 0.749 & 0.040 & 88 \%\\
-1 & 0 & 1 & 0.549 & 0.126 & 70 \%\\
-\textbf0 & \textbf1 & \textbf1 & \textbf{0.816} & \textbf{0.058} & \textbf{88 \%}\\
-0 & 0 & 1 & 0.729 & 0.086 & 84 \%\\
-0 & 0 & 1 & 0.473 & 0.150 & 71 \%\\
-1 & 0 & 1 & 0.239 & 0.295 & 46 \%\\
-1 & 0 & 1 & 0.621 & 0.097 & 75 \%\\
-0 & 0 & 1 & 0.322 & 0.188 & 63 \%\\
-0 & 1 & 0 & 0.637 & 0.075 & 81 \%\\
-0 & 1 & 0 & 0.313 & 0.322 & 53 \%\\
-1 & 0 & 0 & 0.512 & 0.272 & 61 \%\\
-0 & 0 & 1 & 0.555 & 0.211 & 70 \%\\
-1 & 0 & 0 & 0.265 & 0.369 & 44 \%\\
-0 & 0 & 1 & 0.659 & 0.086 & 81 \%\\ \bottomrule
+1 & 1 & 0 & 0,705 & 0,085 & 80 \%\\
+0 & 1 & 0 & 0,724 & 0,101 & 83 \%\\
+1 & 0 & 1 & 0,438 & 0,266 & 57 \%\\
+0 & 0 & 1 & 0,480 & 0,162 & 70 \%\\
+0 & 0 & 1 & 0,764 & 0,040 & 88 \%\\
+0 & 0 & 1 & 0,717 & 0,066 & 85 \%\\
+1 & 0 & 1 & 0,544 & 0,085 & 72 \%\\
+0 & 1 & 0 & 0,802 & 0,040 & 89 \%\\
+0 & 0 & 1 & 0,534 & 0,199 & 70 \%\\
+1 & 0 & 0 & 0,483 & 0,163 & 65 \%\\
+1 & 0 & 1 & 0,556 & 0,099 & 72 \%\\
+1 & 0 & 1 & 0,195 & 0,305 & 43 \%\\
+1 & 0 & 0 & 0,633 & 0,122 & 75 \%\\
+1 & 0 & 0 & 0,517 & 0,212 & 65 \%\\
+0 & 0 & 1 & 0,749 & 0,040 & 88 \%\\
+1 & 0 & 1 & 0,549 & 0,126 & 70 \%\\
+\textbf0 & \textbf1 & \textbf1 & \textbf{0,816} & \textbf{0,058} & \textbf{88 \%}\\
+0 & 0 & 1 & 0,729 & 0,086 & 84 \%\\
+0 & 0 & 1 & 0,473 & 0,150 & 71 \%\\
+1 & 0 & 1 & 0,239 & 0,295 & 46 \%\\
+1 & 0 & 1 & 0,621 & 0,097 & 75 \%\\
+0 & 0 & 1 & 0,322 & 0,188 & 63 \%\\
+0 & 1 & 0 & 0,637 & 0,075 & 81 \%\\
+0 & 1 & 0 & 0,313 & 0,322 & 53 \%\\
+1 & 0 & 0 & 0,512 & 0,272 & 61 \%\\
+0 & 0 & 1 & 0,555 & 0,211 & 70 \%\\
+1 & 0 & 0 & 0,265 & 0,369 & 44 \%\\
+0 & 0 & 1 & 0,659 & 0,086 & 81 \%\\ \bottomrule
 \end{tabular}
 \caption{Paramètres d'inattention et de chance pour la q-matrice du jeu de données ECPE. Les valeurs les plus hautes sont indiquées en gras.}
 \label{guess}
@@ -321,10 +321,10 @@ Nous faisons l'hypothèse que la q-matrice a été mal spécifiée.
 \small
 \begin{tabular}{cccc} \toprule
 & Après 4 questions & Après 8 questions & Après 11 questions\\ \midrule
-Rasch & $0.576 \pm 0.008$ (70 \%) & $0.559 \pm 0.008$ (71 \%) & $0.555 \pm 0.008$ (71 \%)\\
-DINA & $0.588 \pm 0.005$ (68 \%) & $0.57 \pm 0.006$ (70 \%) & $0.566 \pm 0.006$ (70 \%)\\
-GenMA & $0.537 \pm 0.006$ (72 \%) & $0.505 \pm 0.006$ (75 \%) & $0.487 \pm 0.006$ (77 \%)\\
-MIRT & $0.53 \pm 0.008$ (73 \%) & $0.509 \pm 0.008$ (75 \%) & $0.503 \pm 0.008$ (75 \%)\\ \bottomrule
+Rasch & $0,576 \pm 0,008$ (70 \%) & $0,559 \pm 0,008$ (71 \%) & $0,555 \pm 0,008$ (71 \%)\\
+DINA & $0,588 \pm 0,005$ (68 \%) & $0,57 \pm 0,006$ (70 \%) & $0,566 \pm 0,006$ (70 \%)\\
+GenMA & $0,537 \pm 0,006$ (72 \%) & $0,505 \pm 0,006$ (75 \%) & $0,487 \pm 0,006$ (77 \%)\\
+MIRT & $0,53 \pm 0,008$ (73 \%) & $0,509 \pm 0,008$ (75 \%) & $0,503 \pm 0,008$ (75 \%)\\ \bottomrule
 \end{tabular}
 \caption{Valeurs obtenues sur le jeu de données TIMSS.}
 \label{genma-timss-table}
