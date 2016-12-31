@@ -29,4 +29,4 @@ figures/%.pdf: figures/%.dot
 
 clean:
 	rm -f $(CONTENT_TEX) $(FIGURES_PDF) figures/*.aux figures/*.log
-	rm -f cat.aux cat.bbl cat.bcf cat.blg cat.acn cat.acr cat.alg cat.glg cat.glo cat.gls cat.glsdefs cat.ist cat.lng cat.lof cat.log cat.lot cat.nlo cat.out cat.nls cat.run.xml cat.toc missfont.log
+	rm -f cat.aux cat.bbl cat.bcf cat.blg cat.acn cat.acr cat.alg cat.glg cat.glo cat.gls cat.glsdefs cat.ist cat.lng cat.lof cat.log cat.lot cat.nlo cat.out cat.nls cat.run.xml cat.toc creationdate.lua missfont.log

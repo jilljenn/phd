@@ -1,5 +1,6 @@
 .DS_Store
 cat.pdf
+creationdate.lua
 *.aux
 *.bbl
 *.bcf
