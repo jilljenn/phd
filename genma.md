@@ -152,6 +152,7 @@ Comme indiqué à la section \vref{genma-feedback}, le modèle GenMA est interp
 Cette spécification permet en outre d'accélérer la convergence, car il y a moins de paramètres à estimer que dans un modèle général de type MIRT. Si la matrice a en moyenne $k$ entrées non nulles par ligne, GenMA estime pour ses questions $kn$ paramètres de discrimination et $n$ paramètres de facilité.
 
 \begin{table}
+\centering
 \begin{tabular}{cccccc} \toprule
 & Dimension & Calibrage & De zéro & Nombre de paramètres\\ \midrule
 Rasch & 1 & Auto & Non & $n$\\
