@@ -49,7 +49,7 @@ Nous pourrions déterminer pour un jeu de données quelle valeur de $k$ permet d
 
 ## Généralisation de la théorie de la réponse à l'item multidimensionnelle
 
-La théorie de la réponse à l'item est basée sur un produit scalaire entre les caractéristiques de l'apprenant $\mathbf{\theta_i}$ et les caractéristiques des questions $\mathbf{\delta_j}$. Or, on pourrait généraliser cela en appliquant la méthode du noyau, comme dans les machines à vecteur de support.
+La théorie de la réponse à l'item est basée sur un produit scalaire entre les caractéristiques de l'apprenant $\boldsymbol{\theta_i}$ et les caractéristiques des questions $\boldsymbol{d_j}$. Or, on pourrait généraliser cela en appliquant la méthode du noyau, comme dans les machines à vecteur de support.
 
 Faire cela aurait sans doute un meilleur pouvoir prédictif, mais l'on perdrait l'interprétation du diagnostic, car les caractéristiques estimées de l'apprenant ne correspondraient plus à des degrés de maîtrise ou des lacunes. Ainsi, on pourrait repérer des apprenants susceptibles d'avoir des lacunes, mais on ne pourrait pas leur expliquer pourquoi. Cela peut être utile dans certaines applications où un enseignant doit détecter les apprenants qui ont besoin d'aide.
 

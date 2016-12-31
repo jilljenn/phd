@@ -126,10 +126,10 @@ Il est naturel d'étendre le modèle de Rasch à des compétences multidimension
 
 \def\R{\textbf{R}}
 
-Ainsi, si l'apprenant $i \in \{1, \ldots, m\}$ est modélisé par le vecteur $\mathbf{\theta_i} \in \R^d$ et la question $j \in \{1, \ldots, n\}$ par le vecteur $\mathbf{d_j} \in \R^d$ et le paramètre de facilité $\delta_j \in \R$ :\nomenclature{$\mathbf{\theta_i}$}{caractéristiques de l'apprenant $i$ dans MIRT, GenMA}\nomenclature{$\mathbf{d_j}$}{paramètres de discrimination de la question $j$ dans MIRT, GenMA}\nomenclature{$\delta_j$}{paramètre de facilité de la question $j$ dans MIRT, GenMA}
+Ainsi, si l'apprenant $i \in \{1, \ldots, m\}$ est modélisé par le vecteur $\boldsymbol{\theta_i} \in \R^d$ et la question $j \in \{1, \ldots, n\}$ par le vecteur $\boldsymbol{d_j} \in \R^d$ et le paramètre de facilité $\delta_j \in \R$ :\nomenclature{$\boldsymbol{\theta_i}$}{caractéristiques de l'apprenant $i$ dans MIRT, GenMA}\nomenclature{$\boldsymbol{d_j}$}{paramètres de discrimination de la question $j$ dans MIRT, GenMA}\nomenclature{$\delta_j$}{paramètre de facilité de la question $j$ dans MIRT, GenMA}
 
 \begin{equation}
-Pr(D_{ij} = 1) = \Phi(\mathbf{\theta_i} \cdot \mathbf{d_j} + \delta_j).
+Pr(D_{ij} = 1) = \Phi(\boldsymbol{\theta_i} \cdot \boldsymbol{d_j} + \delta_j).
 \end{equation}
 
 \label{rasch-mirt}
@@ -146,15 +146,15 @@ Ce modèle plus riche a beaucoup plus de paramètres : $d$ paramètres doivent �
 
 @Lan2014 ont défini un nouveau modèle de tests adaptatifs appelé \gls{sparfa}. Leur probabilité que l'apprenant réponde correctement à une certaine question repose sur un produit scalaire, ce qui est semblable au modèle MIRT, avec des contraintes supplémentaires.
 
-Si l'apprenant $i \in \{1, \ldots, m\}$ est modélisé par le vecteur $\mathbf{\theta_i} \in \R^d$ et la question $j \in \{1, \ldots, n\}$ par le vecteur $\mathbf{d_j} \in \R^d$ et le paramètre de facilité $\delta_j \in \R$ :
+Si l'apprenant $i \in \{1, \ldots, m\}$ est modélisé par le vecteur $\boldsymbol{\theta_i} \in \R^d$ et la question $j \in \{1, \ldots, n\}$ par le vecteur $\boldsymbol{d_j} \in \R^d$ et le paramètre de facilité $\delta_j \in \R$ :
 
 \begin{equation}
-Pr(D_{ij} = 1) = \Phi(\mathbf{\theta_i} \cdot \mathbf{d_j} + \delta_j).
+Pr(D_{ij} = 1) = \Phi(\boldsymbol{\theta_i} \cdot \boldsymbol{d_j} + \delta_j).
 \end{equation}
 
-Si l'on note $V$ la matrice ayant pour lignes les vecteurs $\mathbf{d_j}$, SPARFA ajoute comme contrainte que $V$ doit être une matrice uniquement constituée d'entrées positives. De plus, $V$ doit être creuse, c'est-à-dire que la majorité de ses entrées est nulle.
+Si l'on note $V$ la matrice ayant pour lignes les vecteurs $\boldsymbol{d_j}$, SPARFA ajoute comme contrainte que $V$ doit être une matrice uniquement constituée d'entrées positives. De plus, $V$ doit être creuse, c'est-à-dire que la majorité de ses entrées est nulle.
 
-En ajoutant la contrainte que $V$ est creuse, @Lan2014 font la supposition que chaque question fait appel à peu de caractéristiques de l'apprenant : en effet, le calcul de la probabilité que l'apprenant $i$ réponde correctement à la question $j$ dépend seulement de $\mathbf{\theta_i} \cdot \mathbf{d_j} + \delta_j$. Ainsi, pour chaque $k$ tel que $d_{jk}$ vaut 0, ce qui arrive souvent puisque $V$ est creuse, le niveau de l'apprenant $\theta_{ik}$ ne sera pas pris en compte dans le calcul de ses chances de succès pour répondre à la question $j$.
+En ajoutant la contrainte que $V$ est creuse, @Lan2014 font la supposition que chaque question fait appel à peu de caractéristiques de l'apprenant : en effet, le calcul de la probabilité que l'apprenant $i$ réponde correctement à la question $j$ dépend seulement de $\boldsymbol{\theta_i} \cdot \boldsymbol{d_j} + \delta_j$. Ainsi, pour chaque $k$ tel que $d_{jk}$ vaut 0, ce qui arrive souvent puisque $V$ est creuse, le niveau de l'apprenant $\theta_{ik}$ ne sera pas pris en compte dans le calcul de ses chances de succès pour répondre à la question $j$.
 
 En ajoutant la contrainte que les entrées de $V$ sont positives, @Lan2014 supposent que le fait que l'apprenant ait un grand niveau dans une dimension ne peut pas diminuer ses chances de répondre correctement à une question.
 
@@ -254,7 +254,7 @@ Nous présentons un exemple de test adaptatif basé sur le modèle DINA, à part
 
 Comme le dit @Chang2014, \og Une étude conduite à Zhengzhou indique que CD-CAT encourage la pensée critique, en rendant les étudiants plus autonomes en résolution de problèmes, et offre de la remédiation personnalisée facile à suivre, ce qui rend l'apprentissage plus intéressant. \fg{} En effet, une fois que l'état mental de l'apprenant a été identifié, on peut l'orienter vers des ressources utiles pour combler ses lacunes.
 
-Comme l'espace des états latents possibles est discret, on peut maintenir une distribution de probabilité $(\pi_i)_{i \in \mathbf{N}}$ sur les vecteurs de compétences possibles, mise à jour après chaque réponse de l'apprenant. Connaissant la réponse de l'apprenant à la $i$-ème question, la mise à jour de $\pi_{i - 1}$ est faite par la règle de Bayes. Soit $x$ un état latent, $s_i$ et $g_i$ les paramètres d'inattention et de chance associés à la $i$-ème question et soit $a_i$ une variable qui vaut 1 si la réponse de l'apprenant est correcte, 0 sinon. Si les CC associées à $x$ sont suffisantes pour répondre à la question correctement,
+Comme l'espace des états latents possibles est discret, on peut maintenir une distribution de probabilité $(\pi_i)_{i \geq 0}$ sur les vecteurs de compétences possibles, mise à jour après chaque réponse de l'apprenant. Connaissant la réponse de l'apprenant à la $i$-ème question, la mise à jour de $\pi_{i - 1}$ est faite par la règle de Bayes. Soit $x$ un état latent, $s_i$ et $g_i$ les paramètres d'inattention et de chance associés à la $i$-ème question et soit $a_i$ une variable qui vaut 1 si la réponse de l'apprenant est correcte, 0 sinon. Si les CC associées à $x$ sont suffisantes pour répondre à la question correctement,
 
 \label{dina-update}
 

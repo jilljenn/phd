@@ -90,12 +90,12 @@ Dans notre cas, la matrice $D$ des données des apprenants ne comporte que des 1
 Ainsi, si l'on modélise l'apprenant d'après la théorie de la réponse à l'item multidimensionnelle (MIRT) de dimension $d$, si l'apprenant a un grand facteur selon une dimension impliquée dans la résolution d'une question, il aura simplement plus de chances de répondre correctement à la question. Pour rappel, la probabilité que l'apprenant $i$ réponde correctement à la question $j$ est donnée par l'expression :
 
 \begin{equation}
-Pr(D_{ij} = 1) = \Phi(\mathbf{\theta_i} \cdot \mathbf{d_j} + \delta_j)
+Pr(D_{ij} = 1) = \Phi(\boldsymbol{\theta_i} \cdot \boldsymbol{d_j} + \delta_j)
 \end{equation}
 
 - $\Phi$ est la fonction logistique définie sur les réels : $\Phi(x) = 1/(1 + e^{-x})$, qui tend vers 0 en $-\infty$ et vers 1 en $+\infty$ ;
-- $\mathbf{\theta_i}$ est le vecteur des caractéristiques de l'apprenant $i$ ;
-- $\mathbf{d_j}$ est le vecteur des caractéristiques de la question $j$ ;
+- $\boldsymbol{\theta_i}$ est le vecteur des caractéristiques de l'apprenant $i$ ;
+- $\boldsymbol{d_j}$ est le vecteur des caractéristiques de la question $j$ ;
 - $\delta_j$ est un paramètre de facilité de la question $j$.
 
 Écrit sous forme matricielle, le modèle MIRT devient, à la fonction logistique près, une analyse de facteurs :
