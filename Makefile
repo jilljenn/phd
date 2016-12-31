@@ -3,24 +3,26 @@ CONTENT_TEX=$(CONTENT_MD:.md=.tex)
 FIGURES_TEX=$(wildcard figures/*.tex)
 FIGURES_DOT=$(wildcard figures/*.dot)
 FIGURES_PDF=$(FIGURES_TEX:.tex=.pdf) $(FIGURES_DOT:.dot=.pdf)
+# LATEX=xelatex
+LATEX=lualatex
 
 .PHONY: all clean
 
 all: $(FIGURES_PDF) $(CONTENT_TEX)
-	xelatex cat
+	$(LATEX) cat
 	makeindex -s nomencl.ist -t cat.lng -o cat.nls cat.nlo
 	makeglossaries cat
 	biber cat
-	xelatex cat
-	xelatex cat
-	xelatex cat
+	$(LATEX) cat
+	$(LATEX) cat
+	$(LATEX) cat
 	open cat.pdf
 
 %.tex: %.md
 	pandoc --biblatex --bibliography biblio.bib -N $< -o $@
 
 figures/%.pdf: figures/%.tex
-	xelatex -output-directory=figures $<
+	$(LATEX) -output-directory=figures $<
 
 figures/%.pdf: figures/%.dot
 	dot -Tpdf $< -o $@
