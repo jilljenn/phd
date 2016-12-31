@@ -52,16 +52,16 @@ K(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{{||\mathbf{x_i} - \mathbf{x_j}|
 
 \newacronym{ppd}{PPD}{processus à point déterminantal}
 
-Formellement, $P$ est un \gls{ppd} s'il vérifie pour tout ensemble $Y \subset \{1, \ldots, n\}$ :
+Formellement, un processus stochastique $Y \subset \{1, \ldots, n\}$ est un \gls{ppd} s'il vérifie pour tout ensemble $A \subset \{1, \ldots, n\}$ :
 
 \begin{equation}
-Pr(Y \subset X) \propto \det L_Y
+Pr(A \subset Y) \propto \det L_A
 \end{equation}
 
 \noindent
-où $L_Y$ est la sous-matrice carrée de $L$ indexée par les éléments de $Y$ en ligne et colonne.
+où $L_A$ est la sous-matrice carrée de $L$ indexée par les éléments de $A$ en ligne et colonne.
 
-Dans notre cas, cette loi est intéressante car des éléments seront tirés avec une probabilité proportionnelle au carré du volume du parallélotope qu'ils forment. En effet, chaque élément $L_{ij}$ de la matrice $L$ vaut $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ donc si on note $B$ la matrice ayant pour lignes $\mathbf{x_1}, \ldots, \mathbf{x_n}$, on a $L = B B^T$. Si à présent on note $B_Y$ la matrice ayant pour lignes les vecteurs $\mathbf{x_i}$ pour $i$ appartenant à $Y$, $L_Y = B_Y B_Y^T$ et donc $Pr(Y \subset X) \propto \det L_Y = \det B_Y B_Y^T = {Vol(\{\mathbf{x_i}\}_{i \in Y})}^2.$
+Dans notre cas, cette loi est intéressante car des éléments seront tirés avec une probabilité proportionnelle au carré du volume du parallélotope qu'ils forment. En effet, chaque élément $L_{ij}$ de la matrice $L$ vaut $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ donc si on note $B$ la matrice ayant pour lignes $\mathbf{x_1}, \ldots, \mathbf{x_n}$, on a $L = B B^T$. Si à présent on note $B_A$ la matrice ayant pour lignes les vecteurs $\mathbf{x_i}$ pour $i$ appartenant à $A$, $L_A = B_A B_A^T$ et donc $Pr(A \subset Y) \propto \det L_A = \det B_A B_A^T = {Vol(\{\mathbf{x_i}\}_{i \in A})}^2.$
 
 Or, plus le volume d'un ensemble de vecteurs est grand, moins ces vecteurs sont corrélés. Ainsi, des éléments diversifiés auront plus de chances d'être tirés par un PPD. On peut encore le voir de la façon suivante : des vecteurs de questions similaires apportent une information similaire. Afin d'avoir le plus d'information possible au début du test il vaut mieux choisir des vecteurs écartés deux à deux.
 

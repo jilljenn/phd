@@ -3,8 +3,8 @@ CONTENT_TEX=$(CONTENT_MD:.md=.tex)
 FIGURES_TEX=$(wildcard figures/*.tex)
 FIGURES_DOT=$(wildcard figures/*.dot)
 FIGURES_PDF=$(FIGURES_TEX:.tex=.pdf) $(FIGURES_DOT:.dot=.pdf)
-LATEX=xelatex -shell-escape -output-driver="xdvipdfmx -z 0"
-# LATEX=lualatex
+# LATEX=xelatex -shell-escape -output-driver="xdvipdfmx -z 0"
+LATEX=lualatex
 
 .PHONY: all clean
 
