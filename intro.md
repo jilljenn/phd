@@ -103,9 +103,7 @@ Nous montrons ainsi que l'adaptation a ses limites, puisque parfois poser un pet
 
 ### Poster à EDM 2015
 
-\begin{otherlanguage}{english}
-Jill-Jênn Vie, Fabrice Popineau, Éric Bruillard et Yolaine Bourda (2015a). ``Predicting Performance over Dichotomous Questions: Comparing Models for Large-Scale Adaptive Testing''. In: \emph{8th International Conference on Educational Data Mining (EDM 2015)}.
-\end{otherlanguage}
+\englishpub{Jill-Jênn Vie, Fabrice Popineau, Éric Bruillard et Yolaine Bourda (2015a). ``Predicting Performance over Dichotomous Questions: Comparing Models for Large-Scale Adaptive Testing''. In: \emph{8th International Conference on Educational Data Mining (EDM 2015)}.}
 
 ### Workshop à EIAH 2015
 
@@ -113,15 +111,11 @@ Jill-Jênn Vie, Fabrice Popineau, Jean-Bastien Grill, Éric Bruillard et Yolaine
 
 ### Conférence à EC-TEL 2016
 
-\begin{otherlanguage}{english}
-Jill-Jênn Vie, Fabrice Popineau, Yolaine Bourda et Éric Bruillard (2016b). ``Adaptive Testing Using a General Diagnostic Model''. In: \emph{European Conference on Technology Enhanced Learning}. Springer, p. 331--339.
-\end{otherlanguage}
+\englishpub{Jill-Jênn Vie, Fabrice Popineau, Yolaine Bourda et Éric Bruillard (2016b). ``Adaptive Testing Using a General Diagnostic Model''. In: \emph{European Conference on Technology Enhanced Learning}. Springer, p. 331--339.}
 
 ### Chapitre de journal Springer 2016
 
-\begin{otherlanguage}{english}
-Jill-Jênn Vie, Fabrice Popineau, Éric Bruillard et Yolaine Bourda (2016a). ``A review of recent advances in adaptive assessment''. In: \emph{Learning analytics: Fundaments, applications, and trends: A view of the current state of the art}. Springer, à paraître.
-\end{otherlanguage}
+\englishpub{Jill-Jênn Vie, Fabrice Popineau, Éric Bruillard et Yolaine Bourda (2016a). ``A review of recent advances in adaptive assessment''. In: \emph{Learning analytics: Fundaments, applications, and trends: A view of the current state of the art}. Springer, à paraître.}
 
 ### Revue STICEF 2016
 

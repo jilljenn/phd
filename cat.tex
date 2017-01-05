@@ -1,26 +1,28 @@
 \documentclass[12pt,a4paper]{book}
 \usepackage[a-1b]{pdfx}
-\usepackage{ifpdf,ifxetex,ifluatex}
+\usepackage{icomma}
+%\usepackage{ifpdf,ifxetex,ifluatex}
 \usepackage[T1]{fontenc}
-\usepackage{xcolor}
+%\usepackage{xcolor}
 \usepackage{hyperref}
-\ifxetex
-\usepackage{xltxtra}
-\fi
-\ifluatex
-% \usepackage{fontspec}
-\usepackage{mathtools}
-\usepackage{amsmath}
-\usepackage{unicode-math}
+%\ifxetex
+%\usepackage{xltxtra}
+%\fi
+%\ifluatex
+%\usepackage{amsmath}
+\usepackage{fontspec}
+%\usepackage{mathtools}
+%\usepackage{unicode-math}
 %\usepackage[libertine={Ligatures=TeX,RawFeature=+onum},
 %            biolinum={Ligatures=TeX,RawFeature=+onum}]{libertineotf}
 %\setmainfont{Linux Libertine O}
-\setmathfont{TeX Gyre Pagella Math}
-\setmathfont[BoldFont=TeX Gyre Pagella Bold Italic,range=\mathit/{latin,Latin,greek,Greek,num}]{TeX Gyre Pagella Italic}
-\setmathfont[range=\setminus]{Asana Math}
-\fi
+%\newfontfamily\hipsterfont{Linux Libertine O}
+%\setmathfont{TeX Gyre Pagella Math}
+%\setmathfont[BoldFont=TeX Gyre Pagella Bold Italic,range=\mathit/{latin,Latin,greek,Greek,num}]{TeX Gyre Pagella Italic}
+%\setmathfont[range=\setminus]{Asana Math}
+%\fi
 \usepackage[english,french]{babel}
-\DecimalMathComma
+%\DecimalMathComma
 \usepackage{fancyhdr}
 \usepackage[pass]{geometry}
 \usepackage{algorithm}
@@ -37,7 +39,7 @@
 \usepackage[style=authoryear,natbib=true,backend=biber,backref=true,maxcitenames=3,maxbibnames=99,babel=other]{biblatex}
 \usepackage[french=guillemets]{csquotes}
 \DeclareLanguageMapping{french}{french-apa}
-\DefineBibliographyExtras{french}{\restorecommand\mkbibnamelast}
+\DefineBibliographyExtras{french}{\restorecommand\mkbibnamefamily}
 \usepackage[refpage]{nomencl}
 \usepackage[acronym]{glossaries}
 \addbibresource{biblio.bib}
@@ -47,8 +49,16 @@
 \def\Tito{Lê Thành D\~{u}ng Nguy\~{ê}n}
 \def\Gambaru{{\J 頑張る}}
 
-\definecolor{aquali}{cmyk}{1,0.0474,0,0.255}
-\hypersetup{colorlinks=true,urlcolor=aquali,linkcolor=black,citecolor=blue}
+%\definecolor{aquali}{cmyk}{1,0.0474,0,0.255}
+%\hypersetup{colorlinks=true,urlcolor=aquali,linkcolor=black,citecolor=blue}
+
+% \usepackage{titlesec}
+% \titleformat{\chapter}[display]
+% {\hipsterfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+% \titleformat{\section}
+% {\hipsterfont\Large\bfseries}{\thesection}{1em}{}
+% \titleformat{\subsection}
+% {\hipsterfont\large\bfseries}{\thesubsection}{1em}{}
 
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 \renewcommand{\sectionmark}[1]{\markright{#1}}
@@ -79,6 +89,8 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 \makeglossaries
+\def\pagedeclaration#1{, \hyperlink{page.#1}{page\nobreakspace#1}}
+\newcommand\englishpub[1]{{\begin{otherlanguage}{english}#1\end{otherlanguage}}}
 \makenomenclature
 
 \title{Modèles de tests adaptatifs pour le diagnostic de connaissances dans un cadre d'apprentissage à grande échelle}
@@ -137,5 +149,13 @@
 %\nocite{*}
 \emergencystretch=1em
 \printbibliography
+
+\null\newpage
+\thispagestyle{empty}
+\input{style-abstractfr}
+
+\null\newpage
+\thispagestyle{empty}
+\input{style-abstracten}
 
 \end{document}
