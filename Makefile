@@ -10,12 +10,14 @@ LATEX=lualatex
 
 all: $(FIGURES_PDF) $(CONTENT_TEX)
 	$(LATEX) cat
-	makeindex -s nomencl.ist -t cat.lng -o cat.nls cat.nlo
-	makeglossaries cat
 	biber cat
-	$(LATEX) cat
-	$(LATEX) cat
-	$(LATEX) cat
+	$(LATEX) cat  # Add table of contents
+	makeindex -s nomencl.ist -t cat.lng -o cat.nls cat.nlo  # Add acronyms
+	makeglossaries cat  # Add nomenclature
+	$(LATEX) cat  # Renumber table of contents
+	makeindex -s nomencl.ist -t cat.lng -o cat.nls cat.nlo  # Renumber acronyms
+	makeglossaries cat  # Renumber nomenclature
+	$(LATEX) cat  # Last
 	open cat.pdf
 
 %.tex: %.md
