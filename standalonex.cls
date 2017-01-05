@@ -14,9 +14,9 @@
 % \setmainfont{Times New Roman}
 
 % Fonts option 2
-\setmainfont{Linux Libertine O}
-\setsansfont{Linux Biolinum O}
-\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
+%\setmainfont{Linux Libertine O}
+%\setsansfont{Linux Biolinum O}
+%\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
 %\setmathfont{Asana Math}
 
 \fi
