@@ -8,7 +8,7 @@ Here are a few idiosyncrasies I stumbled upon while writing my memoir.
 
 Will produce a beautiful historic ligature.
 
-## icomma VS otherlanguage
+## icomma vs. otherlanguage
 
     xelatex icomma-otherlanguage
     lualatex icomma-otherlanguage
@@ -19,11 +19,15 @@ Both will produce this terrible thing:
 
 [Solution on TeX.SE](http://tex.stackexchange.com/a/347199/7144)
 
-## RGB VS CMYK
+## RGB vs. CMYK
 
     lualatex rgb-cmyk
 
 Different magenta colors according to whether tikz is loaded or not (!).
+
+![RGB vs. CMYK](https://i.stack.imgur.com/darY9.png)
+
+[Question on TeX.SE](http://tex.stackexchange.com/questions/347367/loading-tikz-changes-the-colors-of-my-pdf-a-document-from-rgb-to-cmyk)
 
 ## Commas replaced by semicolons in Babel French's `\DecimalMathComma` mode
 
