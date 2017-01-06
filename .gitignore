@@ -1,6 +1,7 @@
 .DS_Store
 cat.pdf
 creationdate.lua
+creationdate.timestamp
 *.aux
 *.bbl
 *.bcf
@@ -9,6 +10,7 @@ creationdate.lua
 *.out
 *.toc
 *.xml
+mwe/*.pdf
 tables
 logo
 

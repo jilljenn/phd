@@ -3,8 +3,8 @@ CONTENT_TEX=$(CONTENT_MD:.md=.tex)
 FIGURES_TEX=$(wildcard figures/*.tex)
 FIGURES_DOT=$(wildcard figures/*.dot)
 FIGURES_PDF=$(FIGURES_TEX:.tex=.pdf) $(FIGURES_DOT:.dot=.pdf)
-# LATEX=xelatex -shell-escape -output-driver="xdvipdfmx -z 0"
 LATEX=lualatex
+# LATEX=xelatex -shell-escape -output-driver="xdvipdfmx -z 0"
 
 .PHONY: all clean
 
@@ -31,4 +31,4 @@ figures/%.pdf: figures/%.dot
 
 clean:
 	rm -f $(CONTENT_TEX) $(FIGURES_PDF) figures/*.aux figures/*.log
-	rm -f cat.aux cat.bbl cat.bcf cat.blg cat.acn cat.acr cat.alg cat.glg cat.glo cat.gls cat.glsdefs cat.ist cat.lng cat.lof cat.log cat.lot cat.nlo cat.out cat.nls cat.run.xml cat.toc creationdate.lua missfont.log
+	rm -f cat.aux cat.bbl cat.bcf cat.blg cat.acn cat.acr cat.alg cat.fdb_latexmk cat.fls cat.glg cat.glo cat.gls cat.glsdefs cat.ist cat.lng cat.lof cat.log cat.lot cat.nlo cat.out cat.nls cat.run.xml cat.toc creationdate.lua creationdate.timestamp missfont.log
