@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}[1999/01/01]
-\ProvidesClass{standalonex}[2016/12/28 v0.1 FP Extended standalone class]
+\ProvidesClass{standalonex}[2017/01/04 v0.2 FP Extended standalone class]
 \RequirePackage{ifpdf}
 \RequirePackage{ifxetex}
 \RequirePackage{ifluatex}
