@@ -108,8 +108,8 @@ Pour chaque apprenant de notre jeu de données, nous simulons un test adaptatif 
 \centering
 \begin{tabular}{ccc} \toprule
 Valeur de $\varepsilon$ & Temps de convergence & Erreur de prédiction\\ \midrule
-0 & 5,009 $\pm$ 0,003 & 1,075 $\pm$ 0,04\\
-0,01 & 5,43 $\pm$ 0,016 & 1,086 $\pm$ 0,041\\
+0 & 5,009 $\pm$ 0,003 & 1,075 $\pm$ 0,040\\
+0,01 & 5,430 $\pm$ 0,016 & 1,086 $\pm$ 0,041\\
 0,02 & 6,879 $\pm$ 0,019 & 1,086 $\pm$ 0,041\\
 0,03 & 7,671 $\pm$ 0,027 & 0,956 $\pm$ 0,037\\
 0,04 & 7,807 $\pm$ 0,023 & 1,086 $\pm$ 0,041\\

@@ -123,12 +123,12 @@ Il s'agit d'un problème d'apprentissage automatique, appelé *classification bi
 
 Régression logistique
 
-:   Le modèle de régression logistique est utilisé pour la prédiction de variables dichotomiques (vrai ou faux), telles que les réponses des apprenants dans notre cas. Lorsqu'on a $n$ éléments de dimension $d$ $(\mathbf{x_1}, \ldots, \mathbf{x_n})$ pour lesquels on observe des résultats vrai/faux $\mathbf{y} = (y_1, \ldots, y_n) \in \{0, 1\}^n$, la régression logistique consiste à estimer un paramètre $\boldsymbol{\theta} \in \R^d$ tel que $\Phi(\boldsymbol{\theta}^T X) = \mathbf{y}$ où $X$ est la matrice ayant pour lignes les vecteurs $(\mathbf{x_1}, \ldots, \mathbf{x_n})$. Ce modèle est apprécié pour sa propriété de généralisation à partir de peu de données.
+:   Le modèle de régression logistique est utilisé pour la prédiction de variables dichotomiques (vrai ou faux), telles que les réponses des apprenants dans notre cas. Lorsqu'on a $n$ éléments de dimension $d$ $(\boldsymbol{x_1}, \ldots, \boldsymbol{x_n})$ pour lesquels on observe des résultats vrai/faux $\boldsymbol{y} = (y_1, \ldots, y_n) \in \{0, 1\}^n$, la régression logistique consiste à estimer un paramètre $\boldsymbol{\theta} \in \R^d$ tel que $\Phi(\boldsymbol{\theta}^T X) = \boldsymbol{y}$ où $X$ est la matrice ayant pour lignes les vecteurs $(\boldsymbol{x_1}, \ldots, \boldsymbol{x_n})$. Ce modèle est apprécié pour sa propriété de généralisation à partir de peu de données.
 
 Notre problème est directement encodable ainsi :
 
 - il y a $n = t$ échantillons ;
-- les échantillons $\mathbf{x_i}$ sont les caractéristiques $V_{q_1}, \ldots, V_{q_t}$ des questions ;
+- les échantillons $\boldsymbol{x_i}$ sont les caractéristiques $V_{q_1}, \ldots, V_{q_t}$ des questions ;
 - les étiquettes des échantillons sont les réponses correspondantes de l'apprenant $r_1, \ldots, r_t$.
 
 ## Retour à la fin du test
@@ -227,12 +227,12 @@ Dans le jeu de données Fraction, 4 questions sur 10 sont suffisantes pour préd
 \small
 \begin{tabular}{cccc} \toprule
 & Après 4 questions & Après 7 questions & Après 10 questions\\ \midrule
-Rasch & $0,469 \pm 0,017$ (79 \%) & $0,457 \pm 0,017$ (79 \%) & $0,446 \pm 0,016$ (79 \%)\\
-DINA & $0,441 \pm 0,014$ (80 \%) & $0,41 \pm 0,014$ (82 \%) & $0,406 \pm 0,014$ (82 \%)\\
-MIRT & $0,368 \pm 0,014$ (83 \%) & $0,325 \pm 0,012$ (86 \%) & $0,316 \pm 0,011$ (86 \%)\\
-GenMA & $0,459 \pm 0,023$ (79 \%) & $0,355 \pm 0,017$ (85 \%) & $0,294 \pm 0,013$ (88 \%)\\ \bottomrule
+Rasch & 0,469 $\pm$ 0,017 (79 \%) & 0,457 $\pm$ 0,017 (79 \%) & 0,446 $\pm$ 0,016 (79 \%)\\
+DINA & 0,441 $\pm$ 0,014 (80 \%) & 0,410 $\pm$ 0,014 (82 \%) & 0,406 $\pm$ 0,014 (82 \%)\\
+MIRT & 0,368 $\pm$ 0,014 (83 \%) & 0,325 $\pm$ 0,012 (86 \%) & 0,316 $\pm$ 0,011 (86 \%)\\
+GenMA & 0,459 $\pm$ 0,023 (79 \%) & 0,355 $\pm$ 0,017 (85 \%) & 0,294 $\pm$ 0,013 (88 \%)\\ \bottomrule
 \end{tabular}
-\captionof{table}{Évolution de la \emph{log loss} en fonction du nombre de questions posées, pour le jeu de données Fraction. Entre parenthèses, le nombre de questions prédites correctement.}
+\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction. Entre parenthèses, le taux de questions prédites correctement.}
 \label{genma-fraction-table}
 %\end{table}
 \end{figure}
@@ -252,12 +252,12 @@ Les modèles Rasch, MIRT et DINA convergent en 4 ou 5 questions tandis que GenMA
 \small
 \begin{tabular}{cccc} \toprule
 & Après 4 questions & Après 8 questions & Après 12 questions\\ \midrule
-DINA & $0,535 \pm 0,003$ (73 \%) & $0,526 \pm 0,003$ (74 \%) & $0,523 \pm 0,003$ (74 \%)\\
-MIRT & $0,509 \pm 0,005$ (76 \%) & $0,496 \pm 0,005$ (76 \%) & $0,489 \pm 0,005$ (77 \%)\\
-GenMA & $0,532 \pm 0,005$ (73 \%) & $0,507 \pm 0,004$ (75 \%) & $0,498 \pm 0,004$ (76 \%)\\
-Rasch & $0,537 \pm 0,005$ (73 \%) & $0,527 \pm 0,005$ (74 \%) & $0,522 \pm 0,005$ (74 \%)\\ \bottomrule
+DINA & 0,535 $\pm$ 0,003 (73 \%) & 0,526 $\pm$ 0,003 (74 \%) & 0,523 $\pm$ 0,003 (74 \%)\\
+MIRT & 0,509 $\pm$ 0,005 (76 \%) & 0,496 $\pm$ 0,005 (76 \%) & 0,489 $\pm$ 0,005 (77 \%)\\
+GenMA & 0,532 $\pm$ 0,005 (73 \%) & 0,507 $\pm$ 0,004 (75 \%) & 0,498 $\pm$ 0,004 (76 \%)\\
+Rasch & 0,537 $\pm$ 0,005 (73 \%) & 0,527 $\pm$ 0,005 (74 \%) & 0,522 $\pm$ 0,005 (74 \%)\\ \bottomrule
 \end{tabular}
-\captionof{table}{Évolution de la \emph{log loss} en fonction du nombre de questions posées, pour le jeu de données Fraction. Entre parenthèses, le nombre de questions prédites correctement.}{Valeurs obtenues pour le jeu de données ECPE.}
+\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction. Entre parenthèses, le taux de questions prédites correctement.}
 \label{genma-ecpe-table}
 \end{figure}
 
@@ -271,36 +271,36 @@ Dans la figure \ref{genma-ecpe}, DINA et Rasch ont une performance similaire, c
 \multicolumn{5}{c}{\textnormal{q-matrice}} & \multirow{2}{*}{\textnormal{taux de succès}} \\ \cmidrule(r){1-5}
 \multicolumn{3}{c}{\textnormal{entrées}} & \textnormal{chance} & \multicolumn{1}{c}{\textnormal{inattention}} & \\ \midrule
 %\hline
-1 & 1 & 0 & $0,705$ & $0,085$ & 80 \%\\
-0 & 1 & 0 & $0,724$ & $0,101$ & 83 \%\\
-1 & 0 & 1 & $0,438$ & $0,266$ & 57 \%\\
-0 & 0 & 1 & $0,480$ & $0,162$ & 70 \%\\
-0 & 0 & 1 & $0,764$ & $0,040$ & 88 \%\\
-0 & 0 & 1 & $0,717$ & $0,066$ & 85 \%\\
-1 & 0 & 1 & $0,544$ & $0,085$ & 72 \%\\
-0 & 1 & 0 & $0,802$ & $0,040$ & 89 \%\\
-0 & 0 & 1 & $0,534$ & $0,199$ & 70 \%\\
-1 & 0 & 0 & $0,483$ & $0,163$ & 65 \%\\
-1 & 0 & 1 & $0,556$ & $0,099$ & 72 \%\\
-1 & 0 & 1 & $0,195$ & $0,305$ & 43 \%\\
-1 & 0 & 0 & $0,633$ & $0,122$ & 75 \%\\
-1 & 0 & 0 & $0,517$ & $0,212$ & 65 \%\\
-0 & 0 & 1 & $0,749$ & $0,040$ & 88 \%\\
-1 & 0 & 1 & $0,549$ & $0,126$ & 70 \%\\
-\textbf0 & \textbf1 & \textbf1 & \textbf{0,816} & \textbf{0,058} & \textbf{88 \%}\\
-0 & 0 & 1 & $0,729$ & $0,086$ & 84 \%\\
-0 & 0 & 1 & $0,473$ & $0,150$ & 71 \%\\
-1 & 0 & 1 & $0,239$ & $0,295$ & 46 \%\\
-1 & 0 & 1 & $0,621$ & $0,097$ & 75 \%\\
-0 & 0 & 1 & $0,322$ & $0,188$ & 63 \%\\
-0 & 1 & 0 & $0,637$ & $0,075$ & 81 \%\\
-0 & 1 & 0 & $0,313$ & $0,322$ & 53 \%\\
-1 & 0 & 0 & $0,512$ & $0,272$ & 61 \%\\
-0 & 0 & 1 & $0,555$ & $0,211$ & 70 \%\\
-1 & 0 & 0 & $0,265$ & $0,369$ & 44 \%\\
-0 & 0 & 1 & $0,659$ & $0,086$ & 81 \%\\ \bottomrule
+1 & 1 & 0 & 0,705 & 0,085 & 80 \%\\
+0 & 1 & 0 & 0,724 & 0,101 & 83 \%\\
+1 & 0 & 1 & 0,438 & 0,266 & 57 \%\\
+0 & 0 & 1 & 0,480 & 0,162 & 70 \%\\
+0 & 0 & 1 & 0,764 & 0,040 & 88 \%\\
+0 & 0 & 1 & 0,717 & 0,066 & 85 \%\\
+1 & 0 & 1 & 0,544 & 0,085 & 72 \%\\
+0 & 1 & 0 & 0,802 & 0,040 & 89 \%\\
+0 & 0 & 1 & 0,534 & 0,199 & 70 \%\\
+1 & 0 & 0 & 0,483 & 0,163 & 65 \%\\
+1 & 0 & 1 & 0,556 & 0,099 & 72 \%\\
+1 & 0 & 1 & 0,195 & 0,305 & 43 \%\\
+1 & 0 & 0 & 0,633 & 0,122 & 75 \%\\
+1 & 0 & 0 & 0,517 & 0,212 & 65 \%\\
+0 & 0 & 1 & 0,749 & 0,040 & 88 \%\\
+1 & 0 & 1 & 0,549 & 0,126 & 70 \%\\
+0 & 1 & 1 & 0,816 & 0,058 & 88 \%\\
+0 & 0 & 1 & 0,729 & 0,086 & 84 \%\\
+0 & 0 & 1 & 0,473 & 0,150 & 71 \%\\
+1 & 0 & 1 & 0,239 & 0,295 & 46 \%\\
+1 & 0 & 1 & 0,621 & 0,097 & 75 \%\\
+0 & 0 & 1 & 0,322 & 0,188 & 63 \%\\
+0 & 1 & 0 & 0,637 & 0,075 & 81 \%\\
+0 & 1 & 0 & 0,313 & 0,322 & 53 \%\\
+1 & 0 & 0 & 0,512 & 0,272 & 61 \%\\
+0 & 0 & 1 & 0,555 & 0,211 & 70 \%\\
+1 & 0 & 0 & 0,265 & 0,369 & 44 \%\\
+0 & 0 & 1 & 0,659 & 0,086 & 81 \%\\ \bottomrule
 \end{tabular}
-\caption{Paramètres d'inattention et de chance pour la q-matrice du jeu de données ECPE. Les valeurs les plus hautes sont indiquées en gras.}
+\caption{Paramètres d'inattention et de chance pour la q-matrice du jeu de données ECPE.}
 \label{guess}
 \end{table}
 
@@ -321,12 +321,12 @@ Nous faisons l'hypothèse que la q-matrice a été mal spécifiée.
 % \small
 \begin{tabular}{cccc} \toprule
 & Après 4 questions & Après 8 questions & Après 11 questions\\ \midrule
-Rasch & $0,576 \pm 0,008$ (70 \%) & $0,559 \pm 0,008$ (71 \%) & $0,555 \pm 0,008$ (71 \%)\\
-DINA & $0,588 \pm 0,005$ (68 \%) & $0,57 \pm 0,006$ (70 \%) & $0,566 \pm 0,006$ (70 \%)\\
-GenMA & $0,537 \pm 0,006$ (72 \%) & $0,505 \pm 0,006$ (75 \%) & $0,487 \pm 0,006$ (77 \%)\\
-MIRT & $0,53 \pm 0,008$ (73 \%) & $0,509 \pm 0,008$ (75 \%) & $0,503 \pm 0,008$ (75 \%)\\ \bottomrule
+Rasch & 0,576 $\pm$ 0,008 (70 \%) & 0,559 $\pm$ 0,008 (71 \%) & 0,555 $\pm$ 0,008 (71 \%)\\
+DINA & 0,588 $\pm$ 0,005 (68 \%) & 0,570 $\pm$ 0,006 (70 \%) & 0,566 $\pm$ 0,006 (70 \%)\\
+GenMA & 0,537 $\pm$ 0,006 (72 \%) & 0,505 $\pm$ 0,006 (75 \%) & 0,487 $\pm$ 0,006 (77 \%)\\
+MIRT & 0,530 $\pm$ 0,008 (73 \%) & 0,509 $\pm$ 0,008 (75 \%) & 0,503 $\pm$ 0,008 (75 \%)\\ \bottomrule
 \end{tabular}
-\captionof{table}{Valeurs obtenues sur le jeu de données TIMSS.}
+\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS. Entre parenthèses, le taux de questions prédites correctement.}
 \label{genma-timss-table}
 \end{figure}
 

@@ -98,9 +98,9 @@ En ce qui nous concerne, nous souhaitons utiliser l'historique des réponses d'a
 
 On distingue deux types d'apprentissage automatique. L'*apprentissage supervisé* consiste à disposer d'échantillons étiquetés, c'est-à-dire appariés avec une variable d'intérêt, et à devoir prédire les étiquettes d'échantillons inédits. L'*apprentissage non supervisé* consiste à disposer d'échantillons non étiquetés, et donc à déterminer des motifs récurrents au sein des échantillons ou à en extraire des caractéristiques utiles pour expliquer les données.
 
-En apprentissage supervisé, on appelle *classifieur* un modèle qui prédit une variable discrète, et *régresseur* un modèle qui prédit une variable continue. Ainsi, à partir des *caractéristiques* d'un échantillon $\mathbf{x} = (x_1, \ldots, x_d)$, par exemple les couleurs des pixels d'une image, un classifieur peut prédire une variable $y$ dite *étiquette*, par exemple le chiffre 1 si l'image est un chat, 0 sinon. Une fois ce modèle entraîné sur des échantillons de caractéristiques $\mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(e)}$ étiquetées par les variables $y^{(1)}, \ldots, y^{(e)}$ (c'est la *phase d'entraînement*), on peut s'en servir pour prédire les étiquettes d'échantillons inédits $\mathbf{x'}^{(1)}, \ldots, \mathbf{x'}^{(t)}$ (c'est la *phase de test*).
+En apprentissage supervisé, on appelle *classifieur* un modèle qui prédit une variable discrète, et *régresseur* un modèle qui prédit une variable continue. Ainsi, à partir des *caractéristiques* d'un échantillon $\boldsymbol{x} = (x_1, \ldots, x_d)$, par exemple les couleurs des pixels d'une image, un classifieur peut prédire une variable $y$ dite *étiquette*, par exemple le chiffre 1 si l'image est un chat, 0 sinon. Une fois ce modèle entraîné sur des échantillons de caractéristiques $\boldsymbol{x}^{(1)}, \ldots, \boldsymbol{x}^{(e)}$ étiquetées par les variables $y^{(1)}, \ldots, y^{(e)}$ (c'est la *phase d'entraînement*), on peut s'en servir pour prédire les étiquettes d'échantillons inédits $\boldsymbol{x'}^{(1)}, \ldots, \boldsymbol{x'}^{(t)}$ (c'est la *phase de test*).
 
-Ainsi on distingue les données d'entraînement $X_{train} = (\mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(e)})$, sous la forme d'une matrice de taille $e \times d$ où $e$ est le nombre d'échantillons et $d$ la dimension des caractéristiques, et leurs étiquettes $\mathbf{y}_{train} = (y^{(1)}, \ldots, y^{(e)})$ des données de test $X_{test} = (\mathbf{x'}^{(1)}, \ldots, \mathbf{x'}^{(t)})$.
+Ainsi on distingue les données d'entraînement $X_{train} = (\boldsymbol{x}^{(1)}, \ldots, \boldsymbol{x}^{(e)})$, sous la forme d'une matrice de taille $e \times d$ où $e$ est le nombre d'échantillons et $d$ la dimension des caractéristiques, et leurs étiquettes $\boldsymbol{y}_{train} = (y^{(1)}, \ldots, y^{(e)})$ des données de test $X_{test} = (\boldsymbol{x'}^{(1)}, \ldots, \boldsymbol{x'}^{(t)})$.
 
 En ce qui nous concerne, nous disposons des résultats de plusieurs apprenants sur les questions d'un test, et nous cherchons à prédire les résultats d'un nouvel apprenant alors qu'il passe ce même test, sous la forme de succès ou échecs à chacune des questions. Notre problème commence par une phase d'apprentissage non supervisé, car à partir du simple historique des résultats au test, il faut extraire des caractéristiques sur les apprenants et les questions qui expliquent ces résultats. Puis, on se ramène à une phase d'apprentissage supervisé pour un nouvel apprenant car il s'agit d'un problème de classification binaire : on cherche à prédire à partir des réponses que donne l'apprenant ses résultats sur le reste des questions du test. Une particularité est que l'apprentissage du modèle est ici interactif, dans la mesure où c'est le modèle qui choisit les questions à poser (c'est-à-dire, les éléments à faire étiqueter) à l'apprenant afin d'améliorer son apprentissage des caractéristiques de l'apprenant. Cette approche s'appelle apprentissage actif (*active learning*), et dans ce cadre elle comporte du bruit, car l'apprenant peut faire des fautes d'inattention ou deviner la bonne réponse.
 
@@ -128,18 +128,18 @@ Dans ces deux cas, $H$ est composée majoritairement de 0. Pour en extraire une 
 
 \label{bcv}
 
-Pour valider un modèle d'apprentissage supervisé, une méthode courante consiste à estimer ses paramètres à partir d'une fraction des données et leurs étiquettes, calculer les prédictions faites sur les données restantes et les comparer avec les vraies étiquettes. Cette méthode s'appelle *validation croisée*. Ainsi, le jeu de données $X$ est divisé en deux parties $X_{train}$ et $X_{test}$, le modèle est entraîné sur $X_{train}$ et ses étiquettes $\mathbf{y}_{train}$ et fait une prédiction sur les données $X_{test}$ appelée $\mathbf{y}_{pred}$, qui est ensuite comparée aux vraies valeurs $\mathbf{y}_{test}$ pour validation. S'il s'agit d'un problème de régression, on peut utiliser par exemple la fonction de coût RMSE (*root mean squared error*) :
+Pour valider un modèle d'apprentissage supervisé, une méthode courante consiste à estimer ses paramètres à partir d'une fraction des données et leurs étiquettes, calculer les prédictions faites sur les données restantes et les comparer avec les vraies étiquettes. Cette méthode s'appelle *validation croisée*. Ainsi, le jeu de données $X$ est divisé en deux parties $X_{train}$ et $X_{test}$, le modèle est entraîné sur $X_{train}$ et ses étiquettes $\boldsymbol{y}_{train}$ et fait une prédiction sur les données $X_{test}$ appelée $\boldsymbol{y}_{pred}$, qui est ensuite comparée aux vraies valeurs $\boldsymbol{y}_{test}$ pour validation. S'il s'agit d'un problème de régression, on peut utiliser par exemple la fonction de coût RMSE (*root mean squared error*) :
 
 \begin{equation}
-\textrm{RMSE}(\mathbf{y}_{test}, \mathbf{y}_{pred}) = \sqrt{\frac1n \sum_{k = 1}^n (y^*_i - y_i)^2}
+\textrm{RMSE}(\boldsymbol{y}_{test}, \boldsymbol{y}_{pred}) = \sqrt{\frac1n \sum_{k = 1}^n (y^*_i - y_i)^2}
 \end{equation}
 
-où $\mathbf{y}_{pred} = (y_1, \ldots, y_n)$ et $\mathbf{y}_{test} = (y^*_1, \ldots, y^*_n)$.\bigskip
+où $\boldsymbol{y}_{pred} = (y_1, \ldots, y_n)$ et $\boldsymbol{y}_{test} = (y^*_1, \ldots, y^*_n)$.\bigskip
 
 S'il s'agit d'un problème de classification binaire, on utilise habituellement la fonction de coût *log-loss* (aussi appelée coût logistique ou perte d'entropie mutuelle) :
 
 \begin{equation}
-\textrm{logloss}(\mathbf{y}_{test}, \mathbf{y}_{pred}) = \frac1n \sum_{k = 1}^n \log (1 - |y^*_k - y_k|).
+\textrm{logloss}(\boldsymbol{y}_{test}, \boldsymbol{y}_{pred}) = \frac1n \sum_{k = 1}^n \log (1 - |y^*_k - y_k|).
 \end{equation}
 
 Toutes les valeurs prédites étant comprises entre 0 et 1, cette fonction pénalise beaucoup plus une grosse différence entre valeur prédite (comprise entre 0 ou 1) et valeur réelle (égale à 0 ou 1) que la RMSE.
@@ -383,8 +383,8 @@ Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss
 %\centering
 \begin{tabular}{cccc} \toprule
 & Après 10 questions & Après 15 questions\\ \midrule
-DINA & $0,398 \pm 0,031$ (82 \%) & $0,387 \pm 0,028$ (82 \%)\\
-Rasch & $0,363 \pm 0,026$ (83 \%) & $0,362 \pm 0,027$ (84 \%)\\ \bottomrule
+DINA & 0,398 $\pm$ 0,031 (82 \%) & 0,387 $\pm$ 0,028 (82 \%)\\
+Rasch & 0,363 $\pm$ 0,026 (83 \%) & 0,362 $\pm$ 0,027 (84 \%)\\ \bottomrule
 \end{tabular}
 \captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données SAT.}
 \label{comp-sat-table}
@@ -402,7 +402,7 @@ Nous faisons l'hypothèse que comme ce jeu de données est multidisciplinaire et
 \begin{figure}[hbt]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/comp/ecpe-mean}
-\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données ECPE.}
+\captionof{figure}{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données ECPE.}
 \label{comp-ecpe}
 %\end{figure}
 
@@ -410,10 +410,10 @@ Nous faisons l'hypothèse que comme ce jeu de données est multidisciplinaire et
 %\centering
 \begin{tabular}{ccc} \toprule
 & Après 5 questions & Après 10 questions\\ \midrule
-Rasch & $0,534 \pm 0,005$ (73 \%) & $0,524 \pm 0,005$ (74 \%)\\
-DINA & $0,532 \pm 0,003$ (73 \%) & $0,524 \pm 0,003$ (74 \%)\\ \bottomrule
+Rasch & 0,534 $\pm$ 0,005 (73 \%) & 0,524 $\pm$ 0,005 (74 \%)\\
+DINA & 0,532 $\pm$ 0,003 (73 \%) & 0,524 $\pm$ 0,003 (74 \%)\\ \bottomrule
 \end{tabular}
-\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données ECPE.}
+\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données ECPE.}
 \label{comp-ecpe-table}
 \end{figure}
 
@@ -437,8 +437,8 @@ Nous faisons l'hypothèse que comme le jeu de données a beaucoup de motifs de r
 %\centering
 \begin{tabular}{ccc} \toprule
 & Après 4 questions & Après 7 questions\\ \midrule
-Rasch & $0,402 \pm 0,037$ (84 \%) & $0,381 \pm 0,033$ (85 \%)\\
-DINA & $0,368 \pm 0,039$ (86 \%) & $0,346 \pm 0,039$ (86 \%)\\ \bottomrule
+Rasch & 0,402 $\pm$ 0,037 (84 \%) & 0,381 $\pm$ 0,033 (85 \%)\\
+DINA & 0,368 $\pm$ 0,039 (86 \%) & 0,346 $\pm$ 0,039 (86 \%)\\ \bottomrule
 \end{tabular}
 \captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction.}
 \label{comp-fraction-table}
@@ -462,8 +462,8 @@ Nous faisons l'hypothèse que comme il s'agit d'un jeu de données de soustracti
 %\centering
 \begin{tabular}{ccc} \toprule
 & After 4 questions & After 8 questions\\ \midrule
-DINA & $0,588 \pm 0,005$ (68 \%) & $0,57 \pm 0,006$ (70 \%)\\
-Rasch & $0,576 \pm 0,008$ (70 \%) & $0,559 \pm 0,008$ (71 \%)\\ \bottomrule
+DINA & 0,588 $\pm$ 0,005 (68 \%) & 0,570 $\pm$ 0,006 (70 \%)\\
+Rasch & 0,576 $\pm$ 0,008 (70 \%) & 0,559 $\pm$ 0,008 (71 \%)\\ \bottomrule
 \end{tabular}
 \captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS.}
 \label{comp-timss-table}
@@ -489,8 +489,8 @@ Nous faisons l'hypothèse que ces jeux de données se ressemblent : il y a beauc
 %\centering
 \begin{tabular}{ccc} \toprule
 & Après 4 questions & Après 8 questions\\ \midrule
-DINA & $0,504 \pm 0,004$ (78 \%) & $0,512 \pm 0,004$ (77 \%)\\
-Rasch & $0,493 \pm 0,004$ (78 \%) & $0,485 \pm 0,004$ (79 \%)\\ \bottomrule
+DINA & 0,504 $\pm$ 0,004 (78 \%) & 0,512 $\pm$ 0,004 (77 \%)\\
+Rasch & 0,493 $\pm$ 0,004 (78 \%) & 0,485 $\pm$ 0,004 (79 \%)\\ \bottomrule
 \end{tabular}
 \captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données Castor.}
 \label{comp-castor-table}

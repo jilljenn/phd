@@ -26,7 +26,7 @@ Incertitude maximale
 
 Déterminant maximal
 
-:   Une façon de choisir des questions peu corrélées les unes des autres consiste à choisir un ensemble de questions dont le parallélotope[^1] forme un grand volume. Le volume d'un parallélotope formé par des vecteurs $V = (\mathbf{v_1}, \ldots, \mathbf{v_n})$ où $\mathbf{v_1}, \ldots, \mathbf{v_n}$ sont les lignes de la matrice $V$, est donné par $Vol(\{\mathbf{v_i}\}_{i = 1, \ldots, n}) = \sqrt{\det V V^T}$.
+:   Une façon de choisir des questions peu corrélées les unes des autres consiste à choisir un ensemble de questions dont le parallélotope[^1] forme un grand volume. Le volume d'un parallélotope formé par des vecteurs $V = (\boldsymbol{v_1}, \ldots, \boldsymbol{v_n})$ où $\boldsymbol{v_1}, \ldots, \boldsymbol{v_n}$ sont les lignes de la matrice $V$, est donné par $Vol(\{\boldsymbol{v_i}\}_{i = 1, \ldots, n}) = \sqrt{\det V V^T}$.
 
  [^1]: Une généralisation du parallélogramme en dimension $n$ quelconque.
 
@@ -36,18 +36,18 @@ Déterminant maximal
 
 Nous allons présenter une loi de probabilité, tirée de la théorie des matrices aléatoires, qui a récemment été appliquée en apprentissage automatique [@Kulesza2012]. Cette loi permet, étant donné des objets munis de caractéristiques, d'échantillonner efficacement des éléments \og diversifiés \fg{} pour une certaine mesure de distance. Cela a par exemple des applications en recommandation pour sélectionner des produits diversifiés, dans les moteurs de recherche afin que les résultats en tête de la recherche portent sur des thèmes différents (par exemple, pour une requête « jaguar », l'animal et la voiture) ou encore en génération automatique de résumé, à partir d'un corpus de textes, par exemple des articles de presse dont on souhaiterait sélectionner les thèmes principaux.
 
-Tout d'abord, il nous faut définir la notion de noyau, qui est une généralisation du produit scalaire. Soit $d \geq 1$ un entier, une fonction symétrique $K : \R^d \times \R^d \to \R$ est un *noyau* si pour tout $n$ entier, pour tous $\mathbf{x_1}, \ldots, \mathbf{x_n} \in \R^d$ et pour tous $(c_1, \ldots, c_n) \in \R^d$, $\sum_{i = 1}^n \sum_{j = 1}^n c_i c_j K(\mathbf{x_i}, \mathbf{x_j}) \geq 0.$\bigskip
+Tout d'abord, il nous faut définir la notion de noyau, qui est une généralisation du produit scalaire. Soit $d \geq 1$ un entier, une fonction symétrique $K : \R^d \times \R^d \to \R$ est un *noyau* si pour tout $n$ entier, pour tous $\boldsymbol{x_1}, \ldots, \boldsymbol{x_n} \in \R^d$ et pour tous $(c_1, \ldots, c_n) \in \R^d$, $\sum_{i = 1}^n \sum_{j = 1}^n c_i c_j K(\boldsymbol{x_i}, \boldsymbol{x_j}) \geq 0.$\bigskip
 
 Pour implémenter cet échantillonnage, il faut :
 
 - un ensemble de $n$ éléments à échantillonner, identifiés par les indices $X = \{1, \ldots, n\}$
-- pour chaque élément $i \in X$, un vecteur $\mathbf{x_i}$ de dimension $d$ correspondant aux caractéristiques de l'élément $i$ ;
-- un noyau $K$ permettant de décrire une valeur de similarité pour chaque paire d'éléments. Ce noyau permet de définir une matrice symétrique $L$ telle que $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j})$.\bigskip
+- pour chaque élément $i \in X$, un vecteur $\boldsymbol{x_i}$ de dimension $d$ correspondant aux caractéristiques de l'élément $i$ ;
+- un noyau $K$ permettant de décrire une valeur de similarité pour chaque paire d'éléments. Ce noyau permet de définir une matrice symétrique $L$ telle que $L_{ij} = K(\boldsymbol{x_i}, \boldsymbol{x_j})$.\bigskip
 
-Pour nos usages, nous avons utilisé le simple noyau linéaire $K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$, mais il est possible d'utiliser le noyau gaussien :
+Pour nos usages, nous avons utilisé le simple noyau linéaire $K(\boldsymbol{x_i}, \boldsymbol{x_j}) = \boldsymbol{x_i} \cdot \boldsymbol{x_j}$, mais il est possible d'utiliser le noyau gaussien :
 
 \begin{equation}
-K(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{{||\mathbf{x_i} - \mathbf{x_j}||}^2}{2\sigma^2}\right).
+K(\boldsymbol{x_i}, \boldsymbol{x_j}) = \exp\left(-\frac{{||\boldsymbol{x_i} - \boldsymbol{x_j}||}^2}{2\sigma^2}\right).
 \end{equation}
 
 \newacronym{ppd}{PPD}{processus à point déterminantal}
@@ -61,7 +61,7 @@ Pr(A \subset Y) \propto \det L_A
 \noindent
 où $L_A$ est la sous-matrice carrée de $L$ indexée par les éléments de $A$ en ligne et colonne.
 
-Dans notre cas, cette loi est intéressante car des éléments seront tirés avec une probabilité proportionnelle au carré du volume du parallélotope qu'ils forment. En effet, chaque élément $L_{ij}$ de la matrice $L$ vaut $L_{ij} = K(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i} \cdot \mathbf{x_j}$ donc si on note $B$ la matrice ayant pour lignes $\mathbf{x_1}, \ldots, \mathbf{x_n}$, on a $L = B B^T$. Si à présent on note $B_A$ la matrice ayant pour lignes les vecteurs $\mathbf{x_i}$ pour $i$ appartenant à $A$, $L_A = B_A B_A^T$ et donc $Pr(A \subset Y) \propto \det L_A = \det B_A B_A^T = {Vol(\{\mathbf{x_i}\}_{i \in A})}^2.$
+Dans notre cas, cette loi est intéressante car des éléments seront tirés avec une probabilité proportionnelle au carré du volume du parallélotope qu'ils forment. En effet, chaque élément $L_{ij}$ de la matrice $L$ vaut $L_{ij} = K(\boldsymbol{x_i}, \boldsymbol{x_j}) = \boldsymbol{x_i} \cdot \boldsymbol{x_j}$ donc si on note $B$ la matrice ayant pour lignes $\boldsymbol{x_1}, \ldots, \boldsymbol{x_n}$, on a $L = B B^T$. Si à présent on note $B_A$ la matrice ayant pour lignes les vecteurs $\boldsymbol{x_i}$ pour $i$ appartenant à $A$, $L_A = B_A B_A^T$ et donc $Pr(A \subset Y) \propto \det L_A = \det B_A B_A^T = {Vol(\{\boldsymbol{x_i}\}_{i \in A})}^2.$
 
 Or, plus le volume d'un ensemble de vecteurs est grand, moins ces vecteurs sont corrélés. Ainsi, des éléments diversifiés auront plus de chances d'être tirés par un PPD. On peut encore le voir de la façon suivante : des vecteurs de questions similaires apportent une information similaire. Afin d'avoir le plus d'information possible au début du test il vaut mieux choisir des vecteurs écartés deux à deux.
 
@@ -75,7 +75,7 @@ Notre contribution consiste à appliquer la méthode de tirage d'éléments dive
 
 Étant donné des données d'apprenants $D$ correspondant à des succès et échecs de $m$ apprenants sur $n$ questions, et une q-matrice de taille $n \times K$, on calibre un modèle GenMA. On extrait donc des caractéristiques en dimension $K$ pour chacune des $n$ questions du test : chaque question $j$ a pour caractéristiques le vecteur $\boldsymbol{d_j} = (d_{j1}, \ldots, d_{jK})$.
 
-La stratégie InitialD consiste à considérer les questions $X = \{1, \ldots, n\}$ et pour chaque question $j$ les caractéristiques $\boldsymbol{d_j} = (d_{j1}, \ldots, d_{jK})$. Le noyau choisi est le noyau linéaire : $K(\mathbf{d_i}, \boldsymbol{d_j}) = \mathbf{d_i} \cdot \boldsymbol{d_j}$, et nous cherchons à tirer $k$ questions parmi les $n$ selon un PPD. Nous faisons l'hypothèse que les questions ainsi choisies seront peu redondantes, donc constitueront un bon résumé des questions du test pour l'apprenant.
+La stratégie InitialD consiste à considérer les questions $X = \{1, \ldots, n\}$ et pour chaque question $j$ les caractéristiques $\boldsymbol{d_j} = (d_{j1}, \ldots, d_{jK})$. Le noyau choisi est le noyau linéaire : $K(\boldsymbol{d_i}, \boldsymbol{d_j}) = \boldsymbol{d_i} \cdot \boldsymbol{d_j}$, et nous cherchons à tirer $k$ questions parmi les $n$ selon un PPD. Nous faisons l'hypothèse que les questions ainsi choisies seront peu redondantes, donc constitueront un bon résumé des questions du test pour l'apprenant.
 
 L'algorithme de tirage est tiré de [@Kulesza2012] et est implémenté en Python. Sa complexité est $O(nk^3)$ où $k$ est le nombre de questions sélectionnées et $n$ est le nombre de questions du test, après une coûteuse étape de diagonalisation de complexité $O(n^3)$. Ainsi, cette complexité convient à une grande base de questions comme peut l'être celle sur un MOOC, car l'étape de tirage est linéaire en le nombre de questions de la banque.
 
@@ -164,12 +164,12 @@ Les résultats sont donnés dans les figures \ref{initiald-timss-mean} à \ref
 %\centering
 \begin{tabular}{cccc} \toprule
 & Après 3 questions & Après 12 questions & Après 20 questions\\ \midrule
-CAT & $1,081 \pm 0,047$ (62 \%) & $0,875 \pm 0,050$ (66 \%) & $0,603 \pm 0,041$ (75 \%)\\
-Uncertainty & $1,098 \pm 0,048$ (58 \%) & $0,981 \pm 0,046$ (68 \%) & $0,714 \pm 0,048$ (72 \%)\\
-InitialD & $\mathbf{0,793 \pm 0,034}$ (61 \%) & $\mathbf{0,582 \pm 0,023}$ (70 \%) & $\mathbf{0,494 \pm 0,015}$ (74 \%)\\
-Random & $1,019 \pm 0,050$ (58 \%) & $0,705 \pm 0,035$ (68 \%) & $\mathbf{0,512 \pm 0,017}$ (74 \%)\\ \bottomrule
+CAT & 1,081 $\pm$ 0,047 (62 \%) & 0,875 $\pm$ 0,050 (66 \%) & 0,603 $\pm$ 0,041 (75 \%)\\
+Uncertainty & 1,098 $\pm$ 0,048 (58 \%) & 0,981 $\pm$ 0,046 (68 \%) & 0,714 $\pm$ 0,048 (72 \%)\\
+InitialD & 0,793 $\pm$ 0,034 (61 \%) & 0,582 $\pm$ 0,023 (70 \%) & 0,494 $\pm$ 0,015 (74 \%)\\
+Random & 1,019 $\pm$ 0,050 (58 \%) & 0,705 $\pm$ 0,035 (68 \%) & 0,512 $\pm$ 0,017 (74 \%)\\ \bottomrule
 \end{tabular}
-\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS.}
+\captionof{table}{Valeurs de \emph{log loss} pour le jeu de données TIMSS.}
 \label{initiald-timss-mean-table}
 \end{figure}
 
@@ -180,7 +180,7 @@ Dès la première question, InitialD a une meilleure performance. C'est parce qu
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/initiald/timss-delta}
-\captionof{figure}{Distance au diagnostic final après qu'un groupe de questions a été posée selon certaines stratégies pour le jeu de données TIMSS.}
+\captionof{figure}{Distances au diagnostic final après qu'un groupe de questions a été posé selon certaines stratégies pour le jeu de données TIMSS.}
 \label{initiald-timss-delta}
 %\end{figure}
 
@@ -189,12 +189,12 @@ Dès la première question, InitialD a une meilleure performance. C'est parce qu
 %\centering
 \begin{tabular}{cccc} \toprule
 & Après 3 questions & Après 12 questions & Après 20 questions\\ \midrule
-CAT & $1,894 \pm 0,050$ & $1,224 \pm 0,046$ & $\mathbf{0,464 \pm 0,055}$\\
-Uncertainty & $1,937 \pm 0,049$ & $1,480 \pm 0,047$ & $0,629 \pm 0,062$\\
-InitialD & $1,845 \pm 0,051$ & $\mathbf{0,972 \pm 0,039}$ & $\mathbf{0,465 \pm 0,034}$\\
-Random & $1,936 \pm 0,052$ & $1,317 \pm 0,048$ & $0,590 \pm 0,043$\\ \bottomrule
+CAT & 1,894 $\pm$ 0,050 & 1,224 $\pm$ 0,046 & 0,464 $\pm$ 0,055\\
+Uncertainty & 1,937 $\pm$ 0,049 & 1,480 $\pm$ 0,047 & 0,629 $\pm$ 0,062\\
+InitialD & 1,845 $\pm$ 0,051 & 0,972 $\pm$ 0,039 & 0,465 $\pm$ 0,034\\
+Random & 1,936 $\pm$ 0,052 & 1,317 $\pm$ 0,048 & 0,590 $\pm$ 0,043\\ \bottomrule
 \end{tabular}
-\captionof{table}{Distances au diagnostic final obtenues pour le jeu de données TIMSS.}
+\captionof{table}{Distances au diagnostic final pour le jeu de données TIMSS.}
 \label{initiald-timss-delta-table}
 \end{figure}
 
@@ -214,12 +214,12 @@ Dans la figure \ref{initiald-timss-delta}, on voit que InitialD converge plus v
 %\centering
 \begin{tabular}{cccc} \toprule
 & Après 3 questions & Après 8 questions & Après 15 questions\\ \midrule
-CAT & $0,757 \pm 0,082$ (67 \%) & $0,515 \pm 0,060$ (82 \%) & $\mathbf{0,355 \pm 0,050}$ (88 \%)\\
-Uncertainty & $0,882 \pm 0,095$ (72 \%) & $0,761 \pm 0,086$ (76 \%) & $0,517 \pm 0,067$ (86 \%)\\
-InitialD & $\mathbf{0,608 \pm 0,055}$ (74 \%) & $\mathbf{0,376 \pm 0,027}$ (82 \%) & $\mathbf{0,302 \pm 0,023}$ (86 \%)\\
-Random & $0,842 \pm 0,090$ (70 \%) & $0,543 \pm 0,070$ (80 \%) & $\mathbf{0,387 \pm 0,051}$ (86 \%)\\ \bottomrule
+CAT & 0,757 $\pm$ 0,082 (67 \%) & 0,515 $\pm$ 0,060 (82 \%) & 0,355 $\pm$ 0,050 (88 \%)\\
+Uncertainty & 0,882 $\pm$ 0,095 (72 \%) & 0,761 $\pm$ 0,086 (76 \%) & 0,517 $\pm$ 0,067 (86 \%)\\
+InitialD & 0,608 $\pm$ 0,055 (74 \%) & 0,376 $\pm$ 0,027 (82 \%) & 0,302 $\pm$ 0,023 (86 \%)\\
+Random & 0,842 $\pm$ 0,090 (70 \%) & 0,543 $\pm$ 0,070 (80 \%) & 0,387 $\pm$ 0,051 (86 \%)\\ \bottomrule
 \end{tabular}
-\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction.}
+\captionof{table}{Valeurs de \emph{log loss} pour le jeu de données Fraction.}
 \label{initiald-fraction-mean-table}
 \end{figure}
 
@@ -228,7 +228,7 @@ Dans la figure \ref{initiald-fraction-mean}, InitialD est meilleur que les autr
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/initiald/fraction-delta}
-\captionof{figure}{Distance au diagnostic final après qu'un groupe de questions a été posée selon certaines stratégies pour le jeu de données Fraction.}
+\captionof{figure}{Distances au diagnostic final après qu'un groupe de questions a été posé selon certaines stratégies pour le jeu de données Fraction.}
 \label{initiald-fraction-delta}
 %\end{figure}
 
@@ -237,12 +237,12 @@ Dans la figure \ref{initiald-fraction-mean}, InitialD est meilleur que les autr
 %\centering
 \begin{tabular}{cccc} \toprule
 & Après 3 questions & Après 8 questions & Après 15 questions\\ \midrule
-CAT & $1,446 \pm 0,094$ & $1,015 \pm 0,101$ & $\mathbf{0,355 \pm 0,103}$\\
-Uncertainty & $1,495 \pm 0,103$ & $1,190 \pm 0,112$ & $0,638 \pm 0,119$\\
-InitialD & $1,355 \pm 0,080$ & $\mathbf{0,859 \pm 0,058}$ & $0,502 \pm 0,047$\\
-Random & $1,467 \pm 0,095$ & $1,075 \pm 0,089$ & $0,620 \pm 0,083$\\ \bottomrule
+CAT & 1,446 $\pm$ 0,094 & 1,015 $\pm$ 0,101 & $\boldsymbol{0,355 \pm 0,103}$\\
+Uncertainty & 1,495 $\pm$ 0,103 & 1,190 $\pm$ 0,112 & 0,638 $\pm$ 0,119\\
+InitialD & 1,355 $\pm$ 0,080 & 0,859 $\pm$ 0,058 & 0,502 $\pm$ 0,047\\
+Random & 1,467 $\pm$ 0,095 & 1,075 $\pm$ 0,089 & 0,620 $\pm$ 0,083\\ \bottomrule
 \end{tabular}
-\captionof{table}{Distances au diagnostic final obtenues pour le jeu de données Fraction.}
+\captionof{table}{Distances au diagnostic final pour le jeu de données Fraction.}
 \label{initiald-fraction-delta-table}
 \end{figure}
 
