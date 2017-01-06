@@ -1,28 +1,26 @@
 \documentclass[12pt,a4paper]{book}
-\usepackage[a-1b]{pdfx}
-\usepackage{icomma}
-%\usepackage{ifpdf,ifxetex,ifluatex}
+\usepackage{ifpdf,ifxetex,ifluatex}
 \usepackage[T1]{fontenc}
-%\usepackage{xcolor}
+\usepackage[a-1b]{pdfx}
+\usepackage{xcolor}
 \usepackage{hyperref}
-%\ifxetex
-%\usepackage{xltxtra}
-%\fi
-%\ifluatex
-%\usepackage{amsmath}
-\usepackage{fontspec}
-%\usepackage{mathtools}
-%\usepackage{unicode-math}
+\ifxetex
+\usepackage{xltxtra}
+\fi
+\ifluatex
+\usepackage{mathtools}
+\usepackage{unicode-math}
+\usepackage{libertine}
+\setmathfont{TeX Gyre Pagella Math}
+\setmathfont[BoldFont=TeX Gyre Pagella Bold Italic,range=\mathit/{latin,Latin,greek,Greek,num}]{TeX Gyre Pagella Italic}
+\setmathfont[range=\setminus]{Asana Math}
 %\usepackage[libertine={Ligatures=TeX,RawFeature=+onum},
 %            biolinum={Ligatures=TeX,RawFeature=+onum}]{libertineotf}
-%\setmainfont{Linux Libertine O}
-%\newfontfamily\hipsterfont{Linux Libertine O}
-%\setmathfont{TeX Gyre Pagella Math}
-%\setmathfont[BoldFont=TeX Gyre Pagella Bold Italic,range=\mathit/{latin,Latin,greek,Greek,num}]{TeX Gyre Pagella Italic}
-%\setmathfont[range=\setminus]{Asana Math}
-%\fi
+\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
+\usepackage{microtype}
+\fi
 \usepackage[english,french]{babel}
-%\DecimalMathComma
+\DecimalMathComma
 \usepackage{fancyhdr}
 \usepackage[pass]{geometry}
 \usepackage{algorithm}
@@ -36,8 +34,14 @@
 \usepackage{graphicx,array,booktabs,multirow}
 \usepackage[french]{varioref}
 \usepackage{multicol}
+\usepackage[french=guillemets]{csquotes}
+
+\usepackage[a-1b]{pdfx}
+% \hypersetup{colorlinks=true,linkcolor=black,citecolor=blue}
+
 \usepackage[style=authoryear,natbib=true,backend=biber,backref=true,maxcitenames=3,maxbibnames=99,babel=other]{biblatex}
 \usepackage[french=guillemets]{csquotes}
+\usepackage{capt-of}
 \DeclareLanguageMapping{french}{french-apa}
 \DefineBibliographyExtras{french}{\restorecommand\mkbibnamefamily}
 \usepackage[refpage]{nomencl}
@@ -49,8 +53,8 @@
 \def\Tito{Lê Thành D\~{u}ng Nguy\~{ê}n}
 \def\Gambaru{{\J 頑張る}}
 
-%\definecolor{aquali}{cmyk}{1,0.0474,0,0.255}
-%\hypersetup{colorlinks=true,urlcolor=aquali,linkcolor=black,citecolor=blue}
+\definecolor{aquali}{cmyk}{1,0.0474,0,0.255}
+\hypersetup{colorlinks=true,urlcolor=aquali,linkcolor=black,citecolor=blue}
 
 % \usepackage{titlesec}
 % \titleformat{\chapter}[display]
@@ -159,3 +163,8 @@
 \input{style-abstracten}
 
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

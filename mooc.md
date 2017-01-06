@@ -40,7 +40,7 @@ Les réponses des candidats à un QCM ne reflètent pas nécessairement leur ma�
 
 Au fur et à mesure que l'apprenant répond à des questions, le système peut mettre à jour l'estimation qu'il se fait de son état latent. Chaque réponse à une question posée à l'apprenant permet de mettre à jour une information a priori sur ses états latents possibles, de façon bayésienne.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.7\linewidth]{figures/fa}
 \caption{Un exemple de graphe de prérequis.}

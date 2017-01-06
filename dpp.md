@@ -152,99 +152,99 @@ Les résultats sont donnés dans les figures \ref{initiald-timss-mean} à \ref
 
 ### TIMSS
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/initiald/timss-mean}
 \caption{\emph{Log loss} du modèle GenMA après qu'un groupe de questions a été posé selon certaines stratégies pour le jeu de données TIMSS.}
 \label{initiald-timss-mean}
-\end{figure}
+%\end{figure}
 
-\begin{table}[h]
+%\begin{table}[ht]
 \footnotesize
-\centering
+%\centering
 \begin{tabular}{cccc} \toprule
 & Après 3 questions & Après 12 questions & Après 20 questions\\ \midrule
-CAT & $1,081 \pm 0,047$ (62 \%) & $0,875 \pm 0,05$ (66 \%) & $0,603 \pm 0,041$ (75 \%)\\
+CAT & $1,081 \pm 0,047$ (62 \%) & $0,875 \pm 0,050$ (66 \%) & $0,603 \pm 0,041$ (75 \%)\\
 Uncertainty & $1,098 \pm 0,048$ (58 \%) & $0,981 \pm 0,046$ (68 \%) & $0,714 \pm 0,048$ (72 \%)\\
 InitialD & $\mathbf{0,793 \pm 0,034}$ (61 \%) & $\mathbf{0,582 \pm 0,023}$ (70 \%) & $\mathbf{0,494 \pm 0,015}$ (74 \%)\\
-Random & $1,019 \pm 0,05$ (58 \%) & $0,705 \pm 0,035$ (68 \%) & $\mathbf{0,512 \pm 0,017}$ (74 \%)\\ \bottomrule
+Random & $1,019 \pm 0,050$ (58 \%) & $0,705 \pm 0,035$ (68 \%) & $\mathbf{0,512 \pm 0,017}$ (74 \%)\\ \bottomrule
 \end{tabular}
-\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS.}
+\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS.}
 \label{initiald-timss-mean-table}
-\end{table}
+\end{figure}
 
 Dans la figure \ref{initiald-timss-mean}, InitialD est bien meilleur que Random, bien meilleur que CAT, bien meilleur que Uncertainty (voir \ref{initiald-timss-mean-table}). Dans les premières questions, CAT a une erreur comparable à celle de Uncertainty, car les deux modèles choisissent la question pour laquelle la probabilité que l'apprenant y réponde correctement est la plus proche de 0,5. Mais InitialD explore davantage en choisissant un groupe de questions diversifiées.
 
 Dès la première question, InitialD a une meilleure performance. C'est parce que choisir la question de plus grand \og volume \fg{} correspond à choisir la question dont le vecteur caractéristique a la plus grande norme, ou encore : la question la plus discriminante.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/initiald/timss-delta}
-\caption{Distance au diagnostic final après qu'un groupe de questions a été posée selon certaines stratégies pour le jeu de données TIMSS.}
+\captionof{figure}{Distance au diagnostic final après qu'un groupe de questions a été posée selon certaines stratégies pour le jeu de données TIMSS.}
 \label{initiald-timss-delta}
-\end{figure}
+%\end{figure}
 
-\begin{table}[h]
+%\begin{table}[ht]
 \footnotesize
-\centering
+%\centering
 \begin{tabular}{cccc} \toprule
 & Après 3 questions & Après 12 questions & Après 20 questions\\ \midrule
-CAT & $1,894 \pm 0,05$ & $1,224 \pm 0,046$ & $\mathbf{0,464 \pm 0,055}$\\
-Uncertainty & $1,937 \pm 0,049$ & $1,48 \pm 0,047$ & $0,629 \pm 0,062$\\
+CAT & $1,894 \pm 0,050$ & $1,224 \pm 0,046$ & $\mathbf{0,464 \pm 0,055}$\\
+Uncertainty & $1,937 \pm 0,049$ & $1,480 \pm 0,047$ & $0,629 \pm 0,062$\\
 InitialD & $1,845 \pm 0,051$ & $\mathbf{0,972 \pm 0,039}$ & $\mathbf{0,465 \pm 0,034}$\\
-Random & $1,936 \pm 0,052$ & $1,317 \pm 0,048$ & $0,59 \pm 0,043$\\ \bottomrule
+Random & $1,936 \pm 0,052$ & $1,317 \pm 0,048$ & $0,590 \pm 0,043$\\ \bottomrule
 \end{tabular}
-\caption{Distances au diagnostic final obtenues pour le jeu de données TIMSS.}
+\captionof{table}{Distances au diagnostic final obtenues pour le jeu de données TIMSS.}
 \label{initiald-timss-delta-table}
-\end{table}
+\end{figure}
 
 Dans la figure \ref{initiald-timss-delta}, on voit que InitialD converge plus vite vers le vrai paramètre que les autres stratégies (voir \ref{initiald-timss-delta-table}).
 
 ### Fraction
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/initiald/fraction-mean}
-\caption{\emph{Log loss} du modèle GenMA après qu'un groupe de questions a été posé selon certaines stratégies pour le jeu de données Fraction.}
+\captionof{figure}{\emph{Log loss} du modèle GenMA après qu'un groupe de questions a été posé selon certaines stratégies pour le jeu de données Fraction.}
 \label{initiald-fraction-mean}
-\end{figure}
+%\end{figure}
 
-\begin{table}[h]
+%\begin{table}[ht]
 \footnotesize
-\centering
+%\centering
 \begin{tabular}{cccc} \toprule
 & Après 3 questions & Après 8 questions & Après 15 questions\\ \midrule
-CAT & $0,757 \pm 0,082$ (67 \%) & $0,515 \pm 0,06$ (82 \%) & $\mathbf{0,355 \pm 0,05}$ (88 \%)\\
+CAT & $0,757 \pm 0,082$ (67 \%) & $0,515 \pm 0,060$ (82 \%) & $\mathbf{0,355 \pm 0,050}$ (88 \%)\\
 Uncertainty & $0,882 \pm 0,095$ (72 \%) & $0,761 \pm 0,086$ (76 \%) & $0,517 \pm 0,067$ (86 \%)\\
 InitialD & $\mathbf{0,608 \pm 0,055}$ (74 \%) & $\mathbf{0,376 \pm 0,027}$ (82 \%) & $\mathbf{0,302 \pm 0,023}$ (86 \%)\\
-Random & $0,842 \pm 0,09$ (70 \%) & $0,543 \pm 0,07$ (80 \%) & $\mathbf{0,387 \pm 0,051}$ (86 \%)\\ \bottomrule
+Random & $0,842 \pm 0,090$ (70 \%) & $0,543 \pm 0,070$ (80 \%) & $\mathbf{0,387 \pm 0,051}$ (86 \%)\\ \bottomrule
 \end{tabular}
-\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction.}
+\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction.}
 \label{initiald-fraction-mean-table}
-\end{table}
+\end{figure}
 
 Dans la figure \ref{initiald-fraction-mean}, InitialD est meilleur que les autres stratégies. Uncertainty est la stratégie de plus grande variance, tandis que Random a une erreur comparable à CAT (voir \ref{initiald-fraction-mean-table}).
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/initiald/fraction-delta}
-\caption{Distance au diagnostic final après qu'un groupe de questions a été posée selon certaines stratégies pour le jeu de données Fraction.}
+\captionof{figure}{Distance au diagnostic final après qu'un groupe de questions a été posée selon certaines stratégies pour le jeu de données Fraction.}
 \label{initiald-fraction-delta}
-\end{figure}
+%\end{figure}
 
-\begin{table}[h]
+%\begin{table}[ht]
 \footnotesize
-\centering
+%\centering
 \begin{tabular}{cccc} \toprule
 & Après 3 questions & Après 8 questions & Après 15 questions\\ \midrule
 CAT & $1,446 \pm 0,094$ & $1,015 \pm 0,101$ & $\mathbf{0,355 \pm 0,103}$\\
-Uncertainty & $1,495 \pm 0,103$ & $1,19 \pm 0,112$ & $0,638 \pm 0,119$\\
-InitialD & $1,355 \pm 0,08$ & $\mathbf{0,859 \pm 0,058}$ & $0,502 \pm 0,047$\\
-Random & $1,467 \pm 0,095$ & $1,075 \pm 0,089$ & $0,62 \pm 0,083$\\ \bottomrule
+Uncertainty & $1,495 \pm 0,103$ & $1,190 \pm 0,112$ & $0,638 \pm 0,119$\\
+InitialD & $1,355 \pm 0,080$ & $\mathbf{0,859 \pm 0,058}$ & $0,502 \pm 0,047$\\
+Random & $1,467 \pm 0,095$ & $1,075 \pm 0,089$ & $0,620 \pm 0,083$\\ \bottomrule
 \end{tabular}
-\caption{Distances au diagnostic final obtenues pour le jeu de données Fraction.}
+\captionof{table}{Distances au diagnostic final obtenues pour le jeu de données Fraction.}
 \label{initiald-fraction-delta-table}
-\end{table}
+\end{figure}
 
 Dans la figure \ref{initiald-fraction-delta}, le modèle qui converge le plus vite vers le vrai paramètre est InitialD pour la première moitié des questions, et CAT pour la deuxième moitié des questions, ce qui semble être un compromis entre choisir un groupe de questions avant de faire la première estimation, et adapter pour converger plus vite vers le vrai paramètre à estimer (voir \ref{initiald-fraction-delta-table}).
 

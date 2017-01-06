@@ -1,0 +1,598 @@
+\ProvidesPackage{libertine}[%
+  2014/11/25 (Bob Tennent) Supports Libertine and Biolinum fonts for all LaTeX engines.] 
+
+%  with (partial) compatibilty with libertine-type1, biolinum-type1,    
+%  libertine, libertine-legacy and libertineotf packages                
+
+\RequirePackage{ifxetex,ifluatex,xkeyval,textcomp}
+
+\newif\iflibertine@otf
+\ifxetex
+  \libertine@otftrue
+\else\ifluatex
+  \libertine@otftrue
+\else  % [pdf]LaTeX
+  \libertine@otffalse
+\fi\fi
+
+\newif\iflibertine@sf \libertine@sftrue
+\newif\iflibertine@rm \libertine@rmtrue
+\newif\iflibertine@tt \libertine@tttrue                  % NEW
+\newif\iflibertine@sfdefault \libertine@sfdefaultfalse
+\newif\iflibertine@lining \libertine@liningtrue          % NEW
+\newif\ifbiolinum@lining \biolinum@liningtrue            % NEW
+\newif\iflibertine@tabular \libertine@tabulartrue        % NEW
+\newif\ifbiolinum@tabular \biolinum@tabulartrue          % NEW
+\newif\iflibertine@semibold \libertine@semiboldfalse
+
+\DeclareOptionX{biolinum}[true]{%
+\@nameuse{if#1}
+ \libertine@sftrue\libertine@rmfalse
+\fi
+}
+\DeclareOptionX{sf}[true]{%
+\@nameuse{if#1}
+ \libertine@sftrue\libertine@rmfalse
+\fi
+}
+\DeclareOptionX{ss}[true]{%
+\@nameuse{if#1}
+ \libertine@sftrue\libertine@rmfalse
+\fi
+}
+\DeclareOptionX{libertine}[true]{%
+\@nameuse{if#1}
+  \libertine@rmtrue\libertine@sffalse
+\fi
+}
+\DeclareOptionX{rm}[true]{%
+\@nameuse{if#1}
+  \libertine@rmtrue\libertine@sffalse
+\fi
+}
+\DeclareOptionX{tt}[true]{%
+\@nameuse{libertine@tt#1}
+\iflibertine@tt\PackageWarningNoLine{libertine}{%
+ *******************************************\MessageBreak
+  LibertineMono is now activated by default.\MessageBreak
+ *******************************************}
+\fi
+}
+\DeclareOptionX{mono}[true]{%
+\@nameuse{libertine@tt#1}
+\iflibertine@tt\PackageWarningNoLine{libertine}{%
+ *******************************************\MessageBreak
+  LibertineMono is now activated by default.\MessageBreak
+ *******************************************}
+\fi
+}
+\def\libertine@newfigdefaults{%
+\PackageWarningNoLine{libertine}{%
+  ****************************************\MessageBreak
+   Figure defaults are now: lining, tabular; \MessageBreak
+   for options, see the documentation. \MessageBreak
+  ****************************************}
+}
+\DeclareOptionX{sfdefault}[true]{%
+\@nameuse{if#1}\libertine@sftrue\libertine@sfdefaulttrue\fi
+}
+\DeclareOptionX{type1}[true]{%
+\@nameuse{if#1}\libertine@otffalse\fi
+}
+\DeclareOptionX{nofontspec}[true]{%
+\@nameuse{if#1}\libertine@otffalse\fi
+}
+\DeclareOptionX{lining}[true]{%
+\@nameuse{libertine@lining#1}
+\@nameuse{biolinum@lining#1}
+\iflibertine@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{nf}[true]{%
+\@nameuse{libertine@lining#1}
+\@nameuse{biolinum@lining#1}
+\iflibertine@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{lf}[true]{%
+\@nameuse{libertine@lining#1}
+\@nameuse{biolinum@lining#1}
+\iflibertine@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{oldstyle}[true]{%
+\@nameuse{if#1}%
+  \libertine@liningfalse\biolinum@liningfalse
+\else
+  \libertine@liningtrue\biolinum@liningtrue
+\fi
+\iflibertine@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{osf}[true]{%
+\@nameuse{if#1}%
+  \libertine@liningfalse\biolinum@liningfalse
+\else
+  \libertine@liningtrue\biolinum@liningtrue
+\iflibertine@lining\libertine@newfigdefaults\fi
+\fi
+}
+\DeclareOptionX{sflining}[true]{%
+\@nameuse{biolinum@lining#1}
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sflf}[true]{%
+\@nameuse{biolinum@lining#1}
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sfoldstyle}[true]{%
+\@nameuse{if#1}\biolinum@liningfalse\else\biolinum@liningtrue\fi
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sfosf}[true]{%
+\@nameuse{if#1}\biolinum@liningfalse\else\biolinum@liningtrue\fi
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{osfss}[true]{%
+\@nameuse{if#1}\biolinum@liningfalse\else\biolinum@liningtrue\fi
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{tabular}[true]{%
+\@nameuse{libertine@tabular#1}
+\@nameuse{biolinum@tabular#1}
+\iflibertine@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{t}[true]{%
+\@nameuse{libertine@tabular#1}
+\@nameuse{biolinum@tabular#1}
+\iflibertine@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{proportional}[true]{%
+\@nameuse{if#1}%
+  \libertine@tabularfalse\biolinum@tabularfalse
+\else
+  \libertine@tabulartrue\biolinum@tabulartrue
+\fi
+\iflibertine@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{p}[true]{%
+\@nameuse{if#1}%
+  \libertine@tabularfalse\biolinum@tabularfalse
+\else
+  \libertine@tabulartrue\biolinum@tabulartrue
+\fi
+\iflibertine@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sftabular}[true]{%
+\@nameuse{biolinum@tabular#1}
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sft}[true]{%
+\@nameuse{biolinum@tabular#1}
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sfproportional}[true]{%
+\@nameuse{if#1}%
+  \biolinum@tabularfalse
+\else
+  \biolinum@tabulartrue
+\fi
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sfp}[true]{%
+\@nameuse{if#1}%
+  \biolinum@tabularfalse
+\else
+  \biolinum@tabulartrue
+\fi
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+
+\DeclareOptionX{semibold}[true]{%
+\@nameuse{libertine@semibold#1}
+}
+\DeclareOptionX{sb}[true]{%
+\@nameuse{libertine@semibold#1}
+}
+\DeclareOptionX{bold}[true]{%
+\@nameuse{if#1}\libertine@semiboldfalse\else\libertine@semiboldtrue\fi
+}
+
+\newcommand*{\LinuxLibertineT@scale}{1}  
+\newcommand*{\LinuxLibertineDisplayT@scale}{1} 
+\newcommand*{\LinuxBiolinumT@scale}{1}
+\newcommand*{\LinuxLibertineMonoT@scale}{1}  
+\newcommand*{\LinuxLibertineInitialsT@scale}{1}  
+\DeclareOptionX{scaled}{\renewcommand*{\LinuxBiolinumT@scale}{#1}}
+\DeclareOptionX{scale}{\renewcommand*{\LinuxBiolinumT@scale}{#1}}
+\DeclareOptionX{ttscaled}{\renewcommand*{\LinuxLibertineMonoT@scale}{#1}}
+\DeclareOptionX{ttscale}{\renewcommand*{\LinuxLibertineMonoT@scale}{#1}}
+
+\DeclareOptionX{defaultfeatures}{\def\libertine@defaultfeatures{#1}}
+\def\libertine@defaultfeatures{}
+
+\ProcessOptionsX\relax
+
+\iflibertine@otf
+  \iflibertine@lining
+    \def\libertine@figurestyle{Lining}
+  \else
+    \def\libertine@figurestyle{OldStyle}
+  \fi
+  \iflibertine@tabular
+    \def\libertine@figurealign{Monospaced} 
+  \else
+    \def\libertine@figurealign{Proportional} 
+  \fi
+  \ifbiolinum@lining
+    \def\biolinum@figurestyle{}  % lnum feature missing in RB (and hence RBO)
+  \else
+    \def\biolinum@figurestyle{OldStyle}
+  \fi
+  \ifbiolinum@tabular
+    \def\biolinum@figurealign{Monospaced} 
+  \else
+    \def\biolinum@figurealign{Proportional} 
+  \fi
+  \iflibertine@semibold
+     \def\libertine@boldstyle{RZ} 
+  \else
+    \def\libertine@boldstyle{RB} 
+  \fi
+
+\else % type1
+
+  \iflibertine@lining
+    \def\libertine@figurestyle{LF} 
+  \else
+    \def\libertine@figurestyle{OsF} 
+  \fi
+  \iflibertine@tabular
+    \def\libertine@figurealign{T} 
+  \else
+    \def\libertine@figurealign{} 
+  \fi
+  \ifbiolinum@lining
+    \def\biolinum@figurestyle{LF} 
+  \else
+    \def\biolinum@figurestyle{OsF} 
+  \fi
+  \ifbiolinum@tabular
+    \def\biolinum@figurealign{T} 
+  \else
+    \def\biolinum@figurealign{} 
+  \fi
+  \iflibertine@semibold
+    \def\bfseries@rm{sb}
+  \else
+    \def\bfseries@rm{b}
+  \fi
+\fi
+
+
+\iflibertine@otf
+  \RequirePackage{fontspec}
+\else
+  \RequirePackage{mweights}
+  \RequirePackage{fontenc,fontaxes}
+\fi
+
+% Set main and/or sans and mono fonts:
+
+\iflibertine@otf
+
+  \def\libertine@base{LinLibertine}
+  \def\biolinum@base{LinBiolinum}
+  \ifxetex\XeTeXtracingfonts=1\fi
+  \defaultfontfeatures{
+     Ligatures = TeX ,
+     Extension = .otf ,
+                                         % for microtype tracking
+%     SmallCapsFeatures={Letters=SmallCaps\ifluatex,Renderer=Basic\fi} , 
+     SmallCapsFeatures={Letters=SmallCaps,Ligatures=TeX} , 
+     \libertine@defaultfeatures
+  }
+  \iflibertine@rm
+    \setmainfont
+          [ Numbers = {\libertine@figurealign,\libertine@figurestyle},
+            UprightFont    = *_R,
+            ItalicFont     = *_RI,
+            BoldFont       = *_\libertine@boldstyle, 
+            BoldItalicFont = *_\libertine@boldstyle I,
+          ] {\libertine@base}
+  \fi
+  \iflibertine@sf
+    \setsansfont
+          [ Numbers   = {\biolinum@figurealign, \biolinum@figurestyle} ,
+            Scale     = \LinuxBiolinumT@scale ,
+            UprightFont    = *_R ,
+            ItalicFont     = *_RI ,
+            BoldFont       = *_RB , 
+            BoldItalicFont = *_RBO , % oblique to fake italic
+          ] {\biolinum@base}
+    % grab the \sfdefault in case it changes subsequently:
+    \let\biolinum@family\sfdefault
+    \iflibertine@sfdefault\renewcommand*\familydefault{\biolinum@family}\fi
+  \fi
+  \newfontfamily\libertine
+        [ Numbers = {\libertine@figurealign,\libertine@figurestyle},
+          UprightFont    = *_R,
+          ItalicFont     = *_RI,
+          BoldFont       = *_\libertine@boldstyle, 
+          BoldItalicFont = *_\libertine@boldstyle I,
+        ] {\libertine@base}
+  \newfontfamily\libertineSB
+        [ Numbers = {\libertine@figurealign,\libertine@figurestyle},
+          UprightFont    = *_RZ,
+          ItalicFont     = *_RZI,
+          BoldFont       = *_\libertine@boldstyle, 
+          BoldItalicFont = *_\libertine@boldstyle I,
+        ] {\libertine@base}
+  \newfontfamily\libertineOsF
+        [ Numbers = {\libertine@figurealign,OldStyle},
+          UprightFont    = *_R,
+          ItalicFont     = *_RI,
+          BoldFont       = *_\libertine@boldstyle, 
+          BoldItalicFont = *_\libertine@boldstyle I,
+        ] {\libertine@base}
+  \newfontfamily\libertineLF
+        [ Numbers = {\libertine@figurealign,Lining},
+          UprightFont    = *_R,
+          ItalicFont     = *_RI,
+          BoldFont       = *_\libertine@boldstyle, 
+          BoldItalicFont = *_\libertine@boldstyle I,
+        ] {\libertine@base}
+  \newfontfamily\libertineDisplay
+        [ Numbers = {\libertine@figurealign,\libertine@figurestyle},
+          UprightFont    = *_DR,
+          ItalicFont     = *_RI,
+          BoldFont       = *_\libertine@boldstyle, 
+          BoldItalicFont = *_\libertine@boldstyle I,
+        ] {\libertine@base}
+  \newfontfamily\biolinum
+        [ Numbers   = {\biolinum@figurealign, \biolinum@figurestyle} ,
+          Scale     = \LinuxBiolinumT@scale ,
+          UprightFont    = *_R ,
+          ItalicFont     = *_RI ,
+          BoldFont       = *_RB , 
+          BoldItalicFont = *_RBO,   % oblique to fake italic
+        ] {\biolinum@base}
+  \newfontfamily\biolinumOsF
+        [ Numbers   = {\biolinum@figurealign, OldStyle} ,
+          Scale     = \LinuxBiolinumT@scale ,
+          UprightFont    = *_R ,
+          ItalicFont     = *_RI ,
+          BoldFont       = *_RB , 
+          BoldItalicFont = *_RBO , % oblique to fake italic
+        ] {\biolinum@base}
+  \newfontfamily\biolinumLF
+        [ Numbers   = {\biolinum@figurealign} , % lnum feature missing
+          Scale     = \LinuxBiolinumT@scale ,
+          UprightFont    = *_R ,
+          ItalicFont     = *_RI ,
+          BoldFont       = *_RB , 
+          BoldItalicFont = *_RBO , % oblique to fake italic
+        ] {\biolinum@base}
+  \providecommand\useosf{%
+    \edef\libertine@figurestyle{OldStyle}\edef\biolinum@figurestyle{OldStyle}
+    \defaultfontfeatures{
+       Ligatures = TeX ,
+       Extension = .otf ,
+       SmallCapsFeatures={Letters=SmallCaps} 
+    }
+  \iflibertine@rm
+    \setmainfont
+          [ Numbers = {\libertine@figurealign,\libertine@figurestyle},
+            UprightFont    = *_R,
+            ItalicFont     = *_RI,
+            BoldFont       = *_\libertine@boldstyle, 
+            BoldItalicFont = *_\libertine@boldstyle I,
+          ] {\libertine@base}
+  \fi
+  \iflibertine@sf
+    \setsansfont
+          [ Numbers   = {\biolinum@figurealign, \biolinum@figurestyle} ,
+            Scale     = \LinuxBiolinumT@scale ,
+            UprightFont    = *_R ,
+            ItalicFont     = *_RI ,
+            BoldFont       = *_RB , 
+            BoldItalicFont = *_RBO , % oblique to fake italic
+          ] {\biolinum@base}
+    % grab the \sfdefault in case it changes subsequently:
+    \let\biolinum@family\sfdefault
+    \iflibertine@sfdefault\renewcommand*\familydefault{\biolinum@family}\fi
+  \fi
+    \defaultfontfeatures{} 
+  }
+  \defaultfontfeatures{ Extension = .otf } % Don't want ligatures for mono and keyboard
+  \iflibertine@tt
+    \setmonofont 
+          [ Scale = \LinuxLibertineMonoT@scale,
+            UprightFont    = *_M, 
+            ItalicFont     = *_MO, % oblique to fake italic
+            BoldFont       = *_MB,   % fontforge 
+            BoldItalicFont = *_MBO,  % fontforge
+          ] {\libertine@base}
+  \fi
+  \newfontfamily\libmono
+          [ Scale = \LinuxLibertineMonoT@scale,
+            UprightFont    = *_M, 
+            ItalicFont     = *_MO, % oblique to fake italic
+            BoldFont       = *_MB,   % fontforge 
+            BoldItalicFont = *_MBO,  % fontforge
+          ] {\libertine@base}
+  \newfontface\biolinumkey{\biolinum@base _K}
+  \newfontface\libertineInitial{\libertine@base _I}
+
+  \providecommand\sufigures{\addfontfeatures{VerticalPosition=Superior}}
+
+\else % type1
+
+  \def\libertine@family{LinuxLibertineT-\libertine@figurealign\libertine@figurestyle}
+  \def\biolinum@family{LinuxBiolinumT-\biolinum@figurealign\biolinum@figurestyle}
+  \iflibertine@rm \def\rmdefault{\libertine@family} \fi
+  \iflibertine@sf \def\sfdefault{\biolinum@family} \fi 
+  \iflibertine@sfdefault\edef\familydefault{\sfdefault}\fi
+  \iflibertine@tt \def\ttdefault{LinuxLibertineMonoT-TLF} \fi
+  \providecommand*\libertine{\fontfamily{\libertine@family}\selectfont}
+  \providecommand*\libertineSB{\fontfamily{\libertine@family}\fontseries{sb}\selectfont}
+  \providecommand*\libertineOsF{\fontfamily{LinuxLibertineT-\libertine@figurealign OsF}\selectfont}
+  \providecommand*\libertineLF{\fontfamily{LinuxLibertineT-\libertine@figurealign LF}\selectfont}
+  \providecommand*\libertineDisplay{\fontfamily{LinuxLibertineDisplayT-\libertine@figurealign\libertine@figurestyle}\selectfont}
+  \providecommand*\biolinum{\fontfamily{\biolinum@family}\selectfont}
+  \providecommand*\biolinumOsF{\fontfamily{LinuxBiolinumT-\biolinum@figurealign OsF}\selectfont}
+  \providecommand*\biolinumLF{\fontfamily{LinuxBiolinumT-\biolinum@figurealign LF}\selectfont}
+  \providecommand*\libmono{\fontfamily{LinuxLibertineMonoT-TLF}\selectfont}
+  \providecommand*\libertineInitial{\fontfamily{LinuxLibertineInitialsT-\libertine@figurestyle}\selectfont}
+
+  \fa@naming@exception{figures}{{superior}{proportional}}{Sup}
+  \fa@naming@exception{figures}{{superior}{tabular}}{Sup}
+  \def\sufigures{\@nomath\sufigures\fontfigurestyle{superior}\selectfont}
+  \providecommand*\useosf{\edef\libertine@figurestyle{OsF}\edef\biolinum@figurestyle{OsF}%
+     \iflibertine@rm \renewcommand*\rmdefault{LinuxLibertineT-OsF}\fi
+     \iflibertine@sf \renewcommand*\sfdefault{LinuxBiolinumT-OsF}\fi}
+
+\fi
+\DeclareTextFontCommand{\textsu}{\sufigures}
+\let\textsuperior\textsu
+
+% Define \oldstylenums[f] and \liningnums[f]
+
+\iflibertine@otf
+  \iflibertine@rm
+    \DeclareTextFontCommand{\oldstylenums}{\libertineOsF}
+    \DeclareTextFontCommand{\liningnums}{\libertineLF}
+  \fi
+  \iflibertine@sf
+    \DeclareTextFontCommand{\oldstylenumsf}{\biolinumOsF}
+    \DeclareTextFontCommand{\liningnumsf}{\biolinumLF}
+  \fi
+  \iflibertine@rm
+    \iflibertine@sf\else % Libertine only
+      \DeclareTextFontCommand{\oldstylenumsf}{\sffamily\oldstylenums}
+      \DeclareTextFontCommand{\liningnumsf}{\sffamily\liningnums}
+    \fi    
+  \else
+    \iflibertine@sf % Biolinum only
+      %  \oldstynums and \liningnums defined by \fontspec ?
+    \fi
+  \fi
+\else % type1
+  \iflibertine@rm
+    \iflibertine@sf % Both Libertine and Biolinum
+      \DeclareTextFontCommand{\oldstylenums}{\libertineOsF}
+      \DeclareTextFontCommand{\liningnums}{\libertineLF}
+      \DeclareTextFontCommand{\oldstylenumsf}{\biolinumOsF}
+      \DeclareTextFontCommand{\liningnumsf}{\biolinumLF}
+   \else % Libertine only 
+      \DeclareTextFontCommand{\oldstylenums}{\libertineOsF}
+      \DeclareTextFontCommand{\liningnums}{\libertineLF}
+      \DeclareTextFontCommand{\oldstylenumsf}{\sffamily\oldstylenums}
+      \DeclareTextFontCommand{\liningnumsf}{\sffamily}
+   \fi
+  \else % Biolinum only
+    % \oldstylenums defined by \textcomp?
+    \DeclareTextFontCommand{\liningnums}{}
+    \DeclareTextFontCommand{\oldstylenumsf}{\biolinumOsF}
+    \DeclareTextFontCommand{\liningnumsf}{\biolinumLF}
+  \fi
+\fi
+
+% Define \tabularnums[f] and \proportionalnums[f]
+
+\iflibertine@otf
+  \newfontfamily\libertinetabular
+    [ Numbers = {Monospaced,\libertine@figurestyle},
+      UprightFont = *_R,
+      ItalicFont = *_RI,
+      BoldFont = *_\libertine@boldstyle,
+      BoldItalicFont = *_\libertine@boldstyle I ,
+    ] {\libertine@base}
+  \newfontfamily\libertineproportional
+    [ Numbers = {Proportional,\libertine@figurestyle},
+      UprightFont    = *_R,
+      ItalicFont     = *_RI,
+      BoldFont       = *_\libertine@boldstyle, 
+      BoldItalicFont = *_\libertine@boldstyle I,
+    ] {\libertine@base}
+  \newfontfamily\biolinumtabular
+    [ Numbers = {Monospaced,\biolinum@figurestyle},
+      Scale     = \LinuxBiolinumT@scale ,
+      UprightFont    = *_R,
+      ItalicFont     = *_RI,
+      BoldFont       = *_RB,
+      BoldItalicFont = *_RBO , % oblique to fake italic
+    ] {\biolinum@base}
+  \newfontfamily\biolinumproportional
+    [ Numbers = {Proportional,\biolinum@figurestyle},
+      Scale     = \LinuxBiolinumT@scale ,
+      UprightFont    = *_R,
+      ItalicFont     = *_RI,
+      BoldFont       = *_RB,
+      BoldItalicFont = *_RBO , % oblique to fake italic
+    ] {\biolinum@base}
+  \iflibertine@rm
+    \DeclareTextFontCommand{\tabularnums}{\libertinetabular}
+    \DeclareTextFontCommand{\proportionalnums}{\libertineproportional}
+  \fi
+  \iflibertine@sf
+    \DeclareTextFontCommand{\tabularnumsf}{\biolinumtabular}
+    \DeclareTextFontCommand{\proportionalnumsf}{\biolinumproportional}
+  \fi
+\else % type1
+  \iflibertine@rm
+    \DeclareTextFontCommand{\tabularnums}{\fontfamily{LinuxLibertineT-T\libertine@figurestyle}\selectfont}
+    \DeclareTextFontCommand{\proportionalnums}{\fontfamily{LinuxLibertineT-\libertine@figurestyle}\selectfont}
+  \fi
+  \iflibertine@sf
+    \DeclareTextFontCommand{\tabularnumsf}{\fontfamily{LinuxBiolinumT-T\biolinum@figurestyle}\selectfont}
+    \DeclareTextFontCommand{\proportionalnumsf}{\fontfamily{LinuxBiolinumT-\biolinum@figurestyle}\selectfont}
+  \fi
+\fi
+
+\iflibertine@otf
+  \def\lib@fxl{LinLibertine_R}
+  \def\lib@fxb{LinBiolinum_R}
+  \def\lib@fxk{LinBiolinum_K}
+  \def\lib@fxi{LinLibertine_I}
+
+  \providecommand*\DeclareTextGlyphY[3]{%
+      % \DeclareTextGlyphY{fxl}{s_t}{64262}
+      % #1=basefont #2=glyphname, #3=position
+      \def\lib@temp{#1}%
+      \ifx\lib@temp\lib@fxl \@namedef{#1@#2}{{\libertine\char#3\relax}}\else%
+        \ifx\lib@temp\lib@fxb \@namedef{#1@#2}{{\biolinum\char#3\relax}}\else%
+          \ifx\lib@temp\lib@fxk \@namedef{#1@#2}{{\biolinumkey\char#3\relax}}\else%
+            \ifx\lib@temp\lib@fxi \@namedef{#1@#2}{{\libertineInitial\char#3\relax}}\else%
+      \fi\fi\fi\fi}
+  %
+  \input{LinLibertine_R}
+  \input{LinBiolinum_R}
+  \input{LinBiolinum_K}
+  \input{LinLibertine_I}
+  %
+  \DeclareRobustCommand*\libertineGlyph[1]{\@nameuse{LinLibertine_R@#1}}
+  \DeclareRobustCommand*\biolinumGlyph[1]{\@nameuse{LinBiolinum_R@#1}}
+  \DeclareRobustCommand*\biolinumKeyGlyph[1]{\@nameuse{LinBiolinum_K@#1}}
+  \DeclareRobustCommand*\libertineInitialGlyph[1]{\@nameuse{LinLibertine_I@#1}}
+  \input{LKey}
+
+\else %type1
+  
+  \def\lib@ini{LinLibertine_I}
+  \providecommand*\DeclareTextGlyphY[3]{%
+      % \DeclareTextGlyphY{fxl}{s_t}{64262}
+      % #1=basefont #2=glyphname, #3=position
+      \def\lib@temp{#1}%
+      \ifx\lib@temp\lib@ini \@namedef{#1@#2}{{\libertineInitial\char#3\relax}}\else%
+      \fi}
+  %
+  \input{LinLibertine_I}
+  %
+  \DeclareRobustCommand*\libertineInitialGlyph[1]{\@nameuse{LinLibertine_I@#1}}
+
+\fi
+
+
+\iflibertine@otf
+% turn off defaults in case other fonts are selected:
+  \defaultfontfeatures{}
+\fi
+
+\endinput

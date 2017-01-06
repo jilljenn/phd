@@ -372,23 +372,23 @@ Les résultats sont donnés dans les figures \ref{comp-sat} à \ref{comp-timss
 \def\reducefigs{0.8}
 
 <!-- results/sat2 -->
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/comp/sat-mean}
-\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données SAT.}
+\captionof{figure}{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données SAT.}
 \label{comp-sat}
-\end{figure}
+%\end{figure}
 
-\begin{table}[h]
-\centering
+%\begin{table}[ht]
+%\centering
 \begin{tabular}{cccc} \toprule
 & Après 10 questions & Après 15 questions\\ \midrule
 DINA & $0,398 \pm 0,031$ (82 \%) & $0,387 \pm 0,028$ (82 \%)\\
 Rasch & $0,363 \pm 0,026$ (83 \%) & $0,362 \pm 0,027$ (84 \%)\\ \bottomrule
 \end{tabular}
-\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données SAT.}
+\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données SAT.}
 \label{comp-sat-table}
-\end{table}
+\end{figure}
 
 Dans la figure \ref{comp-sat}, le modèle de Rasch réalise un diagnostic légèrement meilleur que le modèle DINA avec une q-matrice calculée automatiquement. Comme @Desmarais2011, notre extraction de q-matrice a réussi à identifier que les questions 1 à 10 partageaient une CC (mathématiques) ainsi que les questions 31 à 40 (français) mais a eu plus de mal à identifier les questions de biologie et d'histoire.
 
@@ -399,15 +399,15 @@ Nous faisons l'hypothèse que comme ce jeu de données est multidisciplinaire et
 ### ECPE
 
 <!-- results/ecpe -->
-\begin{figure}[h]
+\begin{figure}[hbt]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/comp/ecpe-mean}
 \caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données ECPE.}
 \label{comp-ecpe}
-\end{figure}
+%\end{figure}
 
-\begin{table}[h]
-\centering
+%\begin{table}[ht]
+%\centering
 \begin{tabular}{ccc} \toprule
 & Après 5 questions & Après 10 questions\\ \midrule
 Rasch & $0,534 \pm 0,005$ (73 \%) & $0,524 \pm 0,005$ (74 \%)\\
@@ -415,7 +415,7 @@ DINA & $0,532 \pm 0,003$ (73 \%) & $0,524 \pm 0,003$ (74 \%)\\ \bottomrule
 \end{tabular}
 \caption{Valeurs de \emph{log loss} obtenues pour le jeu de données ECPE.}
 \label{comp-ecpe-table}
-\end{table}
+\end{figure}
 
 Dans la figure \ref{comp-ecpe}, les modèles se valent. DINA est en moyenne très légèrement meilleur.
 
@@ -426,23 +426,23 @@ Nous faisons l'hypothèse que comme le jeu de données a beaucoup de motifs de r
 ### Fraction
 
 <!-- results/fraction-auto-5 -->
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/comp/fraction-mean}
-\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Fraction.}
+\captionof{figure}{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Fraction.}
 \label{comp-fraction}
-\end{figure}
+%\end{figure}
 
-\begin{table}[h]
-\centering
+%\begin{table}[ht]
+%\centering
 \begin{tabular}{ccc} \toprule
 & Après 4 questions & Après 7 questions\\ \midrule
 Rasch & $0,402 \pm 0,037$ (84 \%) & $0,381 \pm 0,033$ (85 \%)\\
 DINA & $0,368 \pm 0,039$ (86 \%) & $0,346 \pm 0,039$ (86 \%)\\ \bottomrule
 \end{tabular}
-\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction.}
+\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données Fraction.}
 \label{comp-fraction-table}
-\end{table}
+\end{figure}
 
 Dans la figure \ref{comp-fraction}, le meilleur modèle en moyenne est le modèle DINA dont la q-matrice a été spécifiée par un expert. Après avoir posé 4 questions de façon adaptative, le modèle DINA est capable de prédire en moyenne 86 % de l'ensemble de question de validation correctement, soit en moyenne plus de 8 questions sur 10 (voir table \ref{comp-fraction-table}).
 
@@ -451,23 +451,23 @@ Nous faisons l'hypothèse que comme il s'agit d'un jeu de données de soustracti
 ### TIMSS
 
 <!-- results/timss2003 -->
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/comp/timss-mean}
-\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données TIMSS.}
+\captionof{figure}{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données TIMSS.}
 \label{comp-timss}
-\end{figure}
+%\end{figure}
 
-\begin{table}[h]
-\centering
+%\begin{table}[ht]
+%\centering
 \begin{tabular}{ccc} \toprule
 & After 4 questions & After 8 questions\\ \midrule
 DINA & $0,588 \pm 0,005$ (68 \%) & $0,57 \pm 0,006$ (70 \%)\\
 Rasch & $0,576 \pm 0,008$ (70 \%) & $0,559 \pm 0,008$ (71 \%)\\ \bottomrule
 \end{tabular}
-\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS.}
+\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données TIMSS.}
 \label{comp-timss-table}
-\end{table}
+\end{figure}
 
 Dans la figure \ref{comp-timss}, Rasch est meilleur que DINA.
 
@@ -478,23 +478,23 @@ Nous faisons l'hypothèse que ces jeux de données se ressemblent : il y a beauc
 ### Castor
 
 <!-- results/castor -->
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\reducefigs\linewidth]{figures/comp/castor-mean}
-\caption{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Castor.}
+\captionof{figure}{Évolution de la \emph{log loss} moyenne de prédiction en fonction du nombre de questions posées, pour le jeu de données Castor.}
 \label{comp-castor}
-\end{figure}
+%\end{figure}
 
-\begin{table}[h]
-\centering
+%\begin{table}[ht]
+%\centering
 \begin{tabular}{ccc} \toprule
 & Après 4 questions & Après 8 questions\\ \midrule
 DINA & $0,504 \pm 0,004$ (78 \%) & $0,512 \pm 0,004$ (77 \%)\\
 Rasch & $0,493 \pm 0,004$ (78 \%) & $0,485 \pm 0,004$ (79 \%)\\ \bottomrule
 \end{tabular}
-\caption{Valeurs de \emph{log loss} obtenues pour le jeu de données Castor.}
+\captionof{table}{Valeurs de \emph{log loss} obtenues pour le jeu de données Castor.}
 \label{comp-castor-table}
-\end{table}
+\end{figure}
 
 Dans la figure \ref{comp-castor}, Rasch est bien meilleur que DINA avec une q-matrice de taille $K = 3$ calculée automatiquement.
 
