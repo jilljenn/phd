@@ -1,7 +1,7 @@
 \documentclass[12pt,a4paper]{book}
 \usepackage{ifpdf,ifxetex,ifluatex}
 \usepackage[T1]{fontenc}
-\usepackage[a-1b]{pdfx}
+\usepackage[a-1b]{pdfx} % PDF/A1-b for archiving
 \usepackage{xcolor}
 \usepackage{hyperref}
 \ifxetex
@@ -9,41 +9,35 @@
 \fi
 \ifluatex
 \usepackage{mathtools}
-\usepackage{unicode-math}
-\usepackage{libertine}
+\usepackage{unicode-math} % Bold math symbols
+\usepackage{libertine} % Used to have a problem with Renderer=Basic for ligatures
 \setmathfont{TeX Gyre Pagella Math}
-\setmathfont[BoldFont=TeX Gyre Pagella Bold Italic,range=\mathit/{latin,Latin,greek,Greek,num}]{TeX Gyre Pagella Italic}
+\setmathfont[BoldFont=TeX Gyre Pagella Bold,range=\mathit/{latin,Latin,greek,Greek,num}]{TeX Gyre Pagella Italic} % TeX Gyre Pagella has no bold by default
 \setmathfont[range=\setminus]{Asana Math}
-%\usepackage[libertine={Ligatures=TeX,RawFeature=+onum},
-%            biolinum={Ligatures=TeX,RawFeature=+onum}]{libertineotf}
 \setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
-\usepackage{microtype}
+\usepackage{microtype} % Better handling of horizontal space
 \fi
 \usepackage[english,french]{babel}
-\DecimalMathComma
+%\DecimalMathComma % Bad handling of enumerations
+\usepackage{icomma} % For $0,123$
 \usepackage{fancyhdr}
 \usepackage[pass]{geometry}
 \usepackage{algorithm}
 \makeatletter
-\renewcommand{\ALG@name}{Algorithme}
+\renewcommand{\ALG@name}{Algorithme} % French way of saying Algorithm
 \makeatother
 \usepackage{caption,algpseudocode}
-\DeclareCaptionLabelFormat{bsc}{\textbf{\textsc{#1}\ #2}}
+\DeclareCaptionLabelFormat{bsc}{\textbf{\textsc{#1}\ #2}} % Remove small caps from captions
 \captionsetup[figure]{labelformat=bsc}
 \captionsetup[table]{labelformat=bsc}
 \usepackage{graphicx,array,booktabs,multirow}
-\usepackage[french]{varioref}
+\usepackage[french]{varioref} % Have the page of every \vref. Brilliant.
 \usepackage{multicol}
-\usepackage[french=guillemets]{csquotes}
-
-\usepackage[a-1b]{pdfx}
-% \hypersetup{colorlinks=true,linkcolor=black,citecolor=blue}
-
-\usepackage[style=authoryear,natbib=true,backend=biber,backref=true,maxcitenames=3,maxbibnames=99,babel=other]{biblatex}
-\usepackage[french=guillemets]{csquotes}
-\usepackage{capt-of}
-\DeclareLanguageMapping{french}{french-apa}
-\DefineBibliographyExtras{french}{\restorecommand\mkbibnamefamily}
+\usepackage[style=authoryear,natbib=true,backend=biber,backref=true,maxcitenames=3,maxbibnames=99,babel=other]{biblatex} % BibLaTeX I love you. Maybe.
+\usepackage[french=guillemets]{csquotes} % French quotes in bibliography
+\usepackage{capt-of} % Captions on non-float elements
+\DeclareLanguageMapping{french}{french-apa} % Multilingual bibliography
+\DefineBibliographyExtras{french}{\restorecommand\mkbibnamefamily} % Remove small caps from French bibliography
 \usepackage[refpage]{nomencl}
 \usepackage[acronym]{glossaries}
 \addbibresource{biblio.bib}
@@ -53,7 +47,7 @@
 \def\Tito{Lê Thành D\~{u}ng Nguy\~{ê}n}
 \def\Gambaru{{\J 頑張る}}
 
-\definecolor{aquali}{cmyk}{1,0.0474,0,0.255}
+\definecolor{aquali}{cmyk}{1,0.0474,0,0.255} % Replace the ugly CMYK magenta
 \hypersetup{colorlinks=true,urlcolor=aquali,linkcolor=black,citecolor=blue}
 
 % \usepackage{titlesec}
@@ -93,14 +87,14 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 \makeglossaries
-\def\pagedeclaration#1{, \hyperlink{page.#1}{page\nobreakspace#1}}
-\newcommand\englishpub[1]{{\begin{otherlanguage}{english}#1\end{otherlanguage}}}
+\def\pagedeclaration#1{, \hyperlink{page.#1}{page\nobreakspace#1}} % Make links clickable in nomenclature
+\newcommand\englishpub[1]{{\begin{otherlanguage}{english}#1\end{otherlanguage}}} % Prevent icomma from being reversed (of no use anymore but still)
 \makenomenclature
 
 \title{Modèles de tests adaptatifs pour le diagnostic de connaissances dans un cadre d'apprentissage à grande échelle}
 \author{Jill-Jênn Vie}
 
-\input{ups}
+\input{ups} % Université Paris-Saclay metadata
 
 \begin{document}
 \newgeometry{textheight=150ex,textwidth=40em,top=30pt,headheight=30pt,headsep=30pt,inner=80pt}
@@ -163,8 +157,3 @@
 \input{style-abstracten}
 
 \end{document}
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
