@@ -29,7 +29,7 @@ Il vous faudra [pandoc](http://pandoc.org), ainsi qu'une police à caractères j
 
 ### Version hipster : compilation LuaLaTeX
 
-Requiert LuaLaTeX afin de produire [un fichier au format PDF/A1-b](http://jiji.cat/cat.pdf) (6 Mo), donc archivable.
+Requiert LuaLaTeX afin de produire [un fichier au format PDF/A-1b](http://jiji.cat/cat.pdf) (6 Mo), donc archivable.
 
 Faites `make` et c'est terminé.
 

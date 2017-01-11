@@ -10,7 +10,7 @@ Que serais-je sans les passions que je partage avec Antoine Pietri, Basile Cleme
 
 Concevoir un système de recommandation de mangas était au départ un simple projet annexe pour tester mes algorithmes sur de vraies données, mais cela a indirectement conduit à l'émission *La Faute à l'algo* que Michel Blockelet et moi avons réalisée avec l'équipe de Nolife ; à encadrer Alexis Rivière en stage à Mangaki, ce qui m'a renforcé dans ma volonté de former des jeunes ; à encadrer François Voisin avec Basile Clement, ce qui nous a motivés à étudier les processus à point déterminantal et a donné lieu au chapitre 5 de cette thèse ainsi qu'à une présentation de Mangaki à Deezer France et MFG Labs, puis devant des investisseurs japonais à Tokyo.
 
-Il me faut remercier encore Fabrice Popineau, avec qui nous avons passé de longues heures à rendre cette thèse archivable au format PDF/A1-b. J'espère que [les sources sur GitHub](https://github.com/jilljenn/phd) inspireront d'autres personnes. Merci à la communauté [TeX.SE](http://tex.stackexchange.com)[^10] d'avoir réponse à tout, même aux [bugs les plus invraisemblables](http://tex.stackexchange.com/q/347185/7144).
+Il me faut remercier encore Fabrice Popineau, avec qui nous avons passé de longues heures à rendre cette thèse archivable au format PDF/A-1b. J'espère que [les sources sur GitHub](https://github.com/jilljenn/phd) inspireront d'autres personnes. Merci à la communauté [TeX.SE](http://tex.stackexchange.com)[^10] d'avoir réponse à tout, même aux [bugs les plus invraisemblables](http://tex.stackexchange.com/q/347185/7144).
 
  [^2]: Géographiquement seulement.
 
